@@ -33,7 +33,7 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Timber.v("Lifecycle onCreate: " + this);
         super.onCreate(savedInstanceState);
-        PresenterConfiguration configuration = getCoverartApplication().getPresenterConfiguration();
+        PresenterConfiguration configuration = getContestApplication().getPresenterConfiguration();
         presenter = createPresenter(configuration);
     }
 
@@ -130,7 +130,7 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
         super.onDetach();
     }
 
-    protected final ContestApplication getCoverartApplication() {
+    protected final ContestApplication getContestApplication() {
         return (ContestApplication) getActivity().getApplication();
     }
 }

@@ -27,7 +27,7 @@ public abstract class BaseMvpActivity<T extends BaseContract.Presenter> extends 
      */
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PresenterConfiguration configuration = getCoverartApplication().getPresenterConfiguration();
+        PresenterConfiguration configuration = getContestApplication().getPresenterConfiguration();
         presenter = createPresenter(configuration);
         onViewCreated(savedInstanceState);
         presenter.onViewCreated();

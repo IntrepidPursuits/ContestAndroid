@@ -79,7 +79,7 @@ abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutResourceId();
 
-    protected final ContestApplication getCoverartApplication() {
+    protected final ContestApplication getContestApplication() {
         return (ContestApplication) getApplication();
     }
 }

@@ -21,13 +21,13 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "io.intrepid.coverart"
+        applicationId "io.intrepid.contest"
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "io.intrepid.coverart.CustomTestRunner"
+        testInstrumentationRunner "io.intrepid.contest.CustomTestRunner"
     }
 
     signingConfigs {
