@@ -14,6 +14,5 @@ public class BaseUiTest {
     @After
     public void tearDown() {
         InstrumentationTestApplication.clearRestApiOverride();
-        InstrumentationTestApplication.clearUserSettingsOverride();
     }
 }
