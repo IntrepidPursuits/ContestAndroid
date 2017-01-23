@@ -1,0 +1,160 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'spoon'
+apply from: 'version.gradle'
+apply from: 'coverage.gradle'
+// Uncomment the following line after adding fabric.properties file
+//apply plugin: 'io.fabric'
+
+ext.localProperties = new Properties()
+def localPropertiesFile = project.rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    ext.localProperties.load(localPropertiesFile.newDataInputStream())
+}
+ext.getLocalProperty = { propertyName ->
+    def property = localProperties.getProperty(propertyName)
+    return property == null ? "" : property
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "io.intrepid.coverart"
+        minSdkVersion 17
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "io.intrepid.coverart.CustomTestRunner"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
+            storePassword "password"
+            keyAlias "debug"
+            keyPassword "password"
+        }
+
+        release {
+            def fileName = getLocalProperty("signing_file");
+            if (!fileName.isEmpty()) {
+                storeFile file(fileName)
+                storePassword getLocalProperty("signing_password")
+                keyAlias getLocalProperty("signing_alias")
+                keyPassword getLocalProperty("signing_key_password")
+            }
+            return true
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+
+            buildConfigField "boolean", "LOG_CONSOLE", "true"
+            buildConfigField "boolean", "REPORT_CRASH", "false"
+        }
+
+        qa {
+            initWith(buildTypes.debug)
+
+            applicationIdSuffix ".qa"
+            versionNameSuffix versionSuffix()
+
+            buildConfigField "boolean", "LOG_CONSOLE", "true"
+            buildConfigField "boolean", "REPORT_CRASH", "true"
+        }
+
+        release {
+            buildConfigField "boolean", "LOG_CONSOLE", "false"
+            buildConfigField "boolean", "REPORT_CRASH", "true"
+
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    
+    // Support libraries
+    def supportVersion = "25.1.0";
+    compile "com.android.support:support-v4:$supportVersion"
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:recyclerview-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
+
+    // Google play services
+    def googlePlayVersion = "10.0.1";
+    compile "com.google.android.gms:play-services-base:$googlePlayVersion"
+
+    // Jake Wharton/Square
+    def retrofitVersion = "2.1.0";
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.google.code.gson:gson:2.7"
+
+    def okhttpVersion = "3.5.0"
+    compile "com.squareup.okhttp3:okhttp:$okhttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+
+    def butterKnifeVersion = "8.4.0"
+    compile "com.jakewharton:butterknife:$butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
+    compile 'com.jakewharton.timber:timber:4.5.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    // Other
+    compile "io.intrepid.commonutils:commonutils:0.2.0"
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+
+    // Common test dependencies
+    def junitLib = "junit:junit:4.12"
+    def mockitoVersion = "2.6.1"
+    def mockitoLib = "org.mockito:mockito-core:$mockitoVersion"
+    def supportAnnotationLib = "com.android.support:support-annotations:$supportVersion"
+
+    // Unit tests
+    testCompile junitLib
+    testCompile mockitoLib
+    testCompile supportAnnotationLib
+
+    // UI tests
+    androidTestCompile junitLib
+    androidTestCompile mockitoLib
+    androidTestCompile supportAnnotationLib
+    androidTestCompile "org.mockito:mockito-android:$mockitoVersion"
+
+    def androidTestVersion = "0.5"
+    androidTestCompile "com.android.support.test:runner:$androidTestVersion"
+    androidTestCompile "com.android.support.test:rules:$androidTestVersion"
+    def espressoVersion = "2.2.2"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestCompile "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
+    androidTestCompile "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+}
+
+spoon {
+    debug = true
+    adbTimeout = 30
+
+    if (project.hasProperty('spoonClassName')) {
+        className = project.spoonClassName
+    }
+
+    if (project.hasProperty('spoonMethodName')) {
+        methodName = project.spoonMethodName
+    }
+
+    grantAllPermissions = true
+}

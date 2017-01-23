@@ -1,0 +1,24 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'me.tatarka:gradle-retrolambda:3.4.0'
+        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.2.2'
+
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "http://sorcerer.intrepid-dev.com:81/archiva/repository/android/" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
