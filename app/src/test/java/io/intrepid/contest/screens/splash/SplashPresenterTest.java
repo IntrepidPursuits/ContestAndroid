@@ -7,8 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import io.intrepid.contest.splash.SplashContract;
-import io.intrepid.contest.splash.SplashPresenter;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
 import static org.mockito.Mockito.verify;
