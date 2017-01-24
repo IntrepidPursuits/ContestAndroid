@@ -47,7 +47,7 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
     }
 
     @Override
-    public void onNext() {
+    public void onNextClicked() {
         presenter.onNextClicked();
     }
 

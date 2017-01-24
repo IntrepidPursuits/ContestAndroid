@@ -76,4 +76,12 @@ public class HintLabelEditText extends LinearLayout {
             labelTextView.setVisibility(GONE);
         }
     }
+
+    public void setError(String error) {
+        editText.setError(error);
+    }
+
+    public CharSequence getText() {
+        return editText.getText();
+    }
 }
