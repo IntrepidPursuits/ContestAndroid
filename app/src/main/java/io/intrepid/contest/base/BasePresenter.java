@@ -2,6 +2,7 @@ package io.intrepid.contest.base;
 
 import android.support.annotation.NonNull;
 
+import io.intrepid.contest.models.Category;
 import io.intrepid.contest.rest.RestApi;
 
 public abstract class BasePresenter<T extends BaseContract.View> implements BaseContract.Presenter<T> {

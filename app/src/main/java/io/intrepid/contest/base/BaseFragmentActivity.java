@@ -24,11 +24,15 @@ public abstract class BaseFragmentActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Intent intent = getIntent();
             Fragment fragment = createFragment(intent);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
+            hostFragment(fragment);
         }
+    }
+
+    protected void hostFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 
     protected abstract Fragment createFragment(Intent intent);

@@ -1,4 +1,4 @@
-package io.intrepid.contest.splash;
+package io.intrepid.contest.screens.splash;
 
 import android.support.annotation.NonNull;
 
