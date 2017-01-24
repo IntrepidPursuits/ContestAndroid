@@ -20,6 +20,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoriesFragment;
+import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity;
@@ -72,6 +73,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         tabAdapter = new SlidingTabAdapter(this);
         tabAdapter.addFragment(new NameContestFragment());
         tabAdapter.addFragment(new DescribeContestFragment());
+        tabAdapter.addFragment(new CategoriesListFragment());
         tabAdapter.addFragment(new AddCategoriesFragment());
         viewPager.setAdapter(tabAdapter);
     }
