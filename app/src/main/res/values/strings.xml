@@ -5,6 +5,9 @@
     <string name="common_cancel">Cancel</string>
     <string name="common_delete">Delete</string>
     <string name="common_remove">Remove</string>
+    <string name="common_next">Next</string>
 
     <string name="app_name">Contest</string>
+    <string name="contestant_welcome_message">Welcome to\n%1$s!</string>
+    <string name="name_entry">Name your submission</string>
 </resources>
