@@ -26,7 +26,7 @@ public abstract class BaseFragmentActivity extends BaseActivity {
             Fragment fragment = createFragment(intent);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_container, fragment)
+                    .replace(R.id.fragment_container, fragment)
                     .commit();
         }
     }
