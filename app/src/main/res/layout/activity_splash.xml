@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/contest_app_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textSize="@dimen/splash_title_textsize"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/prompt_sub_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contest_app_header"
+        android:gravity="center_horizontal"
+        android:text="@string/create_join_prompt"
+        android:textSize="@dimen/splash_subtitle_textsize"
+        />
+
+    <Button
+        android:id="@+id/create_contest_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/create_contest"
+        android:text="@string/create_contest"
+        />
+
+    <Button
+        android:id="@+id/join_contest_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/create_contest_button"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/join_contest"
+        android:text="@string/join_contest"
+        />
+</RelativeLayout>
