@@ -14,7 +14,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.customviews.ClearableEditText;
-import timber.log.Timber;
+import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity;
 
 import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.Presenter;
 import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.View;
@@ -85,6 +85,6 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
 
     @Override
     public void showEntryImageScreen(String entryName) {
-        Timber.d("Start entry image activity, sending entry name");
+        startActivity(EntryImageActivity.makeIntent(this, entryName));
     }
 }
