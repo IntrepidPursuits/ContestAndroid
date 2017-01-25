@@ -8,10 +8,10 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.Presenter;
 import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.View;
 
-public class EntryNamePresenter extends BasePresenter<View> implements Presenter {
+class EntryNamePresenter extends BasePresenter<View> implements Presenter {
 
-    public EntryNamePresenter(@NonNull View view,
-                              @NonNull PresenterConfiguration configuration) {
+    EntryNamePresenter(@NonNull View view,
+                       @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
     }
 
