@@ -6,10 +6,18 @@
     <string name="common_delete">Delete</string>
     <string name="common_remove">Remove</string>
     <string name="common_next">Next</string>
+    <string name="common_submit">Submit</string>
 
-    <string name="contestant_welcome_message">Welcome to\n%1$s!</string>
-    <string name="name_entry">Name your submission</string>
     <string name="join_contest">Join Contest</string>
     <string name="create_contest">Create Contest</string>
     <string name="create_join_prompt">Create and join contests</string>
+    <string name="contestant_welcome_message">Welcome to\n%1$s!</string>
+    <string name="name_entry">Name your submission</string>
+    <string name="entry_image_question">Add an image for \n%1$s?</string>
+    <string name="entry_image_description">You can optionally add an image, so that judges can identify your submission more easily.</string>
+    <string name="upload_image_camera">Camera</string>
+    <string name="upload_image_library">Library</string>
+    <string name="pick_image_title">Select Picture</string>
+    <string name="entry_image_preview_caption">%1$s looks great!</string>
+    <string name="entry_image_content_description">Entry image</string>
 </resources>
