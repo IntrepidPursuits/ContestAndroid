@@ -13,11 +13,15 @@ public class EntryNameContract {
         void enableEntryNameButton();
 
         void disableEntryNameButton();
+
+        void showEntryImageScreen(String entryName);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
         void onEntryNameFocusChanged(boolean isFocused);
 
         void onEntryNameTextChanged(String newText);
+
+        void onEntryNameSubmitted(String entryName);
     }
 }

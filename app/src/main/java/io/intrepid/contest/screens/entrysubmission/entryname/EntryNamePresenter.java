@@ -38,4 +38,9 @@ public class EntryNamePresenter extends BasePresenter<View> implements Presenter
             view.enableEntryNameButton();
         }
     }
+
+    @Override
+    public void onEntryNameSubmitted(String entryName) {
+        view.showEntryImageScreen(entryName);
+    }
 }

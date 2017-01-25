@@ -26,6 +26,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+
         presenter = new EntryNamePresenter(mockView, TestPresenterConfiguration.createTestConfiguration());
     }
 
@@ -69,5 +70,12 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
 
         verify(mockView).enableEntryNameButton();
         verify(mockView, never()).disableEntryNameButton();
+    }
+
+    @Test
+    public void entryNameSubmittedShouldShowNextScreen() {
+        String entryName = "Name";
+        presenter.onEntryNameSubmitted(entryName);
+        verify(mockView).showEntryImageScreen(any());
     }
 }
