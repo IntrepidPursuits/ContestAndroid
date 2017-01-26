@@ -96,18 +96,12 @@
             android:text="@string/entry_image_preview_caption"
             />
 
-        <FrameLayout
+        <io.intrepid.contest.customviews.RemovableImageFrameLayout
             android:id="@+id/entry_preview_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/entry_preview_label_text_view"
-            >
-
-            <include
-                layout="@layout/removable_image_layout"
-                />
-
-        </FrameLayout>
+            />
 
     </RelativeLayout>
 

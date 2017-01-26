@@ -1,33 +1,28 @@
-<merge
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/removable_image_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     >
 
-    <io.intrepid.contest.customviews.RemovableImageFrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/removable_image_root_view"
+    <ImageView
+        android:id="@+id/removable_image_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:layout_margin="@dimen/removable_image_layout_margin"
+        android:contentDescription="@string/entry_image_content_description"
+        />
 
-        <ImageView
-            android:id="@+id/removable_image_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/removable_image_layout_margin"
-            android:contentDescription="@string/entry_image_content_description"
-            />
+    <ImageButton
+        android:id="@+id/removable_image_button"
+        android:layout_width="@dimen/small_icon_size"
+        android:layout_height="@dimen/small_icon_size"
+        android:layout_gravity="end"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/common_remove"
+        android:src="@drawable/cancel_icon"
+        android:tint="@android:color/darker_gray"
+        />
 
-        <ImageButton
-            android:id="@+id/removable_image_button"
-            android:layout_width="@dimen/small_icon_size"
-            android:layout_height="@dimen/small_icon_size"
-            android:layout_gravity="end"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/common_remove"
-            android:src="@drawable/cancel_icon"
-            android:tint="@android:color/darker_gray"
-            />
-
-    </io.intrepid.contest.customviews.RemovableImageFrameLayout>
-
-</merge>
+</FrameLayout>
