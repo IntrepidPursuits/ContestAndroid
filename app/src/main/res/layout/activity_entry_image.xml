@@ -31,7 +31,7 @@
 
     <android.support.percent.PercentRelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/choose_image_layout"
+        android:id="@+id/entry_choose_image_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_navigation"
@@ -78,7 +78,7 @@
     </android.support.percent.PercentRelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/preview_image_layout"
+        android:id="@+id/entry_preview_image_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_navigation"

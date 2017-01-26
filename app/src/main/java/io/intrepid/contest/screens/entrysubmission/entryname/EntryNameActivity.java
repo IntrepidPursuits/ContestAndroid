@@ -49,7 +49,7 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
     }
 
     @OnTextChanged(R.id.entry_name_edit_text)
-    public void onEntryNameTextChanged(CharSequence newText, int start, int before, int count) {
+    public void onEntryNameTextChanged(CharSequence newText) {
         presenter.onEntryNameTextChanged(newText.toString());
     }
 
