@@ -1,50 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_entry_name"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     >
 
-    <TextView
-        android:id="@+id/contestant_welcome_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/entry_name_next_button"
+        style="@style/AppTheme.BottomNavigationButton"
+        android:text="@string/common_next"
+        android:visibility="gone"
+        tools:visibility="visible"
         />
 
-    <io.intrepid.contest.customviews.ClearableEditText
-        android:id="@+id/entry_name_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/contestant_welcome_text_view"
-        android:hint="@string/name_entry"
-        />
-
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:layout_above="@id/entry_name_next_button"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
         >
 
-        <Button
-            android:id="@+id/entry_name_next_button"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/entry_name_icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:enabled="false"
-            android:text="@string/common_next"
-            android:visibility="gone"
-            tools:visibility="visible"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/entry_name_icon_margin"
+            android:src="@drawable/paper_icon"
+            android:contentDescription="@string/name_entry"
             />
 
-    </android.support.design.widget.BottomNavigationView>
+        <io.intrepid.contest.customviews.HintLabelEditText
+            android:id="@+id/entry_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            custom:hint="@string/name_entry"
+            custom:label="@string/name_entry"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -22,10 +22,10 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import timber.log.Timber;
 
-import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.Presenter;
-import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.View;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class EntryImageActivity extends BaseMvpActivity<Presenter> implements View {
+public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Presenter> implements EntryImageContract.View {
 
     public static final String EXTRAS_DATA_KEY = "data";
     private static final String PICK_IMAGE_TYPE = "image/*";
@@ -50,7 +50,7 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
 
     @NonNull
     @Override
-    public Presenter createPresenter(PresenterConfiguration configuration) {
+    public EntryImageContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new EntryImagePresenter(this, configuration);
     }
 
@@ -80,14 +80,14 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
 
     @Override
     public void displayChooseImageLayout() {
-        chooseImageLayout.setVisibility(android.view.View.VISIBLE);
-        previewImageLayout.setVisibility(android.view.View.GONE);
+        chooseImageLayout.setVisibility(VISIBLE);
+        previewImageLayout.setVisibility(GONE);
     }
 
     @Override
     public void displayPreviewImageLayout(Bitmap bitmap) {
-        chooseImageLayout.setVisibility(android.view.View.GONE);
-        previewImageLayout.setVisibility(android.view.View.VISIBLE);
+        chooseImageLayout.setVisibility(GONE);
+        previewImageLayout.setVisibility(VISIBLE);
         previewImageView.setImageBitmap(bitmap);
     }
 

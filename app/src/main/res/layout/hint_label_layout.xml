@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/removable_image_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/hint_label_text_view"
+        style="@style/AppTheme.TextViewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <io.intrepid.contest.customviews.ClearableEditText
+        android:id="@+id/hint_label_edit_text"
+        style="@style/AppTheme.EditText"
+        />
+
+</LinearLayout>

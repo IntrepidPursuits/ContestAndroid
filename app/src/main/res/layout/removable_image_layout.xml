@@ -22,7 +22,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/common_remove"
         android:src="@drawable/cancel_icon"
-        android:tint="@android:color/darker_gray"
+        android:tint="@color/colorIcon"
         />
 
 </FrameLayout>

@@ -31,45 +31,43 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void onViewCreatedContestantWelcomeTextViewShouldShowContestName() {
-        presenter.onViewCreated();
-        verify(mockView).setContestName(any());
-    }
+    public void onEntryNameTextViewChangedShouldHideNextButtonWhenNameIsNotEmpty() {
+        String newText = "";
 
-    @Test
-    public void onEntryNameTextViewFocusChangedShouldShowNextButtonWhenTextViewIsFocused() {
-        presenter.onEntryNameFocusChanged(true);
-
-        verify(mockView).showEntryNameButton();
-        verify(mockView, never()).hideEntryNameButton();
-    }
-
-    @Test
-    public void onEntryNameTextViewFocusChangedShouldHideNextButtonWhenTextViewIsNotFocused() {
-        presenter.onEntryNameFocusChanged(false);
+        presenter.onEntryNameTextChanged(newText);
 
         verify(mockView).hideEntryNameButton();
         verify(mockView, never()).showEntryNameButton();
     }
 
     @Test
-    public void onEntryNameTextViewChangedShouldDisableNextButtonWhenNameIsNotEmpty() {
+    public void onEntryNameTextViewChangedShouldShowIconWhenNameIsNotEmpty() {
         String newText = "";
 
         presenter.onEntryNameTextChanged(newText);
 
-        verify(mockView).disableEntryNameButton();
-        verify(mockView, never()).enableEntryNameButton();
+        verify(mockView).showEntryNameIcon();
+        verify(mockView, never()).hideEntryNameIcon();
     }
 
     @Test
-    public void onEntryNameTextViewChangedShouldEnableNextButtonWhenNameIsNotEmpty() {
+    public void onEntryNameTextViewChangedShouldShowNextButtonWhenNameIsNotEmpty() {
         String newText = "1";
 
         presenter.onEntryNameTextChanged(newText);
 
-        verify(mockView).enableEntryNameButton();
-        verify(mockView, never()).disableEntryNameButton();
+        verify(mockView).showEntryNameButton();
+        verify(mockView, never()).hideEntryNameButton();
+    }
+
+    @Test
+    public void onEntryNameTextViewChangedShouldHideIconWhenNameIsNotEmpty() {
+        String newText = "1";
+
+        presenter.onEntryNameTextChanged(newText);
+
+        verify(mockView).hideEntryNameIcon();
+        verify(mockView, never()).showEntryNameIcon();
     }
 
     @Test

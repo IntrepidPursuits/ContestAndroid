@@ -12,9 +12,11 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.entrysubmission.entryname.EntryNameActivity;
-import io.intrepid.contest.screens.entrysubmission.join.JoinContract.Presenter;
 
-public class JoinActivity extends BaseMvpActivity<Presenter> implements JoinContract.View {
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implements JoinContract.View {
 
     @BindView(R.id.enter_code_submit_button)
     Button enterCodeSubmitButton;
@@ -25,7 +27,7 @@ public class JoinActivity extends BaseMvpActivity<Presenter> implements JoinCont
 
     @NonNull
     @Override
-    public Presenter createPresenter(PresenterConfiguration configuration) {
+    public JoinContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new JoinPresenter(this, configuration);
     }
 
@@ -34,7 +36,7 @@ public class JoinActivity extends BaseMvpActivity<Presenter> implements JoinCont
         return R.layout.activity_join;
     }
 
-    @OnTextChanged(R.id.enter_code_text_view)
+    @OnTextChanged(R.id.hint_label_edit_text)
     public void onEntryCodeTextChanged(CharSequence newCode) {
         presenter.onEntryCodeTextChanged(newCode.toString());
     }
@@ -45,13 +47,13 @@ public class JoinActivity extends BaseMvpActivity<Presenter> implements JoinCont
     }
 
     @Override
-    public void enableSubmitButton() {
-        enterCodeSubmitButton.setEnabled(true);
+    public void showSubmitButton() {
+        enterCodeSubmitButton.setVisibility(VISIBLE);
     }
 
     @Override
-    public void disableSubmitButton() {
-        enterCodeSubmitButton.setEnabled(false);
+    public void hideSubmitButton() {
+        enterCodeSubmitButton.setVisibility(GONE);
     }
 
     @Override
