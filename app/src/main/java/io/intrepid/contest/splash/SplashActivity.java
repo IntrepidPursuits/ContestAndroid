@@ -6,6 +6,7 @@ import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.screens.entrysubmission.join.JoinActivity;
 import timber.log.Timber;
 
 import static io.intrepid.contest.splash.SplashContract.Presenter;
@@ -42,6 +43,6 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
 
     @Override
     public void showJoinContestScreen() {
-        Timber.d("Join contest clicked");
+        startActivity(JoinActivity.makeIntent(this));
     }
 }
