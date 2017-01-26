@@ -17,5 +17,7 @@ public class EntryImageContract {
 
     interface Presenter extends BaseContract.Presenter<View> {
         void onBitmapReceived(Bitmap bitmap);
+
+        void onEntrySubmitted();
     }
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import timber.log.Timber;
 
 import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.Presenter;
 import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.View;
@@ -38,5 +39,10 @@ public class EntryImagePresenter extends BasePresenter<View> implements Presente
     @Override
     public void onBitmapReceived(Bitmap bitmap) {
         this.bitmap = bitmap;
+    }
+
+    @Override
+    public void onEntrySubmitted() {
+        Timber.d("Submit entry");
     }
 }

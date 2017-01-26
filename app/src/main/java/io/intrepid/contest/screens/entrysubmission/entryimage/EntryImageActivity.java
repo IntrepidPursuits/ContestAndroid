@@ -126,4 +126,9 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
 
         presenter.onBitmapReceived(bitmap);
     }
+
+    @OnClick(R.id.entry_image_submit_button)
+    public void onSubmitButtonClicked() {
+        presenter.onEntrySubmitted();
+    }
 }
