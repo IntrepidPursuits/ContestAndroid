@@ -4,6 +4,7 @@ import android.app.Application;
 
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.RetrofitClient;
+import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ContestApplication extends Application {
@@ -11,7 +12,7 @@ public class ContestApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Timber.plant(new Timber.DebugTree());
         initCalligraphy();
     }
 
