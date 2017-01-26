@@ -12,4 +12,94 @@
     tools:context="io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity"
     >
 
+    <android.support.percent.PercentRelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/choose_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        >
+
+        <TextView
+            android:id="@+id/entry_image_question_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entry_image_question"
+            />
+
+        <TextView
+            android:id="@+id/entry_image_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/entry_image_question_text_view"
+            android:text="@string/entry_image_description"
+            />
+
+        <Button
+            android:id="@+id/entry_image_camera_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/entry_image_description_text_view"
+            android:text="@string/upload_image_camera"
+            app:layout_widthPercent="50%"
+            />
+
+        <Button
+            android:id="@+id/entry_image_gallery_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/entry_image_description_text_view"
+            android:text="@string/upload_image_library"
+            app:layout_widthPercent="50%"
+            />
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/preview_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        >
+
+        <ImageView
+            android:id="@+id/entry_preview_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <TextView
+            android:id="@+id/entry_preview_label_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/entry_preview_image_view"
+            android:gravity="center"
+            android:text="@string/entry_image_preview_caption"
+            />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+
+        <Button
+            android:id="@+id/entry_image_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="@string/common_submit"
+            />
+
+    </android.support.design.widget.BottomNavigationView>
+
 </RelativeLayout>

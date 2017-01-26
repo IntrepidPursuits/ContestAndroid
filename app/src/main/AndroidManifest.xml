@@ -3,6 +3,11 @@
           package="io.intrepid.contest"
     >
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"
+        />
+
     <application
         android:name=".ContestApplication"
         android:allowBackup="true"
@@ -22,6 +27,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".screens.entrysubmission.entryimage.EntryImageActivity">
+        </activity>
+        <activity android:name=".screens.entrysubmission.entrysubmitimage.EntrySubmitImageActivity">
         </activity>
     </application>
 </manifest>

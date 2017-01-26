@@ -27,15 +27,25 @@
         android:hint="@string/name_entry"
         />
 
-    <Button
-        android:id="@+id/entry_name_next_button"
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:enabled="false"
-        android:text="@string/common_next"
-        android:visibility="gone"
-        tools:visibility="visible"
-        />
+        >
+
+        <Button
+            android:id="@+id/entry_name_next_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:enabled="false"
+            android:text="@string/common_next"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+    </android.support.design.widget.BottomNavigationView>
 
 </RelativeLayout>
