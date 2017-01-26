@@ -34,7 +34,7 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
     RelativeLayout chooseImageLayout;
     @BindView(R.id.preview_image_layout)
     RelativeLayout previewImageLayout;
-    @BindView(R.id.entry_preview_image_view)
+    @BindView(R.id.removable_image_image_view)
     ImageView entryPreviewImageView;
     @BindView(R.id.entry_preview_label_text_view)
     TextView entryPreviewLabelTextView;
@@ -67,6 +67,7 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
     @Override
     public void displayChooseImageLayout() {
         chooseImageLayout.setVisibility(android.view.View.VISIBLE);
+        chooseImageLayout.bringToFront();
         previewImageLayout.setVisibility(android.view.View.INVISIBLE);
     }
 
@@ -74,6 +75,7 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
     public void displayPreviewImageLayout(Bitmap bitmap) {
         chooseImageLayout.setVisibility(android.view.View.INVISIBLE);
         previewImageLayout.setVisibility(android.view.View.VISIBLE);
+        previewImageLayout.bringToFront();
         entryPreviewImageView.setImageBitmap(bitmap);
     }
 
@@ -125,6 +127,11 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
         }
 
         presenter.onBitmapReceived(bitmap);
+    }
+
+    @OnClick(R.id.removable_image_button)
+    public void onRemoveImageButtonClicked() {
+        presenter.onBitmapRemoved();
     }
 
     @OnClick(R.id.entry_image_submit_button)

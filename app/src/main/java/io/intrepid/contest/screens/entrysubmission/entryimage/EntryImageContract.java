@@ -19,5 +19,7 @@ public class EntryImageContract {
         void onBitmapReceived(Bitmap bitmap);
 
         void onEntrySubmitted();
+
+        void onBitmapRemoved();
     }
 }

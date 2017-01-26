@@ -28,7 +28,5 @@
         </activity>
         <activity android:name=".screens.entrysubmission.entryimage.EntryImageActivity">
         </activity>
-        <activity android:name=".screens.entrysubmission.entrysubmitimage.EntrySubmitImageActivity">
-        </activity>
     </application>
 </manifest>

@@ -45,4 +45,10 @@ public class EntryImagePresenter extends BasePresenter<View> implements Presente
     public void onEntrySubmitted() {
         Timber.d("Submit entry");
     }
+
+    @Override
+    public void onBitmapRemoved() {
+        bitmap = null;
+        view.displayChooseImageLayout();
+    }
 }

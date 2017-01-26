@@ -19,4 +19,5 @@
     <string name="upload_image_library">Library</string>
     <string name="pick_image_title">Select Picture</string>
     <string name="entry_image_preview_caption">%1$s looks great!</string>
+    <string name="entry_image_content_description">Entry image</string>
 </resources>
