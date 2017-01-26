@@ -1,4 +1,4 @@
-package io.intrepid.contest.testutils.splash;
+package io.intrepid.contest.screens.splash;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,13 +26,13 @@ public class SplashPresenterTest {
     }
 
     @Test
-    public void createContestClicked() throws Exception {
+    public void createContestClicked() {
         splashPresenter.onCreateContestClicked();
         verify(mockView).showCreateContestScreen();
     }
 
     @Test
-    public void joinContestClicked() throws Exception {
+    public void joinContestClicked() {
         splashPresenter.onJoinContestClicked();
         verify(mockView).showJoinContestScreen();
     }

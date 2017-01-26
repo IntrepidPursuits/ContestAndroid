@@ -37,11 +37,11 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
 
     @Override
     public void showCreateContestScreen() {
-        Timber.d("Join contest clicked");
+        Timber.d("Create contest clicked");
     }
 
     @Override
     public void showJoinContestScreen() {
-        Timber.d("Create contest clicked");
+        Timber.d("Join contest clicked");
     }
 }
