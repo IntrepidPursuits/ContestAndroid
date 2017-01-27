@@ -7,9 +7,23 @@ import io.intrepid.contest.base.PresenterConfiguration;
 
 import static io.intrepid.contest.screens.entrysubmission.join.JoinContract.View;
 
-public class JoinPresenter extends BasePresenter<View> implements JoinContract.Presenter {
+class JoinPresenter extends BasePresenter<View> implements JoinContract.Presenter {
 
-    public JoinPresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
+    JoinPresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
+    }
+
+    @Override
+    public void onEntryCodeTextChanged(String newCode) {
+        if (newCode.isEmpty()) {
+            view.disableSubmitButton();
+        } else {
+            view.enableSubmitButton();
+        }
+    }
+
+    @Override
+    public void onSubmitButtonClicked() {
+        view.showEntryNameScreen();
     }
 }

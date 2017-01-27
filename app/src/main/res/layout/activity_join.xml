@@ -14,7 +14,7 @@
 
     <io.intrepid.contest.customviews.ClearableEditText
         android:id="@+id/enter_code_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/contestant_welcome_text_view"
         android:hint="@string/enter_code"
@@ -29,14 +29,12 @@
         >
 
         <Button
-            android:id="@+id/entry_name_next_button"
+            android:id="@+id/enter_code_submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:enabled="false"
             android:text="@string/common_submit"
-            android:visibility="gone"
-            tools:visibility="visible"
             />
 
     </android.support.design.widget.BottomNavigationView>
