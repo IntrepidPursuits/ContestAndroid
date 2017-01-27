@@ -37,22 +37,6 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void onEntryNameTextViewFocusChangedShouldShowNextButtonWhenTextViewIsFocused() {
-        presenter.onEntryNameFocusChanged(true);
-
-        verify(mockView).showEntryNameButton();
-        verify(mockView, never()).hideEntryNameButton();
-    }
-
-    @Test
-    public void onEntryNameTextViewFocusChangedShouldHideNextButtonWhenTextViewIsNotFocused() {
-        presenter.onEntryNameFocusChanged(false);
-
-        verify(mockView).hideEntryNameButton();
-        verify(mockView, never()).showEntryNameButton();
-    }
-
-    @Test
     public void onEntryNameTextViewChangedShouldDisableNextButtonWhenNameIsNotEmpty() {
         String newText = "";
 

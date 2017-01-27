@@ -3,6 +3,7 @@ package io.intrepid.contest.screens.entrysubmission.join;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -47,11 +48,13 @@ public class JoinActivity extends BaseMvpActivity<Presenter> implements JoinCont
     @Override
     public void enableSubmitButton() {
         enterCodeSubmitButton.setEnabled(true);
+        enterCodeSubmitButton.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void disableSubmitButton() {
         enterCodeSubmitButton.setEnabled(false);
+        enterCodeSubmitButton.setVisibility(View.GONE);
     }
 
     @Override

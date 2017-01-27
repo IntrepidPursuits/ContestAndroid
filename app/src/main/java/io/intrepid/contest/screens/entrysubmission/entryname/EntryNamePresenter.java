@@ -22,15 +22,6 @@ class EntryNamePresenter extends BasePresenter<View> implements Presenter {
     }
 
     @Override
-    public void onEntryNameFocusChanged(boolean isFocused) {
-        if (isFocused) {
-            view.showEntryNameButton();
-        } else {
-            view.hideEntryNameButton();
-        }
-    }
-
-    @Override
     public void onEntryNameTextChanged(String newText) {
         if (newText.isEmpty()) {
             view.disableEntryNameButton();

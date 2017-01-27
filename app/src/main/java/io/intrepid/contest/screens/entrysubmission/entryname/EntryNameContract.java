@@ -2,13 +2,9 @@ package io.intrepid.contest.screens.entrysubmission.entryname;
 
 import io.intrepid.contest.base.BaseContract;
 
-public class EntryNameContract {
+class EntryNameContract {
     interface View extends BaseContract.View {
         void showWelcomeMessage();
-
-        void showEntryNameButton();
-
-        void hideEntryNameButton();
 
         void enableEntryNameButton();
 
@@ -18,8 +14,6 @@ public class EntryNameContract {
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-        void onEntryNameFocusChanged(boolean isFocused);
-
         void onEntryNameTextChanged(String newText);
 
         void onEntryNameSubmitted(String entryName);
