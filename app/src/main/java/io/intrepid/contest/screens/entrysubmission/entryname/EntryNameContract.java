@@ -4,7 +4,7 @@ import io.intrepid.contest.base.BaseContract;
 
 public class EntryNameContract {
     interface View extends BaseContract.View {
-        void setContestName(String contestName);
+        void showWelcomeMessage();
 
         void showEntryNameButton();
 

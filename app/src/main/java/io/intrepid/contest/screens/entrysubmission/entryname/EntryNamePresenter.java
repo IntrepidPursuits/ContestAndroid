@@ -18,7 +18,7 @@ class EntryNamePresenter extends BasePresenter<View> implements Presenter {
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.setContestName("Chili Cookoff");
+        view.showWelcomeMessage();
     }
 
     @Override

@@ -6,7 +6,7 @@
     <dimen name="splash_title_textsize">36sp</dimen>
     <dimen name="splash_subtitle_textsize">20sp</dimen>
 
-    <dimen name="edit_text_textsize">32sp</dimen>
+    <dimen name="edit_text_textsize">24sp</dimen>
     <dimen name="edit_text_linespacingextra">9sp</dimen>
 
     <dimen name="text_view_label_textsize">16sp</dimen>

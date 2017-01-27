@@ -56,8 +56,8 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
     }
 
     @Override
-    public void setContestName(String contestName) {
-        setActionBarTitle(getResources().getString(R.string.contestant_welcome_message, contestName));
+    public void showWelcomeMessage() {
+        setActionBarTitle(getResources().getString(R.string.contestant_welcome_message));
     }
 
     @Override

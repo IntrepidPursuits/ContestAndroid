@@ -31,9 +31,9 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void onViewCreatedContestantWelcomeTextViewShouldShowContestName() {
+    public void onViewCreatedShouldShowWelcomeMessage() {
         presenter.onViewCreated();
-        verify(mockView).setContestName(any());
+        verify(mockView).showWelcomeMessage();
     }
 
     @Test
