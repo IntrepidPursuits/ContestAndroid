@@ -122,7 +122,6 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         return NUMBER_OF_SCREENS;
     }
 
-    @Override
     public void acceptContestName(String contestName) {
         presenter.setContestName(contestName);
     }

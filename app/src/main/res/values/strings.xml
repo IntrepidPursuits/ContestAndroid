@@ -20,4 +20,14 @@
     <string name="pick_image_title">Select Picture</string>
     <string name="entry_image_preview_caption">%1$s looks great!</string>
     <string name="entry_image_content_description">Entry image</string>
+
+    <string name="new_contest">New Contest</string>
+    <string name="name_your_contest">Name your contest</string>
+    <string name="scoring_categories">Scoring Categories</string>
+    <string name="category_name">Category Name</string>
+    <string name="description_optional">Description (optional)</string>
+    <string name="error_msg">Error</string>
+    <string name="min_score_weight">0.5x</string>
+    <string name="med_score_weight">1x</string>
+    <string name="max_score_weight">2x</string>
 </resources>
