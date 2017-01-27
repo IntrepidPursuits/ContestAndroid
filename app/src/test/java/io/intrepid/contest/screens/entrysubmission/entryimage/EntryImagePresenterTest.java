@@ -71,4 +71,16 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
         verify(mockView).displayChooseImageLayout();
     }
+
+    @Test
+    public void onCameraButtonClickedShouldDispatchTakePictureIntent() {
+        presenter.onCameraButtonClicked();
+        verify(mockView).dispatchTakePictureIntent();
+    }
+
+    @Test
+    public void onGalleryButtonClickedShouldDispatchChoosePictureIntent() {
+        presenter.onGalleryButtonClicked();
+        verify(mockView).dispatchChoosePictureIntent();
+    }
 }
