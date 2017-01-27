@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.widget.Button;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -21,8 +20,6 @@ import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameCon
 
 public class EntryNameActivity extends BaseMvpActivity<Presenter> implements View {
 
-    @BindView(R.id.contestant_welcome_text_view)
-    TextView contestantWelcomeTextView;
     @BindView(R.id.entry_name_edit_text)
     ClearableEditText entryNameEditText;
     @BindView(R.id.entry_name_next_button)
@@ -60,7 +57,7 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
 
     @Override
     public void setContestName(String contestName) {
-        contestantWelcomeTextView.setText(getResources().getString(R.string.contestant_welcome_message, contestName));
+        setActionBarTitle(getResources().getString(R.string.contestant_welcome_message, contestName));
     }
 
     @Override
