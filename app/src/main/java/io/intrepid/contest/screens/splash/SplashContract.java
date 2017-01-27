@@ -7,6 +7,7 @@ public class SplashContract {
     interface View extends BaseContract.View {
         void showCreateContestScreen();
         void showJoinContestScreen();
+        void intializeViews();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

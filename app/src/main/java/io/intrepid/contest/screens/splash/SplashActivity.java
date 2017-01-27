@@ -2,10 +2,14 @@ package io.intrepid.contest.screens.splash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
 import android.support.annotation.NonNull;
+import android.widget.TextView;
 
 import java.util.UUID;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.TestConfig;
@@ -20,6 +24,8 @@ import static io.intrepid.contest.screens.splash.SplashContract.View;
 
 
 public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements View {
+    @BindView(R.id.contest_app_header)
+    TextView titleTextView;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, SplashActivity.class);
@@ -47,6 +53,14 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     public void showJoinContestScreen() {
         Timber.d("Create contest clicked");
         startActivity(JoinActivity.makeIntent(this));
+    }
+
+    @Override
+    public void intializeViews() {
+        Shader textShader = new LinearGradient(0, 0, 0, 20,
+                                                new int[]{R.color.gradient_start, R.color.gradient_end},
+                                                new float[]{0, 1}, Shader.TileMode.CLAMP);
+//        titleTextView.getPaint().setShader(textShader);
     }
 
     @OnClick(R.id.create_contest_button)

@@ -31,4 +31,6 @@
     <string name="med_score_weight">1x</string>
     <string name="max_score_weight">2x</string>
     <string name="enter_code">Enter Code #</string>
+    <string name="join_chili_cookoff">Join Chili Cookoff</string>
+    <string name="join_intrepid_chili_cookoff">Intrepid\'s 2nd Annual Chili Cookoff</string>
 </resources>

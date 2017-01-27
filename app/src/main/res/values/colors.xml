@@ -10,4 +10,6 @@
     <color name="colorIcon">@color/colorLightGray</color>
 
     <color name="colorLightGray">#d0d0d0</color>
+    <color name="gradient_start">#e87d3e</color>
+    <color name="gradient_end">#f75252</color>
 </resources>

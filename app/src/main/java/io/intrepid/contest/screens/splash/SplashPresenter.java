@@ -13,6 +13,12 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
     }
 
     @Override
+    public void onViewCreated() {
+        super.onViewCreated();
+        view.intializeViews();
+    }
+
+    @Override
     public void onCreateContestClicked() {
         view.showCreateContestScreen();
     }

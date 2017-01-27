@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     >
 
     <TextView
@@ -12,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:text="@string/app_name"
+        android:textColor="@color/colorPrimary"
         android:textSize="@dimen/splash_title_textsize"
         android:textStyle="bold"
         />
@@ -26,28 +29,63 @@
         android:textSize="@dimen/splash_subtitle_textsize"
         />
 
-    <Button
-        android:id="@+id/create_contest_button"
+    <LinearLayout
+        android:id="@+id/join_contest_linearlayout"
+        android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:id="@+id/join_chili_cookout_textview"
+        android:drawableStart="@drawable/join_contest_icon"
+        android:text="@string/join_chili_cookoff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/join_intrepid_chili_cookout_textview"
+        android:text="@string/join_intrepid_chili_cookoff"
+        android:drawableStart="@drawable/ongoing_contest_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/join_contest_linearlayout"
         android:layout_alignParentBottom="true"
+        >
+
+    <Button
+        android:id="@+id/create_contest_button"
+        android:layout_gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@android:color/transparent"
-        android:drawableStart="@drawable/create_contest"
+        android:drawableTop="@drawable/add_copy_2"
         android:text="@string/create_contest"
         android:textColor="@color/contestAppTextColor"
         />
 
     <Button
         android:id="@+id/join_contest_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/create_contest_button"
-        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:background="@android:color/transparent"
-        android:drawableStart="@drawable/join_contest"
+        android:drawableTop="@drawable/join_contest_icon"
         android:text="@string/join_contest"
         android:textColor="@color/contestAppTextColor"
         />
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
