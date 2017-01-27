@@ -1,11 +1,12 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:buttonStyle">@style/AppTheme.Button</item>
+        <item name="android:editTextStyle">@style/AppTheme.EditText</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +20,31 @@
         <item name="android:textColorHint">@color/colorEditTextHint</item>
         <item name="android:textSize">@dimen/edit_text_textsize</item>
         <item name="android:lineSpacingExtra">@dimen/edit_text_linespacingextra</item>
+    </style>
+
+    <style name="AppTheme.TextViewLabel">
+        <item name="fontPath">@style/AvenirNext_DemiBold</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_view_label_textsize</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:background">@color/colorAccent</item>
+        <item name="fontPath">@style/AvenirNext_Medium</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/button_textsize</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingTop">@dimen/button_paddingtop</item>
+        <item name="android:paddingBottom">@dimen/button_paddingbottom</item>
+        <item name="android:paddingLeft">@dimen/button_paddingleft</item>
+        <item name="android:paddingRight">@dimen/button_paddingright</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="AppTheme.BottomNavigationButton">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
 </resources>
