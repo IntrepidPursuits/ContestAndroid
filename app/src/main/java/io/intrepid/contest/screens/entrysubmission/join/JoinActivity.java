@@ -35,7 +35,7 @@ public class JoinActivity extends BaseMvpActivity<Presenter> implements JoinCont
         return R.layout.activity_join;
     }
 
-    @OnTextChanged(R.id.enter_code_text_view)
+    @OnTextChanged(R.id.hint_label_edit_text)
     public void onEntryCodeTextChanged(CharSequence newCode) {
         presenter.onEntryCodeTextChanged(newCode.toString());
     }

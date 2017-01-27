@@ -7,9 +7,10 @@
     <dimen name="splash_subtitle_textsize">20sp</dimen>
 
     <dimen name="edit_text_textsize">24sp</dimen>
-    <dimen name="edit_text_linespacingextra">9sp</dimen>
+    <dimen name="edit_text_linespacingextra">3sp</dimen>
 
     <dimen name="text_view_label_textsize">16sp</dimen>
+    <dimen name="text_view_label_marginbottom">5dp</dimen>
 
     <dimen name="button_textsize">14sp</dimen>
     <dimen name="button_paddingtop">13dp</dimen>

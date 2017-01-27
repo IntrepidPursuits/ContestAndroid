@@ -20,12 +20,15 @@
         <item name="android:textColorHint">@color/colorEditTextHint</item>
         <item name="android:textSize">@dimen/edit_text_textsize</item>
         <item name="android:lineSpacingExtra">@dimen/edit_text_linespacingextra</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
     <style name="AppTheme.TextViewLabel">
         <item name="fontPath">@style/AvenirNext_DemiBold</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">@dimen/text_view_label_textsize</item>
+        <item name="android:layout_marginBottom">@dimen/text_view_label_marginbottom</item>
     </style>
 
     <style name="AppTheme.Button" parent="Base.TextAppearance.AppCompat.Button">
