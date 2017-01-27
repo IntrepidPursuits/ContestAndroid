@@ -118,45 +118,43 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     @Override
-    public int getNumberOfScreens() {
-        return NUMBER_OF_SCREENS;
-    }
+    public void navigateBackwards() {
 
-    public void acceptContestName(String contestName) {
-        presenter.setContestName(contestName);
     }
 
     @Override
-    public void acceptContestDescription(String contestDescription) {
-        presenter.setContestDescription(contestDescription);
-    }
-
-    @Override
-    public void acceptCategory(Category category) {
-        presenter.addCategory(category);
-    }
-
-    @Override
-    public void onCancelClicked() {
-        startActivity(SplashActivity.getIntent(this)); //fixme - NavUtil or onBackPressed - no ned for new intent.
-    }
-
-    @Override
-    public void returnToPreviousScreen() {
-        int currentIndex = tabAdapter.revertToLastPage();
-        Timber.d("Moving to " + currentIndex);
-        viewPager.setCurrentItem(currentIndex);
-    }
-
-    @Override
-    public void advanceToNextScreen() {
-        int currentIndex = tabAdapter.advance();
-        Timber.d("Moving to " + currentIndex);
-        viewPager.setCurrentItem(currentIndex);
-    }
-
-    @Override
-    public void showNewlyCreatedContest(Contest contest) {
+    public void navigateForward() {
 
     }
+
+
+//    @Override
+//    public void acceptContestDescription(String contestDescription) {
+//        presenter.setContestDescription(contestDescription);
+//    }
+//
+//
+//    @Override
+//    public void onCancelClicked() {
+//        startActivity(SplashActivity.getIntent(this)); //fixme - NavUtil or onBackPressed - no ned for new intent.
+//    }
+//
+//    @Override
+//    public void returnToPreviousScreen() {
+//        int currentIndex = tabAdapter.revertToLastPage();
+//        Timber.d("Moving to " + currentIndex);
+//        viewPager.setCurrentItem(currentIndex);
+//    }
+//
+//    @Override
+//    public void advanceToNextScreen() {
+//        int currentIndex = tabAdapter.advance();
+//        Timber.d("Moving to " + currentIndex);
+//        viewPager.setCurrentItem(currentIndex);
+//    }
+//
+//    @Override
+//    public void showNewlyCreatedContest(Contest contest) {
+//
+//    }
 }

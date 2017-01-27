@@ -19,63 +19,36 @@ public class NewContestPresenter extends BasePresenter<NewContestContract.View> 
         super(view, configuration);
     }
 
-    @Override
-    public boolean canAdvanceToNextScreen() {
-        return pageIndex <= view.getNumberOfScreens();
-    }
 
-    @Override
-    public boolean canReturnToPreviousSceen() {
-        return pageIndex != 0;
-    }
+//    @Override
+//    public void onNextButtonClicked() {
+//        if (canAdvanceToNextScreen()) {
+//            view.advanceToNextScreen();
+//            pageIndex++;
+//        }
+//    }
+//
+//    @Override
+//    public void onBackButtonClicked() {
+//        if (canReturnToPreviousSceen()) {
+//            view.returnToPreviousScreen();
+//            pageIndex--;
+//        } else {
+//            view.onCancelClicked();
+//        }
+//    }
 
-    @Override
-    public void setContestName(String name) {
-        contestBuilder.setTitle(name);
-        Timber.d(contestBuilder.title);
-    }
-
-    @Override
-    public void setContestDescription(String description) {
-        contestBuilder.setTitle(description);
-        Timber.d(contestBuilder.title);
-    }
-
-    @Override
-    public void addCategory(Category category) {
-        contestBuilder.addCategory(category);
-    }
-
-    @Override
-    public void publishContest(Contest contest) {
-        view.showNewlyCreatedContest(contest);
-    }
-
-    @Override
-    public void cancelContestCreation() {
-
+    public void initializeContestBuilder(Intent intent) {
+        contestBuilder = new Contest.Builder();
     }
 
     @Override
     public void onNextButtonClicked() {
-        if (canAdvanceToNextScreen()) {
-            view.advanceToNextScreen();
-            pageIndex++;
-        }
+
     }
 
     @Override
     public void onBackButtonClicked() {
-        if (canReturnToPreviousSceen()) {
-            view.returnToPreviousScreen();
-            pageIndex--;
-        } else {
-            view.onCancelClicked();
-        }
-    }
 
-    @Override
-    public void initializeContestBuilder(Intent intent) {
-        contestBuilder = new Contest.Builder();
     }
 }

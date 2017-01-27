@@ -9,42 +9,14 @@ import io.intrepid.contest.models.Contest;
 public class NewContestContract {
 
     public interface View extends BaseContract.View {
-
-        int getNumberOfScreens();
-
-        void acceptContestDescription(String contestDescription);
-
-        void acceptCategory(Category category);
-
-        void onCancelClicked();
-
-        void returnToPreviousScreen();
-
-        void advanceToNextScreen();
-
-        void showNewlyCreatedContest(Contest contest);
+        void navigateBackwards();
+        void navigateForward();
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
 
-        boolean canAdvanceToNextScreen();
-
-        boolean canReturnToPreviousSceen();
-
-        void setContestName(String name);
-
-        void publishContest(Contest contest);
-
-        void cancelContestCreation();
-
         void onNextButtonClicked();
 
         void onBackButtonClicked();
-
-        void initializeContestBuilder(Intent intent);
-
-        void addCategory(Category category);
-
-        void setContestDescription(String contestDescription);
     }
 }
