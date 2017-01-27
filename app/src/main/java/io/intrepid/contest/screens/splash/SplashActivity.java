@@ -20,7 +20,7 @@ import static io.intrepid.contest.screens.splash.SplashContract.View;
 
 public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements View {
 
-    public static Intent getIntent(Context context) {
+    public static Intent makeIntent(Context context) {
         return new Intent(context, SplashActivity.class);
     }
 

@@ -25,7 +25,7 @@ public abstract class BaseMvpActivity<T extends BaseContract.Presenter> extends 
      * Override {@link #onViewCreated(Bundle)} to handle any logic that needs to occur right after inflating the view.
      * onViewCreated is called immediately after onCreateView
      */
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         PresenterConfiguration configuration = getContestApplication().getPresenterConfiguration();
         presenter = createPresenter(configuration);

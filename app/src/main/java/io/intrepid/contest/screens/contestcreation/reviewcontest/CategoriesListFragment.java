@@ -5,12 +5,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import io.intrepid.contest.BaseSlideFragment;
 import io.intrepid.contest.R;
-import io.intrepid.contest.base.BasePresenter;
+import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.base.TextValidatableView;
 
-public class CategoriesListFragment extends BaseSlideFragment<ReviewContestPresenter> implements ReviewContestContract.View{
+public class CategoriesListFragment extends BaseFragment<ReviewContestPresenter> implements ReviewContestContract.View, TextValidatableView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -30,13 +30,28 @@ public class CategoriesListFragment extends BaseSlideFragment<ReviewContestPrese
         return new ReviewContestPresenter(this, configuration);
     }
 
-    @Override
+    //    @Override
     public boolean canMoveFurther() {
         return true;
     }
 
-    @Override
+    //    @Override
     public int cantMoveFurtherErrorMessage() {
         return R.string.error_msg;
+    }
+
+    @Override
+    public boolean areAllFieldValid() {
+        return false;
+    }
+
+    @Override
+    public int errorMessage() {
+        return 0;
+    }
+
+    @Override
+    public void submitText() {
+
     }
 }

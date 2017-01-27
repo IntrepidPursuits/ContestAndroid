@@ -1,40 +1,15 @@
 package io.intrepid.contest.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class Category implements Parcelable {
-
-    public static final Creator<Category> CREATOR = new Creator<Category>() {
-        @Override
-        public Category createFromParcel(Parcel in) {
-            return new Category(in);
-        }
-
-        @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
-        }
-    };
+public class Category {
     private String name;
     private String description;
     private float scoringWeight;
 
-    protected Category(Parcel in) {
-        name = in.readString();
-        description = in.readString();
-        scoringWeight = in.readFloat();
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(name);
-        dest.writeString(description);
-        dest.writeFloat(scoringWeight);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

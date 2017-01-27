@@ -1,6 +1,14 @@
 package io.intrepid.contest.screens.contestcreation.invitecontestants;
 
-import io.intrepid.contest.base.BaseContract;
+import android.support.annotation.NonNull;
 
-public class InviteContestantsPresenter implements BaseContract.Presenter {
+import io.intrepid.contest.base.BasePresenter;
+import io.intrepid.contest.base.PresenterConfiguration;
+
+class InviteContestantsPresenter extends BasePresenter<InviteContestantsContract.View> implements InviteContestantsContract.View {
+
+    InviteContestantsPresenter(@NonNull InviteContestantsContract.View view,
+                               @NonNull PresenterConfiguration configuration) {
+        super(view, configuration);
+    }
 }

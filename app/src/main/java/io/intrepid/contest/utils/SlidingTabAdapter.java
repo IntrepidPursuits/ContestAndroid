@@ -7,14 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import io.intrepid.contest.BaseSlideFragment;
+import io.intrepid.contest.base.BaseFragment;
 import timber.log.Timber;
 
 public class SlidingTabAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener{
     private final AppCompatActivity activity;
     private int currentIndex = 0;
-    private ArrayList<BaseSlideFragment> fragments = new ArrayList<>();
+    private List<BaseFragment> fragments = new ArrayList<>();
 
     public SlidingTabAdapter(AppCompatActivity activity) {
         super(activity.getSupportFragmentManager());
@@ -22,13 +23,13 @@ public class SlidingTabAdapter extends FragmentPagerAdapter implements ViewPager
     }
 
     @Override
-    public BaseSlideFragment getItem(int position) {
+    public BaseFragment getItem(int position) {
         return fragments.get(position);
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        BaseSlideFragment fragment = (BaseSlideFragment) super.instantiateItem(container, position);
+        BaseFragment fragment = (BaseFragment) super.instantiateItem(container, position);
         fragments.set(position, fragment);
         return fragment;
     }
@@ -38,7 +39,7 @@ public class SlidingTabAdapter extends FragmentPagerAdapter implements ViewPager
         return fragments.size();
     }
 
-    public void addFragment(BaseSlideFragment fragment) {
+    public void addFragment(BaseFragment fragment) {
         fragments.add(getCount(), fragment);
         notifyDataSetChanged();
     }
@@ -52,12 +53,14 @@ public class SlidingTabAdapter extends FragmentPagerAdapter implements ViewPager
     }
 
     public boolean shouldFinish(int position) {
-        return position == getCount() && getItem(getCount() - 1).canMoveFurther();
+//        return position == getCount() && getItem(getCount() - 1).canMoveFurther();
+        return false;
     }
 
     public boolean canAdvance() {
-        BaseSlideFragment fragment = getItem(currentIndex);
-        return !fragment.canMoveFurther();
+        BaseFragment fragment = getItem(currentIndex);
+//        return !fragment.canMoveFurther();
+        return true;
     }
 
     @Override

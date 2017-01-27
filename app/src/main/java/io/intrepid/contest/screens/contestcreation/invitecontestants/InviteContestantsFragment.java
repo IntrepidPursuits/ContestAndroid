@@ -2,21 +2,12 @@ package io.intrepid.contest.screens.contestcreation.invitecontestants;
 
 import android.support.annotation.NonNull;
 
-import io.intrepid.contest.BaseSlideFragment;
 import io.intrepid.contest.R;
+import io.intrepid.contest.base.BaseViewPagerFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.base.TextValidatableView;
 
-public class InviteContestantsFragment extends BaseSlideFragment<InviteContestantsPresenter> implements InviteContestantsContract.View {
-
-    @Override
-    public boolean canMoveFurther() {
-        return false;
-    }
-
-    @Override
-    public int cantMoveFurtherErrorMessage() {
-        return 0;
-    }
+public class InviteContestantsFragment extends BaseViewPagerFragment<InviteContestantsPresenter> implements InviteContestantsContract.View, TextValidatableView {
 
     @Override
     protected int getLayoutResourceId() {
@@ -26,8 +17,22 @@ public class InviteContestantsFragment extends BaseSlideFragment<InviteContestan
     @NonNull
     @Override
     public InviteContestantsPresenter createPresenter(PresenterConfiguration configuration) {
-        return new InviteContestantsPresenter();
+        return new InviteContestantsPresenter(this, configuration);
     }
 
+    @Override
+    public boolean areAllFieldValid() {
+        return true;
+    }
+
+    @Override
+    public int errorMessage() {
+        return 0;
+    }
+
+    @Override
+    public void submitText() {
+
+    }
 }
 

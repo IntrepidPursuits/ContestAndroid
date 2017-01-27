@@ -2,13 +2,13 @@ package io.intrepid.contest.screens.contestcreation.namecontest;
 
 import io.intrepid.contest.base.BaseContract;
 
-public class NameContestContract {
+class NameContestContract {
 
     public interface View extends BaseContract.View {
-        void acceptContestDescription(String contestDescription);
+        void onContestNameEntered(String contestName);
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
-
+        void updateContestName(String contestName);
     }
 }

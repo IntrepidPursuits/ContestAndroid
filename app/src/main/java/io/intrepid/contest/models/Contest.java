@@ -1,12 +1,13 @@
 package io.intrepid.contest.models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import timber.log.Timber;
 
 public class Contest {
     private UUID contestId;
@@ -20,28 +21,25 @@ public class Contest {
 
     @Override
     public boolean equals(Object obj) {
-        return this.contestId == ((Contest) obj).contestId
+        return ((obj instanceof Contest) || (obj instanceof Contest.Builder)
+                && this.contestId == ((Contest) obj).contestId
                 && this.creatorId == ((Contest) obj).creatorId
-                && this.creationDate == ((Contest) obj).creationDate;
+                && this.creationDate == ((Contest) obj).creationDate);
     }
 
     @Override
     public String toString() {
-        return title + " " + description + " " + contestId;
+        return title + "/n" +
+                description + "/n" +
+                contestId + "/n" +
+                creatorId + " " + creationDate +
+                " /n size of categories was " + categories.size() +
+                "categories " + categories +
+                " /n Last updated " + lastUpdatedDate;
+
     }
 
-    public static class Builder implements Parcelable {
-        public static final Creator<Builder> CREATOR = new Creator<Builder>() {
-            @Override
-            public Builder createFromParcel(Parcel in) {
-                return new Builder(in);
-            }
-
-            @Override
-            public Builder[] newArray(int size) {
-                return new Builder[size];
-            }
-        };
+    public static class Builder {
         public static final int UUID_MIN_LIMIT = 0;
         public static final int UUID_MAX_LIMIT = Integer.MAX_VALUE;
         public List<Category> categories = new ArrayList<>();
@@ -53,6 +51,7 @@ public class Contest {
         public String title;
         public String description;
 
+        //Intended use - for editing an existing contest. May be overkill
         public Builder(Contest contest) {
             this.contestId = contest.contestId;
             this.creatorId = contest.creatorId;
@@ -99,9 +98,13 @@ public class Contest {
         }
 
         public Contest build() {
-            if (creatorId == null || contestId == null || title == null || description == null) {
-                throw new ContestMalFormedException();
+            if (creationDate == null) {
+                creationDate = new Date();
             }
+            if (lastUpdatedDate == null) {
+                lastUpdatedDate = new Date();
+            }
+            Timber.d(this.toString());
             Contest contest = new Contest();
             contest.contestId = this.contestId;
             contest.creatorId = this.creatorId;
@@ -109,24 +112,8 @@ public class Contest {
             contest.creationDate = this.creationDate;
             contest.title = this.title;
             contest.description = this.description;
+            contest.categories = this.categories;
             return contest;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel parcel, int flags) {
-            parcel.writeValue(contestId);
-            parcel.writeValue(creatorId);
-            parcel.writeValue(creationDate);
-            parcel.writeValue(lastUpdatedDate);
-            parcel.writeValue(endedDate);
-            parcel.writeString(title);
-            parcel.writeString(description);
-            parcel.writeList(categories);
         }
     }
 

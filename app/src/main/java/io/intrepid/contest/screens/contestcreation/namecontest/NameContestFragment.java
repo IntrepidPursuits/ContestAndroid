@@ -3,16 +3,16 @@ package io.intrepid.contest.screens.contestcreation.namecontest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.OnTextChanged;
-import io.intrepid.contest.BaseSlideFragment;
 import io.intrepid.contest.R;
+import io.intrepid.contest.base.BaseViewPagerFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.base.TextValidatableView;
 
-public class NameContestFragment extends BaseSlideFragment<NameContestPresenter> implements NameContestContract.View {
+public class NameContestFragment extends BaseViewPagerFragment<NameContestPresenter> implements NameContestContract.View, TextValidatableView {
     @BindView(R.id.contest_name_edittext)
     EditText contestNameField;
 
@@ -23,7 +23,7 @@ public class NameContestFragment extends BaseSlideFragment<NameContestPresenter>
 
     @OnTextChanged(R.id.contest_name_edittext)
     public void onEntryNameTextChanged(CharSequence newName, int start, int before, int count){
-
+        onContestNameEntered(String.valueOf(newName));
     }
 
     @Override
@@ -38,17 +38,22 @@ public class NameContestFragment extends BaseSlideFragment<NameContestPresenter>
     }
 
     @Override
-    public boolean canMoveFurther() {
-        return !TextUtils.isEmpty(contestNameField.getText());
+    public void onContestNameEntered(String contestName) {
+        presenter.updateContestName(contestName);
     }
 
     @Override
-    public int cantMoveFurtherErrorMessage() {
-        return R.string.error_msg;
+    public boolean areAllFieldValid() {
+        return true;
     }
 
     @Override
-    public void acceptContestDescription(String contestDescription) {
+    public int errorMessage() {
+        return 0;
+    }
 
+    @Override
+    public void submitText() {
+        presenter.updateContestName(contestNameField.getText().toString());
     }
 }

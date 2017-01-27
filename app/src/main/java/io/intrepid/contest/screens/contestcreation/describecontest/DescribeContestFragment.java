@@ -3,19 +3,17 @@ package io.intrepid.contest.screens.contestcreation.describecontest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.OnTextChanged;
-import io.intrepid.contest.BaseSlideFragment;
 import io.intrepid.contest.R;
+import io.intrepid.contest.base.BaseViewPagerFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.base.TextValidatableView;
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.screens.contestcreation.NewContestActivity;
 
-public class DescribeContestFragment extends BaseSlideFragment<DescribeContestPresenter> implements DescribeContestContract.View {
+public class DescribeContestFragment extends BaseViewPagerFragment<DescribeContestPresenter> implements DescribeContestContract.View, TextValidatableView {
     private static final String CONTEST_NAME = "ContestName";
     @BindView(R.id.contest_description_edittext)
     EditText descriptionField;
@@ -30,17 +28,7 @@ public class DescribeContestFragment extends BaseSlideFragment<DescribeContestPr
 
     @OnTextChanged(R.id.contest_description_edittext)
     public void onEntryNameTextChanged(CharSequence description, int start, int before, int count) {
-
-    }
-
-    @Override
-    public boolean canMoveFurther() {
-        return !TextUtils.isEmpty(descriptionField.getText());
-    }
-
-    @Override
-    public int cantMoveFurtherErrorMessage() {
-        return R.string.error_msg;
+        presenter.submitContestDescription(String.valueOf(description));
     }
 
     @Override
@@ -51,7 +39,7 @@ public class DescribeContestFragment extends BaseSlideFragment<DescribeContestPr
     @NonNull
     @Override
     public DescribeContestPresenter createPresenter(PresenterConfiguration configuration) {
-        return null;
+        return new DescribeContestPresenter(this, configuration);
     }
 
     @Override
@@ -68,5 +56,20 @@ public class DescribeContestFragment extends BaseSlideFragment<DescribeContestPr
     @Override
     public void onCancelClicked() {
 
+    }
+
+    @Override
+    public boolean areAllFieldValid() {
+        return true;
+    }
+
+    @Override
+    public int errorMessage() {
+        return 0;
+    }
+
+    @Override
+    public void submitText() {
+        presenter.submitContestDescription(descriptionField.getText().toString());
     }
 }
