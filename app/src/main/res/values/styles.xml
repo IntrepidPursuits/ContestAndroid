@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -12,4 +12,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.EditText">
+        <item name="android:textCursorDrawable">@drawable/cursor_color</item>
+        <item name="android:textColor">@color/colorEditText</item>
+        <item name="android:textColorHint">@color/colorEditTextHint</item>
+        <item name="android:textSize">@dimen/edit_text_textsize</item>
+        <item name="android:lineSpacingExtra">@dimen/edit_text_linespacingextra</item>
+    </style>
+
 </resources>

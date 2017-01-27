@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/contestant_welcome_text_view"
         android:hint="@string/enter_code"
+        style="@style/AppTheme.EditText"
         />
 
 

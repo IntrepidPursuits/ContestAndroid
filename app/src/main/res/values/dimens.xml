@@ -6,6 +6,9 @@
     <dimen name="splash_title_textsize">36sp</dimen>
     <dimen name="splash_subtitle_textsize">20sp</dimen>
 
+    <dimen name="edit_text_textsize">32sp</dimen>
+    <dimen name="edit_text_linespacingextra">9sp</dimen>
+
     <dimen name="small_icon_size">35dp</dimen>
     <dimen name="removable_image_layout_margin">13dp</dimen>
 </resources>
