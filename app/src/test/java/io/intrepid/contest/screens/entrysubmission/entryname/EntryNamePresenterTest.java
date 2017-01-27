@@ -31,13 +31,13 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void contestantWelcomeTextViewShouldShowContestName() {
+    public void onViewCreatedContestantWelcomeTextViewShouldShowContestName() {
         presenter.onViewCreated();
         verify(mockView).setContestName(any());
     }
 
     @Test
-    public void entryNameTextViewFocusedShouldShowNextButton() {
+    public void onEntryNameTextViewFocusChangedShouldShowNextButtonWhenTextViewIsFocused() {
         presenter.onEntryNameFocusChanged(true);
 
         verify(mockView).showEntryNameButton();
@@ -45,7 +45,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void entryNameTextViewFocusLostShouldHideNextButton() {
+    public void onEntryNameTextViewFocusChangedShouldHideNextButtonWhenTextViewIsNotFocused() {
         presenter.onEntryNameFocusChanged(false);
 
         verify(mockView).hideEntryNameButton();
@@ -53,7 +53,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void entryNameTextViewEmptyShouldDisableNextButton() {
+    public void onEntryNameTextViewChangedShouldDisableNextButtonWhenNameIsNotEmpty() {
         String newText = "";
 
         presenter.onEntryNameTextChanged(newText);
@@ -63,7 +63,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void entryNameTextViewNotEmptyShouldEnableNextButton() {
+    public void onEntryNameTextViewChangedShouldEnableNextButtonWhenNameIsNotEmpty() {
         String newText = "1";
 
         presenter.onEntryNameTextChanged(newText);
@@ -73,7 +73,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void entryNameSubmittedShouldShowNextScreen() {
+    public void onEntryNameSubmittedShouldShowEntryImageScreen() {
         String entryName = "Name";
         presenter.onEntryNameSubmitted(entryName);
         verify(mockView).showEntryImageScreen(any());
