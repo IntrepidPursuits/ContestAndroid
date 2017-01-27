@@ -12,8 +12,6 @@ public class NewContestContract {
 
         int getNumberOfScreens();
 
-        void acceptContestName(String contestName);
-
         void acceptContestDescription(String contestDescription);
 
         void acceptCategory(Category category);

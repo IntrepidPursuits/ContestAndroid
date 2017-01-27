@@ -2,7 +2,7 @@ package io.intrepid.contest.screens.splash;
 
 import io.intrepid.contest.base.BaseContract;
 
-public interface SplashContract {
+public class SplashContract {
 
     interface View extends BaseContract.View {
         void showCreateContestScreen();
