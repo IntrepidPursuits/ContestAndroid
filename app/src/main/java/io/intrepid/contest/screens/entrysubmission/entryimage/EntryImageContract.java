@@ -13,6 +13,10 @@ public class EntryImageContract {
         void displayChooseImageLayout();
 
         void displayPreviewImageLayout(Bitmap bitmap);
+
+        void dispatchTakePictureIntent();
+
+        void dispatchChoosePictureIntent();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
@@ -21,5 +25,9 @@ public class EntryImageContract {
         void onEntrySubmitted();
 
         void onBitmapRemoved();
+
+        void onCameraButtonClicked();
+
+        void onGalleryButtonClicked();
     }
 }

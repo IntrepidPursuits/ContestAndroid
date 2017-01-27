@@ -41,10 +41,6 @@ public class RemovableImageFrameLayout extends FrameLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        if (isInEditMode()) {
-            return;
-        }
-
         ButterKnife.bind(this);
     }
 

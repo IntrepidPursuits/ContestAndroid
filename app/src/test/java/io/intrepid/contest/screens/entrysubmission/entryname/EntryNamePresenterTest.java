@@ -31,29 +31,13 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void contestantWelcomeTextViewShouldShowContestName() {
+    public void onViewCreatedShouldShowWelcomeMessage() {
         presenter.onViewCreated();
-        verify(mockView).setContestName(any());
+        verify(mockView).showWelcomeMessage();
     }
 
     @Test
-    public void entryNameTextViewFocusedShouldShowNextButton() {
-        presenter.onEntryNameFocusChanged(true);
-
-        verify(mockView).showEntryNameButton();
-        verify(mockView, never()).hideEntryNameButton();
-    }
-
-    @Test
-    public void entryNameTextViewFocusLostShouldHideNextButton() {
-        presenter.onEntryNameFocusChanged(false);
-
-        verify(mockView).hideEntryNameButton();
-        verify(mockView, never()).showEntryNameButton();
-    }
-
-    @Test
-    public void entryNameTextViewEmptyShouldDisableNextButton() {
+    public void onEntryNameTextViewChangedShouldDisableNextButtonWhenNameIsNotEmpty() {
         String newText = "";
 
         presenter.onEntryNameTextChanged(newText);
@@ -63,7 +47,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void entryNameTextViewNotEmptyShouldEnableNextButton() {
+    public void onEntryNameTextViewChangedShouldEnableNextButtonWhenNameIsNotEmpty() {
         String newText = "1";
 
         presenter.onEntryNameTextChanged(newText);
@@ -73,7 +57,7 @@ public class EntryNamePresenterTest extends BasePresenterTest<EntryNamePresenter
     }
 
     @Test
-    public void entryNameSubmittedShouldShowNextScreen() {
+    public void onEntryNameSubmittedShouldShowEntryImageScreen() {
         String entryName = "Name";
         presenter.onEntryNameSubmitted(entryName);
         verify(mockView).showEntryImageScreen(any());

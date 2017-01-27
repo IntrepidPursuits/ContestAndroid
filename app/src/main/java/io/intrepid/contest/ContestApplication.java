@@ -18,7 +18,7 @@ public class ContestApplication extends Application {
 
     private void initCalligraphy() {
         CalligraphyConfig config = new CalligraphyConfig.Builder()
-                .setDefaultFontPath(getString(R.string.Roboto_Regular))
+                .setDefaultFontPath(getString(R.string.AvenirNext_Regular))
                 .setFontAttrId(R.attr.fontPath)
                 .build();
         CalligraphyConfig.initDefault(config);

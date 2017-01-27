@@ -27,8 +27,7 @@ import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageC
 
 public class EntryImageActivity extends BaseMvpActivity<Presenter> implements View {
 
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_PICK_IMAGE = 2;
+    public static final String EXTRAS_DATA_KEY = "data";
     private static final String PICK_IMAGE_TYPE = "image/*";
     private static final String EXTRA_ENTRY_NAME = "_extra_entry_name_";
 
@@ -36,6 +35,8 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
     RelativeLayout chooseImageLayout;
     @BindView(R.id.entry_image_camera_button)
     Button chooseCameraButton;
+    @BindView(R.id.entry_image_question_text_view)
+    TextView questionTextView;
     @BindView(R.id.entry_preview_image_layout)
     RelativeLayout previewImageLayout;
     @BindView(R.id.removable_image_image_view)
@@ -74,33 +75,42 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
     @Override
     public void showEntryName(String entryName) {
         previewLabelTextView.setText(getResources().getString(R.string.entry_image_preview_caption, entryName));
+        questionTextView.setText(getResources().getString(R.string.entry_image_question, entryName));
     }
 
     @Override
     public void displayChooseImageLayout() {
         chooseImageLayout.setVisibility(android.view.View.VISIBLE);
-        chooseImageLayout.bringToFront();
-        previewImageLayout.setVisibility(android.view.View.INVISIBLE);
+        previewImageLayout.setVisibility(android.view.View.GONE);
     }
 
     @Override
     public void displayPreviewImageLayout(Bitmap bitmap) {
-        chooseImageLayout.setVisibility(android.view.View.INVISIBLE);
+        chooseImageLayout.setVisibility(android.view.View.GONE);
         previewImageLayout.setVisibility(android.view.View.VISIBLE);
-        previewImageLayout.bringToFront();
         previewImageView.setImageBitmap(bitmap);
     }
 
     @OnClick(R.id.entry_image_camera_button)
-    protected void dispatchTakePictureIntent() {
+    protected void onCameraButtonClicked() {
+        presenter.onCameraButtonClicked();
+    }
+
+    @Override
+    public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            startActivityForResult(takePictureIntent, RequestType.REQUEST_IMAGE_CAPTURE.getValue());
         }
     }
 
     @OnClick(R.id.entry_image_gallery_button)
-    protected void dispatchChoosePictureIntent() {
+    protected void onGalleryButtonClicked() {
+        presenter.onGalleryButtonClicked();
+    }
+
+    @Override
+    public void dispatchChoosePictureIntent() {
         String pickImageMessage = getResources().getString(R.string.pick_image_title);
 
         Intent androidGalleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -113,21 +123,22 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
         Intent chooserIntent = Intent.createChooser(androidGalleryIntent, pickImageMessage);
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { externalGalleriesIntent });
 
-        startActivityForResult(chooserIntent, REQUEST_PICK_IMAGE);
+        startActivityForResult(chooserIntent, RequestType.REQUEST_PICK_IMAGE.getValue());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK || (requestCode != REQUEST_IMAGE_CAPTURE && requestCode != REQUEST_PICK_IMAGE)) {
+        if (resultCode != RESULT_OK || (requestCode != RequestType.REQUEST_IMAGE_CAPTURE.getValue() &&
+                requestCode != RequestType.REQUEST_PICK_IMAGE.getValue())) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
 
         Bitmap bitmap = null;
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+        if (requestCode == RequestType.REQUEST_IMAGE_CAPTURE.getValue()) {
             Bundle extras = data.getExtras();
-            bitmap = (Bitmap) extras.get("data");
+            bitmap = (Bitmap) extras.get(EXTRAS_DATA_KEY);
         } else {
             Uri uri = data.getData();
 
@@ -149,5 +160,19 @@ public class EntryImageActivity extends BaseMvpActivity<Presenter> implements Vi
     @OnClick(R.id.entry_image_submit_button)
     protected void onSubmitButtonClicked() {
         presenter.onEntrySubmitted();
+    }
+
+    private enum RequestType {
+        REQUEST_IMAGE_CAPTURE(1), REQUEST_PICK_IMAGE(2);
+
+        private final int value;
+
+        private RequestType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 }

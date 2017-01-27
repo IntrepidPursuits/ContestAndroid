@@ -10,18 +10,17 @@ import timber.log.Timber;
 import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.Presenter;
 import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.View;
 
-public class EntryImagePresenter extends BasePresenter<View> implements Presenter {
-    private String entryName;
+class EntryImagePresenter extends BasePresenter<View> implements Presenter {
     private Bitmap bitmap;
 
-    public EntryImagePresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
+    EntryImagePresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
     }
 
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        entryName = view.getEntryName();
+        String entryName = view.getEntryName();
         view.showEntryName(entryName);
     }
 
@@ -50,5 +49,15 @@ public class EntryImagePresenter extends BasePresenter<View> implements Presente
     public void onBitmapRemoved() {
         bitmap = null;
         view.displayChooseImageLayout();
+    }
+
+    @Override
+    public void onCameraButtonClicked() {
+        view.dispatchTakePictureIntent();
+    }
+
+    @Override
+    public void onGalleryButtonClicked() {
+        view.dispatchChoosePictureIntent();
     }
 }

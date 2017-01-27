@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#f54d41</color>
     <color name="colorAccent">#f75f52</color>
     <color name="contestAppTextColor">#898989</color>
+
+    <color name="colorEditText">#404040</color>
+    <color name="colorEditTextHint">@color/colorLightGray</color>
+    <color name="colorIcon">@color/colorLightGray</color>
+
+    <color name="colorLightGray">#d0d0d0</color>
 </resources>

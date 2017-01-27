@@ -17,6 +17,7 @@ import io.intrepid.contest.testutils.TestPresenterConfiguration;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -35,7 +36,7 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     }
 
     @Test
-    public void previewLabelShouldShowEntryName() {
+    public void onViewCreatedPreviewLabelShouldShowEntryName() {
         presenter.onViewCreated();
         verify(mockView).showEntryName(any());
     }
@@ -50,7 +51,7 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     public void bindingViewShouldDisplayChooseImageLayoutWhenBitmapsHaveNeverBeenReceived() {
         presenter.bindView(mockView);
 
-        verify(mockView, times(1)).displayChooseImageLayout();
+        verify(mockView).displayChooseImageLayout();
     }
 
     @Test
@@ -60,14 +61,27 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
         presenter.onBitmapReceived(bitmap);
         presenter.bindView(mockView);
 
-        verify(mockView, times(1)).displayPreviewImageLayout(bitmap);
+        verify(mockView).displayPreviewImageLayout(bitmap);
     }
 
     @Test
     public void bindingViewShouldDisplayChooseImageLayoutWhenBitmapWasRemoved() {
-        presenter.onBitmapRemoved(); // Also triggers displayChooseImageLayout, so we don't verify exact number of times
+        presenter.onBitmapRemoved();
+        reset(mockView);
         presenter.bindView(mockView);
 
-        verify(mockView, atLeast(1)).displayChooseImageLayout();
+        verify(mockView).displayChooseImageLayout();
+    }
+
+    @Test
+    public void onCameraButtonClickedShouldDispatchTakePictureIntent() {
+        presenter.onCameraButtonClicked();
+        verify(mockView).dispatchTakePictureIntent();
+    }
+
+    @Test
+    public void onGalleryButtonClickedShouldDispatchChoosePictureIntent() {
+        presenter.onGalleryButtonClicked();
+        verify(mockView).dispatchChoosePictureIntent();
     }
 }

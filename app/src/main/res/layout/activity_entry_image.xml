@@ -5,37 +5,25 @@
     android:id="@+id/activity_entry_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity"
     >
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
-
-        <Button
-            android:id="@+id/entry_image_submit_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="@string/common_submit"
-            />
-
-    </android.support.design.widget.BottomNavigationView>
+    <Button
+        android:id="@+id/entry_image_submit_button"
+        style="@style/AppTheme.BottomNavigationButton"
+        android:text="@string/common_submit"
+        />
 
     <android.support.percent.PercentRelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/entry_choose_image_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
+        android:layout_above="@id/entry_image_submit_button"
         android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:visibility="invisible"
         tools:visibility="visible"
         >
@@ -52,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/entry_image_question_text_view"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="@string/entry_image_description"
             />
 
@@ -61,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/entry_image_description_text_view"
             android:text="@string/upload_image_camera"
-            app:layout_widthPercent="50%"
+            app:layout_widthPercent="48%"
             />
 
         <Button
@@ -72,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/entry_image_description_text_view"
             android:text="@string/upload_image_library"
-            app:layout_widthPercent="50%"
+            app:layout_widthPercent="48%"
             />
 
     </android.support.percent.PercentRelativeLayout>
@@ -81,8 +70,12 @@
         android:id="@+id/entry_preview_image_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bottom_navigation"
+        android:layout_above="@id/entry_image_submit_button"
         android:layout_alignParentTop="true"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:visibility="invisible"
         tools:visibility="visible"
         >

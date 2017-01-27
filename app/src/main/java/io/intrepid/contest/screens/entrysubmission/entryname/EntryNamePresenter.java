@@ -18,16 +18,7 @@ class EntryNamePresenter extends BasePresenter<View> implements Presenter {
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.setContestName("Chili Cookoff");
-    }
-
-    @Override
-    public void onEntryNameFocusChanged(boolean isFocused) {
-        if (isFocused) {
-            view.showEntryNameButton();
-        } else {
-            view.hideEntryNameButton();
-        }
+        view.showWelcomeMessage();
     }
 
     @Override
