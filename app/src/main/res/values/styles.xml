@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
         <item name="android:editTextStyle">@style/AppTheme.EditText</item>
     </style>
@@ -30,7 +31,7 @@
         <item name="android:layout_marginBottom">@dimen/text_view_label_marginbottom</item>
     </style>
 
-    <style name="AppTheme.Button" parent="Base.TextAppearance.AppCompat.Button">
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button">
         <item name="android:background">@color/colorAccent</item>
         <item name="fontPath">@style/AvenirNext_Medium</item>
         <item name="android:textColor">@android:color/white</item>
@@ -46,4 +47,21 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="AppTheme.IconButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/contestAppTextColor</item>
+        <item name="android:drawablePadding">@dimen/icon_button_drawablepadding</item>
+        <item name="android:padding">@dimen/icon_button_padding</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/icon_button_textsize</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="AppTheme.IconButtonCardView" parent="CardView.Light">
+        <item name="cardCornerRadius">@dimen/icon_button_card_view_radius</item>
+        <item name="cardElevation">@dimen/icon_button_card_view_elevation</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="contentPadding">@dimen/icon_button_card_view_padding</item>
+    </style>
 </resources>

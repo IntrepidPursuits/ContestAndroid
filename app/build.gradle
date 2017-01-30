@@ -94,6 +94,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$supportVersion"
     compile "com.android.support:percent:$supportVersion"
     compile "com.android.support:design:$supportVersion"
+    compile "com.android.support:cardview-v7:$supportVersion"
 
     // Google play services
     def googlePlayVersion = "10.0.1";
