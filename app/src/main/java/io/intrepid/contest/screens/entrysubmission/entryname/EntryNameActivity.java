@@ -2,13 +2,14 @@ package io.intrepid.contest.screens.entrysubmission.entryname;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.OnFocusChange;
 import butterknife.OnTextChanged;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
@@ -16,14 +17,14 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.customviews.ClearableEditText;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity;
 
-import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.Presenter;
-import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.View;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
-public class EntryNameActivity extends BaseMvpActivity<Presenter> implements View {
+public class EntryNameActivity extends BaseMvpActivity<EntryNameContract.Presenter> implements EntryNameContract.View {
 
-    @BindView(R.id.contestant_welcome_text_view)
-    TextView contestantWelcomeTextView;
-    @BindView(R.id.entry_name_edit_text)
+    @BindView(R.id.entry_name_icon)
+    ImageView entryNameIcon;
+    @BindView(R.id.hint_label_edit_text)
     ClearableEditText entryNameEditText;
     @BindView(R.id.entry_name_next_button)
     Button entryNameNextButton;
@@ -34,7 +35,7 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
 
     @NonNull
     @Override
-    public Presenter createPresenter(PresenterConfiguration configuration) {
+    public EntryNameContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new EntryNamePresenter(this, configuration);
     }
 
@@ -43,12 +44,14 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
         return R.layout.activity_entry_name;
     }
 
-    @OnFocusChange(R.id.entry_name_edit_text)
-    public void onEntryNameFocusChanged(boolean isFocused) {
-        presenter.onEntryNameFocusChanged(isFocused);
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+
+        setActionBarTitle(getResources().getString(R.string.contestant_welcome_message));
     }
 
-    @OnTextChanged(R.id.entry_name_edit_text)
+    @OnTextChanged(R.id.hint_label_edit_text)
     public void onEntryNameTextChanged(CharSequence newText) {
         presenter.onEntryNameTextChanged(newText.toString());
     }
@@ -59,28 +62,23 @@ public class EntryNameActivity extends BaseMvpActivity<Presenter> implements Vie
     }
 
     @Override
-    public void setContestName(String contestName) {
-        contestantWelcomeTextView.setText(getResources().getString(R.string.contestant_welcome_message, contestName));
-    }
-
-    @Override
     public void showEntryNameButton() {
-        entryNameNextButton.setVisibility(android.view.View.VISIBLE);
+        entryNameNextButton.setVisibility(VISIBLE);
     }
 
     @Override
     public void hideEntryNameButton() {
-        entryNameNextButton.setVisibility(android.view.View.GONE);
+        entryNameNextButton.setVisibility(GONE);
     }
 
     @Override
-    public void enableEntryNameButton() {
-        entryNameNextButton.setEnabled(true);
+    public void showEntryNameIcon() {
+        entryNameIcon.setVisibility(VISIBLE);
     }
 
     @Override
-    public void disableEntryNameButton() {
-        entryNameNextButton.setEnabled(false);
+    public void hideEntryNameIcon() {
+        entryNameIcon.setVisibility(GONE);
     }
 
     @Override

@@ -5,37 +5,21 @@ import android.support.annotation.NonNull;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 
-import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.Presenter;
-import static io.intrepid.contest.screens.entrysubmission.entryname.EntryNameContract.View;
+class EntryNamePresenter extends BasePresenter<EntryNameContract.View> implements EntryNameContract.Presenter {
 
-class EntryNamePresenter extends BasePresenter<View> implements Presenter {
-
-    EntryNamePresenter(@NonNull View view,
+    EntryNamePresenter(@NonNull EntryNameContract.View view,
                        @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
     }
 
     @Override
-    public void onViewCreated() {
-        super.onViewCreated();
-        view.setContestName("Chili Cookoff");
-    }
-
-    @Override
-    public void onEntryNameFocusChanged(boolean isFocused) {
-        if (isFocused) {
-            view.showEntryNameButton();
-        } else {
-            view.hideEntryNameButton();
-        }
-    }
-
-    @Override
     public void onEntryNameTextChanged(String newText) {
         if (newText.isEmpty()) {
-            view.disableEntryNameButton();
+            view.hideEntryNameButton();
+            view.showEntryNameIcon();
         } else {
-            view.enableEntryNameButton();
+            view.showEntryNameButton();
+            view.hideEntryNameIcon();
         }
     }
 

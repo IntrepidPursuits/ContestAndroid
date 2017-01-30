@@ -35,6 +35,7 @@
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/create_contest"
         android:text="@string/create_contest"
+        android:textColor="@color/contestAppTextColor"
         />
 
     <Button
@@ -47,5 +48,6 @@
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/join_contest"
         android:text="@string/join_contest"
+        android:textColor="@color/contestAppTextColor"
         />
 </RelativeLayout>

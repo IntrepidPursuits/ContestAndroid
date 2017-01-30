@@ -10,10 +10,8 @@ import io.intrepid.contest.screens.entrysubmission.join.JoinActivity;
 import timber.log.Timber;
 
 import static io.intrepid.contest.splash.SplashContract.Presenter;
-import static io.intrepid.contest.splash.SplashContract.View;
 
-
-public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements View {
+public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements SplashContract.View {
 
     @NonNull
     @Override

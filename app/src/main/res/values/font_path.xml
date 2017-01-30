@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="AvenirNext_DemiBold">fonts/AvenirNext-DemiBold.ttf</string>
+    <string name="AvenirNext_Medium">fonts/AvenirNext-Medium.ttf</string>
+    <string name="AvenirNext_Regular">fonts/AvenirNext-Regular.ttf</string>
     <string name="Roboto_Regular">fonts/Roboto-Regular.ttf</string>
 </resources>

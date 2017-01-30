@@ -4,4 +4,17 @@
     <style name="Roboto_Regular" parent="android:TextAppearance">
         <item name="fontPath">@string/Roboto_Regular</item>
     </style>
+
+    <style name="AvenirNext_DemiBold" parent="android:TextAppearance">
+        <item name="fontPath">@string/AvenirNext_DemiBold</item>
+    </style>
+
+    <style name="AvenirNext_Medium" parent="android:TextAppearance">
+        <item name="fontPath">@string/AvenirNext_Medium</item>
+    </style>
+
+    <style name="AvenirNext_Regular" parent="android:TextAppearance">
+        <item name="fontPath">@string/AvenirNext_Regular</item>
+    </style>
+
 </resources>

@@ -30,23 +30,23 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
     }
 
     @Test
-    public void onEntryCodeTextViewChangedShouldDisableSubmitButtonWhenCodeIsEmpty() {
+    public void onEntryCodeTextViewChangedShouldHideSubmitButtonWhenCodeIsEmpty() {
         String newCode = "";
 
         presenter.onEntryCodeTextChanged(newCode);
 
-        verify(mockView).disableSubmitButton();
-        verify(mockView, never()).enableSubmitButton();
+        verify(mockView).hideSubmitButton();
+        verify(mockView, never()).showSubmitButton();
     }
 
     @Test
-    public void onEntryCodeTextViewChangedShouldEnableSubmitButtonWhenCodeIsNotEmpty() {
+    public void onEntryCodeTextViewChangedShouldShowSubmitButtonWhenCodeIsNotEmpty() {
         String newCode = "1";
 
         presenter.onEntryCodeTextChanged(newCode);
 
-        verify(mockView).enableSubmitButton();
-        verify(mockView, never()).disableSubmitButton();
+        verify(mockView).showSubmitButton();
+        verify(mockView, never()).hideSubmitButton();
     }
 
     @Test

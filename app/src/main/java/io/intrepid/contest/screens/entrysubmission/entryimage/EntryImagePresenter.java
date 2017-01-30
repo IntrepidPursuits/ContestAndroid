@@ -7,13 +7,10 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import timber.log.Timber;
 
-import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.Presenter;
-import static io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.View;
-
-class EntryImagePresenter extends BasePresenter<View> implements Presenter {
+class EntryImagePresenter extends BasePresenter<EntryImageContract.View> implements EntryImageContract.Presenter {
     private Bitmap bitmap;
 
-    EntryImagePresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
+    EntryImagePresenter(@NonNull EntryImageContract.View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
     }
 

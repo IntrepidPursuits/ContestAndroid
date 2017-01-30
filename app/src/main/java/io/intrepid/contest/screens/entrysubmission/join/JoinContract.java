@@ -4,9 +4,9 @@ import io.intrepid.contest.base.BaseContract;
 
 public class JoinContract {
     interface View extends BaseContract.View {
-        void enableSubmitButton();
+        void showSubmitButton();
 
-        void disableSubmitButton();
+        void hideSubmitButton();
 
         void showEntryNameScreen();
     }
