@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 import io.intrepid.contest.base.BaseContract;
 
-public class EntryImageContract {
+class EntryImageContract {
     interface View extends BaseContract.View {
         String getEntryName();
 

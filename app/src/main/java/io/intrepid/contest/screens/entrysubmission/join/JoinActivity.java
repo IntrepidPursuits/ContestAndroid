@@ -4,14 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.widget.Button;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.customviews.HintLabelEditText;
 import io.intrepid.contest.screens.entrysubmission.entryname.EntryNameActivity;
 
 import static android.view.View.GONE;
@@ -21,6 +25,8 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
     @BindView(R.id.enter_code_submit_button)
     Button enterCodeSubmitButton;
+    @BindView(R.id.enter_code_edit_view)
+    HintLabelEditText enterCodeEditView;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, JoinActivity.class);
@@ -52,7 +58,7 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
     @OnClick(R.id.enter_code_submit_button)
     protected void onSubmitButtonClicked() {
-        presenter.onSubmitButtonClicked();
+        presenter.onSubmitButtonClicked(enterCodeEditView.getText());
     }
 
     @Override
@@ -68,5 +74,39 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     @Override
     public void showEntryNameScreen() {
         startActivity(EntryNameActivity.makeIntent(this));
+    }
+
+    @Override
+    public void showInvalidCodeErrorMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.error_redeeming_code)
+                .setTitle(R.string.error_redeeming_code_title)
+                .setNeutralButton(R.string.common_ok, (dialog, id) -> {
+                });
+        builder.create().show();
+    }
+
+    @Override
+    public void showApiErrorMessage() {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, getResources().getString(R.string.error_api), duration);
+        toast.show();
+
+        if (BuildConfig.DEBUG) {
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(duration);
+                        showEntryNameScreen();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            thread.run();
+        }
     }
 }
