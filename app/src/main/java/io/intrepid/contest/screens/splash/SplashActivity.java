@@ -1,21 +1,25 @@
-package io.intrepid.contest.splash;
+package io.intrepid.contest.screens.splash;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.screens.contestcreation.NewContestActivity;
 import io.intrepid.contest.screens.entrysubmission.join.JoinActivity;
-import timber.log.Timber;
-
-import static io.intrepid.contest.splash.SplashContract.Presenter;
 
 public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements SplashContract.View {
 
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, SplashActivity.class);
+    }
+
     @NonNull
     @Override
-    public Presenter createPresenter(PresenterConfiguration configuration) {
+    public SplashContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new SplashPresenter(this, configuration);
     }
 
@@ -32,11 +36,13 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     @OnClick(R.id.join_contest_button)
     public void onJoinContestClicked() {
         presenter.onJoinContestClicked();
+
     }
 
     @Override
     public void showCreateContestScreen() {
-        Timber.d("Create contest clicked");
+        Intent intent = NewContestActivity.createIntent(this);
+        startActivity(intent);
     }
 
     @Override

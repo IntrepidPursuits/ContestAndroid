@@ -2,8 +2,9 @@
 <resources>
     <color name="colorPrimary">#f75f52</color>
     <color name="colorPrimaryDark">#f54d41</color>
-    <color name="colorAccent">#f75f52</color>
+    <color name="colorAccent">#f54d42</color>
     <color name="contestAppTextColor">#898989</color>
+
     <color name="colorEditText">@color/colorDarkGray</color>
     <color name="colorEditTextHint">@color/colorLightGray</color>
     <color name="colorIcon">@color/colorLightGray</color>
