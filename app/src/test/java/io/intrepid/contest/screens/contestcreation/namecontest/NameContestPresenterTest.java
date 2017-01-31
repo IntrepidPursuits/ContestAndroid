@@ -28,10 +28,6 @@ public class NameContestPresenterTest {
         String EMPTY_TEXT = "";
         nameContestPresenter.onContestNameUpdate(EMPTY_TEXT);
         verify(mockView).showError();
-
-        EMPTY_TEXT = "        ";
-        nameContestPresenter.onContestNameUpdate(EMPTY_TEXT);
-        verify(mockView).showError();
     }
 
     @Test

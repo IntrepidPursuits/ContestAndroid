@@ -30,10 +30,6 @@ public class DescribeContestPresenterTest {
         String EMPTY_TEXT = "";
         describeContestPresenter.onNextClicked(EMPTY_TEXT);
         verify(mockView).showError();
-
-        EMPTY_TEXT = "        ";
-        describeContestPresenter.onNextClicked(EMPTY_TEXT);
-        verify(mockView).showError();
     }
 
     @After

@@ -15,6 +15,7 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -32,7 +33,7 @@ public class NewContestPresenterTest {
     private NewContestPresenter newContestPresenter;
 
     @Before
-    public void setup(){
+    public void setup() {
         MockitoAnnotations.initMocks(this);
         newContestPresenter = new NewContestPresenter(mockView, TestPresenterConfiguration.createTestConfiguration());
         when(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildfFragment);
@@ -52,20 +53,20 @@ public class NewContestPresenterTest {
     }
 
     @Test
-    public void firstBackNavigationShouldCancelEdit() {
+    public void onBackButtonClickedFromFirstPageShouldCancelEdit() {
         newContestPresenter.onBackButtonClicked();
         verify(mockView).cancelEdit();
     }
 
     @Test
-    public void legalBackNavigationShouldMoveBackward() {
+    public void onBackButtonClickedShouldNavigateBackwards() {
         newContestPresenter.setContestDescription(" d ");
         newContestPresenter.onBackButtonClicked();
         verify(mockView).showContestSubmissionPage(1);
     }
 
     @Test
-    public void forwardNavigationShouldMoveForward() {
+    public void onNextButtonClickedShouldNavigateForward() {
         newContestPresenter.onNextButtonClicked();
         verify(mockChildfFragment).onNext();
     }
@@ -73,9 +74,11 @@ public class NewContestPresenterTest {
     @Test
     public void setContestNameShouldModifyContestName() {
         String newContestName = "New Contest";
+
         newContestPresenter.setContestName(newContestName);
+
         verify(mockView).showContestSubmissionPage(1);
-        assertTrue(newContestPresenter.contest.title.equals(newContestName));
+        assertEquals(newContestName, newContestPresenter.contest.title);
     }
 
     @Test
@@ -83,7 +86,7 @@ public class NewContestPresenterTest {
         mockView.showContestSubmissionPage(1);
         String newDescription = "testing";
         newContestPresenter.setContestDescription(newDescription);
-        assertTrue(newContestPresenter.contest.description.equals(newDescription));
+        assertEquals(newDescription, newContestPresenter.contest.description);
     }
 
     @Test
@@ -93,7 +96,7 @@ public class NewContestPresenterTest {
     }
 
     @Test
-    public void finalOnNextShouldTerminateEdit() {
+    public void setCategoriesShouldEndTheForm() {
         mockView.showContestSubmissionPage(3);
         newContestPresenter.setCategories(new ArrayList<>());
         verify(mockView).completeEditForm(any(Contest.class));
