@@ -56,7 +56,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(android.R.drawable.ic_media_rew);
-            setToolbarTitle(R.string.new_contest);
+            setActionBarTitle(R.string.new_contest);
         }
     }
 
@@ -133,9 +133,5 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void setContestDescription(String description) {
         presenter.setContestDescription(description);
-    }
-
-    public void setToolbarTitle(int toolbarTitle) {
-        toolbar.setTitle(toolbarTitle);
     }
 }
