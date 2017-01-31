@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import butterknife.ButterKnife;
 import io.intrepid.contest.ContestApplication;
@@ -16,6 +17,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 abstract class BaseActivity extends AppCompatActivity {
 
+    private ActionBar actionBar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Timber.v("Lifecycle onCreate: " + this);
@@ -23,6 +26,8 @@ abstract class BaseActivity extends AppCompatActivity {
 
         setContentView(getLayoutResourceId());
         ButterKnife.bind(this);
+
+        actionBar = getSupportActionBar();
     }
 
     @Override
@@ -87,13 +92,28 @@ abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setActionBarTitle(String title) {
-        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            getSupportActionBar().setTitle(title);
+            actionBar.setTitle(title);
         }
     }
 
     protected void setActionBarTitle(@StringRes int titleResource) {
         setActionBarTitle(getResources().getString(titleResource));
+    }
+
+    protected void setActionBarDisplayHomeAsUpEnabled(boolean enabled) {
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(enabled);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

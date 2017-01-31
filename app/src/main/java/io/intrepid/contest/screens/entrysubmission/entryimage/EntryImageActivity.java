@@ -67,6 +67,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         }
 
         setActionBarTitle(getResources().getString(R.string.entry_image_bar_title));
+        setActionBarDisplayHomeAsUpEnabled(true);
     }
 
     @Override

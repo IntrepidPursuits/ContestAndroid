@@ -48,6 +48,7 @@ public class EntryNameActivity extends BaseMvpActivity<EntryNameContract.Present
         super.onViewCreated(savedInstanceState);
 
         setActionBarTitle(R.string.contestant_welcome_message);
+        setActionBarDisplayHomeAsUpEnabled(true);
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)
