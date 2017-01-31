@@ -2,6 +2,7 @@ package io.intrepid.contest.screens.entrysubmission.join;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Button;
 
@@ -34,6 +35,13 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_join;
+    }
+
+    @Override
+    protected void onViewCreated(Bundle savedInstanceState) {
+        super.onViewCreated(savedInstanceState);
+
+        setActionBarTitle(getResources().getString(R.string.join_contest_bar_title, "Chili Cookoff"));
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)

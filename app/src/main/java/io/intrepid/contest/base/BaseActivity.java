@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import io.intrepid.contest.ContestApplication;
-import io.intrepid.contest.R;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -91,5 +91,9 @@ abstract class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             getSupportActionBar().setTitle(title);
         }
+    }
+
+    protected void setActionBarTitle(@StringRes int titleResource) {
+        setActionBarTitle(getResources().getString(titleResource));
     }
 }

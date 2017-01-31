@@ -65,6 +65,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             chooseCameraButton.setEnabled(false);
         }
+
+        setActionBarTitle(getResources().getString(R.string.entry_image_bar_title));
     }
 
     @Override

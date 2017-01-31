@@ -3,7 +3,6 @@ package io.intrepid.contest.screens.entrysubmission.entryname;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -45,10 +44,10 @@ public class EntryNameActivity extends BaseMvpActivity<EntryNameContract.Present
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onViewCreated(Bundle savedInstanceState) {
+        super.onViewCreated(savedInstanceState);
 
-        setActionBarTitle(getResources().getString(R.string.contestant_welcome_message));
+        setActionBarTitle(R.string.contestant_welcome_message);
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)
