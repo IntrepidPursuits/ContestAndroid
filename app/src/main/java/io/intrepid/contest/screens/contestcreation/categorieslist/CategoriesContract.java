@@ -10,11 +10,14 @@ interface CategoriesContract {
 
     interface View extends BaseContract.View {
         void showCategories(List<Category> categories);
-
-        void OnCategoryClicked(Category category);
+        void onCategoryClicked(Category category);
+        void showCategoryForReview(Category category);
+        void showDefaultCategory();
     }
 
     interface Presenter extends BaseContract.Presenter<CategoriesContract.View> {
         void displayCategories(Contest contest);
+        void onCategoryClicked(Category category);
+        void onNext();
     }
 }

@@ -35,6 +35,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     ViewPager viewPager;
     private SlidingTabAdapter tabAdapter;
     private ActionBar actionBar;
+    private Contest.Builder contest;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, NewContestActivity.class);
@@ -70,6 +71,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     public void setupViewPager(ViewPager viewPager) {
+        contest = new Contest.Builder();
         tabAdapter = new SlidingTabAdapter(this);
         tabAdapter.addFragment(new NameContestFragment());
         tabAdapter.addFragment(new DescribeContestFragment());

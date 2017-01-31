@@ -11,9 +11,6 @@ import io.intrepid.contest.models.Contest;
 
 
 class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> implements CategoriesContract.Presenter {
-    private static final String DEFAULT_CATEGORY_NAME = "Example Category";
-    private static final String DEFAULT_CATEGORY_DESCRIPTION = "This is an example";
-    private List<Category> categories;
 
     CategoriesListPresenter(@NonNull CategoriesContract.View view,
                             @NonNull PresenterConfiguration configuration) {
@@ -22,15 +19,21 @@ class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> imp
 
     @Override
     public void displayCategories(Contest contest) {
-        if (contest.getCategories() == null) {
-            injectDefaultCategoryInView();
+        if(contest == null){
+            view.showDefaultCategory();
+        }else{
+            view.showCategories(contest.getCategories());
         }
+
     }
 
-    private void injectDefaultCategoryInView() {
-        categories.clear();
-        Category exampleCategory = new Category(DEFAULT_CATEGORY_NAME, DEFAULT_CATEGORY_DESCRIPTION);
-        categories.add(exampleCategory);
-        view.showCategories(categories);
+    @Override
+    public void onCategoryClicked(Category category) {
+        view.showCategoryForReview(category);
+    }
+
+    @Override
+    public void onNext() {
+
     }
 }
