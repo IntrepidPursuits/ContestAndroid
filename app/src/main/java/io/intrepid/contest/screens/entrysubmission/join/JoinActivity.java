@@ -42,6 +42,7 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
         super.onViewCreated(savedInstanceState);
 
         setActionBarTitle(getResources().getString(R.string.join_contest_bar_title, "Chili Cookoff"));
+        setActionBarDisplayHomeAsUpEnabled(true);
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)
