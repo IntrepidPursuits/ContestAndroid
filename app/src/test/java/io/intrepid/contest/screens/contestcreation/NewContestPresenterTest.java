@@ -68,7 +68,7 @@ public class NewContestPresenterTest {
     @Test
     public void onNextButtonClickedShouldNavigateForward() {
         newContestPresenter.onNextButtonClicked();
-        verify(mockChildfFragment).onNext();
+        verify(mockChildfFragment).onNextClicked();
     }
 
     @Test

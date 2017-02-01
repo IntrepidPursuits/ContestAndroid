@@ -31,4 +31,8 @@
     <string name="category_name">Category Name</string>
     <string name="description_optional">Description (optional)</string>
     <string name="error_msg">Error</string>
+    <string name="category_name_example">Example Category</string>
+    <string name="category_description_example">This is an example</string>
+    <string name="trophy">Trophy</string>
+    <string name="add_a_category">Add a category</string>
 </resources>

@@ -33,7 +33,7 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
     }
 
     @Override
-    public void onNext() {
+    public void onNextClicked() {
         presenter.onNextClicked(descriptionField.getText().toString());
     }
 

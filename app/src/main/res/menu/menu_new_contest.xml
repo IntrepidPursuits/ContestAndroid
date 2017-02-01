@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_next"
-        android:icon="@android:drawable/ic_media_next"
+        android:icon="@drawable/ic_arrow_forward_white_24dp"
         android:title="@string/common_next"
         app:showAsAction="always"/>
 </menu>

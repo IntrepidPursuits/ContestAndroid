@@ -39,7 +39,7 @@
         </activity>
         <activity
             android:name=".screens.contestcreation.NewContestActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"
             />
     </application>
 

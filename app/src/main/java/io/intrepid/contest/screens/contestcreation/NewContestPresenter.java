@@ -29,7 +29,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     public void onNextButtonClicked() {
         ContestCreationFragment childFragment = view.getChildEditFragment(screenIndex);
         if (childFragment != null) {
-            childFragment.onNext();
+            childFragment.onNextClicked();
         }
     }
 

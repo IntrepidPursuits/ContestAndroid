@@ -1,21 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_vertical_margin"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_vertical_margin"
     >
 
-    <android.support.design.widget.TextInputLayout
+    <ImageView
+        android:id="@+id/trophy_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/trophy_margin"
+        android:contentDescription="@string/trophy"
+        android:src="@drawable/trophy_icon"
+        />
+
+    <io.intrepid.contest.customviews.HintLabelEditText
+        android:id="@+id/contest_name_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        >
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/contest_name_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/name_your_contest"
-            />
-    </android.support.design.widget.TextInputLayout>
+        android:layout_below="@+id/trophy_icon"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        custom:hint="@string/name_your_contest"
+        custom:label="@string/name_your_contest"
+        />
 </RelativeLayout>
