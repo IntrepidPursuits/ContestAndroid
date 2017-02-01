@@ -31,6 +31,10 @@ public class Contest {
                 " /n Last updated " + lastUpdatedDate;
     }
 
+    public UUID getId() {
+        return contestId;
+    }
+
     public String getTitle() {
         return title;
     }

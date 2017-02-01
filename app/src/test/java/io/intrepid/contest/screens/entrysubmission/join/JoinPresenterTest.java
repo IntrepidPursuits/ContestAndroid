@@ -9,9 +9,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.UUID;
-
-import io.intrepid.contest.models.InvitationResponse;
+import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.rest.InvitationResponse;
 import io.intrepid.contest.screens.entrysubmission.join.JoinContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
 import io.reactivex.Observable;
@@ -61,7 +60,7 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
     @Test
     public void onSubmitButtonClickedShouldShowEntryNameScreenWhenCodeIsValid() {
         InvitationResponse invitationResponse = new InvitationResponse();
-        invitationResponse.id = UUID.randomUUID();
+        invitationResponse.contest = new Contest.Builder().build();
         when(mockRestApi.redeemInvitationCode(any())).thenReturn(Observable.just(invitationResponse));
 
         presenter.onSubmitButtonClicked(any());

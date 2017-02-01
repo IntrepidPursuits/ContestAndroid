@@ -6,19 +6,19 @@ import org.mockito.Mockito;
 
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.RestApi;
-import io.intrepid.contest.settings.UserSettings;
+import io.intrepid.contest.settings.PersistentSettings;
 import io.reactivex.schedulers.TestScheduler;
 
 @SuppressWarnings("WeakerAccess")
 public class TestPresenterConfiguration extends PresenterConfiguration {
-    public TestPresenterConfiguration(@NonNull UserSettings userSettings,
+    public TestPresenterConfiguration(@NonNull PersistentSettings persistentSettings,
                                       @NonNull RestApi restApi) {
-        super(new TestScheduler(), new TestScheduler(), userSettings, restApi);
+        super(new TestScheduler(), new TestScheduler(), persistentSettings, restApi);
     }
 
     public static TestPresenterConfiguration createTestConfiguration() {
         RestApi mockApi = Mockito.mock(RestApi.class);
-        UserSettings mockSettings = Mockito.mock(UserSettings.class);
+        PersistentSettings mockSettings = Mockito.mock(PersistentSettings.class);
         return new TestPresenterConfiguration(
                 mockSettings,
                 mockApi

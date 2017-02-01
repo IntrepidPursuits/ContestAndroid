@@ -47,7 +47,7 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
 
-        setActionBarTitle(getResources().getString(R.string.join_contest_bar_title, "Chili Cookoff"));
+        setActionBarTitle(getResources().getString(R.string.join_contest_bar_title));
         setActionBarDisplayHomeAsUpEnabled(true);
     }
 
@@ -88,11 +88,11 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
     @Override
     public void showApiErrorMessage() {
-        Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, getResources().getString(R.string.error_api), duration);
+        Toast toast = Toast.makeText(this, getResources().getString(R.string.error_api), duration);
         toast.show();
 
+        // TODO: remove lines below (skip to the next page) once API endpoint works
         if (BuildConfig.DEBUG) {
             Thread thread = new Thread() {
                 @Override
