@@ -35,14 +35,18 @@ public class Contest {
         this.title = title;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
     public static class Builder {
-        public static final int UUID_MIN_LIMIT = 0;
-        public static final int UUID_MAX_LIMIT = Integer.MAX_VALUE;
+        static final int UUID_MIN_LIMIT = 0;
+        static final int UUID_MAX_LIMIT = Integer.MAX_VALUE;
         public List<Category> categories = new ArrayList<>();
-        public UUID contestId;
-        public UUID creatorId;
-        public Date creationDate;
-        public Date lastUpdatedDate;
+        UUID contestId;
+        UUID creatorId;
+        Date creationDate;
+        Date lastUpdatedDate;
         public String title;
         public String description;
 
@@ -50,7 +54,7 @@ public class Contest {
             this(new UUID(UUID_MIN_LIMIT, UUID_MAX_LIMIT));
         }
 
-        public Builder(UUID creatorId) {
+        Builder(UUID creatorId) {
             this.creatorId = creatorId;
             this.contestId = new UUID(UUID_MIN_LIMIT, UUID_MAX_LIMIT);
         }

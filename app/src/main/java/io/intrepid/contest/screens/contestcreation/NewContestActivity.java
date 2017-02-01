@@ -20,6 +20,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoriesFragment;
+import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity;
@@ -34,6 +35,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     ViewPager viewPager;
     private SlidingTabAdapter tabAdapter;
     private ActionBar actionBar;
+    private Contest.Builder contest;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, NewContestActivity.class);
@@ -55,7 +57,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(android.R.drawable.ic_media_rew);
-            setToolbarTitle(R.string.new_contest);
+            setActionBarTitle(R.string.new_contest);
         }
     }
 
@@ -69,9 +71,11 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     public void setupViewPager(ViewPager viewPager) {
+        contest = new Contest.Builder();
         tabAdapter = new SlidingTabAdapter(this);
         tabAdapter.addFragment(new NameContestFragment());
         tabAdapter.addFragment(new DescribeContestFragment());
+        tabAdapter.addFragment(new CategoriesListFragment());
         tabAdapter.addFragment(new AddCategoriesFragment());
         viewPager.setAdapter(tabAdapter);
     }
@@ -131,9 +135,5 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void setContestDescription(String description) {
         presenter.setContestDescription(description);
-    }
-
-    public void setToolbarTitle(int toolbarTitle) {
-        toolbar.setTitle(toolbarTitle);
     }
 }
