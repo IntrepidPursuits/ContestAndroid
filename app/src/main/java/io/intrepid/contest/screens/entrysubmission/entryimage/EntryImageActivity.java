@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -22,6 +21,7 @@ import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import timber.log.Timber;
 
 import static android.view.View.GONE;
@@ -182,10 +182,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     }
 
     @Override
-    public void showApiErrorMessage(int error_api) {
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(this, getResources().getString(R.string.error_api), duration);
-        toast.show();
+    public void showContestStatusScreen() {
+        startActivity(ContestStatusActivity.makeIntent(this));
     }
 
     private enum RequestType {

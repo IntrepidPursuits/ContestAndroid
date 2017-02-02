@@ -52,8 +52,11 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
         Disposable disposable = restApi.createEntry(contestId, entryRequest)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> showResult(response), throwable -> {
-                    Timber.d("API error: " + throwable.getMessage());
-                    view.showApiErrorMessage(R.string.error_api);
+                    Timber.d("API error creating an entry: " + throwable.getMessage());
+
+                    // TODO: once API endpoing works, stop showing message and skipping to next screen
+                    view.showMessage(R.string.error_api);
+                    view.showContestStatusScreen();
                 });
         disposables.add(disposable);
     }
@@ -65,7 +68,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
             return;
         }
 
-        Timber.d("Entry created successfully, move on to next screen.");
+        view.showContestStatusScreen();
     }
 
     @Override

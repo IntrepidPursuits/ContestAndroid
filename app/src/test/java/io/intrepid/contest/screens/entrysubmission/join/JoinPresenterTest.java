@@ -87,6 +87,6 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
         presenter.onSubmitButtonClicked(any());
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showApiErrorMessage();
+        verify(mockView).showMessage(any(int.class));
     }
 }

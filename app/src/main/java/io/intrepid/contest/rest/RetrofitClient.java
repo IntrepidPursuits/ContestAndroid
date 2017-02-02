@@ -39,11 +39,6 @@ public class RetrofitClient {
         return restApi;
     }
 
-    @VisibleForTesting
-    static RestApi getTestApi(String baseUrl, @NonNull PersistentSettings persistentSettings) {
-        return createRestApi(baseUrl, persistentSettings);
-    }
-
     private static RestApi createRestApi(String baseUrl, PersistentSettings persistentSettings) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {

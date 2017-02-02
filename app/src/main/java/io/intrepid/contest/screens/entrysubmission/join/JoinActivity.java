@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.widget.Button;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
-import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -84,29 +82,5 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
                 .setNeutralButton(R.string.common_ok, (dialog, id) -> {
                 });
         builder.create().show();
-    }
-
-    @Override
-    public void showApiErrorMessage() {
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(this, getResources().getString(R.string.error_api), duration);
-        toast.show();
-
-        // TODO: remove lines below (skip to the next page) once API endpoint works
-        if (BuildConfig.DEBUG) {
-            Thread thread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(duration);
-                        showEntryNameScreen();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-
-            thread.run();
-        }
     }
 }

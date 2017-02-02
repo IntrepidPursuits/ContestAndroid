@@ -11,8 +11,6 @@ class JoinContract {
         void showEntryNameScreen();
 
         void showInvalidCodeErrorMessage();
-
-        void showApiErrorMessage();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
