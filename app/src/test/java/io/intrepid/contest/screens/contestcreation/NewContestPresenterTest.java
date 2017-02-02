@@ -18,7 +18,6 @@ import io.intrepid.contest.testutils.TestPresenterConfiguration;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +27,7 @@ public class NewContestPresenterTest {
     @Mock
     NewContestMvpContract.View mockView;
     @Mock
-    ContestCreationFragment mockChildfFragment;
+    ContestCreationFragment mockChildFragment;
     private List<Category> categories;
     private NewContestPresenter newContestPresenter;
 
@@ -36,7 +35,6 @@ public class NewContestPresenterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         newContestPresenter = new NewContestPresenter(mockView, TestPresenterConfiguration.createTestConfiguration());
-        when(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildfFragment);
         newContestPresenter.onViewCreated();
 
         categories = new ArrayList<>();
@@ -60,15 +58,31 @@ public class NewContestPresenterTest {
 
     @Test
     public void onBackButtonClickedShouldNavigateBackwards() {
-        newContestPresenter.setContestDescription(" d ");
+        when(mockView.getCurrentIndex()).thenReturn(2);
+        newContestPresenter.setContestName(" d ");
+
         newContestPresenter.onBackButtonClicked();
+
+        verify(mockView).showContestSubmissionPage(1);
+    }
+
+    @Test
+    public void onBackTwo() {
+        when(mockView.getCurrentIndex()).thenReturn(2);
+
+        newContestPresenter.onBackButtonClicked();
+
         verify(mockView).showContestSubmissionPage(1);
     }
 
     @Test
     public void onNextButtonClickedShouldNavigateForward() {
+        when(mockView.getChildEditFragment(0)).thenReturn(mockChildFragment);
+        mockView.showContestSubmissionPage(0);
+
         newContestPresenter.onNextButtonClicked();
-        verify(mockChildfFragment).onNextClicked();
+
+        verify(mockChildFragment).onNextClicked();
     }
 
     @Test
@@ -96,10 +110,32 @@ public class NewContestPresenterTest {
     }
 
     @Test
+    public void addCategoryShouldIncrementCategoriesSize() {
+        int initialCategorySize = newContestPresenter.contest.categories.size();
+
+        newContestPresenter.addCategory(new Category("", ""));
+        int expectedSize = newContestPresenter.contest.categories.size();
+
+        assertEquals(expectedSize, initialCategorySize + 1);
+    }
+
+    @Test
     public void setCategoriesShouldEndTheForm() {
         mockView.showContestSubmissionPage(3);
         newContestPresenter.setCategories(new ArrayList<>());
         verify(mockView).completeEditForm(any(Contest.class));
+    }
+
+    @Test
+    public void onNextDisabledShouldCauseViewToHideNextButton() {
+        newContestPresenter.onNextStatusChanged(false);
+        verify(mockView).setNextVisible(false);
+    }
+
+    @Test
+    public void onNextEnabledShouldCauseViewToShowNextButton() {
+        newContestPresenter.onNextStatusChanged(true);
+        verify(mockView).setNextVisible(true);
     }
 }
 

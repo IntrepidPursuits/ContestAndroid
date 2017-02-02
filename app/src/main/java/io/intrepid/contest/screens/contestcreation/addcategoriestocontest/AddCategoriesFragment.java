@@ -3,28 +3,48 @@ package io.intrepid.contest.screens.contestcreation.addcategoriestocontest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.EditText;
 
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
-import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
 public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> implements AddCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
     EditText categoryNameField;
     @BindView(R.id.category_description_edittext)
     EditText categoryDescriptionField;
+    private ActivityCallback activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+        activity = (ActivityCallback) getActivity();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_new_contest, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_next:
+                String name = categoryNameField.getText().toString();
+                String description = categoryDescriptionField.getText().toString();
+                presenter.onNextClicked(name, description);
+                break;
+        }
+        return true;
     }
 
     @Override
@@ -38,23 +58,26 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
         return new AddCategoriesPresenter(this, configuration);
     }
 
-    @OnClick(R.id.add_new_category_fab)
-    public void onNewCategoryClicked() {
-        categoryNameField.setText("");
-        categoryDescriptionField.setText("");
-        presenter.onCategoryNameEntered(categoryNameField.getText().toString(),
-                                        categoryDescriptionField.getText().toString());
-    }
-
     @Override
     public void onNextClicked() {
-        presenter.onNextClicked();
+        presenter.onNextClicked(categoryNameField.getText().toString(),
+                                categoryDescriptionField.getText().toString());
     }
 
     @Override
-    public void saveCategories(List<Category> categories) {
-        EditContestContract activity = (EditContestContract) getActivity();
-        activity.setCategories(categories);
+    public void addCategory(Category category) {
+        activity.addCategory(category);
+    }
+
+    @Override
+    public void showCategoriesList() {
+        activity.showCategoryList();
+    }
+
+    public interface ActivityCallback {
+        void addCategory(Category category);
+
+        void showCategoryList();
     }
 }
 

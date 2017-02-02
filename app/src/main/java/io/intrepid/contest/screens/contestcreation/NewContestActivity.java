@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,7 +18,6 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
-import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoriesFragment;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
@@ -32,6 +30,10 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @BindView(R.id.fragment_container)
     ViewPager viewPager;
     private SlidingTabAdapter tabAdapter;
+
+    /*Boolean flag to modify the menuItem's visibility
+    without restarting the activity*/
+    private boolean nextVisible = true;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, NewContestActivity.class);
@@ -46,13 +48,16 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        setupViewPager(viewPager);
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             setActionBarTitle(R.string.new_contest);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackButtonClicked();
     }
 
     @Override
@@ -64,12 +69,15 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         return presenter;
     }
 
-    public void setupViewPager(ViewPager viewPager) {
-        tabAdapter = new SlidingTabAdapter(this);
+    private void setupViewPager(Contest.Builder contest) {
+        if (tabAdapter == null) {
+            tabAdapter = new SlidingTabAdapter(this);
+        } else {
+            tabAdapter.clear();
+        }
         tabAdapter.addFragment(new NameContestFragment());
         tabAdapter.addFragment(new DescribeContestFragment());
         tabAdapter.addFragment(new CategoriesListFragment());
-        tabAdapter.addFragment(new AddCategoriesFragment());
         viewPager.setAdapter(tabAdapter);
     }
 
@@ -77,6 +85,8 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
         getMenuInflater().inflate(R.menu.menu_new_contest, menu);
+        MenuItem nextItem = menu.findItem(R.id.action_next);
+        nextItem.setVisible(nextVisible);
         return true;
     }
 
@@ -84,19 +94,18 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Timber.d("On back pressed ");
-                presenter.onBackButtonClicked();
+                onBackPressed();
                 break;
             case R.id.action_next:
                 presenter.onNextButtonClicked();
                 break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
     public void showContestSubmissionPage(int page) {
-        viewPager.setCurrentItem(page);
+        viewPager.setCurrentItem(page, true);
     }
 
     @Override
@@ -111,8 +120,31 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     @Override
+    public void initializePages(Contest.Builder contest) {
+        setupViewPager(contest);
+    }
+
+    @Override
     public ContestCreationFragment getChildEditFragment(int pageIndex) {
         return (ContestCreationFragment) tabAdapter.getItem(pageIndex);
+    }
+
+    @Override
+    public void setNextVisible(boolean visible) {
+        nextVisible = visible;
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public int getCurrentIndex() {
+        return viewPager.getCurrentItem();
+    }
+
+    @Override
+    public void showUpdatedCategories(Contest.Builder contest) {
+        Timber.d("Got back contest data");
+        setupViewPager(contest);
+        viewPager.setCurrentItem(2);
     }
 
     @Override
@@ -121,12 +153,17 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     @Override
-    public void setCategories(List<Category> categories) {
-        presenter.setCategories(categories);
+    public void setContestDescription(String description) {
+        presenter.setContestDescription(description);
     }
 
     @Override
-    public void setContestDescription(String description) {
-        presenter.setContestDescription(description);
+    public void setNextEnabled(boolean enabled) {
+        presenter.onNextStatusChanged(enabled);
+    }
+
+    @Override
+    public void setCategories(List<Category> categories) {
+        presenter.setCategories(categories);
     }
 }

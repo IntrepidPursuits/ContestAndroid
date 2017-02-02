@@ -21,7 +21,7 @@ class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> imp
     public void displayCategories(Contest contest) {
         if (contest == null || contest.getCategories().size() == 0) {
             view.showDefaultCategory();
-        }else{
+        } else {
             view.showCategories(contest.getCategories());
         }
     }

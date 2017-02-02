@@ -24,17 +24,28 @@ public class NameContestPresenterTest {
     }
 
     @Test
-    public void emptyContestNameShouldYieldError(){
-        String EMPTY_TEXT = "";
-        nameContestPresenter.onContestNameUpdate(EMPTY_TEXT);
-        verify(mockView).showError();
-    }
-
-    @Test
     public void validTestShouldTriggerSuccess(){
         String VALID_TEXT = "ContestName";
         nameContestPresenter.onContestNameUpdate(VALID_TEXT);
         verify(mockView).saveEnteredName(VALID_TEXT);
+    }
+
+    @Test
+    public void onViewCreatedShouldTriggerViewToHideNextButton(){
+        nameContestPresenter.onViewCreated();
+        verify(mockView).setNextEnabled(false);
+    }
+
+    @Test
+    public void onNextValidatedShouldCauseViewToEnableNext() {
+        nameContestPresenter.onNextValidated();
+        verify(mockView).setNextEnabled(true);
+    }
+
+    @Test
+    public void onNextInValidatedShouldCauseViewToDisableNext() {
+        nameContestPresenter.onNextInvalidated();
+        verify(mockView).setNextEnabled(false);
     }
 }
 

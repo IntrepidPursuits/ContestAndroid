@@ -1,6 +1,5 @@
 package io.intrepid.contest.screens.contestcreation.describecontest;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,17 +25,22 @@ public class DescribeContestPresenterTest {
     }
 
     @Test
-    public void emptyContestDescriptionShouldYieldError() {
-        String EMPTY_TEXT = "";
-        describeContestPresenter.onNextClicked(EMPTY_TEXT);
-        verify(mockView).showError();
-    }
-
-    @After
-    public void validContestDescriptionShouldYieldError() {
+    public void onNextClickShouldTriggerViewToSaveContestDescription() {
         String VALID_TEXT = "Valid Contest Name";
         describeContestPresenter.onNextClicked(VALID_TEXT);
         verify(mockView).saveContestDescription(VALID_TEXT);
+    }
+
+    @Test
+    public void onNextValidatedShouldCauseViewToEnableNext() {
+        describeContestPresenter.onNextValidated();
+        verify(mockView).setNextEnabled(true);
+    }
+
+    @Test
+    public void onNextInValidatedShouldCauseViewToDisableNext() {
+        describeContestPresenter.onNextInvalidated();
+        verify(mockView).setNextEnabled(false);
     }
 }
 
