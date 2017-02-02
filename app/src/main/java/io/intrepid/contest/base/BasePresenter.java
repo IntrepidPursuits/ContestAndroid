@@ -77,4 +77,6 @@ public abstract class BasePresenter<T extends BaseContract.View> implements Base
     protected <R> ObservableTransformer<R, R> subscribeOnIoObserveOnUi() {
         return observable -> observable.subscribeOn(ioScheduler).observeOn(uiScheduler);
     }
+
+
 }

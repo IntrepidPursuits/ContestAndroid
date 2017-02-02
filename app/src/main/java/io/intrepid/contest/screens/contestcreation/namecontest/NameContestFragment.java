@@ -1,7 +1,9 @@
 package io.intrepid.contest.screens.contestcreation.namecontest;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import butterknife.BindView;
@@ -10,8 +12,11 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.customviews.HintLabelEditText;
+import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoriesFragment;
+import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -22,6 +27,14 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
     @BindView(R.id.trophy_icon)
     ImageView trophyIcon;
     EditContestContract contestEditorActivity;
+
+    public static NameContestFragment newInstance(Contest.Builder contest) {
+        Bundle args = new Bundle();
+        args.putParcelable(AddCategoryActivity.CONTEST_KEY, contest);
+        NameContestFragment fragment = new NameContestFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected int getLayoutResourceId() {
@@ -54,7 +67,7 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
 
     @Override
     public void onNextClicked() {
-        presenter.onContestNameUpdate(contestNameField.getText());
+        presenter.onContestNameUpdate(contestNameField.getText().toString());
     }
 
     @Override

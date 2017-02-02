@@ -13,4 +13,8 @@ public interface EditContestContract {
     void setContestDescription(String description);
 
     void setNextEnabled(boolean enabled);
+
+    void showAddCategoryScreen();
+
+    List<Category> getCategories();
 }

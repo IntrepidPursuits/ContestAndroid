@@ -28,7 +28,7 @@ public class CategoriesListPresenterTest {
 
     @Test
     public void displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
-        categoriesListPresenter.displayCategories(new Contest());
+        categoriesListPresenter.displayCategories(new Contest.Builder());
         verify(mockView).showDefaultCategory();
     }
 
@@ -43,7 +43,7 @@ public class CategoriesListPresenterTest {
         Contest.Builder contestBuilder = new Contest.Builder();
         contestBuilder.categories.add(new Category("TEST TITLE", "TEST DESCRIPTION"));
 
-        categoriesListPresenter.displayCategories(contestBuilder.build());
+        categoriesListPresenter.displayCategories(contestBuilder);
 
         verify(mockView).showCategories(contestBuilder.categories);
     }
@@ -52,6 +52,6 @@ public class CategoriesListPresenterTest {
     public void onNextClickedShouldTriggerViewToCallSubmitCategories() {
         List<Category> categoryList = new ArrayList<>();
         categoriesListPresenter.onNextClicked(categoryList);
-        verify(mockView).submitCategories(categoryList);
+        verify(mockView).showPreviewContestPage();
     }
 }

@@ -110,7 +110,7 @@ public class NewContestPresenterTest {
     }
 
     @Test
-    public void addCategoryShouldIncrementCategoriesSize() {
+    public void addCategoryShouldIncrementCategoriesSize(){
         int initialCategorySize = newContestPresenter.contest.categories.size();
 
         newContestPresenter.addCategory(new Category("", ""));

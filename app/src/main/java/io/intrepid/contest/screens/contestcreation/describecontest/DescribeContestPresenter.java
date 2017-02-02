@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.models.Contest;
 
 class DescribeContestPresenter extends BasePresenter<DescribeContestContract.View> implements DescribeContestContract.Presenter {
 

@@ -43,6 +43,7 @@
             />
         <activity android:name=".screens.conteststatus.ContestStatusActivity">
         </activity>
+        <activity android:name=".screens.contestcreation.addcategoriestocontest.AddCategoryActivity"/>
     </application>
 
 </manifest>
