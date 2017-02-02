@@ -2,9 +2,9 @@ package io.intrepid.contest.customviews;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -15,11 +15,11 @@ import io.intrepid.contest.R;
 
 /**
  * Custom View that displays a clear button in EditText
- *
+ * <p>
  * Adapted from: https://github.com/depop/ClearableEditText/
  * License: http://www.apache.org/licenses/LICENSE-2.0
  */
-public class ClearableEditText extends AppCompatEditText implements View.OnTouchListener, View.OnFocusChangeListener, TextWatcher {
+public class ClearableEditText extends TextInputEditText implements View.OnTouchListener, View.OnFocusChangeListener, TextWatcher {
 
     private Drawable clearTextIcon;
     private OnFocusChangeListener onFocusChangeListener;

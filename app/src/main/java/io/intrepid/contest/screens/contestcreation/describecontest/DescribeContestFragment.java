@@ -3,7 +3,6 @@ package io.intrepid.contest.screens.contestcreation.describecontest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.widget.EditText;
 
 import butterknife.BindView;
 import io.intrepid.contest.R;
@@ -13,9 +12,9 @@ import io.intrepid.contest.customviews.HintLabelEditText;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
-public class DescribeContestFragment extends BaseFragment<DescribeContestPresenter> implements DescribeContestContract.View, ContestCreationFragment{
+public class DescribeContestFragment extends BaseFragment<DescribeContestPresenter> implements DescribeContestContract.View, ContestCreationFragment {
     @BindView(R.id.contest_description_edittext)
-    EditText descriptionField;
+    HintLabelEditText descriptionField;
 
     @Override
     protected int getLayoutResourceId() {
@@ -35,7 +34,7 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
 
     @Override
     public void onNextClicked() {
-        presenter.onNextClicked(descriptionField.getText().toString());
+        presenter.onNextClicked(descriptionField.getText());
     }
 
     @Override
