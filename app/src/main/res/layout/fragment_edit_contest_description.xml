@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/activity_vertical_margin"
@@ -7,15 +8,20 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/description_edittext_margin_top"
         >
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/contest_description_edittext"
-            android:hint="@string/description_optional"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/desciption_edittext_margin_right"
+            android:paddingTop="@dimen/description_edittext_padding_top"
+            android:background="@android:color/transparent"
+            android:textSize="@dimen/contest_description_edittext_textsize"
+            android:hint="@string/description_optional"
             />
     </android.support.design.widget.TextInputLayout>
 </RelativeLayout>
