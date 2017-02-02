@@ -33,6 +33,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     private static final String PICK_IMAGE_TYPE = "image/*";
     private static final String EXTRA_ENTRY_NAME = "_extra_entry_name_";
 
+    @BindView(R.id.entry_image_submit_button)
+    Button submitButton;
     @BindView(R.id.entry_choose_image_layout)
     RelativeLayout chooseImageLayout;
     @BindView(R.id.entry_image_camera_button)
@@ -85,12 +87,14 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
     @Override
     public void displayChooseImageLayout() {
+        submitButton.setText(R.string.common_no_thanks);
         chooseImageLayout.setVisibility(VISIBLE);
         previewImageLayout.setVisibility(GONE);
     }
 
     @Override
     public void displayPreviewImageLayout(Bitmap bitmap) {
+        submitButton.setText(R.string.common_submit);
         chooseImageLayout.setVisibility(GONE);
         previewImageLayout.setVisibility(VISIBLE);
         previewImageView.setImageBitmap(bitmap);
