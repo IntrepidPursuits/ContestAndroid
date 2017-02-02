@@ -11,7 +11,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.util.concurrent.TimeUnit;
 
 import io.intrepid.contest.BuildConfig;
-import io.intrepid.contest.settings.UserSettings;
+import io.intrepid.contest.settings.PersistentSettings;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -31,8 +31,8 @@ public class RetrofitClient {
     private RetrofitClient() {
     }
 
-    public static void init(UserSettings userSettings) {
-        restApi = createRestApi(BASE_URL, userSettings);
+    public static void init(PersistentSettings persistentSettings) {
+        restApi = createRestApi(BASE_URL, persistentSettings);
     }
 
     public static RestApi getApi() {
@@ -40,15 +40,15 @@ public class RetrofitClient {
     }
 
     @VisibleForTesting
-    static RestApi getTestApi(String baseUrl, @NonNull UserSettings userSettings) {
-        return createRestApi(baseUrl, userSettings);
+    static RestApi getTestApi(String baseUrl, @NonNull PersistentSettings persistentSettings) {
+        return createRestApi(baseUrl, persistentSettings);
     }
 
-    private static RestApi createRestApi(String baseUrl, UserSettings userSettings) {
+    private static RestApi createRestApi(String baseUrl, PersistentSettings persistentSettings) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request request = chain.request().newBuilder()
-                            .addHeader("Authorization", "Token token=" + userSettings.getAuthenticationToken())
+                            .addHeader("Authorization", "Token token=" + persistentSettings.getAuthenticationToken())
                             .addHeader("Accept", "application/" + ACCEPT_APPLICATION +
                                     "; version=" + String.valueOf(API_VERSION))
                             .addHeader("Content-type", "application/json")

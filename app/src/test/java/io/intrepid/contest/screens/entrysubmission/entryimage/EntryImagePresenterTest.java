@@ -2,6 +2,8 @@ package io.intrepid.contest.screens.entrysubmission.entryimage;
 
 import android.graphics.Bitmap;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,15 +11,23 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.UUID;
+
+import io.intrepid.contest.R;
+import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.rest.EntryResponse;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.Presenter;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
-import io.intrepid.contest.testutils.TestPresenterConfiguration;
+import io.reactivex.Observable;
 
+import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresenter> {
@@ -25,12 +35,13 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     View mockView;
 
     private Presenter presenter;
+    private Throwable throwable;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-
-        presenter = new EntryImagePresenter(mockView, TestPresenterConfiguration.createTestConfiguration());
+        throwable = new Throwable();
+        presenter = new EntryImagePresenter(mockView, testConfiguration);
     }
 
     @Test
@@ -80,5 +91,42 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     public void onGalleryButtonClickedShouldDispatchChoosePictureIntent() {
         presenter.onGalleryButtonClicked();
         verify(mockView).dispatchChoosePictureIntent();
+    }
+
+    @Test
+    public void onEntrySubmittedShouldNotShowErrorMessageWhenApiResponseIsValid() {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        Entry entry = new Entry();
+        entry.id = UUID.randomUUID();
+        EntryResponse entryResponse = new EntryResponse();
+        entryResponse.setEntry(entry);
+        when(mockRestApi.createEntry(any(), any())).thenReturn(Observable.just(entryResponse));
+
+        presenter.onEntrySubmitted();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView, never()).showInvalidEntryErrorMessage();
+    }
+
+    @Test
+    public void onEntrySubmittedShouldShowInvalidEntryErrorMessageWhenApiResponseIsInvalid() {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        when(mockRestApi.createEntry(any(), any())).thenReturn(Observable.just(new EntryResponse()));
+
+        presenter.onEntrySubmitted();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showInvalidEntryErrorMessage();
+    }
+
+    @Test
+    public void onEntrySubmittedShouldShowApiErrorMessageWhenApiCallThrowsError() throws HttpException {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        when(mockRestApi.createEntry(any(), any())).thenReturn(error(throwable));
+
+        presenter.onEntrySubmitted();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showApiErrorMessage(R.string.error_api);
     }
 }

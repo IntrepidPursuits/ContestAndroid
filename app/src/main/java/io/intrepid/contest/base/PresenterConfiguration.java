@@ -3,7 +3,7 @@ package io.intrepid.contest.base;
 import android.support.annotation.NonNull;
 
 import io.intrepid.contest.rest.RestApi;
-import io.intrepid.contest.settings.UserSettings;
+import io.intrepid.contest.settings.PersistentSettings;
 import io.reactivex.Scheduler;
 
 /**
@@ -15,17 +15,17 @@ public class PresenterConfiguration {
     @NonNull
     private final Scheduler uiScheduler;
     @NonNull
-    private final UserSettings userSettings;
+    private final PersistentSettings persistentSettings;
     @NonNull
     private final RestApi restApi;
 
     public PresenterConfiguration(@NonNull Scheduler ioScheduler,
                                   @NonNull Scheduler uiScheduler,
-                                  @NonNull UserSettings userSettings,
+                                  @NonNull PersistentSettings persistentSettings,
                                   @NonNull RestApi restApi) {
         this.ioScheduler = ioScheduler;
         this.uiScheduler = uiScheduler;
-        this.userSettings = userSettings;
+        this.persistentSettings = persistentSettings;
         this.restApi = restApi;
     }
 
@@ -40,8 +40,8 @@ public class PresenterConfiguration {
     }
 
     @NonNull
-    public UserSettings getUserSettings() {
-        return userSettings;
+    public PersistentSettings getPersistentSettings() {
+        return persistentSettings;
     }
 
     @NonNull

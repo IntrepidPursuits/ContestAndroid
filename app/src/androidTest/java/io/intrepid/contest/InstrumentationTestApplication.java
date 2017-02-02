@@ -6,13 +6,13 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.RestApi;
 import io.intrepid.contest.rest.RetrofitClient;
 import io.intrepid.contest.settings.SharedPreferencesManager;
-import io.intrepid.contest.settings.UserSettings;
+import io.intrepid.contest.settings.PersistentSettings;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class InstrumentationTestApplication extends ContestApplication {
     private static RestApi restApiOverride = null;
-    private static UserSettings userSettingsOverride = null;
+    private static PersistentSettings persistentSettingsOverride = null;
 
     public static void overrideRestApi(RestApi restApi) {
         restApiOverride = restApi;
@@ -22,12 +22,12 @@ public class InstrumentationTestApplication extends ContestApplication {
         restApiOverride = null;
     }
 
-    public static void overrideUserSettings(UserSettings userSettings) {
-        userSettingsOverride = userSettings;
+    public static void overrideUserSettings(PersistentSettings persistentSettings) {
+        persistentSettingsOverride = persistentSettings;
     }
 
     public static void clearUserSettingsOverride() {
-        userSettingsOverride = null;
+        persistentSettingsOverride = null;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class InstrumentationTestApplication extends ContestApplication {
                 // using AsyncTask executor since Espresso automatically waits for it to clear before proceeding
                 Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR),
                 AndroidSchedulers.mainThread(),
-                userSettingsOverride != null ? userSettingsOverride : SharedPreferencesManager.getInstance(this),
+                persistentSettingsOverride != null ? persistentSettingsOverride : SharedPreferencesManager.getInstance(this),
                 restApiOverride != null ? restApiOverride : RetrofitClient.getApi()
         );
     }

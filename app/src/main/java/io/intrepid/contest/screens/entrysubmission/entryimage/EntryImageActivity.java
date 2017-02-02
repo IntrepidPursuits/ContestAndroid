@@ -8,10 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -27,7 +29,7 @@ import static android.view.View.VISIBLE;
 
 public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Presenter> implements EntryImageContract.View {
 
-    public static final String EXTRAS_DATA_KEY = "data";
+    private static final String EXTRAS_DATA_KEY = "data";
     private static final String PICK_IMAGE_TYPE = "image/*";
     private static final String EXTRA_ENTRY_NAME = "_extra_entry_name_";
 
@@ -163,6 +165,23 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     @OnClick(R.id.entry_image_submit_button)
     protected void onSubmitButtonClicked() {
         presenter.onEntrySubmitted();
+    }
+
+    @Override
+    public void showInvalidEntryErrorMessage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.error_creating_entry)
+                .setTitle(R.string.error_creating_entry_title)
+                .setNeutralButton(R.string.common_ok, (dialog, id) -> {
+                });
+        builder.create().show();
+    }
+
+    @Override
+    public void showApiErrorMessage(int error_api) {
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(this, getResources().getString(R.string.error_api), duration);
+        toast.show();
     }
 
     private enum RequestType {

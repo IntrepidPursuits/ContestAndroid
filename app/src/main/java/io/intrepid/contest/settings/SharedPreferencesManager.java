@@ -3,11 +3,13 @@ package io.intrepid.contest.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.VisibleForTesting;
 
-public class SharedPreferencesManager implements UserSettings {
+import java.util.UUID;
+
+public class SharedPreferencesManager implements PersistentSettings {
 
     private static final String AUTHENTICATION_TOKEN = "authentication_token";
+    private static final String CURRENT_CONTEST_ID = "current_contest_id";
 
     private static SharedPreferencesManager instance;
     private final SharedPreferences preferences;
@@ -20,7 +22,7 @@ public class SharedPreferencesManager implements UserSettings {
         this.preferences = preferences;
     }
 
-    public static UserSettings getInstance(Context context) {
+    public static PersistentSettings getInstance(Context context) {
         if (instance == null) {
             instance = new SharedPreferencesManager(context);
         }
@@ -35,5 +37,15 @@ public class SharedPreferencesManager implements UserSettings {
     @Override
     public void setAuthenticationToken(String authenticationToken) {
         preferences.edit().putString(AUTHENTICATION_TOKEN, authenticationToken).apply();
+    }
+
+    @Override
+    public UUID getCurrentContestId() {
+        return UUID.fromString(preferences.getString(CURRENT_CONTEST_ID, ""));
+    }
+
+    @Override
+    public void setCurrentContestId(UUID currentContestId) {
+        preferences.edit().putString(CURRENT_CONTEST_ID, currentContestId.toString()).apply();
     }
 }

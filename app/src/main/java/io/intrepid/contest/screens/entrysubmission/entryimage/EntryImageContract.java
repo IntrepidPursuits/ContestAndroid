@@ -17,6 +17,10 @@ class EntryImageContract {
         void dispatchTakePictureIntent();
 
         void dispatchChoosePictureIntent();
+
+        void showInvalidEntryErrorMessage();
+
+        void showApiErrorMessage(int error_api);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

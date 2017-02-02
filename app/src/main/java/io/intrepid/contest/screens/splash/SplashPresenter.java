@@ -14,7 +14,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
         super(view, configuration);
 
         // todo: set the authentication token when the app is downloaded, not here
-        userSettings.setAuthenticationToken(TEST_AUTHENTICATION_TOKEN);
+        persistentSettings.setAuthenticationToken(TEST_AUTHENTICATION_TOKEN);
     }
 
     @Override

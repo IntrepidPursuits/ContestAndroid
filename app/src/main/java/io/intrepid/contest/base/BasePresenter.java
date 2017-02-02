@@ -3,7 +3,7 @@ package io.intrepid.contest.base;
 import android.support.annotation.NonNull;
 
 import io.intrepid.contest.rest.RestApi;
-import io.intrepid.contest.settings.UserSettings;
+import io.intrepid.contest.settings.PersistentSettings;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,7 +17,7 @@ public abstract class BasePresenter<T extends BaseContract.View> implements Base
     @NonNull
     protected final Scheduler uiScheduler;
     @NonNull
-    protected final UserSettings userSettings;
+    protected final PersistentSettings persistentSettings;
     @NonNull
     protected final RestApi restApi;
     protected T view;
@@ -27,7 +27,7 @@ public abstract class BasePresenter<T extends BaseContract.View> implements Base
         this.view = view;
         this.ioScheduler = configuration.getIoScheduler();
         this.uiScheduler = configuration.getUiScheduler();
-        this.userSettings = configuration.getUserSettings();
+        this.persistentSettings = configuration.getPersistentSettings();
         this.restApi = configuration.getRestApi();
     }
 
