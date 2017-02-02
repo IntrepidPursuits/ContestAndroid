@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_above="@id/entry_image_submit_button"
         android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/entry_submit_image_padding_bottom"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -32,10 +32,10 @@
             android:id="@+id/entry_image_question_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/entry_image_question"
             android:fontFamily="@style/AvenirNext_Medium"
-            android:textSize="@dimen/entry_submit_image_title_textsize"
+            android:text="@string/entry_image_question"
             android:textColor="@color/colorEntrySubmitImageTitle"
+            android:textSize="@dimen/entry_submit_image_title_textsize"
             />
 
         <TextView
@@ -45,8 +45,8 @@
             android:layout_below="@id/entry_image_question_text_view"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:text="@string/entry_image_description"
-            android:textSize="@dimen/entry_submit_image_description_textsize"
             android:textColor="@color/colorEntrySubmitImageDescription"
+            android:textSize="@dimen/entry_submit_image_description_textsize"
             />
 
         <android.support.v7.widget.CardView
@@ -54,7 +54,7 @@
             style="@style/AppTheme.IconButtonCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/entry_image_description_text_view"
+            android:layout_alignParentBottom="true"
             app:layout_widthPercent="48%"
             >
 
@@ -72,11 +72,10 @@
             style="@style/AppTheme.IconButtonCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/entry_image_description_text_view"
             app:layout_widthPercent="48%"
-            android:padding="0dp"
             >
 
             <Button

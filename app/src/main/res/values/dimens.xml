@@ -1,5 +1,4 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
@@ -8,7 +7,7 @@
 
     <dimen name="entry_submit_image_title_textsize">24sp</dimen>
     <dimen name="entry_submit_image_description_textsize">16sp</dimen>
-    <dimen name="entry_submit_image_padding_bottom">8dp</dimen>
+    <dimen name="entry_submit_image_padding_bottom">52dp</dimen>
 
     <dimen name="edit_text_textsize">24sp</dimen>
 
@@ -36,8 +35,12 @@
     <dimen name="category_title_text_size">16sp</dimen>
     <dimen name="splash_card_padding">0dp</dimen>
     <dimen name="splash_card_header_top_margin">55dp</dimen>
+
     <dimen name="description_edittext_margin_top">20dp</dimen>
     <dimen name="description_edittext_margin_right">60dp</dimen>
     <dimen name="description_edittext_padding_top">5dp</dimen>
     <dimen name="contest_description_edittext_textsize">16sp</dimen>
+
+    <dimen name="splash_card_bottom_margin">36dp</dimen>
+
 </resources>
