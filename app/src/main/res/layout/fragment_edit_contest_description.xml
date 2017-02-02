@@ -4,15 +4,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
     >
 
     <io.intrepid.contest.customviews.HintLabelEditText
         android:id="@+id/contest_description_edittext"
-        style="@style/AppTheme.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/description_edittext_margin_right"
+        android:gravity="center"
         android:paddingTop="@dimen/description_edittext_padding_top"
         android:textSize="@dimen/contest_description_edittext_textsize"
         custom:hint="@string/description_optional"
