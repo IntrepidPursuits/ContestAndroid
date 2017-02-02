@@ -17,15 +17,18 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
+
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.categories_recycler_view)
     RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;
+    private EditContestContract activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         categoryAdapter = new CategoryAdapter(getContext());
+        activity = (EditContestContract) getContext();
     }
 
     @Override
@@ -64,7 +67,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
 
     @Override
     public void submitCategories(List<Category> categories) {
-        EditContestContract activity = (EditContestContract) getContext();
         activity.setCategories(categories);
     }
+
 }

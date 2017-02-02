@@ -1,8 +1,6 @@
 package io.intrepid.contest.utils;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
@@ -10,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.intrepid.contest.base.BaseFragment;
-import timber.log.Timber;
 
-public class SlidingTabAdapter extends FragmentPagerAdapter{
+public class SlidingTabAdapter extends FragmentStatePagerAdapter {
     private List<BaseFragment> fragments = new ArrayList<>();
 
     public SlidingTabAdapter(AppCompatActivity activity) {
@@ -37,7 +34,10 @@ public class SlidingTabAdapter extends FragmentPagerAdapter{
     }
 
     public void addFragment(BaseFragment fragment) {
-        fragments.add(getCount(), fragment);
-        notifyDataSetChanged();
+        fragments.add(fragment);
+    }
+
+    public void clear() {
+        fragments.clear();
     }
 }

@@ -11,4 +11,6 @@ public interface EditContestContract {
     void setCategories(List<Category> categories);
 
     void setContestDescription(String description);
+
+    void setNextEnabled(boolean enabled);
 }
