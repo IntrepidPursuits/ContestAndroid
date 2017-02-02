@@ -15,7 +15,7 @@ import io.intrepid.contest.R;
 
 /**
  * Custom View that displays a clear button in EditText
- *
+ * <p>
  * Adapted from: https://github.com/depop/ClearableEditText/
  * License: http://www.apache.org/licenses/LICENSE-2.0
  */
