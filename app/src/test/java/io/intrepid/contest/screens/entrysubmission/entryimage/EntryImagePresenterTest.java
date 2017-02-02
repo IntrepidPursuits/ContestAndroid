@@ -15,10 +15,8 @@ import io.intrepid.contest.testutils.BasePresenterTest;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)

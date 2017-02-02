@@ -12,7 +12,10 @@
     <string name="create_contest">Create Contest</string>
     <string name="create_join_prompt">Create and join contests</string>
     <string name="contestant_welcome_message">Welcome!</string>
+
     <string name="join_contest_bar_title">Join %1$s</string>
+    <string name="error_redeeming_code">Unfortunately this code could not be redeemed. \\nPlease confirm the code and try again.</string>
+    <string name="error_redeeming_code_title">Error</string>
     <string name="name_entry">Name your submission</string>
     <string name="entry_image_bar_title">Submit Image</string>
     <string name="entry_image_question">Add an image for \n%1$s?</string>
@@ -30,9 +33,10 @@
     <string name="scoring_categories">Scoring Categories</string>
     <string name="category_name">Category Name</string>
     <string name="description_optional">Description (optional)</string>
-    <string name="error_msg">Error</string>
     <string name="category_name_example">Example Category</string>
     <string name="category_description_example">This is an example</string>
     <string name="trophy">Trophy</string>
     <string name="add_a_category">Add a category</string>
+
+    <string name="error_api">Error communicating with the API</string>
 </resources>

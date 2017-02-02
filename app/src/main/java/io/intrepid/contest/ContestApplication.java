@@ -4,6 +4,9 @@ import android.app.Application;
 
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.RetrofitClient;
+import io.intrepid.contest.settings.SharedPreferencesManager;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -13,6 +16,7 @@ public class ContestApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
+        RetrofitClient.init(SharedPreferencesManager.getInstance(this));
         initCalligraphy();
     }
 
@@ -25,6 +29,11 @@ public class ContestApplication extends Application {
     }
 
     public PresenterConfiguration getPresenterConfiguration() {
-        return new PresenterConfiguration(RetrofitClient.getApi());
+        return new PresenterConfiguration(
+                Schedulers.io(),
+                AndroidSchedulers.mainThread(),
+                SharedPreferencesManager.getInstance(this),
+                RetrofitClient.getApi()
+        );
     }
 }

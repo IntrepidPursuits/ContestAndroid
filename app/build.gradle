@@ -82,6 +82,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -105,6 +109,14 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile "com.google.code.gson:gson:2.7"
+
+    // RX
+    def rxjavaVersion = "2.0.4";
+    def rxjandroidVersion = "2.0.1";
+    def rxjavaRetrofitAdapterVersion = "1.0.0";
+    compile "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    compile "io.reactivex.rxjava2:rxandroid:$rxjandroidVersion"
+    compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$rxjavaRetrofitAdapterVersion"
 
     def okhttpVersion = "3.5.0"
     compile "com.squareup.okhttp3:okhttp:$okhttpVersion"

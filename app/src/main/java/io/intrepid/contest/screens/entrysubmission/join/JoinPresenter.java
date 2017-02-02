@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.models.InvitationResponse;
+import io.reactivex.disposables.Disposable;
 
 class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinContract.Presenter {
 
@@ -21,7 +23,20 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
     }
 
     @Override
-    public void onSubmitButtonClicked() {
-        view.showEntryNameScreen();
+    public void onSubmitButtonClicked(String code) {
+        Disposable disposable = restApi.redeemInvitationCode(code)
+                .compose(subscribeOnIoObserveOnUi())
+                .subscribe(response -> showResult(response), throwable -> {
+                    view.showApiErrorMessage();
+                });
+        disposables.add(disposable);
+    }
+
+    private void showResult(InvitationResponse response) {
+        if (response.id != null) {
+            view.showEntryNameScreen();
+        } else {
+            view.showInvalidCodeErrorMessage();
+        }
     }
 }

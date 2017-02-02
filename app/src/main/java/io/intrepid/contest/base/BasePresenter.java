@@ -3,16 +3,31 @@ package io.intrepid.contest.base;
 import android.support.annotation.NonNull;
 
 import io.intrepid.contest.rest.RestApi;
+import io.intrepid.contest.settings.UserSettings;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class BasePresenter<T extends BaseContract.View> implements BaseContract.Presenter<T> {
 
-    protected T view;
-    protected final RestApi restApi;
+    protected final CompositeDisposable disposables = new CompositeDisposable();
 
+    @NonNull
+    protected final Scheduler ioScheduler;
+    @NonNull
+    protected final Scheduler uiScheduler;
+    @NonNull
+    protected final UserSettings userSettings;
+    @NonNull
+    protected final RestApi restApi;
+    protected T view;
     private boolean isViewBound = false;
 
     public BasePresenter(@NonNull T view, @NonNull PresenterConfiguration configuration) {
         this.view = view;
+        this.ioScheduler = configuration.getIoScheduler();
+        this.uiScheduler = configuration.getUiScheduler();
+        this.userSettings = configuration.getUserSettings();
         this.restApi = configuration.getRestApi();
     }
 
@@ -37,6 +52,7 @@ public abstract class BasePresenter<T extends BaseContract.View> implements Base
 
     @Override
     public final void unbindView() {
+        disposables.clear();
         this.view = null;
 
         if (isViewBound) {
@@ -56,5 +72,9 @@ public abstract class BasePresenter<T extends BaseContract.View> implements Base
     @Override
     public void onViewDestroyed() {
 
+    }
+
+    protected <R> ObservableTransformer<R, R> subscribeOnIoObserveOnUi() {
+        return observable -> observable.subscribeOn(ioScheduler).observeOn(uiScheduler);
     }
 }

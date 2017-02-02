@@ -51,7 +51,7 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
 
     @Override
     public void onNextClicked() {
-        presenter.onContestNameUpdate(contestNameField.getText().toString());
+        presenter.onContestNameUpdate(contestNameField.getText());
     }
 
     @Override

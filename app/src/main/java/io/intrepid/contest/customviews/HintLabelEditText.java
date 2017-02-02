@@ -81,7 +81,7 @@ public class HintLabelEditText extends LinearLayout {
         editText.setError(error);
     }
 
-    public CharSequence getText() {
-        return editText.getText();
+    public String getText() {
+        return editText.getText().toString();
     }
 }
