@@ -1,5 +1,7 @@
 package io.intrepid.contest.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,8 +12,12 @@ import timber.log.Timber;
 public class Contest {
     private UUID contestId;
     private UUID creatorId;
+    @SerializedName("created_at")
     private Date creationDate;
+    @SerializedName("updated_at")
     private Date lastUpdatedDate;
+    @SerializedName("ended_at")
+    private Date endedDate;
     private String title;
     private String description;
     private List<Category> categories;
@@ -57,6 +63,7 @@ public class Contest {
         UUID creatorId;
         Date creationDate;
         Date lastUpdatedDate;
+        Date endedDate;
 
         public Builder() {
             this(new UUID(UUID_MIN_LIMIT, UUID_MAX_LIMIT));
@@ -90,6 +97,7 @@ public class Contest {
             contest.creatorId = this.creatorId;
             contest.lastUpdatedDate = new Date();
             contest.creationDate = this.creationDate;
+            contest.endedDate = this.endedDate;
             contest.title = this.title;
             contest.description = this.description;
             contest.categories = this.categories;

@@ -1,0 +1,55 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_results_available"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsFragment"
+    >
+
+    <TextView
+        android:id="@+id/results_available_contest_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextLight"
+        android:textSize="@dimen/results_available_contest_name_textsize"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@style/AvenirNext_DemiBold"
+        android:gravity="center"
+        android:text="@string/status_results_available_title"
+        android:textColor="@color/colorTextLight"
+        android:textSize="@dimen/contest_status_title_textsize"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:src="@drawable/ballot_submission_icon"
+        tools:ignore="ContentDescription"
+        />
+
+    <Button
+        android:id="@+id/results_available_button"
+        style="@style/AppTheme.RoundCornersButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/status_results_available_button"
+        />
+
+</LinearLayout>

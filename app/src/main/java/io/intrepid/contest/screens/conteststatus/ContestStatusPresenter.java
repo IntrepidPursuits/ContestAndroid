@@ -7,9 +7,11 @@ import java.util.concurrent.TimeUnit;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.rest.ContestResponse;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> implements ContestStatusContract.Presenter {
@@ -27,10 +29,10 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     public void onViewCreated() {
         super.onViewCreated();
 
-        checkContestStatus();
+        checkContestStatusPeriodically();
     }
 
-    private void checkContestStatus() {
+    private void checkContestStatusPeriodically() {
         Timber.d("Check contest status");
 
         String contestId = persistentSettings.getCurrentContestId().toString();
@@ -42,6 +44,8 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
                     Disposable apiCallDisposable = restApi.getContestStatus(contestId)
                             .compose(subscribeOnIoObserveOnUi())
                             .subscribe(response -> showContestStatusScreen(response), throwable -> {
+                                Timber.d("API error retrieving contest status: " + throwable.getMessage());
+
                                 // TODO: once API endpoing works, stop showing message and skipping to next screen
                                 view.showMessage(R.string.error_api);
                                 view.showWaitingSubmissionsFragment(3);
@@ -54,6 +58,35 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     private void showContestStatusScreen(ContestStatusResponse response) {
         if (response.waitingForSubmissions) {
             view.showWaitingSubmissionsFragment(response.numSubmissionsMissing);
+        } else {
+            view.showResultsAvailableFragment();
         }
+    }
+
+    @Override
+    public void onTemporarySkipButtonClicked() {
+        // TODO: once API endpoing works, remove this button and actions triggered by it
+        Timber.d("Skipping to 'Results in' page");
+        disposables.clear();
+
+        String contestId = persistentSettings.getCurrentContestId().toString();
+        Disposable apiCallDisposable = restApi.getContestStatus(contestId)
+                .compose(subscribeOnIoObserveOnUi())
+                .subscribe(response -> showContestStatusScreen(response), throwable -> {
+                    Timber.d("API error retrieving contest status: " + throwable.getMessage());
+
+                    view.showMessage(R.string.error_api);
+                    view.showResultsAvailableFragment();
+                });
+        disposables.add(apiCallDisposable);
+    }
+
+    @Override
+    public void requestContestDetails(Consumer<ContestResponse> responseCallback, Consumer<Throwable> throwableCallback) {
+        String contestId = persistentSettings.getCurrentContestId().toString();
+        Disposable apiCallDisposable = restApi.getContestDetails(contestId)
+                .compose(subscribeOnIoObserveOnUi())
+                .subscribe(responseCallback, throwableCallback);
+        disposables.add(apiCallDisposable);
     }
 }

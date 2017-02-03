@@ -16,4 +16,7 @@ public interface RestApi {
 
     @GET("contests/{contestId}/status")
     Observable<ContestStatusResponse> getContestStatus(@Path("contestId") String contestId);
+
+    @GET("contests/{contestId}")
+    Observable<ContestResponse> getContestDetails(@Path("contestId") String contestId);
 }
