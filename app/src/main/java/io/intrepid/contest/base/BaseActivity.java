@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import io.intrepid.contest.ContestApplication;
@@ -115,5 +116,13 @@ abstract class BaseActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(@StringRes int messageResource) {
+        showMessage(getResources().getString(messageResource));
     }
 }

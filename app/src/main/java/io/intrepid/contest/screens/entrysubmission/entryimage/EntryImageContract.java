@@ -20,7 +20,7 @@ class EntryImageContract {
 
         void showInvalidEntryErrorMessage();
 
-        void showApiErrorMessage(int error_api);
+        void showContestStatusScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

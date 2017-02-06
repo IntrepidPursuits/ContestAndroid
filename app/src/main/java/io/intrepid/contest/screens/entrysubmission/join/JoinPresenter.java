@@ -5,10 +5,12 @@ import android.support.annotation.NonNull;
 import java.util.UUID;
 
 import io.intrepid.contest.BuildConfig;
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.InvitationResponse;
 import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinContract.Presenter {
 
@@ -30,12 +32,16 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
         Disposable disposable = restApi.redeemInvitationCode(code)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> showResult(response), throwable -> {
+                    Timber.d("API error redeeming invitation code: " + throwable.getMessage());
+
                     // TODO: remove creation of fake contest once API endpoint works
                     if (BuildConfig.DEBUG) {
                         persistentSettings.setCurrentContestId(UUID.randomUUID());
                     }
 
-                    view.showApiErrorMessage();
+                    // TODO: once API endpoing works, stop showing message and skipping to next screen
+                    view.showMessage(R.string.error_api);
+                    view.showEntryNameScreen();
                 });
         disposables.add(disposable);
     }

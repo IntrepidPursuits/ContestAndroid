@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.UUID;
 
-import io.intrepid.contest.R;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.rest.EntryResponse;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageContract.Presenter;
@@ -127,6 +126,6 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
         presenter.onEntrySubmitted();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showApiErrorMessage(R.string.error_api);
+        verify(mockView).showMessage(any(int.class));
     }
 }
