@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -132,5 +134,13 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
 
     protected final ContestApplication getContestApplication() {
         return (ContestApplication) getActivity().getApplication();
+    }
+
+    public void showMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showMessage(@StringRes int messageResource) {
+        showMessage(getResources().getString(messageResource));
     }
 }
