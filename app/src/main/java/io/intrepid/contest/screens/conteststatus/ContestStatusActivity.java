@@ -13,6 +13,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.screens.contestoverview.ContestOverviewActivity;
 import io.intrepid.contest.screens.conteststatus.resultsavailable.ResultsAvailableFragment;
 import io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsFragment;
 import io.intrepid.contest.screens.splash.SplashActivity;
@@ -96,5 +97,10 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
     public void requestContestDetails(Consumer<ContestResponse> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
         presenter.requestContestDetails(responseCallback, throwableCallback);
+    }
+
+    @Override
+    public void showContestOverviewPage() {
+        startActivity(ContestOverviewActivity.makeIntent(this));
     }
 }

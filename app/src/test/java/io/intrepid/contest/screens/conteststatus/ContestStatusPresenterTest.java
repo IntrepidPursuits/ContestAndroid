@@ -92,13 +92,13 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     }
 
     @Test
-    public void onTemporarySkipButtonClickedShouldShowTemporaryMessageWhenParticipantIsJudge() throws HttpException {
+    public void onTemporarySkipButtonClickedShouldShowContestOverviewPageWhenParticipantIsJudge() throws HttpException {
         when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
 
         presenter.onTemporarySkipButtonClicked();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showMessage(any(String.class));
+        verify(mockView).showContestOverviewPage();
     }
 
     @Test

@@ -82,9 +82,8 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
                     });
             disposables.add(apiCallDisposable);
         } else {
-            // TODO 'Contest overview' show screen
             Timber.d("Skipping to 'Contest overview' page");
-            view.showMessage("Show contest overview page");
+            view.showContestOverviewPage();
         }
     }
 

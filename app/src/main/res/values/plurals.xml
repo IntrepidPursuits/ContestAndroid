@@ -4,4 +4,9 @@
         <item quantity="one">%d contestant</item>
         <item quantity="other">%d contestants</item>
     </plurals>
+
+    <plurals name="numberOfSubmissions">
+        <item quantity="one">%d submission</item>
+        <item quantity="other">%d submission</item>
+    </plurals>
 </resources>
