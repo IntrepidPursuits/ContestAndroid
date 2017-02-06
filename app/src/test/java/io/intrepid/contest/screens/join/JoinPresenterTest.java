@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.entrysubmission.join;
+package io.intrepid.contest.screens.join;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
@@ -9,9 +9,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.UUID;
+
 import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.models.Participant;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.InvitationResponse;
-import io.intrepid.contest.screens.entrysubmission.join.JoinContract.View;
+import io.intrepid.contest.screens.join.JoinContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
 import io.reactivex.Observable;
 
@@ -58,15 +62,31 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
     }
 
     @Test
-    public void onSubmitButtonClickedShouldShowEntryNameScreenWhenCodeIsValid() {
+    public void onSubmitButtonClickedShouldShowEntryNameScreenWhenCodeIsValidForContestant() {
         InvitationResponse invitationResponse = new InvitationResponse();
-        invitationResponse.contest = new Contest.Builder().build();
+        invitationResponse.participant = new Participant();
+        invitationResponse.participant.setContestId(UUID.randomUUID());
+        invitationResponse.participant.setParticipationType(ParticipationType.CONTESTANT);
         when(mockRestApi.redeemInvitationCode(any())).thenReturn(Observable.just(invitationResponse));
 
-        presenter.onSubmitButtonClicked(any());
+        presenter.onSubmitButtonClicked("CODE");
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showEntryNameScreen();
+    }
+
+    @Test
+    public void onSubmitButtonClickedShouldShowContestStatusScreenWhenCodeIsValidForJudge() {
+        InvitationResponse invitationResponse = new InvitationResponse();
+        invitationResponse.participant = new Participant();
+        invitationResponse.participant.setContestId(UUID.randomUUID());
+        invitationResponse.participant.setParticipationType(ParticipationType.JUDGE);
+        when(mockRestApi.redeemInvitationCode(any())).thenReturn(Observable.just(invitationResponse));
+
+        presenter.onSubmitButtonClicked("judge");
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showContestStatusScreen();
     }
 
     @Test
@@ -74,7 +94,7 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
         InvitationResponse mockInvitationResponse = mock(InvitationResponse.class);
         when(mockRestApi.redeemInvitationCode(any())).thenReturn(Observable.just(mockInvitationResponse));
 
-        presenter.onSubmitButtonClicked(any());
+        presenter.onSubmitButtonClicked("CODE");
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showInvalidCodeErrorMessage();
@@ -84,7 +104,17 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
     public void onSubmitButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsError() throws HttpException {
         when(mockRestApi.redeemInvitationCode(any())).thenReturn(error(throwable));
 
-        presenter.onSubmitButtonClicked(any());
+        presenter.onSubmitButtonClicked("CODE");
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showMessage(any(int.class));
+    }
+
+    @Test
+    public void onSubmitButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsErrorForJudgeCode() throws HttpException {
+        when(mockRestApi.redeemInvitationCode(any())).thenReturn(error(throwable));
+
+        presenter.onSubmitButtonClicked("judge");
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(any(int.class));

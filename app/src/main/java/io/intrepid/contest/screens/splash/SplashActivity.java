@@ -2,7 +2,6 @@ package io.intrepid.contest.screens.splash;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.contestcreation.NewContestActivity;
-import io.intrepid.contest.screens.entrysubmission.join.JoinActivity;
+import io.intrepid.contest.screens.join.JoinActivity;
 
 public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements SplashContract.View {
     @BindView(R.id.contest_app_header)

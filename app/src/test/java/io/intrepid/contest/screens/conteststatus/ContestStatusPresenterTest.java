@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.ContestResponse;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.intrepid.contest.screens.conteststatus.ContestStatusContract.Presenter;
@@ -69,6 +70,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
 
     @Test
     public void onTemporarySkipButtonClickedShouldShowWaitingSubmissionsFragmentWhenStatusIsWaitingForSubmissions() {
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
         ContestStatusResponse response = getContestStatusResponseWaitingForSubmissions();
 
         presenter.onTemporarySkipButtonClicked();
@@ -80,12 +82,23 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
 
     @Test
     public void onTemporarySkipButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsError() throws HttpException {
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
         when(mockRestApi.getContestStatus(any())).thenReturn(error(throwable));
 
         presenter.onTemporarySkipButtonClicked();
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(any(int.class));
+    }
+
+    @Test
+    public void onTemporarySkipButtonClickedShouldShowTemporaryMessageWhenParticipantIsJudge() throws HttpException {
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
+
+        presenter.onTemporarySkipButtonClicked();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showMessage(any(String.class));
     }
 
     @Test

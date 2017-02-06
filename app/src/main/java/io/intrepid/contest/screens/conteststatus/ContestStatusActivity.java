@@ -42,14 +42,6 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
     }
 
     @Override
-    protected void onViewCreated(Bundle savedInstanceState) {
-        super.onViewCreated(savedInstanceState);
-
-        setActionBarTitle(R.string.contest_status_bar_title);
-        setActionBarDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
     public void onBackPressed() {
         startActivity(SplashActivity.makeIntent(this));
     }

@@ -6,10 +6,13 @@ import android.preference.PreferenceManager;
 
 import java.util.UUID;
 
+import io.intrepid.contest.models.ParticipationType;
+
 public class SharedPreferencesManager implements PersistentSettings {
 
     private static final String AUTHENTICATION_TOKEN = "authentication_token";
     private static final String CURRENT_CONTEST_ID = "current_contest_id";
+    private static final String CURRENT_PARTICIPATION_TYPE = "current_participation_type";
 
     private static SharedPreferencesManager instance;
     private final SharedPreferences preferences;
@@ -47,5 +50,15 @@ public class SharedPreferencesManager implements PersistentSettings {
     @Override
     public void setCurrentContestId(UUID currentContestId) {
         preferences.edit().putString(CURRENT_CONTEST_ID, currentContestId.toString()).apply();
+    }
+
+    @Override
+    public ParticipationType getCurrentParticipationType() {
+        return ParticipationType.valueOf(preferences.getString(CURRENT_PARTICIPATION_TYPE, ""));
+    }
+
+    @Override
+    public void setCurrentParticipationType(ParticipationType participationType) {
+        preferences.edit().putString(CURRENT_PARTICIPATION_TYPE, participationType.getValue()).apply();
     }
 }

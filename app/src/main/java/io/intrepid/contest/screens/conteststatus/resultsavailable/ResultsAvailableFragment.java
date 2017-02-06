@@ -38,6 +38,9 @@ public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContr
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
 
+        setActionBarTitle(R.string.contest_status_bar_title);
+        setActionBarDisplayHomeAsUpEnabled(true);
+
         contestStatusActivity = (ContestStatusActivityContract) getActivity();
     }
 

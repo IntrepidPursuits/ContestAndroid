@@ -1,7 +1,7 @@
 package io.intrepid.contest.rest;
 
-import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.models.Participant;
 
 public class InvitationResponse {
-    public Contest contest;
+    public Participant participant;
 }

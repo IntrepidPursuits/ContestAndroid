@@ -33,7 +33,7 @@
         <activity android:name=".screens.entrysubmission.entryimage.EntryImageActivity">
         </activity>
         <activity
-            android:name=".screens.entrysubmission.join.JoinActivity"
+            android:name=".screens.join.JoinActivity"
             android:windowSoftInputMode="adjustResize"
             >
         </activity>

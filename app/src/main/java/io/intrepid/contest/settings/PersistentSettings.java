@@ -2,6 +2,8 @@ package io.intrepid.contest.settings;
 
 import java.util.UUID;
 
+import io.intrepid.contest.models.ParticipationType;
+
 public interface PersistentSettings {
     String getAuthenticationToken();
 
@@ -10,4 +12,8 @@ public interface PersistentSettings {
     UUID getCurrentContestId();
 
     void setCurrentContestId(UUID currentContestId);
+
+    ParticipationType getCurrentParticipationType();
+
+    void setCurrentParticipationType(ParticipationType participationType);
 }

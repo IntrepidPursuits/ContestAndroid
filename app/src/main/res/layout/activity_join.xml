@@ -6,7 +6,7 @@
     android:id="@+id/activity_join"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.intrepid.contest.screens.entrysubmission.join.JoinActivity"
+    tools:context=".screens.join.JoinActivity"
     >
 
     <Button

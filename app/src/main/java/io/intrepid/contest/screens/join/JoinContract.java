@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.entrysubmission.join;
+package io.intrepid.contest.screens.join;
 
 import io.intrepid.contest.base.BaseContract;
 
@@ -11,6 +11,8 @@ class JoinContract {
         void showEntryNameScreen();
 
         void showInvalidCodeErrorMessage();
+
+        void showContestStatusScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

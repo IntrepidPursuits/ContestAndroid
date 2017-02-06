@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.ContestResponse;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.reactivex.Observable;
@@ -66,23 +67,30 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     @Override
     public void onTemporarySkipButtonClicked() {
         // TODO: once API endpoing works, remove this button and actions triggered by it
-        Timber.d("Skipping to 'Results in' page");
-        disposables.clear();
+        if (persistentSettings.getCurrentParticipationType() == ParticipationType.CONTESTANT) {
+            Timber.d("Skipping to 'Results in' page");
+            disposables.clear();
 
-        String contestId = persistentSettings.getCurrentContestId().toString();
-        Disposable apiCallDisposable = restApi.getContestStatus(contestId)
-                .compose(subscribeOnIoObserveOnUi())
-                .subscribe(response -> showContestStatusScreen(response), throwable -> {
-                    Timber.d("API error retrieving contest status: " + throwable.getMessage());
+            String contestId = persistentSettings.getCurrentContestId().toString();
+            Disposable apiCallDisposable = restApi.getContestStatus(contestId)
+                    .compose(subscribeOnIoObserveOnUi())
+                    .subscribe(response -> showContestStatusScreen(response), throwable -> {
+                        Timber.d("API error retrieving contest status: " + throwable.getMessage());
 
-                    view.showMessage(R.string.error_api);
-                    view.showResultsAvailableFragment();
-                });
-        disposables.add(apiCallDisposable);
+                        view.showMessage(R.string.error_api);
+                        view.showResultsAvailableFragment();
+                    });
+            disposables.add(apiCallDisposable);
+        } else {
+            // TODO 'Contest overview' show screen
+            Timber.d("Skipping to 'Contest overview' page");
+            view.showMessage("Show contest overview page");
+        }
     }
 
     @Override
-    public void requestContestDetails(Consumer<ContestResponse> responseCallback, Consumer<Throwable> throwableCallback) {
+    public void requestContestDetails(Consumer<ContestResponse> responseCallback,
+                                      Consumer<Throwable> throwableCallback) {
         String contestId = persistentSettings.getCurrentContestId().toString();
         Disposable apiCallDisposable = restApi.getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
