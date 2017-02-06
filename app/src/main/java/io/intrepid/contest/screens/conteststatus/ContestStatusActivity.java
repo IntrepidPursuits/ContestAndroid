@@ -10,6 +10,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsFragment;
+import io.intrepid.contest.screens.splash.SplashActivity;
 import timber.log.Timber;
 
 public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract.Presenter> implements ContestStatusContract.View {
@@ -34,6 +35,11 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
 
         setActionBarTitle(R.string.contest_status_bar_title);
         setActionBarDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(SplashActivity.makeIntent(this));
     }
 
     private void replaceFragment(Fragment fragment) {
