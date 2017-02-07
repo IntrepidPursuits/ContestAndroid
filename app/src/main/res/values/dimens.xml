@@ -24,6 +24,9 @@
     <dimen name="icon_button_card_view_elevation">9dp</dimen>
     <dimen name="icon_button_card_view_padding">0dp</dimen>
 
+    <dimen name="round_corners_button_padding">12dp</dimen>
+    <dimen name="round_corners_button_radius">64dp</dimen>
+
     <dimen name="small_icon_size">35dp</dimen>
     <dimen name="removable_image_layout_margin">13dp</dimen>
 
@@ -45,4 +48,5 @@
 
     <dimen name="contest_status_title_textsize">32sp</dimen>
     <dimen name="contest_status_description_textsize">16sp</dimen>
+    <dimen name="results_available_contest_name_textsize">12sp</dimen>
 </resources>
