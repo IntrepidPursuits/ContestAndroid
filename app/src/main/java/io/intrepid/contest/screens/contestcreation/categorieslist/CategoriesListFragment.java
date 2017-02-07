@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity;
+import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
 
 import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.CONTEST_KEY;
 
@@ -48,8 +50,11 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         super.onViewCreated(savedInstanceState);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categoriesRecyclerView.setAdapter(categoryAdapter);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(categoriesRecyclerView);
         Contest.Builder contest = getArguments().getParcelable(CONTEST_KEY);
-        presenter.displayCategories(contest); //todo - modify routing so it is the edited contet
+        presenter.displayCategories(contest);
     }
 
     @OnClick(R.id.add_new_category_fab)
