@@ -9,12 +9,18 @@ import butterknife.BindView;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.screens.conteststatus.ContestStatusActivityContract;
+import io.reactivex.functions.Consumer;
 
 public class WaitingSubmissionsFragment extends BaseFragment<WaitingSubmissionsContract.Presenter>
         implements WaitingSubmissionsContract.View {
 
     public static final String NUM_SUBMISSIONS_MISSING = "_num_submissions_missing_";
+    ContestStatusActivityContract contestStatusActivity;
 
+    @BindView(R.id.waiting_submissions_title_textview)
+    TextView titleTextView;
     @BindView(R.id.waiting_submissions_description_textview)
     TextView descriptionTextView;
 
@@ -33,6 +39,11 @@ public class WaitingSubmissionsFragment extends BaseFragment<WaitingSubmissionsC
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
 
+        setActionBarTitle(R.string.contest_status_bar_title);
+        setActionBarDisplayHomeAsUpEnabled(true);
+
+        contestStatusActivity = (ContestStatusActivityContract) getActivity();
+
         Bundle bundle = getArguments();
         if (bundle != null) {
             updateNumSubmissionsMissing(bundle.getInt(NUM_SUBMISSIONS_MISSING));
@@ -49,5 +60,22 @@ public class WaitingSubmissionsFragment extends BaseFragment<WaitingSubmissionsC
                 .getQuantityString(R.plurals.numberOfContestants, numSubmissionsMissing, numSubmissionsMissing);
         descriptionTextView.setText(
                 getResources().getString(R.string.status_waiting_submissions_description, contestants));
+    }
+
+    @Override
+    public void showJudgeUI() {
+        titleTextView.setText(getResources().getString(R.string.status_waiting_submissions_judge_title));
+        descriptionTextView.setText(getResources().getString(R.string.status_waiting_submissions_judge_description));
+    }
+
+    @Override
+    public void showContestName(String contestName) {
+        setActionBarTitle(getResources().getString(R.string.status_waiting_submissions_judge_bar_title, contestName));
+    }
+
+    @Override
+    public void requestContestDetails(Consumer<ContestResponse> responseCallback,
+                                      Consumer<Throwable> throwableCallback) {
+        contestStatusActivity.requestContestDetails(responseCallback, throwableCallback);
     }
 }

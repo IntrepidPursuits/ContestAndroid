@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
 
     protected T presenter;
     private Unbinder unbinder;
+    private ActionBar actionBar;
 
     @Override
     @CallSuper
@@ -37,6 +40,7 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
         super.onCreate(savedInstanceState);
         PresenterConfiguration configuration = getContestApplication().getPresenterConfiguration();
         presenter = createPresenter(configuration);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
     }
 
     /**
@@ -134,6 +138,22 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
 
     protected final ContestApplication getContestApplication() {
         return (ContestApplication) getActivity().getApplication();
+    }
+
+    protected void setActionBarTitle(String title) {
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
+    }
+
+    protected void setActionBarTitle(@StringRes int titleResource) {
+        setActionBarTitle(getResources().getString(titleResource));
+    }
+
+    protected void setActionBarDisplayHomeAsUpEnabled(boolean enabled) {
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(enabled);
+        }
     }
 
     public void showMessage(String message) {

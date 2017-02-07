@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.entrysubmission.join;
+package io.intrepid.contest.screens.join;
 
 import android.support.annotation.NonNull;
 
@@ -8,11 +8,15 @@ import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.models.Participant;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.InvitationResponse;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinContract.Presenter {
+
+    public static final String TEMPORARY_JUDGE_CODE = "judge";
 
     JoinPresenter(@NonNull JoinContract.View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
@@ -41,17 +45,37 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
 
                     // TODO: once API endpoing works, stop showing message and skipping to next screen
                     view.showMessage(R.string.error_api);
-                    view.showEntryNameScreen();
+                    temporarySkipToNextScreen(code);
                 });
         disposables.add(disposable);
     }
 
+    private void temporarySkipToNextScreen(String code) {
+        // TODO: once API endpoing works, stop showing message and skipping to next screen
+        InvitationResponse response = new InvitationResponse();
+        response.participant = new Participant();
+        response.participant.setContestId(UUID.randomUUID());
+        if (code.equals(TEMPORARY_JUDGE_CODE)) {
+            response.participant.setParticipationType(ParticipationType.JUDGE);
+        } else {
+            response.participant.setParticipationType(ParticipationType.CONTESTANT);
+        }
+        showResult(response);
+    }
+
     private void showResult(InvitationResponse response) {
-        if (response.contest != null) {
-            persistentSettings.setCurrentContestId(response.contest.getId());
+        if (response.participant == null) {
+            view.showInvalidCodeErrorMessage();
+            return;
+        }
+
+        persistentSettings.setCurrentContestId(response.participant.getContestId());
+        persistentSettings.setCurrentParticipationType(response.participant.getParticipationType());
+
+        if (response.participant.getParticipationType() == ParticipationType.CONTESTANT) {
             view.showEntryNameScreen();
         } else {
-            view.showInvalidCodeErrorMessage();
+            view.showContestStatusScreen();
         }
     }
 }

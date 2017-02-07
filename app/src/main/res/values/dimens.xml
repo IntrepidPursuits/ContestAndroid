@@ -49,4 +49,5 @@
     <dimen name="contest_status_title_textsize">32sp</dimen>
     <dimen name="contest_status_description_textsize">16sp</dimen>
     <dimen name="results_available_contest_name_textsize">12sp</dimen>
+    <dimen name="contest_status_layout_padding">36dp</dimen>
 </resources>

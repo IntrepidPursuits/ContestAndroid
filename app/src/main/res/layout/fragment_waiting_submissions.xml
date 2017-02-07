@@ -7,10 +7,12 @@
     android:background="@color/colorAccent"
     android:gravity="center"
     android:orientation="vertical"
+    android:padding="@dimen/contest_status_layout_padding"
     tools:context="io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsFragment"
     >
 
     <TextView
+        android:id="@+id/waiting_submissions_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"

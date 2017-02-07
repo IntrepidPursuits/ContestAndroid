@@ -44,8 +44,12 @@
     <string name="add_a_category">Add a category</string>
 
     <string name="contest_status_bar_title">Contest Status</string>
+
+    <string name="status_waiting_submissions_judge_bar_title">Welcome to the %1$s</string>
     <string name="status_waiting_submissions_title">Scores sent!</string>
     <string name="status_waiting_submissions_description">We\'ll notify you soon.\nWe\'re waiting on %1$s…</string>
+    <string name="status_waiting_submissions_judge_title">Check Back Later.</string>
+    <string name="status_waiting_submissions_judge_description">Not all the submissions are in yet. When they are you will be able to  start judging.</string>
 
     <string name="status_results_available_title">The Results Are In!</string>
     <string name="status_results_available_button">View results</string>

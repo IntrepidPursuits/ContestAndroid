@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.entrysubmission.join;
+package io.intrepid.contest.screens.join;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.customviews.HintLabelEditText;
+import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.entrysubmission.entryname.EntryNameActivity;
 
 import static android.view.View.GONE;
@@ -82,5 +83,10 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
                 .setNeutralButton(R.string.common_ok, (dialog, id) -> {
                 });
         builder.create().show();
+    }
+
+    @Override
+    public void showContestStatusScreen() {
+        startActivity(ContestStatusActivity.makeIntent(this));
     }
 }
