@@ -38,7 +38,7 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_fragment_container;
+        return R.layout.activity_contest_status;
     }
 
     @Override
