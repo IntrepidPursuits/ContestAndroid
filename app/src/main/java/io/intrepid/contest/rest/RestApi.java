@@ -9,7 +9,8 @@ import retrofit2.http.Path;
 
 public interface RestApi {
     @PATCH("invitations/{code}/redeem")
-    Observable<InvitationResponse> redeemInvitationCode(@Path("code") String code);
+    Observable<RedeemInvitationResponse> redeemInvitationCode(@Path("code") String code,
+                                                              @Body RedeemInvitationRequest redeemInvitationRequest);
 
     @POST("contests/{contestId}/entries")
     Observable<EntryResponse> createEntry(@Path("contestId") String contestId, @Body EntryRequest entryRequest);

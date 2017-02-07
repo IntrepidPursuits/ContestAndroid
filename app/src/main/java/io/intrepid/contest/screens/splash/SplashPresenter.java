@@ -7,7 +7,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 
 public class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
 
-    public static final String TEST_AUTHENTICATION_TOKEN = "503adec2-6b60-422d-9f94-3095af9c1416";
+    public static final String TEST_AUTHENTICATION_TOKEN = "e65114db-211e-4de9-8791-f6d6d17a8136";
 
     public SplashPresenter(@NonNull SplashContract.View view,
                            @NonNull PresenterConfiguration configuration) {
