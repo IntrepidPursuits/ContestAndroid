@@ -18,16 +18,21 @@ class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> imp
     }
 
     @Override
-    public void displayCategories(Contest contest) {
-        if (contest == null || contest.getCategories().size() == 0) {
+    public void displayCategories(Contest.Builder contest) {
+        if (contest == null || contest.categories.size() == 0) {
             view.showDefaultCategory();
         } else {
-            view.showCategories(contest.getCategories());
+            view.showCategories(contest.categories);
         }
     }
 
     @Override
     public void onNextClicked(List<Category> categories) {
-        view.submitCategories(categories);
+        view.showPreviewContestPage();
+    }
+
+    @Override
+    public void onAddCategoryClicked() {
+        view.showAddCategoryScreen();
     }
 }

@@ -15,7 +15,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     public Contest.Builder contest;
 
     NewContestPresenter(@NonNull NewContestMvpContract.View view,
-                        @NonNull PresenterConfiguration configuration) {
+                               @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
         contest = new Contest.Builder();
     }
@@ -24,7 +24,6 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     public void onViewCreated() {
         super.onViewCreated();
         contest = new Contest.Builder();
-        view.initializePages(contest);
         view.showContestSubmissionPage(0);
     }
 
@@ -83,8 +82,13 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     }
 
     @Override
-    public void onNewCategoryAdded(Intent data) {
-        //todo - Add category
+    public void onNewCategoryAdded(String categoryName, String categoryDescription) {
+        contest.categories.add(new Category(categoryName, categoryDescription));
         view.showUpdatedCategories(contest);
+    }
+
+    @Override
+    public void showAddCategoryScreen() {
+        view.navigateToAddCategoryPage(contest);
     }
 }

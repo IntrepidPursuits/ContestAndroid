@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -16,6 +17,9 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity;
+
+import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.CONTEST_KEY;
 
 
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesContract.View, ContestCreationFragment {
@@ -23,6 +27,14 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;
     private EditContestContract activity;
+
+    public static CategoriesListFragment newInstance(Contest.Builder contest) {
+        Bundle args = new Bundle();
+        args.putParcelable(CONTEST_KEY, contest);
+        CategoriesListFragment fragment = new CategoriesListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +48,13 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         super.onViewCreated(savedInstanceState);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categoriesRecyclerView.setAdapter(categoryAdapter);
-        presenter.displayCategories(new Contest()); //todo - modify routing so it is the edited contet
+        Contest.Builder contest = getArguments().getParcelable(CONTEST_KEY);
+        presenter.displayCategories(contest); //todo - modify routing so it is the edited contet
+    }
+
+    @OnClick(R.id.add_new_category_fab)
+    public void onAddCategoryClicked() {
+        presenter.onAddCategoryClicked();
     }
 
     @Override
@@ -48,6 +66,16 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public CategoriesListPresenter createPresenter(PresenterConfiguration configuration) {
         return new CategoriesListPresenter(this, configuration);
+    }
+
+    @Override
+    public void showAddCategoryScreen() {
+        activity.showAddCategoryScreen();
+    }
+
+    @Override
+    public void showPreviewContestPage() {
+
     }
 
     @Override
@@ -69,5 +97,4 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     public void submitCategories(List<Category> categories) {
         activity.setCategories(categories);
     }
-
 }

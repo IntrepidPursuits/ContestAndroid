@@ -1,5 +1,7 @@
 package io.intrepid.contest.models;
 
+import timber.log.Timber;
+
 public class Category {
     private String name;
     private String description;
@@ -7,6 +9,17 @@ public class Category {
     public Category(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        try {
+            Category otherCategory = (Category) obj;
+            return this.name == otherCategory.name &&
+                    this.description == otherCategory.description;
+        }catch (ClassCastException  exception){
+            return false;
+        }
     }
 
     public String getName() {

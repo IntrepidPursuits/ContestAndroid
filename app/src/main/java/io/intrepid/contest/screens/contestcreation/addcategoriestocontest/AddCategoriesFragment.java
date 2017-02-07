@@ -13,7 +13,9 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
+import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
+import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
 public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> implements AddCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
@@ -21,6 +23,15 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
     @BindView(R.id.category_description_edittext)
     EditText categoryDescriptionField;
     private ActivityCallback activity;
+
+    public static AddCategoriesFragment newInstance(Contest.Builder contest) {
+        Bundle args = new Bundle();
+        args.putParcelable(AddCategoryActivity.CONTEST_KEY, contest);
+        AddCategoriesFragment fragment = new AddCategoriesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,12 +82,11 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
 
     @Override
     public void showCategoriesList() {
-        activity.showCategoryList();
+
     }
 
     public interface ActivityCallback {
         void addCategory(Category category);
-
         void showCategoryList();
     }
 }

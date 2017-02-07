@@ -14,8 +14,6 @@ class NewContestMvpContract {
 
         void cancelEdit();
 
-        void initializePages(Contest.Builder contest);
-
         void showContestSubmissionPage(int page);
 
         void completeEditForm(Contest contest);
@@ -27,6 +25,8 @@ class NewContestMvpContract {
         int getCurrentIndex();
 
         void showUpdatedCategories(Contest.Builder contest);
+
+        void navigateToAddCategoryPage(Contest.Builder  contest);
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
@@ -45,6 +45,8 @@ class NewContestMvpContract {
 
         void addCategory(Category category);
 
-        void onNewCategoryAdded(Intent data);
+        void onNewCategoryAdded(String name, String description);
+
+        void showAddCategoryScreen();
     }
 }
