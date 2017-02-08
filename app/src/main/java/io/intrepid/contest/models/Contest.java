@@ -1,7 +1,6 @@
 package io.intrepid.contest.models;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -56,7 +55,7 @@ public class Contest {
         return categories;
     }
 
-    public static class Builder implements Parcelable {
+    public static class Builder {
         static final int UUID_MIN_LIMIT = 0;
         static final int UUID_MAX_LIMIT = Integer.MAX_VALUE;
         public List<Category> categories = new ArrayList<>();
@@ -81,29 +80,6 @@ public class Contest {
             title = in.readString();
             description = in.readString();
         }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(title);
-            dest.writeString(description);
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        public static final Creator<Builder> CREATOR = new Creator<Builder>() {
-            @Override
-            public Builder createFromParcel(Parcel in) {
-                return new Builder(in);
-            }
-
-            @Override
-            public Builder[] newArray(int size) {
-                return new Builder[size];
-            }
-        };
 
         public Builder setTitle(String title) {
             this.title = title;
@@ -133,6 +109,15 @@ public class Contest {
             contest.description = this.description;
             contest.categories = this.categories;
             return contest;
+        }
+
+        public List<Category> getCategories() {
+            return categories;
+        }
+
+        public Builder setCategories(List<Category> categories) {
+            this.categories = categories;
+            return this;
         }
     }
 }

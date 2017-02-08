@@ -18,31 +18,18 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
-import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
-
-import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.CONTEST_KEY;
 
 
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.categories_recycler_view)
     RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;
-    private EditContestContract activity;
-
-    public static CategoriesListFragment newInstance(Contest.Builder contest) {
-        Bundle args = new Bundle();
-        args.putParcelable(CONTEST_KEY, contest);
-        CategoriesListFragment fragment = new CategoriesListFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         categoryAdapter = new CategoryAdapter(getContext());
-        activity = (EditContestContract) getContext();
     }
 
     @Override
@@ -53,13 +40,17 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(categoriesRecyclerView);
-        Contest.Builder contest = getArguments().getParcelable(CONTEST_KEY);
-        presenter.displayCategories(contest);
+        presenter.displayCategories();
     }
 
     @OnClick(R.id.add_new_category_fab)
     public void onAddCategoryClicked() {
         presenter.onAddCategoryClicked();
+    }
+
+    @Override
+    public void onNextClicked() {
+        presenter.onNextClicked(categoryAdapter.getCategories());
     }
 
     @Override
@@ -70,17 +61,18 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @NonNull
     @Override
     public CategoriesListPresenter createPresenter(PresenterConfiguration configuration) {
-        return new CategoriesListPresenter(this, configuration);
+        Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
+        return new CategoriesListPresenter(this, configuration, contestBuilder);
     }
 
     @Override
     public void showAddCategoryScreen() {
-        activity.showAddCategoryScreen();
+        ((EditContestContract) getActivity()).showAddCategoryScreen();
     }
 
     @Override
-    public void showPreviewContestPage() {
-
+    public void showNextScreen() {
+        ((EditContestContract) getActivity()).showNextScreen();
     }
 
     @Override
@@ -91,15 +83,5 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void showDefaultCategory() {
         categoryAdapter.setExampleCategories();
-    }
-
-    @Override
-    public void onNextClicked() {
-        presenter.onNextClicked(categoryAdapter.getCategories());
-    }
-
-    @Override
-    public void submitCategories(List<Category> categories) {
-        activity.setCategories(categories);
     }
 }

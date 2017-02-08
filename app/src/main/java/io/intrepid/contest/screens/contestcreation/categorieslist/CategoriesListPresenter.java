@@ -12,23 +12,28 @@ import io.intrepid.contest.models.Contest;
 
 class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> implements CategoriesContract.Presenter {
 
+    private final Contest.Builder contestBuilder;
+
     CategoriesListPresenter(@NonNull CategoriesContract.View view,
-                            @NonNull PresenterConfiguration configuration) {
+                            @NonNull PresenterConfiguration configuration,
+                            Contest.Builder contestBuilder) {
         super(view, configuration);
+        this.contestBuilder = contestBuilder;
     }
 
     @Override
-    public void displayCategories(Contest.Builder contest) {
-        if (contest == null || contest.categories.size() == 0) {
+    public void displayCategories() {
+        if (contestBuilder == null || contestBuilder.getCategories().size() == 0) {
             view.showDefaultCategory();
         } else {
-            view.showCategories(contest.categories);
+            view.showCategories(contestBuilder.getCategories());
         }
     }
 
     @Override
     public void onNextClicked(List<Category> categories) {
-        view.showPreviewContestPage();
+        contestBuilder.setCategories(categories);
+        view.showNextScreen();
     }
 
     @Override

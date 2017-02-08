@@ -33,7 +33,7 @@ public class AddCategoriesPresenterTest {
     }
 
     @Test
-    public void onNextClickedShouldTriggerViewToAddCategory(){
+    public void onNextClickedShouldTriggerViewToAddCategory() {
         String categoryName = "NewCategory";
         String categoryDescription = "NewCategory Description";
         addCategoryPresenter.onNextClicked(categoryName, categoryDescription);

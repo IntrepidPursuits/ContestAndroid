@@ -5,12 +5,17 @@ import android.text.TextUtils;
 
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.models.Contest;
 
 class NameContestPresenter extends BasePresenter<NameContestContract.View> implements NameContestContract.Presenter {
 
+    private final Contest.Builder contestBuilder;
+
     NameContestPresenter(@NonNull NameContestContract.View view,
-                         @NonNull PresenterConfiguration configuration) {
+                         @NonNull PresenterConfiguration configuration,
+                         Contest.Builder contestBuilder) {
         super(view, configuration);
+        this.contestBuilder = contestBuilder;
     }
 
     @Override
@@ -20,8 +25,9 @@ class NameContestPresenter extends BasePresenter<NameContestContract.View> imple
     }
 
     @Override
-    public void onContestNameUpdate(String contestName) {
-        view.saveEnteredName(contestName);
+    public void onContestTitleUpdated(String contestName) {
+        contestBuilder.setTitle(contestName);
+        view.showNextScreen();
     }
 
     @Override
