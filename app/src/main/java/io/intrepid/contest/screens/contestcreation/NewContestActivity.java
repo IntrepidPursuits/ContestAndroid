@@ -16,15 +16,15 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
+import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.SlidingTabAdapter;
 import timber.log.Timber;
 
-import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.CATEGORY_DESCRIPTION;
-import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.CATEGORY_NAME;
-import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.NOTIFY_NEW_CATEGORY;
-import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity.makeIntent;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_DESCRIPTION;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_NAME;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_NEW_CATEGORY;
 
 public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> implements NewContestMvpContract.View, EditContestContract {
     @BindView(R.id.fragment_container)
@@ -154,7 +154,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
 
     @Override
     public void navigateToAddCategoryPage(Contest.Builder contest) {
-        startActivityForResult(makeIntent(this), NOTIFY_NEW_CATEGORY);
+        startActivityForResult(EditCategoryActivity.makeAddCategoryIntent(this), NOTIFY_NEW_CATEGORY);
     }
 
     @Override
@@ -167,7 +167,6 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         return presenter.getContest();
     }
 
-    @Override
     public void showNextScreen() {
         presenter.showNextScreen();
     }

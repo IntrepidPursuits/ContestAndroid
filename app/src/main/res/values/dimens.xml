@@ -60,6 +60,9 @@
     <dimen name="score_weight_icon_height">22dp</dimen>
     <dimen name="small_margin">4dp</dimen>
 
+    <dimen name="category_card_right_margin">21dp</dimen>
+    <dimen name="hamburger_icon_top_margin">18dp</dimen>
+
     <dimen name="select_contacts_row_item_minheight">18dp</dimen>
     <dimen name="user_photo_size">32dp</dimen>
 </resources>

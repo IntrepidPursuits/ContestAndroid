@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestcreation.addcategoriestocontest;
+package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +15,8 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 
-public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> implements AddCategoriesContract.View, ContestCreationFragment {
+
+public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter> implements EditCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
     EditText categoryNameField;
     @BindView(R.id.category_description_edittext)
@@ -54,8 +55,8 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
 
     @NonNull
     @Override
-    public AddCategoriesPresenter createPresenter(PresenterConfiguration configuration) {
-        return new AddCategoriesPresenter(this, configuration);
+    public EditCategoriesPresenter createPresenter(PresenterConfiguration configuration) {
+        return new EditCategoriesPresenter(this, configuration);
     }
 
     @Override
@@ -76,7 +77,7 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
 
     @Override
     public void showCategoriesList() {
-
+        activity.showCategoryList();
     }
 
     public interface ActivityCallback {

@@ -10,11 +10,11 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 
 
-class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> implements CategoriesContract.Presenter {
+class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View> implements CategoriesListContract.Presenter {
 
     private final Contest.Builder contestBuilder;
 
-    CategoriesListPresenter(@NonNull CategoriesContract.View view,
+    CategoriesListPresenter(@NonNull CategoriesListContract.View view,
                             @NonNull PresenterConfiguration configuration,
                             Contest.Builder contestBuilder) {
         super(view, configuration);
@@ -39,5 +39,10 @@ class CategoriesListPresenter extends BasePresenter<CategoriesContract.View> imp
     @Override
     public void onAddCategoryClicked() {
         view.showAddCategoryScreen();
+    }
+
+    @Override
+    public void onCategoryClicked(Category category) {
+        view.showEditCategoryPage(category);
     }
 }
