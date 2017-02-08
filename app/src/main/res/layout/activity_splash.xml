@@ -7,81 +7,77 @@
 
     <TextView
         android:id="@+id/contest_app_header"
+        style="@style/AppTheme.TextViewLabel"
+        fontPath="@string/AvenirNext_Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/splash_card_header_top_margin"
         android:gravity="center"
         android:text="@string/app_name"
         android:textAllCaps="true"
-        style="@style/AppTheme.TextViewLabel"
-        fontPath="@string/AvenirNext_Medium"
-        android:textStyle="bold"
-        android:layout_marginTop="@dimen/splash_card_header_top_margin"
         android:textSize="@dimen/splash_title_textsize"
+        android:textStyle="bold"
         />
 
     <TextView
         android:id="@+id/prompt_sub_header"
+        fontPath="@string/AvenirNext_Regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/contest_app_header"
         android:gravity="center_horizontal"
         android:text="@string/create_join_prompt"
-        fontPath="@string/AvenirNext_Regular"
         android:textSize="@dimen/button_textsize"
         />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/splash_screen_actions_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:padding="@dimen/splash_card_padding"
+        android:orientation="horizontal"
+        android:visibility="gone"
         >
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/entry_image_camera_button_card_view"
-        android:layout_marginBottom="@dimen/splash_card_bottom_margin"
-        android:padding="15dp"
-        style="@style/AppTheme.IconButtonCardView"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        >
+        <android.support.v7.widget.CardView
+            style="@style/AppTheme.IconButtonCardView"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/splash_card_bottom_margin"
+            >
 
-        <Button
-            android:id="@+id/create_contest_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:background="@android:color/transparent"
-            android:text="@string/create_contest"
-            style="@style/AppTheme.SplashScreen.IconButton"
-            android:drawableTop="@drawable/add_copy_2"
-            />
+            <Button
+                android:id="@+id/create_contest_button"
+                style="@style/AppTheme.SplashScreen.IconButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/add_copy_2"
+                android:text="@string/create_contest"
+                />
 
 
-    </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-        style="@style/AppTheme.IconButtonCardView"
-        android:padding="15dp"
-        android:layout_marginBottom="@dimen/splash_card_bottom_margin"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content">
+        <android.support.v7.widget.CardView
+            style="@style/AppTheme.IconButtonCardView"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/splash_card_bottom_margin"
+            >
 
-        <Button
-            android:id="@+id/join_contest_button"
-            android:text="@string/join_contest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/create_contest_button"
-            android:drawableTop="@drawable/join_contest_icon"
-            style="@style/AppTheme.SplashScreen.IconButton"
-            />
+            <Button
+                android:id="@+id/join_contest_button"
+                style="@style/AppTheme.SplashScreen.IconButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/create_contest_button"
+                android:drawableTop="@drawable/join_contest_icon"
+                android:text="@string/join_contest"
+                />
 
-    </android.support.v7.widget.CardView>
-
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 </RelativeLayout>

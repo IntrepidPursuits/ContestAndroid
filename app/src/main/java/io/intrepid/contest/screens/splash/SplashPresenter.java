@@ -2,19 +2,39 @@ package io.intrepid.contest.screens.splash;
 
 import android.support.annotation.NonNull;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 public class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
-
-    public static final String TEST_AUTHENTICATION_TOKEN = "e65114db-211e-4de9-8791-f6d6d17a8136";
 
     public SplashPresenter(@NonNull SplashContract.View view,
                            @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
+    }
 
-        // todo: set the authentication token when the app is downloaded, not here
-        persistentSettings.setAuthenticationToken(TEST_AUTHENTICATION_TOKEN);
+    @Override
+    public void onViewCreated() {
+        super.onViewCreated();
+
+        authenticateUser();
+    }
+
+    private void authenticateUser() {
+        if (!persistentSettings.isAuthenticated()) {
+            Disposable disposable = restApi.createUser()
+                    .compose(subscribeOnIoObserveOnUi())
+                    .subscribe(response -> {
+                        persistentSettings.setAuthenticationToken(response.user.getId().toString());
+                        view.showUserButtons();
+                    }, throwable -> {
+                        Timber.d("API error creating user: " + throwable.getMessage());
+                        view.showMessage(R.string.error_api);
+                    });
+            disposables.add(disposable);
+        }
     }
 
     @Override
@@ -26,4 +46,5 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
     public void onJoinContestClicked() {
         view.showJoinContestScreen();
     }
+
 }
