@@ -80,9 +80,9 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     private void setupViewPager(Contest.Builder contest) {
-        if(tabAdapter == null) {
+        if (tabAdapter == null) {
             tabAdapter = new SlidingTabAdapter(this);
-        }else{
+        } else {
             tabAdapter.clear();
         }
         tabAdapter.addFragment(NameContestFragment.newInstance(contest));
@@ -118,9 +118,11 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case NOTIFY_NEW_CATEGORY:
-                String categoryName = data.getStringExtra(CATEGORY_NAME);
-                String categoryDescription = data.getStringExtra(CATEGORY_DESCRIPTION);
-                presenter.onNewCategoryAdded(categoryName, categoryDescription);
+                if (resultCode == RESULT_OK && data != null) {
+                    String categoryName = data.getStringExtra(CATEGORY_NAME);
+                    String categoryDescription = data.getStringExtra(CATEGORY_DESCRIPTION);
+                    presenter.onNewCategoryAdded(categoryName, categoryDescription);
+                }
                 break;
         }
     }
