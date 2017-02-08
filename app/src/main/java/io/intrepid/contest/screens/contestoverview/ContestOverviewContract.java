@@ -6,7 +6,7 @@ class ContestOverviewContract {
     interface View extends BaseContract.View {
         void showContestName(String contestName);
 
-        void showNumSubmissionsMissing(int numSubmissionsMissing);
+        void showNumSubmissionsWaiting(int numSubmissionsWaiting);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

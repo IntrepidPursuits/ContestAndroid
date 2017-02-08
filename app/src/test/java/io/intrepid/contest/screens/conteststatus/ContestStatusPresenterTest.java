@@ -25,6 +25,7 @@ import io.reactivex.functions.Consumer;
 
 import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -51,8 +52,26 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @NonNull
     private ContestStatusResponse getContestStatusResponseWaitingForSubmissions() {
         ContestStatusResponse response = new ContestStatusResponse();
-        response.waitingForSubmissions = true;
-        response.numSubmissionsMissing = 3;
+        response.setSubmissionData(false, 0, 5);
+        response.setJudgeData(false, 0, 1);
+        when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
+        return response;
+    }
+
+    @NonNull
+    private ContestStatusResponse getContestStatusResponseWaitingForScores() {
+        ContestStatusResponse response = new ContestStatusResponse();
+        response.setSubmissionData(true, 5, 5);
+        response.setJudgeData(false, 0, 1);
+        when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
+        return response;
+    }
+
+    @NonNull
+    private ContestStatusResponse getContestStatusResponseResultsAvailable() {
+        ContestStatusResponse response = new ContestStatusResponse();
+        response.setSubmissionData(true, 5, 5);
+        response.setJudgeData(true, 1, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
         return response;
     }
@@ -64,66 +83,46 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showWaitingSubmissionsFragment(response.numSubmissionsMissing);
+        verify(mockView).showWaitingSubmissionsFragment(response.getNumSubmissionsMissing());
         verify(mockView, never()).showResultsAvailableFragment();
+        verify(mockView, never()).showContestOverviewPage();
     }
 
     @Test
-    public void onTemporarySkipButtonClickedShouldShowWaitingSubmissionsFragmentWhenStatusIsWaitingForSubmissions() {
-        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
-        ContestStatusResponse response = getContestStatusResponseWaitingForSubmissions();
-
-        presenter.onTemporarySkipButtonClicked();
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showWaitingSubmissionsFragment(response.numSubmissionsMissing);
-        verify(mockView, never()).showResultsAvailableFragment();
-    }
-
-    @Test
-    public void onTemporarySkipButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsError() throws HttpException {
-        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
-        when(mockRestApi.getContestStatus(any())).thenReturn(error(throwable));
-
-        presenter.onTemporarySkipButtonClicked();
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showMessage(any(int.class));
-    }
-
-    @Test
-    public void onTemporarySkipButtonClickedShouldShowContestOverviewPageWhenParticipantIsJudge() throws HttpException {
+    public void onViewCreatedShouldShowContestOverviewWhenWaitingForScoresAndParticipantIsJudge() {
         when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
+        getContestStatusResponseWaitingForScores();
 
-        presenter.onTemporarySkipButtonClicked();
+        presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showContestOverviewPage();
+        verify(mockView, never()).showWaitingSubmissionsFragment(anyInt());
+        verify(mockView, never()).showResultsAvailableFragment();
     }
 
     @Test
-    public void onViewCreatedShouldShowResultsAvailableFragmentWhenStatusIsNotWaitingForSubmissions() {
-        ContestStatusResponse response = new ContestStatusResponse();
-        response.waitingForSubmissions = false;
-        response.numSubmissionsMissing = 0;
-        when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
+    public void onViewCreatedShouldShowResultsAvailableFragmentWhenStatusIsResultsAvailable() {
+        getContestStatusResponseResultsAvailable();
 
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showResultsAvailableFragment();
-        verify(mockView, never()).showWaitingSubmissionsFragment(any(int.class));
+        verify(mockView, never()).showWaitingSubmissionsFragment(anyInt());
+        verify(mockView, never()).showContestOverviewPage();
     }
 
     @Test
-    public void onViewCreatedShouldShouldRefreshWaitingSubmissionsFragmentEveryTwoMinutes() {
+    public void onViewCreatedShouldRefreshWaitingSubmissionsFragmentEveryThreeSeconds() {
+        // TODO: change test to 2 minutes for release
         ContestStatusResponse response = getContestStatusResponseWaitingForSubmissions();
 
         presenter.onViewCreated();
-        testConfiguration.getIoScheduler().advanceTimeBy(2, TimeUnit.MINUTES);
+        testConfiguration.getIoScheduler().advanceTimeBy(3, TimeUnit.SECONDS);
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView, times(2)).showWaitingSubmissionsFragment(response.numSubmissionsMissing);
+        verify(mockView, times(2)).showWaitingSubmissionsFragment(response.getNumSubmissionsMissing());
     }
 
     @Test
@@ -133,7 +132,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showMessage(any(int.class));
+        verify(mockView).showMessage(anyInt());
     }
 
     @Test

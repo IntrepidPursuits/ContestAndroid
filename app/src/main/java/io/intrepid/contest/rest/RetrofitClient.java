@@ -24,12 +24,14 @@ public class RetrofitClient {
     private static final int CONNECTION_TIMEOUT = 30;
     private static final int API_VERSION = 1;
     private static RestApi restApi;
+    private static RestApi mockRestApi;
 
     private RetrofitClient() {
     }
 
     public static void init(PersistentSettings persistentSettings) {
         restApi = createRestApi(BASE_URL, persistentSettings);
+        mockRestApi = createMockRestApi();
     }
 
     public static RestApi getApi() {
@@ -70,5 +72,13 @@ public class RetrofitClient {
                 .setPrettyPrinting()
                 .create();
         return GsonConverterFactory.create(gson);
+    }
+
+    private static RestApi createMockRestApi() {
+        return new MockRestApi();
+    }
+
+    public static RestApi getMockApi() {
+        return mockRestApi;
     }
 }

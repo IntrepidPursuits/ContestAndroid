@@ -1,5 +1,7 @@
 package io.intrepid.contest.screens.splash;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,13 +12,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.UUID;
 
 import io.intrepid.contest.models.User;
-import io.intrepid.contest.rest.UserCreationRequest;
+import io.intrepid.contest.rest.UserCreationResponse;
 import io.intrepid.contest.testutils.BasePresenterTest;
 import io.reactivex.Observable;
 
 import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,10 +34,10 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     }
 
     private void setupSuccessfulUserCreation() {
-        UserCreationRequest userCreationRequest = new UserCreationRequest();
-        userCreationRequest.user = new User();
-        userCreationRequest.user.setId(UUID.randomUUID());
-        when(mockRestApi.createUser()).thenReturn(Observable.just(userCreationRequest));
+        UserCreationResponse UserCreationResponse = new UserCreationResponse();
+        UserCreationResponse.user = new User();
+        UserCreationResponse.user.setId(UUID.randomUUID());
+        when(mockRestApi.createUser()).thenReturn(Observable.just(UserCreationResponse));
     }
 
     private void setupFailedUserCreation() {
@@ -61,14 +62,13 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     }
 
     @Test
-    public void onViewCreatedShouldShowUserButtonsWhenUserCreationThrowsError() {
+    public void onViewCreatedShouldShowApiErrorMessageWhenApiCallThrowsError() throws HttpException {
         setupFailedUserCreation();
 
         splashPresenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(any(int.class));
-        verify(mockView, never()).showUserButtons();
     }
 
     @Test

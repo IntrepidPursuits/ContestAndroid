@@ -9,7 +9,7 @@ import retrofit2.http.Path;
 
 public interface RestApi {
     @POST("users")
-    Observable<UserCreationRequest> createUser();
+    Observable<UserCreationResponse> createUser();
 
     @PATCH("invitations/{code}/redeem")
     Observable<RedeemInvitationResponse> redeemInvitationCode(@Path("code") String code,

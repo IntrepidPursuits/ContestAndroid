@@ -53,10 +53,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> showResult(response), throwable -> {
                     Timber.d("API error creating an entry: " + throwable.getMessage());
-
-                    // TODO: once API endpoing works, stop showing message and skipping to next screen
                     view.showMessage(R.string.error_api);
-                    view.showContestStatusScreen();
                 });
         disposables.add(disposable);
     }

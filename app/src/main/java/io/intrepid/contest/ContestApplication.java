@@ -33,7 +33,7 @@ public class ContestApplication extends Application {
                 Schedulers.io(),
                 AndroidSchedulers.mainThread(),
                 SharedPreferencesManager.getInstance(this),
-                RetrofitClient.getApi()
+                RetrofitClient.getMockApi()
         );
     }
 }
