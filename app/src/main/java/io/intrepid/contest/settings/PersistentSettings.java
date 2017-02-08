@@ -5,6 +5,8 @@ import java.util.UUID;
 import io.intrepid.contest.models.ParticipationType;
 
 public interface PersistentSettings {
+    boolean isAuthenticated();
+
     String getAuthenticationToken();
 
     void setAuthenticationToken(String authenticationToken);

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import java.util.UUID;
 
+import io.intrepid.commonutils.StringUtils;
 import io.intrepid.contest.models.ParticipationType;
 
 public class SharedPreferencesManager implements PersistentSettings {
@@ -30,6 +31,11 @@ public class SharedPreferencesManager implements PersistentSettings {
             instance = new SharedPreferencesManager(context);
         }
         return instance;
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        return (!StringUtils.isEmpty(getAuthenticationToken()));
     }
 
     @Override

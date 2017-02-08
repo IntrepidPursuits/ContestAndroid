@@ -10,7 +10,8 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Participant;
 import io.intrepid.contest.models.ParticipationType;
-import io.intrepid.contest.rest.InvitationResponse;
+import io.intrepid.contest.rest.RedeemInvitationRequest;
+import io.intrepid.contest.rest.RedeemInvitationResponse;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -33,7 +34,9 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
 
     @Override
     public void onSubmitButtonClicked(String code) {
-        Disposable disposable = restApi.redeemInvitationCode(code)
+        RedeemInvitationRequest redeemInvitationRequest = new RedeemInvitationRequest(code);
+
+        Disposable disposable = restApi.redeemInvitationCode(code, redeemInvitationRequest)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> showResult(response), throwable -> {
                     Timber.d("API error redeeming invitation code: " + throwable.getMessage());
@@ -52,7 +55,7 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
 
     private void temporarySkipToNextScreen(String code) {
         // TODO: once API endpoing works, stop showing message and skipping to next screen
-        InvitationResponse response = new InvitationResponse();
+        RedeemInvitationResponse response = new RedeemInvitationResponse();
         response.participant = new Participant();
         response.participant.setContestId(UUID.randomUUID());
         if (code.equals(TEMPORARY_JUDGE_CODE)) {
@@ -63,7 +66,7 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
         showResult(response);
     }
 
-    private void showResult(InvitationResponse response) {
+    private void showResult(RedeemInvitationResponse response) {
         if (response.participant == null) {
             view.showInvalidCodeErrorMessage();
             return;
