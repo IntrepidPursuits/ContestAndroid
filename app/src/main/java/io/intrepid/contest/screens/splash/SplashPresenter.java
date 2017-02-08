@@ -23,7 +23,9 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
     }
 
     private void authenticateUser() {
-        if (!persistentSettings.isAuthenticated()) {
+        if (persistentSettings.isAuthenticated()) {
+            view.showUserButtons();
+        } else {
             Disposable disposable = restApi.createUser()
                     .compose(subscribeOnIoObserveOnUi())
                     .subscribe(response -> {

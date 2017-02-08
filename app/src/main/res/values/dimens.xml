@@ -19,6 +19,7 @@
 
     <dimen name="icon_button_drawablepadding">8dp</dimen>
     <dimen name="icon_button_padding">36dp</dimen>
+    <dimen name="icon_button_horizontal_padding">16dp</dimen>
     <dimen name="icon_button_textsize">12sp</dimen>
     <dimen name="icon_button_card_view_radius">4dp</dimen>
     <dimen name="icon_button_card_view_elevation">9dp</dimen>
@@ -36,14 +37,13 @@
     <dimen name="category_card_height">128dp</dimen>
     <dimen name="category_card_width">325dp</dimen>
     <dimen name="category_title_text_size">16sp</dimen>
-    <dimen name="splash_card_padding">0dp</dimen>
-    <dimen name="splash_card_header_top_margin">55dp</dimen>
 
     <dimen name="description_edittext_margin_top">20dp</dimen>
     <dimen name="description_edittext_margin_right">60dp</dimen>
     <dimen name="description_edittext_padding_top">5dp</dimen>
     <dimen name="contest_description_edittext_textsize">16sp</dimen>
 
+    <dimen name="splash_card_header_top_margin">55dp</dimen>
     <dimen name="splash_card_bottom_margin">36dp</dimen>
 
     <dimen name="contest_status_title_textsize">32sp</dimen>
