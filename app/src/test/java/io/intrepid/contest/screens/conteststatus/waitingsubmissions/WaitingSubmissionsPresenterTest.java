@@ -12,7 +12,7 @@ import org.mockito.stubbing.Answer;
 
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.ParticipationType;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsContract.Presenter;
 import io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -58,11 +58,11 @@ public class WaitingSubmissionsPresenterTest extends BasePresenterTest<WaitingSu
     @Test
     public void onViewCreatedShouldShowContestNameWhenParticipantIsJudgeAndApiCallDoesNotThrowError() {
         when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
-        ArgumentCaptor<Consumer<ContestResponse>> captor = ArgumentCaptor.forClass(Consumer.class);
+        ArgumentCaptor<Consumer<ContestWrapper>> captor = ArgumentCaptor.forClass(Consumer.class);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ContestResponse response = new ContestResponse();
+                ContestWrapper response = new ContestWrapper(new Contest());
                 response.contest = new Contest();
                 response.contest.setTitle("Contest title");
                 captor.getValue().accept(response);

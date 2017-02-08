@@ -10,7 +10,7 @@ import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivityContract;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
@@ -60,7 +60,7 @@ public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContr
     }
 
     @Override
-    public void requestContestDetails(Consumer<ContestResponse> responseCallback,
+    public void requestContestDetails(Consumer<ContestWrapper> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
         contestStatusActivity.requestContestDetails(responseCallback, throwableCallback);
     }

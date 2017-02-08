@@ -6,6 +6,10 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.rest.ContestWrapper;
+import io.intrepid.contest.rest.RetrofitClient;
+import io.reactivex.Observable;
+import timber.log.Timber;
 
 class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter {
     private Contest.Builder contest;
@@ -44,7 +48,6 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
         return contest;
     }
 
-    @Override
     public void showNextScreen() {
         int currentIndex = view.getCurrentIndex();
         view.showContestSubmissionPage(currentIndex + 1);
@@ -67,8 +70,8 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     }
 
     void submitContest() {
-        Observable<ContestResponse> call = RetrofitClient.getApi()
-                .submitContest(contest.build());
+        Observable<ContestWrapper> call = RetrofitClient.getApi()
+                .submitContest(new ContestWrapper(contest.build()));
         call.compose(subscribeOnIoObserveOnUi())
                 .subscribe((this::onAPIResult), throwable -> {
                     Timber.d("API error creating contest " + throwable.getMessage());
@@ -76,7 +79,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
                 });
     }
 
-    private void onAPIResult(ContestResponse response) {
+    private void onAPIResult(ContestWrapper response) {
         view.showMessage(response.contest.getTitle() + " was ceated ");
     }
 }

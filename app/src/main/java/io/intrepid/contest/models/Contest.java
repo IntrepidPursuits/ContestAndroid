@@ -22,6 +22,7 @@ public class Contest {
     private Date endedDate;
     private String title;
     private String description;
+    @SerializedName("scoring_categories")
     private List<Category> categories;
 
     public Contest() {

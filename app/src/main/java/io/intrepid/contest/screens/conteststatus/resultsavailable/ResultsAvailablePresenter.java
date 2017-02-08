@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -25,7 +25,7 @@ public class ResultsAvailablePresenter extends BasePresenter<ResultsAvailableCon
     }
 
     @NonNull
-    private Consumer<ContestResponse> onContestDetailsRetrieved() {
+    private Consumer<ContestWrapper> onContestDetailsRetrieved() {
         return response -> view.showContestName(response.contest.getTitle());
     }
 

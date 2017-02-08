@@ -6,7 +6,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.ParticipationType;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -29,7 +29,7 @@ class WaitingSubmissionsPresenter extends BasePresenter<WaitingSubmissionsContra
     }
 
     @NonNull
-    private Consumer<ContestResponse> onContestDetailsRetrieved() {
+    private Consumer<ContestWrapper> onContestDetailsRetrieved() {
         return response -> view.showContestName(response.contest.getTitle());
     }
 

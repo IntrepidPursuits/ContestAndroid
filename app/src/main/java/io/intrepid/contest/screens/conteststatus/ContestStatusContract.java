@@ -1,7 +1,7 @@
 package io.intrepid.contest.screens.conteststatus;
 
 import io.intrepid.contest.base.BaseContract;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.functions.Consumer;
 
 class ContestStatusContract {

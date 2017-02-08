@@ -17,7 +17,7 @@ public interface RestApi {
                                                               @Body RedeemInvitationRequest redeemInvitationRequest);
 
     @POST("/contests")
-    Observable<ContestResponse> submitContest(@Body Contest contest);
+    Observable<ContestWrapper> submitContest(@Body ContestWrapper contest);
 
     @POST("contests/{contestId}/entries")
     Observable<EntryResponse> createEntry(@Path("contestId") String contestId, @Body EntryRequest entryRequest);
@@ -26,5 +26,5 @@ public interface RestApi {
     Observable<ContestStatusResponse> getContestStatus(@Path("contestId") String contestId);
 
     @GET("contests/{contestId}")
-    Observable<ContestResponse> getContestDetails(@Path("contestId") String contestId);
+    Observable<ContestWrapper> getContestDetails(@Path("contestId") String contestId);
 }
