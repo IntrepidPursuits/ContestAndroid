@@ -63,7 +63,6 @@ public class WaitingSubmissionsPresenterTest extends BasePresenterTest<WaitingSu
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
                 ContestWrapper response = new ContestWrapper(new Contest());
-                response.contest = new Contest();
                 response.contest.setTitle("Contest title");
                 captor.getValue().accept(response);
                 return null;

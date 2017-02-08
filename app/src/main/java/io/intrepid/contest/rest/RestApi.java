@@ -12,19 +12,19 @@ public interface RestApi {
     @POST("users")
     Observable<UserCreationResponse> createUser();
 
-    @PATCH("invitations/{code}/redeem")
+    @PATCH("api/invitations/{code}/redeem")
     Observable<RedeemInvitationResponse> redeemInvitationCode(@Path("code") String code,
                                                               @Body RedeemInvitationRequest redeemInvitationRequest);
 
-    @POST("/contests")
+    @POST("api/contests")
     Observable<ContestWrapper> submitContest(@Body ContestWrapper contest);
 
-    @POST("contests/{contestId}/entries")
+    @POST("api/contests/{contestId}/entries")
     Observable<EntryResponse> createEntry(@Path("contestId") String contestId, @Body EntryRequest entryRequest);
 
-    @GET("contests/{contestId}/status")
+    @GET("api/contests/{contestId}/status")
     Observable<ContestStatusResponse> getContestStatus(@Path("contestId") String contestId);
 
-    @GET("contests/{contestId}")
+    @GET("api/contests/{contestId}")
     Observable<ContestWrapper> getContestDetails(@Path("contestId") String contestId);
 }

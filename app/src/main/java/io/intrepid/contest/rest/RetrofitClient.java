@@ -22,7 +22,7 @@ import static okhttp3.logging.HttpLoggingInterceptor.*;
 public class RetrofitClient {
 
     private static final String ACCEPT_APPLICATION = "vnd.judgy-server.herokuapp.com";
-    private static final String BASE_URL = "http://judgy-server.herokuapp.com/api/";
+    private static final String BASE_URL = "http://judgy-server.herokuapp.com";
     private static final int CONNECTION_TIMEOUT = 30;
     private static final int API_VERSION = 1;
     private static RestApi restApi;

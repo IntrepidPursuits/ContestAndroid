@@ -73,13 +73,13 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
         Observable<ContestWrapper> call = RetrofitClient.getApi()
                 .submitContest(new ContestWrapper(contest.build()));
         call.compose(subscribeOnIoObserveOnUi())
-                .subscribe((this::onAPIResult), throwable -> {
+                .subscribe((this::onApiResult), throwable -> {
                     Timber.d("API error creating contest " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
                 });
     }
 
-    private void onAPIResult(ContestWrapper response) {
-        view.showMessage(response.contest.getTitle() + " was ceated ");
+    private void onApiResult(ContestWrapper response) {
+        view.showMessage(response.contest.getTitle() + " was created ");
     }
 }
