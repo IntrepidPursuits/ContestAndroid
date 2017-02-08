@@ -65,4 +65,18 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     public void showAddCategoryScreen() {
         view.navigateToAddCategoryPage(contest);
     }
+
+    void submitContest() {
+        Observable<ContestResponse> call = RetrofitClient.getApi()
+                .submitContest(contest.build());
+        call.compose(subscribeOnIoObserveOnUi())
+                .subscribe((this::onAPIResult), throwable -> {
+                    Timber.d("API error creating contest " + throwable.getMessage());
+                    view.showMessage(R.string.error_api);
+                });
+    }
+
+    private void onAPIResult(ContestResponse response) {
+        view.showMessage(response.contest.getTitle() + " was ceated ");
+    }
 }

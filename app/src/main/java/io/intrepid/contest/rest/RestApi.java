@@ -1,5 +1,6 @@
 package io.intrepid.contest.rest;
 
+import io.intrepid.contest.models.Contest;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,6 +15,9 @@ public interface RestApi {
     @PATCH("invitations/{code}/redeem")
     Observable<RedeemInvitationResponse> redeemInvitationCode(@Path("code") String code,
                                                               @Body RedeemInvitationRequest redeemInvitationRequest);
+
+    @POST("/contests")
+    Observable<ContestResponse> submitContest(@Body Contest contest);
 
     @POST("contests/{contestId}/entries")
     Observable<EntryResponse> createEntry(@Path("contestId") String contestId, @Body EntryRequest entryRequest);
