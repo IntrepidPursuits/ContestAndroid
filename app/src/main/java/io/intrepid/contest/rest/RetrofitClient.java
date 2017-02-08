@@ -40,7 +40,7 @@ public class RetrofitClient {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(chain -> {
                     Request request = chain.request().newBuilder()
-                            .addHeader("Authorization", "Token token=" + persistentSettings.getAuthenticationToken())
+                            .addHeader("Authorization", "token=" + persistentSettings.getAuthenticationToken())
                             .addHeader("Accept", "application/" + ACCEPT_APPLICATION +
                                     "; version=" + String.valueOf(API_VERSION))
                             .addHeader("Content-type", "application/json")

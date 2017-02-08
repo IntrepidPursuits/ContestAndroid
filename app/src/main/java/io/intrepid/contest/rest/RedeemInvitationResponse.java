@@ -2,6 +2,6 @@ package io.intrepid.contest.rest;
 
 import io.intrepid.contest.models.Participant;
 
-public class InvitationResponse {
+public class RedeemInvitationResponse {
     public Participant participant;
 }
