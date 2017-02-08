@@ -6,7 +6,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -23,7 +23,7 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     @BindView(R.id.contest_app_header)
     TextView splashHeader;
     @BindView(R.id.splash_screen_actions_layout)
-    LinearLayout splashScreenActionsLayout;
+    RelativeLayout splashScreenActionsLayout;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, SplashActivity.class);
