@@ -11,15 +11,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Category;
+import io.intrepid.contest.utils.dragdrop.ItemTouchHelperViewHolder;
 
-class CategoryViewHolder extends RecyclerView.ViewHolder {
+class CategoryViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
     private final CategoryClickListener listener;
-    private Category category;
-
     @BindView(R.id.category_item_title)
     TextView categoryTitle;
     @BindView(R.id.category_item_description)
     TextView categoryDescription;
+    private Category category;
 
     CategoryViewHolder(ViewGroup parent, CategoryClickListener listener) {
         super(inflateView(parent));
@@ -27,7 +27,7 @@ class CategoryViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    private static View inflateView(ViewGroup parent){
+    private static View inflateView(ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         return layoutInflater.inflate(R.layout.category_row_item, parent, false);
     }
@@ -39,11 +39,21 @@ class CategoryViewHolder extends RecyclerView.ViewHolder {
     }
 
     @OnClick(R.id.scoring_category_card_view)
-    void onCategoryClicked(){
+    void onCategoryClicked() {
         listener.onCategoryClicked(category);
     }
 
-    interface CategoryClickListener{
+    @Override
+    public void onItemSelected() {
+
+    }
+
+    @Override
+    public void onItemClear() {
+
+    }
+
+    interface CategoryClickListener {
         void onCategoryClicked(Category category);
     }
 }

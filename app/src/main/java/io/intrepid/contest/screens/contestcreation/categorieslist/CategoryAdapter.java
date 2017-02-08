@@ -5,13 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Category;
+import io.intrepid.contest.utils.dragdrop.ItemTouchHelperAdapter;
 import timber.log.Timber;
 
-class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements CategoryViewHolder.CategoryClickListener {
+class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ItemTouchHelperAdapter, CategoryViewHolder.CategoryClickListener {
     private final Context context;
     private List<Category> categories;
     private Category exampleCategory;
@@ -65,5 +67,19 @@ class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implement
             this.categories = categories;
         }
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(categories, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(categories, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
     }
 }
