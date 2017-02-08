@@ -9,6 +9,8 @@ class ContestStatusContract {
         void showWaitingSubmissionsFragment(int numSubmissionsMissing);
 
         void showResultsAvailableFragment();
+
+        void showContestOverviewPage();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

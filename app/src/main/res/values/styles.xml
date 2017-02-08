@@ -74,4 +74,17 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="ContestOverviewTextViewLabel">
+        <item name="android:textSize">@dimen/contest_overview_textsize</item>
+        <item name="android:textColor">@color/colorLightGray</item>
+    </style>
+
+    <style name="AppTheme.HorizontalRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/horizontal_margin_height</item>
+        <item name="android:layout_marginBottom">@dimen/activity_vertical_margin</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:background">@color/colorLightGray</item>
+    </style>
 </resources>
