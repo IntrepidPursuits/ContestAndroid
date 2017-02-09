@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_vertical_margin"
+    >
+
+    <TextView
+        android:id="@+id/contest_title_hint"
+        style="@style/AppTheme.TextViewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:textColor="@color/colorLightGray"
+        />
+
+    <TextView
+        android:id="@+id/contest_title_button"
+        style="@style/AppTheme.TextViewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        />
+
+    <View
+        style="@style/AppTheme.HorizontalRow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+
+    <TextView
+        android:id="@+id/contest_description_hint"
+        style="@style/AppTheme.TextViewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/description"
+        android:textColor="@color/colorLightGray"
+        />
+
+    <TextView
+        android:id="@+id/contest_description_button"
+        style="@style/AppTheme.TextViewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        />
+
+    <View
+        style="@style/AppTheme.HorizontalRow"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+
+    <TextView
+        android:id="@+id/contest_categories_hint"
+        style="@style/AppTheme.TextViewLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/categories"
+        android:textColor="@color/colorLightGray"
+        tools:visibility="visible"
+        />
+
+    <include layout="@layout/include_review_category_recycler_view"/>
+
+</LinearLayout>
+
