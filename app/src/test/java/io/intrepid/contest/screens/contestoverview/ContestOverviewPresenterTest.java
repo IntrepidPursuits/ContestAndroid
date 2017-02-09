@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.UUID;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.Presenter;
@@ -48,6 +49,16 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     @Test
+    public void onViewCreatedShouldShowErrorOnContestDetailCallFailure() {
+        setupFailedContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showMessage(R.string.error_api);
+    }
+
+    @Test
     public void onViewCreatedShouldShowContestNameWhenSuccessfullyRetrievedContestDetails() throws Exception {
         setupSuccessfulContestDetailsCall();
 
@@ -57,6 +68,7 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         verify(mockView).showContestName(any());
     }
 
+
     @Test
     public void onViewCreatedShouldShowRatingGuide() throws Exception {
         //Not a pre-condition for this test but is required to make sure onViewCreated does not fail
@@ -65,7 +77,7 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showRatingGuide();
+        verify(mockView).showCategoriesAndWeights(any(), any());
     }
 
     @Test
@@ -76,16 +88,6 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showContestDescription(any());
-    }
-
-    @Test
-    public void showContestCategories() throws Exception {
-        setupSuccessfulContestDetailsCall();
-
-        presenter.onViewCreated();
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showCategories(any());
     }
 
     @Test

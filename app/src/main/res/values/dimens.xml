@@ -37,6 +37,7 @@
     <dimen name="category_card_height">128dp</dimen>
     <dimen name="category_card_width">325dp</dimen>
     <dimen name="category_title_text_size">16sp</dimen>
+    <dimen name="category_description_text_size">14sp</dimen>
 
     <dimen name="description_edittext_margin_top">20dp</dimen>
     <dimen name="description_edittext_margin_right">60dp</dimen>
@@ -59,10 +60,12 @@
     <dimen name="overview_description_box_right_margin">44dp</dimen>
     <dimen name="score_weight_icon_height">22dp</dimen>
     <dimen name="small_margin">4dp</dimen>
+    <dimen name="category_overview_margin_left">8dp</dimen>
 
     <dimen name="category_card_right_margin">21dp</dimen>
     <dimen name="hamburger_icon_top_margin">18dp</dimen>
 
     <dimen name="select_contacts_row_item_minheight">18dp</dimen>
     <dimen name="user_photo_size">32dp</dimen>
+    <dimen name="overview_card_bottom_margin">20dp</dimen>
 </resources>

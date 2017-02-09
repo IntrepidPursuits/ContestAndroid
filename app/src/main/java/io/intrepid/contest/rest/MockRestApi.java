@@ -2,6 +2,7 @@ package io.intrepid.contest.rest;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
 import java.util.UUID;
 
 import io.intrepid.contest.models.Category;
@@ -20,12 +21,14 @@ public class MockRestApi implements RestApi {
     private final UUID userId;
     private UUID contestId;
     private String contestTitle;
+    private String contestDescription;
     private int numGetContestStatusCallsForParticipant;
 
     public MockRestApi() {
         userId = UUID.randomUUID();
         contestId = UUID.randomUUID();
         contestTitle = "Contest title";
+        contestDescription = "Contest Description";
         numGetContestStatusCallsForParticipant = 0;
     }
 
@@ -118,8 +121,12 @@ public class MockRestApi implements RestApi {
     private ContestWrapper getValidContestResponse() {
         Contest contest = new Contest();
         contest.setTitle(contestTitle);
+        contest.setDescription(contestDescription);
+        List<Category> contestCategories = contest.getCategories();
+        for (int i = 0; i < 5; i++) {
+            contestCategories.add(new Category("Category " + i, "This is category " + i));
+        }
         ContestWrapper response = new ContestWrapper(contest);
-        response.contest.getCategories().add(new Category("TEST", "TEST")); //temp - fixme
         return response;
     }
 

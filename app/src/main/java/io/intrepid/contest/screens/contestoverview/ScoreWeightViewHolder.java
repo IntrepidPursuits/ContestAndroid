@@ -11,13 +11,13 @@ import butterknife.ButterKnife;
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.ScoreWeight;
 
-class ScoreWeightViewHolder extends RecyclerView.ViewHolder {
+public class ScoreWeightViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.weight_value_textview)
     TextView weightValueTextView;
     @BindView(R.id.weight_name_textview)
     TextView weightNameTextView;
 
-    ScoreWeightViewHolder(ViewGroup parent) {
+    public ScoreWeightViewHolder(ViewGroup parent) {
         super(inflateView(parent));
         ButterKnife.bind(this, itemView);
     }
@@ -27,7 +27,7 @@ class ScoreWeightViewHolder extends RecyclerView.ViewHolder {
         return layoutInflater.inflate(R.layout.score_weight_row, parent, false);
     }
 
-    void bindScore(ScoreWeight scoreWeight) {
+    public void bindScore(ScoreWeight scoreWeight) {
         weightValueTextView.setText(String.valueOf(scoreWeight.getWeightValue()));
         weightNameTextView.setText(scoreWeight.getWeightName());
     }
