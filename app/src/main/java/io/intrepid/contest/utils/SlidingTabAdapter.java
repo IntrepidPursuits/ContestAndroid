@@ -33,15 +33,6 @@ public class SlidingTabAdapter extends FragmentStatePagerAdapter {
         return fragments.size();
     }
 
-    public void addFragment(int index, BaseFragment fragment) {
-        if(fragments.contains(fragment)){
-            fragments.remove(fragment);
-            notifyDataSetChanged();
-        }
-        fragments.add(index, fragment);
-        notifyDataSetChanged();
-    }
-
     public void addFragment(BaseFragment fragment) {
         fragments.add(fragment);
         notifyDataSetChanged();
