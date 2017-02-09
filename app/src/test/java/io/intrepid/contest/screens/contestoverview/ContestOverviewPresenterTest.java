@@ -58,6 +58,37 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     @Test
+    public void onViewCreatedShouldShowRatingGuide() throws Exception {
+        //Not a pre-condition for this test but is required to make sure onViewCreated does not fail
+        setupSuccessfulContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showRatingGuide();
+    }
+
+    @Test
+    public void showContestDescription() throws Exception {
+        setupSuccessfulContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showContestDescription(any());
+    }
+
+    @Test
+    public void showContestCategories() throws Exception {
+        setupSuccessfulContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showCategories(any());
+    }
+
+    @Test
     public void onViewCreatedShouldShowApiErrorMessageWhenContestDetailsCallThrowsError() throws Exception {
         setupFailedContestDetailsCall();
 

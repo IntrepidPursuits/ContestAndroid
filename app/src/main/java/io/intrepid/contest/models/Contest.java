@@ -56,6 +56,14 @@ public class Contest {
         return categories;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public static class Builder {
         static final int UUID_MIN_LIMIT = 0;
         static final int UUID_MAX_LIMIT = Integer.MAX_VALUE;

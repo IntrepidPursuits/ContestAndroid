@@ -1,6 +1,7 @@
 package io.intrepid.contest.screens.contestcreation.categorieslist;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -13,15 +14,22 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.utils.dragdrop.ItemTouchHelperAdapter;
 import timber.log.Timber;
 
-class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ItemTouchHelperAdapter, CategoryViewHolder.CategoryClickListener {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ItemTouchHelperAdapter, CategoryViewHolder.CategoryClickListener {
     private final Context context;
     private List<Category> categories;
     private Category exampleCategory;
+    private @LayoutRes int rowItemLayout;
 
-    CategoryAdapter(Context context) {
+    public CategoryAdapter(Context context) {
         this.context = context;
         categories = new ArrayList<>();
         makeExampleCategory();
+    }
+
+    public CategoryAdapter(Context context, @LayoutRes int rowItemLayout) {
+        this.context = context;
+        categories = new ArrayList<>();
+        this.rowItemLayout = rowItemLayout;
     }
 
     private void makeExampleCategory() {
