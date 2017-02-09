@@ -7,8 +7,10 @@
     <string name="common_remove">Remove</string>
     <string name="common_next">Next</string>
     <string name="common_no_thanks">No, thanks</string>
+    <string name="common_skip">Skip</string>
     <string name="common_submit">Submit</string>
     <string name="common_error">Error</string>
+    <string name="common_search">Search</string>
     <string name="error_api">Error communicating with the API</string>
 
     <string name="join_contest">Join Contest</string>
@@ -61,4 +63,12 @@
     <string name="great">Great</string>
     <string name="excellent">Excellent</string>
     <string name="submitting_contest">Submitting contest</string>
+
+    <string name="send_invitations_menu_action">Invite</string>
+    <string name="invite_contestants_bar_title">Select Contestants</string>
+    <string name="invite_contestants_intro">Invite contestants from your contacts!</string>
+    <string name="no_contacts_permissions">We don\'t have access to your contacts. You can enable settings in privacy settings</string>
+    <string name="invite_contestants">Invite contestants</string>
+    <string name="add_participants_action">Add contestants</string>
+    <string name="add_participants_quantified_action">Add %1$s</string>
 </resources>
