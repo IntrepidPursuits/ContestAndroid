@@ -54,6 +54,13 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     }
 
     @Test
+    public void onViewCreatedShouldShowUserButtonsWhenUserIsRetrievedFromPersistentSettings() {
+        when(mockPersistentSettings.isAuthenticated()).thenReturn(true);
+        splashPresenter.onViewCreated();
+        verify(mockView).showUserButtons();
+    }
+
+    @Test
     public void onViewCreatedShouldShowUserButtonsWhenUserCreationThrowsError() {
         setupFailedUserCreation();
 
