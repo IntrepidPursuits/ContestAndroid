@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
 import static org.mockito.Mockito.verify;
@@ -15,20 +16,29 @@ import static org.mockito.Mockito.verify;
 public class DescribeContestPresenterTest {
     @Mock
     DescribeContestContract.View mockView;
-    private DescribeContestContract.Presenter describeContestPresenter;
+    @Mock
+    Contest.Builder mockContestBuilder;
+    private DescribeContestPresenter describeContestPresenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         describeContestPresenter = new DescribeContestPresenter(mockView,
-                                                                TestPresenterConfiguration.createTestConfiguration());
+                                                                TestPresenterConfiguration.createTestConfiguration(),
+                                                                mockContestBuilder);
     }
 
     @Test
-    public void onNextClickShouldTriggerViewToSaveContestDescription() {
+    public void onViewCreatedShouldCauseViewToDisableNext() {
+        describeContestPresenter.onViewCreated();
+        verify(mockView).setNextEnabled(false);
+    }
+
+    @Test
+    public void onNextClickShouldTriggerViewToShowNextScreen() {
         String VALID_TEXT = "Valid Contest Name";
         describeContestPresenter.onNextClicked(VALID_TEXT);
-        verify(mockView).saveContestDescription(VALID_TEXT);
+        verify(mockView).showNextScreen();
     }
 
     @Test

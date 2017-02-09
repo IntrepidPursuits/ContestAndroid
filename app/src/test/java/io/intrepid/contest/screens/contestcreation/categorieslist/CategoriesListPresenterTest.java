@@ -13,45 +13,59 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CategoriesListPresenterTest {
     @Mock
     CategoriesContract.View mockView;
+    @Mock
+    Contest.Builder mockContestBuilder;
     private CategoriesContract.Presenter categoriesListPresenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         categoriesListPresenter = new CategoriesListPresenter(mockView,
-                                                              TestPresenterConfiguration.createTestConfiguration());
+                                                              TestPresenterConfiguration.createTestConfiguration(),
+                                                              mockContestBuilder);
     }
 
     @Test
     public void displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
-        categoriesListPresenter.displayCategories(new Contest.Builder());
+        when(mockContestBuilder.getCategories()).thenReturn(new ArrayList<>());
+        categoriesListPresenter.displayCategories();
         verify(mockView).showDefaultCategory();
     }
 
     @Test
-    public void displayCategoriesShouldShowCategoriesWhenContestIsNull() {
-        categoriesListPresenter.displayCategories(null);
+    public void displayCategoriesShouldShowCategories() {
+        categoriesListPresenter.displayCategories();
         verify(mockView).showDefaultCategory();
     }
 
     @Test
     public void displayCategoriesShouldShowCategoriesContestshasCategories() {
-        Contest.Builder contestBuilder = new Contest.Builder();
-        contestBuilder.categories.add(new Category("TEST TITLE", "TEST DESCRIPTION"));
+        List<Category> categories = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            categories.add(new Category(" ", " "));
+        }
 
-        categoriesListPresenter.displayCategories(contestBuilder);
+        when(mockContestBuilder.getCategories()).thenReturn(categories);
+        categoriesListPresenter.displayCategories();
 
-        verify(mockView).showCategories(contestBuilder.categories);
+        verify(mockView).showCategories(categories);
     }
 
     @Test
-    public void onNextClickedShouldTriggerViewToCallSubmitCategories() {
+    public void onAddCategoryClickedShouldCauseViewToShowAdd() {
+        categoriesListPresenter.onAddCategoryClicked();
+        verify(mockView).showAddCategoryScreen();
+    }
+
+    @Test
+    public void onNextClickedShouldTriggerViewToShowNextScreen() {
         List<Category> categoryList = new ArrayList<>();
         categoriesListPresenter.onNextClicked(categoryList);
-        verify(mockView).showPreviewContestPage();
+        verify(mockView).showNextScreen();
     }
 }

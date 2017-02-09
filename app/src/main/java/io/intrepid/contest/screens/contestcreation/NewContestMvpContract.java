@@ -1,11 +1,6 @@
 package io.intrepid.contest.screens.contestcreation;
 
-import android.content.Intent;
-
-import java.util.List;
-
 import io.intrepid.contest.base.BaseContract;
-import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 
 class NewContestMvpContract {
@@ -35,17 +30,11 @@ class NewContestMvpContract {
 
         void onBackButtonClicked();
 
-        void setContestName(String contestName);
-
-        void setContestDescription(String contestDescription);
-
-        void setCategories(List<Category> categories);
-
         void onNextStatusChanged(boolean nextEnabled);
 
-        void addCategory(Category category);
-
         void onNewCategoryAdded(String name, String description);
+
+        void showNextScreen();
 
         void showAddCategoryScreen();
     }

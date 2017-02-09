@@ -1,7 +1,5 @@
 package io.intrepid.contest.models;
 
-import timber.log.Timber;
-
 public class Category {
     private String name;
     private String description;

@@ -1,18 +1,17 @@
 package io.intrepid.contest.screens.contestcreation.namecontest;
 
 import io.intrepid.contest.base.BaseContract;
-import io.intrepid.contest.models.Contest;
 
 class NameContestContract {
 
     public interface View extends BaseContract.View {
-        void saveEnteredName(String contestName);
-
         void setNextEnabled(boolean enabled);
+
+        void showNextScreen();
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
-        void onContestNameUpdate(String contestName);
+        void onContestTitleUpdated(String contestName);
 
         void onNextInvalidated();
 

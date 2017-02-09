@@ -9,9 +9,13 @@ import io.intrepid.contest.models.Contest;
 
 class DescribeContestPresenter extends BasePresenter<DescribeContestContract.View> implements DescribeContestContract.Presenter {
 
+    private final Contest.Builder contestBuilder;
+
     DescribeContestPresenter(@NonNull DescribeContestContract.View view,
-                             @NonNull PresenterConfiguration configuration) {
+                             @NonNull PresenterConfiguration configuration,
+                             Contest.Builder contestBuilder) {
         super(view, configuration);
+        this.contestBuilder = contestBuilder;
     }
 
     @Override
@@ -22,7 +26,8 @@ class DescribeContestPresenter extends BasePresenter<DescribeContestContract.Vie
 
     @Override
     public void onNextClicked(String description) {
-        view.saveContestDescription(description);
+        contestBuilder.setDescription(description);
+        view.showNextScreen();
     }
 
     @Override

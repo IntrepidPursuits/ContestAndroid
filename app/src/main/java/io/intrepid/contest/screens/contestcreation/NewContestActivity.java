@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -20,7 +18,6 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
-import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoriesFragment;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
@@ -56,13 +53,12 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        setupViewPager(new Contest.Builder());
+        setupViewPager();
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             setActionBarTitle(R.string.new_contest);
         }
-        setupViewPager(new Contest.Builder());
     }
 
     @Override
@@ -79,15 +75,15 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         return presenter;
     }
 
-    private void setupViewPager(Contest.Builder contest) {
+    private void setupViewPager() {
         if (tabAdapter == null) {
             tabAdapter = new SlidingTabAdapter(this);
         } else {
             tabAdapter.clear();
         }
-        tabAdapter.addFragment(NameContestFragment.newInstance(contest));
-        tabAdapter.addFragment(DescribeContestFragment.newInstance(contest));
-        tabAdapter.addFragment(CategoriesListFragment.newInstance(contest));
+        tabAdapter.addFragment(new NameContestFragment());
+        tabAdapter.addFragment(new DescribeContestFragment());
+        tabAdapter.addFragment(new CategoriesListFragment());
         viewPager.setAdapter(tabAdapter);
     }
 
@@ -162,13 +158,13 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void showUpdatedCategories(Contest.Builder contest) {
         Timber.d("Got back contest data");
-        setupViewPager(contest);
+        setupViewPager();
         viewPager.setCurrentItem(2);
     }
 
     @Override
     public void navigateToAddCategoryPage(Contest.Builder contest) {
-        startActivityForResult(makeIntent(this, contest), NOTIFY_NEW_CATEGORY);
+        startActivityForResult(makeIntent(this), NOTIFY_NEW_CATEGORY);
     }
 
     @Override
@@ -177,27 +173,17 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     @Override
-    public List<Category> getCategories() {
-        return presenter.contest.categories;
+    public Contest.Builder getContestBuilder() {
+        return presenter.getContest();
     }
 
     @Override
-    public void setContestName(String contestName) {
-        presenter.setContestName(contestName);
-    }
-
-    @Override
-    public void setContestDescription(String description) {
-        presenter.setContestDescription(description);
+    public void showNextScreen() {
+        presenter.showNextScreen();
     }
 
     @Override
     public void setNextEnabled(boolean enabled) {
         presenter.onNextStatusChanged(enabled);
-    }
-
-    @Override
-    public void setCategories(List<Category> categories) {
-        presenter.setCategories(categories);
     }
 }

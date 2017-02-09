@@ -12,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -46,7 +44,7 @@ public class NewContestPresenterTest {
     @Test
     public void presenterCanBeCreatedSuccessfully() {
         assertTrue(newContestPresenter != null);
-        assertTrue(newContestPresenter.contest != null);
+        assertTrue(newContestPresenter.getContest() != null);
         verify(mockView).showContestSubmissionPage(0);
     }
 
@@ -59,19 +57,7 @@ public class NewContestPresenterTest {
     @Test
     public void onBackButtonClickedShouldNavigateBackwards() {
         when(mockView.getCurrentIndex()).thenReturn(2);
-        newContestPresenter.setContestName(" d ");
-
         newContestPresenter.onBackButtonClicked();
-
-        verify(mockView).showContestSubmissionPage(1);
-    }
-
-    @Test
-    public void onBackTwo() {
-        when(mockView.getCurrentIndex()).thenReturn(2);
-
-        newContestPresenter.onBackButtonClicked();
-
         verify(mockView).showContestSubmissionPage(1);
     }
 
@@ -86,47 +72,6 @@ public class NewContestPresenterTest {
     }
 
     @Test
-    public void setContestNameShouldModifyContestName() {
-        String newContestName = "New Contest";
-
-        newContestPresenter.setContestName(newContestName);
-
-        verify(mockView).showContestSubmissionPage(1);
-        assertEquals(newContestName, newContestPresenter.contest.title);
-    }
-
-    @Test
-    public void setContestDescriptionShouldModifyContestDescription() {
-        mockView.showContestSubmissionPage(1);
-        String newDescription = "testing";
-        newContestPresenter.setContestDescription(newDescription);
-        assertEquals(newDescription, newContestPresenter.contest.description);
-    }
-
-    @Test
-    public void setCategoriesShouldModifyContestCategories() {
-        newContestPresenter.setCategories(categories);
-        assertTrue(newContestPresenter.contest.categories == categories);
-    }
-
-    @Test
-    public void addCategoryShouldIncrementCategoriesSize(){
-        int initialCategorySize = newContestPresenter.contest.categories.size();
-
-        newContestPresenter.addCategory(new Category("", ""));
-        int expectedSize = newContestPresenter.contest.categories.size();
-
-        assertEquals(expectedSize, initialCategorySize + 1);
-    }
-
-    @Test
-    public void setCategoriesShouldEndTheForm() {
-        mockView.showContestSubmissionPage(3);
-        newContestPresenter.setCategories(new ArrayList<>());
-        verify(mockView).completeEditForm(any(Contest.class));
-    }
-
-    @Test
     public void onNextDisabledShouldCauseViewToHideNextButton() {
         newContestPresenter.onNextStatusChanged(false);
         verify(mockView).setNextVisible(false);
@@ -136,6 +81,25 @@ public class NewContestPresenterTest {
     public void onNextEnabledShouldCauseViewToShowNextButton() {
         newContestPresenter.onNextStatusChanged(true);
         verify(mockView).setNextVisible(true);
+    }
+
+    @Test
+    public void showNextScreenShouldTriggerViewToShowNextScreen() {
+        when(mockView.getCurrentIndex()).thenReturn(1);
+        newContestPresenter.showNextScreen();
+        verify(mockView).showContestSubmissionPage(2);
+    }
+
+    @Test
+    public void onNewCategoryAddedShouldCauseViewToShowUpdatedCategories() {
+        newContestPresenter.onNewCategoryAdded("Category name", "Category description");
+        verify(mockView).showUpdatedCategories(eq(newContestPresenter.getContest()));
+    }
+
+    @Test
+    public void showAddCategoryScreenShouldCauseViewToNavigateToAddCategoryPage() {
+        newContestPresenter.showAddCategoryScreen();
+        verify(mockView).navigateToAddCategoryPage(eq(newContestPresenter.getContest()));
     }
 }
 
