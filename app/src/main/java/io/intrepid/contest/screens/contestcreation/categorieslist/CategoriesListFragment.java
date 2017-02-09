@@ -18,6 +18,7 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
 
 

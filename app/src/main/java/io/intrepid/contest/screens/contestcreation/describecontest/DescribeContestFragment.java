@@ -1,6 +1,7 @@
 package io.intrepid.contest.screens.contestcreation.describecontest;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.OnTextChanged;

@@ -40,6 +40,11 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
     }
 
     @Override
+    public void onFocus() {
+        onTextChanged(contestNameField.getText());
+    }
+
+    @Override
     public void setNextEnabled(boolean enabled) {
         ((EditContestContract) getActivity()).setNextEnabled(enabled);
         int trophyVisibility = enabled ? GONE : VISIBLE;
