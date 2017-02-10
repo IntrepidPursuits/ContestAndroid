@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.UUID;
 
+import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.Participant;
@@ -116,6 +117,7 @@ public class MockRestApi implements RestApi {
         Contest contest = new Contest();
         contest.setTitle(contestTitle);
         ContestWrapper response = new ContestWrapper(contest);
+        response.contest.getCategories().add(new Category("TEST", "TEST")); //temp - fixme
         return response;
     }
 

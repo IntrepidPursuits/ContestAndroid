@@ -29,7 +29,7 @@ class CategoryViewHolder extends RecyclerView.ViewHolder implements ItemTouchHel
 
     private static View inflateView(ViewGroup parent) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return layoutInflater.inflate(R.layout.category_row_item, parent, false);
+        return layoutInflater.inflate(R.layout.category_card_row_item, parent, false);
     }
 
     void bindCategory(Category category) {

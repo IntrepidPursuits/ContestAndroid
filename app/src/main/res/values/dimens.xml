@@ -54,4 +54,7 @@
     <dimen name="contest_overview_textsize">14sp</dimen>
 
     <dimen name="horizontal_margin_height">1dp</dimen>
+    <dimen name="overview_description_box_right_margin">44dp</dimen>
+    <dimen name="score_weight_icon_height">22dp</dimen>
+    <dimen name="small_margin">4dp</dimen>
 </resources>
