@@ -11,8 +11,6 @@ import java.util.UUID;
 
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.rest.ContestWrapper;
-import io.intrepid.contest.rest.ContestStatusResponse;
-import io.intrepid.contest.rest.ContestResponse;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.Presenter;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;

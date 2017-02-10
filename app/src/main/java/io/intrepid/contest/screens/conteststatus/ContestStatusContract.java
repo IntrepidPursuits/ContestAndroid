@@ -14,6 +14,6 @@ class ContestStatusContract {
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-        void requestContestDetails(Consumer<ContestResponse> responseCallback, Consumer<Throwable> throwableCallback);
+        void requestContestDetails(Consumer<ContestWrapper> responseCallback, Consumer<Throwable> throwableCallback);
     }
 }
