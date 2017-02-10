@@ -10,6 +10,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,6 +52,25 @@ public class DescribeContestPresenterTest {
     @Test
     public void onNextInValidatedShouldCauseViewToDisableNext() {
         describeContestPresenter.onNextInvalidated();
+        verify(mockView).setNextEnabled(false);
+    }
+
+    @Test
+    public void onTextChangedShouldCauseViewToEnableNext() {
+        String validText = " A";
+
+        describeContestPresenter.onTextChanged(validText);
+
+        assertFalse(describeContestPresenter.isEmpty(validText));
+        verify(mockView).setNextEnabled(true);
+    }
+
+    @Test
+    public void onTextChangedShouldCauseViewToDisableNextWhenEmptyTextIsEntered() {
+        String emptyText = "      ";
+        describeContestPresenter.onTextChanged(emptyText);
+
+        assertTrue(describeContestPresenter.isEmpty(emptyText));
         verify(mockView).setNextEnabled(false);
     }
 }
