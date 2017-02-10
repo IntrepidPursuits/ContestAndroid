@@ -132,6 +132,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     public void completeEditForm(Contest contest) {
         Toast.makeText(this, contest.getTitle() + " created ", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, EntryImageActivity.class));
+        presenter.submitContest();
     }
 
     @Override

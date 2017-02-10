@@ -55,4 +55,5 @@
     <string name="status_results_available_button">View results</string>
     <string name="contest_overview_intro">%1$s are waiting to be scored on the criteria below.</string>
     <string name="contest_overview_submit_button_text">Let\'s get started</string>
+    <string name="submitting_contest">Submitting contest</string>
 </resources>

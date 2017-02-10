@@ -2,6 +2,7 @@ package io.intrepid.contest.screens.contestcreation;
 
 import android.support.annotation.NonNull;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
@@ -50,6 +51,9 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     public void showNextScreen() {
         int currentIndex = view.getCurrentIndex();
+        if(currentIndex == 2){
+            submitContest();
+        }
         view.showContestSubmissionPage(currentIndex + 1);
     }
 
@@ -70,16 +74,20 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     }
 
     void submitContest() {
+        view.showMessage(R.string.submitting_contest);
         Observable<ContestWrapper> call = RetrofitClient.getApi()
                 .submitContest(new ContestWrapper(contest.build()));
         call.compose(subscribeOnIoObserveOnUi())
                 .subscribe((this::onApiResult), throwable -> {
                     Timber.d("API error creating contest " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
+
+                    //todo - remove when api endpoints are complete
+                    onApiResult(new ContestWrapper(contest.build()));
                 });
     }
 
     private void onApiResult(ContestWrapper response) {
-        view.showMessage(response.contest.getTitle() + " was created ");
+        view.showMessage(response.contest.toString() + " was created ");
     }
 }
