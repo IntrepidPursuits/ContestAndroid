@@ -14,8 +14,6 @@ class ContestStatusContract {
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-        void onTemporarySkipButtonClicked();
-
         void requestContestDetails(Consumer<ContestResponse> responseCallback, Consumer<Throwable> throwableCallback);
     }
 }

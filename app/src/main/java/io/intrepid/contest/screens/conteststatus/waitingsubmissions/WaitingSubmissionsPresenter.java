@@ -37,11 +37,7 @@ class WaitingSubmissionsPresenter extends BasePresenter<WaitingSubmissionsContra
     private Consumer<Throwable> onContestDetailsError() {
         return throwable -> {
             Timber.d("API error retrieving contest details: " + throwable.getMessage());
-
             view.showMessage(R.string.error_api);
-
-            // TODO: remove this fallback once API works
-            view.showContestName("Chili Cookoff");
         };
     }
 

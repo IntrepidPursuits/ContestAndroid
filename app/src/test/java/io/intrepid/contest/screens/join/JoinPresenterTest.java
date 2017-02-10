@@ -108,14 +108,4 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
 
         verify(mockView).showMessage(any(int.class));
     }
-
-    @Test
-    public void onSubmitButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsErrorForJudgeCode() throws HttpException {
-        when(mockRestApi.redeemInvitationCode(any(), any())).thenReturn(error(throwable));
-
-        presenter.onSubmitButtonClicked("judge");
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showMessage(any(int.class));
-    }
 }

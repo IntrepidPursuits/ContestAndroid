@@ -45,9 +45,9 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     }
 
     @Override
-    public void showNumSubmissionsMissing(int numSubmissionsMissing) {
+    public void showNumSubmissionsWaiting(int numSubmissionsWaiting) {
         String submissions = getResources()
-                .getQuantityString(R.plurals.numberOfSubmissions, numSubmissionsMissing, numSubmissionsMissing);
+                .getQuantityString(R.plurals.numberOfSubmissions, numSubmissionsWaiting, numSubmissionsWaiting);
         introTextView.setText(
                 getResources().getString(R.string.contest_overview_intro, submissions));
     }

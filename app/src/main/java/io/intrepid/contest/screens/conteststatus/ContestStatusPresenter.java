@@ -18,8 +18,8 @@ import timber.log.Timber;
 class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> implements ContestStatusContract.Presenter {
 
     private static final int API_CALL_INITIAL_DELAY = 0;
-    private static final int API_CALL_INTERVAL = 2;
-    private static final TimeUnit API_CALL_INTERVAL_UNIT = TimeUnit.MINUTES;
+    private static final int API_CALL_INTERVAL = 3; // TODO: change to 2 for release
+    private static final TimeUnit API_CALL_INTERVAL_UNIT = TimeUnit.SECONDS; // TODO: change to MINUTES for release
 
     ContestStatusPresenter(@NonNull ContestStatusContract.View view,
                            @NonNull PresenterConfiguration configuration) {
@@ -46,10 +46,7 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
                             .compose(subscribeOnIoObserveOnUi())
                             .subscribe(response -> showContestStatusScreen(response), throwable -> {
                                 Timber.d("API error retrieving contest status: " + throwable.getMessage());
-
-                                // TODO: once API endpoing works, stop showing message and skipping to next screen
                                 view.showMessage(R.string.error_api);
-                                view.showWaitingSubmissionsFragment(3);
                             });
                     disposables.add(apiCallDisposable);
                 });
@@ -57,34 +54,19 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     }
 
     private void showContestStatusScreen(ContestStatusResponse response) {
-        if (response.waitingForSubmissions) {
-            view.showWaitingSubmissionsFragment(response.numSubmissionsMissing);
-        } else {
-            view.showResultsAvailableFragment();
+        if (!response.haveSubmissionsEnded()) {
+            view.showWaitingSubmissionsFragment(response.getNumSubmissionsMissing());
+            return;
         }
-    }
 
-    @Override
-    public void onTemporarySkipButtonClicked() {
-        // TODO: once API endpoing works, remove this button and actions triggered by it
-        if (persistentSettings.getCurrentParticipationType() == ParticipationType.CONTESTANT) {
-            Timber.d("Skipping to 'Results in' page");
-            disposables.clear();
-
-            String contestId = persistentSettings.getCurrentContestId().toString();
-            Disposable apiCallDisposable = restApi.getContestStatus(contestId)
-                    .compose(subscribeOnIoObserveOnUi())
-                    .subscribe(response -> showContestStatusScreen(response), throwable -> {
-                        Timber.d("API error retrieving contest status: " + throwable.getMessage());
-
-                        view.showMessage(R.string.error_api);
-                        view.showResultsAvailableFragment();
-                    });
-            disposables.add(apiCallDisposable);
-        } else {
-            Timber.d("Skipping to 'Contest overview' page");
+        if (!response.hasContestEnded() &&
+                (persistentSettings.getCurrentParticipationType() == ParticipationType.JUDGE)) {
             view.showContestOverviewPage();
+            return;
         }
+
+        // TODO: there is a story to show contest overview for contestants when waiting for scores
+        view.showResultsAvailableFragment();
     }
 
     @Override

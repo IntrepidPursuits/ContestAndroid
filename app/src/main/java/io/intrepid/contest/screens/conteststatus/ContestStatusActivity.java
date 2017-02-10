@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.widget.Button;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -20,12 +17,8 @@ import io.intrepid.contest.screens.splash.SplashActivity;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-import static android.view.View.GONE;
-
 public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract.Presenter>
         implements ContestStatusContract.View, ContestStatusActivityContract {
-    @BindView(R.id.temporary_skip_button)
-    Button temporarySkipButton;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ContestStatusActivity.class);
@@ -84,13 +77,6 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
         }
 
         replaceFragment(fragment);
-    }
-
-    @OnClick(R.id.temporary_skip_button)
-    public void onTemporarySkipButtonClicked() {
-        // TODO: once API endpoing works, remove this button and actions triggered by it
-        presenter.onTemporarySkipButtonClicked();
-        temporarySkipButton.setVisibility(GONE);
     }
 
     @Override

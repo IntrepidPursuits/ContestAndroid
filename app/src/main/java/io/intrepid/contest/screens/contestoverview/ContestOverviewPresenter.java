@@ -11,7 +11,7 @@ import timber.log.Timber;
 public class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.View>
         implements ContestOverviewContract.Presenter {
 
-    private String contestId;
+    private static final int TEMPORARY_NUM_SUBMISSIONS_WAITING = 3;
 
     public ContestOverviewPresenter(@NonNull ContestOverviewContract.View view,
                                     @NonNull PresenterConfiguration configuration) {
@@ -22,38 +22,21 @@ public class ContestOverviewPresenter extends BasePresenter<ContestOverviewContr
     public void onViewCreated() {
         super.onViewCreated();
 
-        contestId = persistentSettings.getCurrentContestId().toString();
         requestContestDetails();
-        requestContestStatus();
+
+        // TODO: this number will come from judge scoring
+        view.showNumSubmissionsWaiting(TEMPORARY_NUM_SUBMISSIONS_WAITING);
     }
 
     private void requestContestDetails() {
+        String contestId = persistentSettings.getCurrentContestId().toString();
         Disposable apiCallDisposable = restApi.getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     view.showContestName(response.contest.getTitle());
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
-
                     view.showMessage(R.string.error_api);
-
-                    // TODO: remove this fallback once API works
-                    view.showContestName("Chili cookoff");
-                });
-        disposables.add(apiCallDisposable);
-    }
-
-    private void requestContestStatus() {
-        Disposable apiCallDisposable = restApi.getContestStatus(contestId)
-                .compose(subscribeOnIoObserveOnUi())
-                .subscribe(response -> {
-                    view.showNumSubmissionsMissing(response.numSubmissionsMissing);
-                }, throwable -> {
-                    Timber.d("API error retrieving contest status: " + throwable.getMessage());
-
-                    // TODO: once API endpoing works, stop showing message and showing hardcoded number of submissions
-                    view.showMessage(R.string.error_api);
-                    view.showNumSubmissionsMissing(5);
                 });
         disposables.add(apiCallDisposable);
     }

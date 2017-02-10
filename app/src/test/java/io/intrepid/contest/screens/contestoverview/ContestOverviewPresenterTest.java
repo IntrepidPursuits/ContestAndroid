@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.rest.ContestResponse;
-import io.intrepid.contest.rest.ContestStatusResponse;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.Presenter;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -35,12 +34,6 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         presenter = new ContestOverviewPresenter(mockView, testConfiguration);
 
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
-        initialSetupOfOnViewCreatedApiCalls();
-    }
-
-    private void initialSetupOfOnViewCreatedApiCalls() {
-        setupSuccessfulContestDetailsCall();
-        setupSuccessfulContestStatusCall();
     }
 
     private void setupSuccessfulContestDetailsCall() {
@@ -54,16 +47,6 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         when(mockRestApi.getContestDetails(any())).thenReturn(error(new Throwable()));
     }
 
-    private void setupSuccessfulContestStatusCall() {
-        ContestStatusResponse response = new ContestStatusResponse();
-        response.numSubmissionsMissing = 5;
-        when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
-    }
-
-    private void setupFailedContestStatusCall() {
-        when(mockRestApi.getContestStatus(any())).thenReturn(error(new Throwable()));
-    }
-
     @Test
     public void onViewCreatedShouldShowContestNameWhenSuccessfullyRetrievedContestDetails() throws Exception {
         setupSuccessfulContestDetailsCall();
@@ -75,28 +58,8 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     @Test
-    public void onViewCreatedShouldShowNumSubmissionsMissingWhenSuccessfullyRetrievedContestStatus() throws Exception {
-        setupSuccessfulContestStatusCall();
-
-        presenter.onViewCreated();
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showNumSubmissionsMissing(any(int.class));
-    }
-
-    @Test
     public void onViewCreatedShouldShowApiErrorMessageWhenContestDetailsCallThrowsError() throws Exception {
         setupFailedContestDetailsCall();
-
-        presenter.onViewCreated();
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showMessage(any(int.class));
-    }
-
-    @Test
-    public void onViewCreatedShouldShowApiErrorMessageWhenContestStatusCallThrowsError() throws Exception {
-        setupFailedContestStatusCall();
 
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
