@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-import static okhttp3.logging.HttpLoggingInterceptor.*;
+import static okhttp3.logging.HttpLoggingInterceptor.Level;
 
 public class RetrofitClient {
 

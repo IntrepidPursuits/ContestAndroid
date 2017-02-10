@@ -8,8 +8,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.rest.ContestWrapper;
-import io.intrepid.contest.rest.RetrofitClient;
-import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter {
@@ -73,11 +72,10 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
         view.navigateToAddCategoryPage(contest);
     }
 
-    void submitContest() {
+    private void submitContest() {
         view.showMessage(R.string.submitting_contest);
-        Observable<ContestWrapper> call = RetrofitClient.getApi()
-                .submitContest(new ContestWrapper(contest.build()));
-        call.compose(subscribeOnIoObserveOnUi())
+        Disposable submitCall = restApi.submitContest(new ContestWrapper(contest.build()))
+                .compose(subscribeOnIoObserveOnUi())
                 .subscribe((this::onApiResult), throwable -> {
                     Timber.d("API error creating contest " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
@@ -85,6 +83,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
                     //todo - remove when api endpoints are complete
                     onApiResult(new ContestWrapper(contest.build()));
                 });
+        disposables.add(submitCall);
     }
 
     private void onApiResult(ContestWrapper response) {

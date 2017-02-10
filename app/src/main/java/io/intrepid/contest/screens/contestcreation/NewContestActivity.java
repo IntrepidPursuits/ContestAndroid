@@ -8,20 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.util.List;
 
 import butterknife.BindView;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
-import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
-import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity;
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.SlidingTabAdapter;
 import timber.log.Timber;
@@ -126,13 +121,6 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void showContestSubmissionPage(int page) {
         viewPager.setCurrentItem(page, true);
-    }
-
-    @Override
-    public void completeEditForm(Contest contest) {
-        Toast.makeText(this, contest.getTitle() + " created ", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, EntryImageActivity.class));
-        presenter.submitContest();
     }
 
     @Override

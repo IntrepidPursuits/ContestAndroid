@@ -11,8 +11,6 @@ class NewContestMvpContract {
 
         void showContestSubmissionPage(int page);
 
-        void completeEditForm(Contest contest);
-
         ContestCreationFragment getChildEditFragment(int pageIndex);
 
         void setNextVisible(boolean visible);
