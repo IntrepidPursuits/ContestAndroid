@@ -14,8 +14,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.ParticipationType;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.intrepid.contest.screens.conteststatus.ContestStatusContract.Presenter;
 import io.intrepid.contest.screens.conteststatus.ContestStatusContract.View;
@@ -137,9 +138,9 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
 
     @Test
     public void onRequestContestDetailsShouldCallResponseConsumerWhenApiCallDoesNotThrowError() throws Exception {
-        Consumer<ContestResponse> responseConsumer = mock(Consumer.class);
+        Consumer<ContestWrapper> responseConsumer = mock(Consumer.class);
         Consumer<Throwable> throwableConsumer = mock(Consumer.class);
-        when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(new ContestResponse()));
+        when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
 
         presenter.requestContestDetails(responseConsumer, throwableConsumer);
         testConfiguration.triggerRxSchedulers();
@@ -150,7 +151,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
 
     @Test
     public void onRequestContestDetailsShouldCallThrowableConsumerWhenApiCallThrowsError() throws Exception {
-        Consumer<ContestResponse> responseConsumer = mock(Consumer.class);
+        Consumer<ContestWrapper> responseConsumer = mock(Consumer.class);
         Consumer<Throwable> throwableConsumer = mock(Consumer.class);
         when(mockRestApi.getContestDetails(any())).thenReturn(error(throwable));
 

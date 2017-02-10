@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.UUID;
 
 import io.intrepid.contest.models.Contest;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.Presenter;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -37,9 +37,9 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     private void setupSuccessfulContestDetailsCall() {
-        ContestResponse response = new ContestResponse();
-        response.contest = new Contest();
-        response.contest.setTitle("Contest title");
+        Contest contest = new Contest();
+        contest.setTitle("Contest title");
+        ContestWrapper response = new ContestWrapper(contest);
         when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(response));
     }
 

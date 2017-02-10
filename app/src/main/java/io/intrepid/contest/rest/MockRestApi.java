@@ -13,8 +13,6 @@ import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.Path;
 
-import static io.reactivex.Observable.error;
-
 public class MockRestApi implements RestApi {
     public static final String TEST_JUDGE_CODE = "judge";
 
@@ -68,6 +66,11 @@ public class MockRestApi implements RestApi {
         return Observable.just(getValidRedeemInvitationResponse(ParticipationType.CONTESTANT));
     }
 
+    @Override
+    public Observable<ContestWrapper> submitContest(@Body ContestWrapper contest) {
+        return Observable.just(getValidContestResponse());
+    }
+
     @NonNull
     private EntryResponse getValidEntryResponse() {
         Entry entry = new Entry();
@@ -109,15 +112,15 @@ public class MockRestApi implements RestApi {
     }
 
     @NonNull
-    private ContestResponse getValidContestResponse() {
-        ContestResponse response = new ContestResponse();
-        response.contest = new Contest();
-        response.contest.setTitle(contestTitle);
+    private ContestWrapper getValidContestResponse() {
+        Contest contest = new Contest();
+        contest.setTitle(contestTitle);
+        ContestWrapper response = new ContestWrapper(contest);
         return response;
     }
 
     @Override
-    public Observable<ContestResponse> getContestDetails(@Path("contestId") String contestId) {
+    public Observable<ContestWrapper> getContestDetails(@Path("contestId") String contestId) {
         return Observable.just(getValidContestResponse());
     }
 }

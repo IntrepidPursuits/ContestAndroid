@@ -11,7 +11,6 @@ interface CategoriesContract {
         void showCategories(List<Category> categories);
         void showDefaultCategory();
         void showAddCategoryScreen();
-
         void showNextScreen();
     }
 

@@ -11,7 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
 import io.intrepid.contest.models.Contest;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.conteststatus.resultsavailable.ResultsAvailableContract.Presenter;
 import io.intrepid.contest.screens.conteststatus.resultsavailable.ResultsAvailableContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -43,13 +43,12 @@ public class ResultsAvailablePresenterTest extends BasePresenterTest<ResultsAvai
 
     @Test
     public void onViewCreatedShouldShowContestNameWhenApiCallDoesNotThrowError() {
-        ArgumentCaptor<Consumer<ContestResponse>> captor = ArgumentCaptor.forClass(Consumer.class);
+        ArgumentCaptor<Consumer<ContestWrapper>> captor = ArgumentCaptor.forClass(Consumer.class);
 
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
-                ContestResponse response = new ContestResponse();
-                response.contest = new Contest();
+                ContestWrapper response = new ContestWrapper(new Contest());
                 response.contest.setTitle("Contest title");
                 captor.getValue().accept(response);
                 return null;

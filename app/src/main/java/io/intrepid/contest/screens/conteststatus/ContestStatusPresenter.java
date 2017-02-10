@@ -8,7 +8,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.ParticipationType;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -70,7 +70,7 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     }
 
     @Override
-    public void requestContestDetails(Consumer<ContestResponse> responseCallback,
+    public void requestContestDetails(Consumer<ContestWrapper> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
         String contestId = persistentSettings.getCurrentContestId().toString();
         Disposable apiCallDisposable = restApi.getContestDetails(contestId)

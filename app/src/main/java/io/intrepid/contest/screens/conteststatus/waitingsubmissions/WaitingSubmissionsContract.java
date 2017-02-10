@@ -1,7 +1,7 @@
 package io.intrepid.contest.screens.conteststatus.waitingsubmissions;
 
 import io.intrepid.contest.base.BaseContract;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.functions.Consumer;
 
 class WaitingSubmissionsContract {
@@ -12,7 +12,7 @@ class WaitingSubmissionsContract {
 
         void showContestName(String contestName);
 
-        void requestContestDetails(Consumer<ContestResponse> contestResponseConsumer,
+        void requestContestDetails(Consumer<ContestWrapper> contestResponseConsumer,
                                    Consumer<Throwable> throwableConsumer);
     }
 

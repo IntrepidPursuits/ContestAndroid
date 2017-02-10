@@ -17,10 +17,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
+import static okhttp3.logging.HttpLoggingInterceptor.Level;
+
 public class RetrofitClient {
 
     private static final String ACCEPT_APPLICATION = "vnd.judgy-server.herokuapp.com";
-    private static final String BASE_URL = "http://judgy-server.herokuapp.com/api/";
+    private static final String BASE_URL = "http://judgy-server.herokuapp.com";
     private static final int CONNECTION_TIMEOUT = 30;
     private static final int API_VERSION = 1;
     private static RestApi restApi;
@@ -50,8 +52,7 @@ public class RetrofitClient {
                     return chain.proceed(request);
                 });
         if (BuildConfig.LOG_CONSOLE) {
-            builder.addInterceptor(new HttpLoggingInterceptor(message -> Timber.v(message)).setLevel(
-                    HttpLoggingInterceptor.Level.BODY));
+            builder.addInterceptor(new HttpLoggingInterceptor(message -> Timber.v(message)).setLevel(Level.BODY));
         }
         OkHttpClient httpClient = builder
                 .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)

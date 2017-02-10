@@ -1,7 +1,7 @@
 package io.intrepid.contest.screens.conteststatus;
 
 import io.intrepid.contest.base.BaseContract;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.functions.Consumer;
 
 class ContestStatusContract {
@@ -14,6 +14,6 @@ class ContestStatusContract {
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-        void requestContestDetails(Consumer<ContestResponse> responseCallback, Consumer<Throwable> throwableCallback);
+        void requestContestDetails(Consumer<ContestWrapper> responseCallback, Consumer<Throwable> throwableCallback);
     }
 }

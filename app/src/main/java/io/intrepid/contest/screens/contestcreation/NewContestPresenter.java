@@ -2,10 +2,14 @@ package io.intrepid.contest.screens.contestcreation;
 
 import android.support.annotation.NonNull;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.rest.ContestWrapper;
+import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter {
     private Contest.Builder contest;
@@ -44,9 +48,11 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
         return contest;
     }
 
-    @Override
     public void showNextScreen() {
         int currentIndex = view.getCurrentIndex();
+        if(currentIndex == 2){
+            submitContest();
+        }
         view.showContestSubmissionPage(currentIndex + 1);
     }
 
@@ -64,5 +70,23 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     @Override
     public void showAddCategoryScreen() {
         view.navigateToAddCategoryPage(contest);
+    }
+
+    private void submitContest() {
+        view.showMessage(R.string.submitting_contest);
+        Disposable submitCall = restApi.submitContest(new ContestWrapper(contest.build()))
+                .compose(subscribeOnIoObserveOnUi())
+                .subscribe((this::onApiResult), throwable -> {
+                    Timber.d("API error creating contest " + throwable.getMessage());
+                    view.showMessage(R.string.error_api);
+
+                    //todo - remove when api endpoints are complete
+                    onApiResult(new ContestWrapper(contest.build()));
+                });
+        disposables.add(submitCall);
+    }
+
+    private void onApiResult(ContestWrapper response) {
+        view.showMessage(response.contest.toString() + " was created ");
     }
 }

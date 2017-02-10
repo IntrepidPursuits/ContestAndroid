@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
-import io.intrepid.contest.rest.ContestResponse;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewActivity;
 import io.intrepid.contest.screens.conteststatus.resultsavailable.ResultsAvailableFragment;
 import io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsFragment;
@@ -80,7 +80,7 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
     }
 
     @Override
-    public void requestContestDetails(Consumer<ContestResponse> responseCallback,
+    public void requestContestDetails(Consumer<ContestWrapper> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
         presenter.requestContestDetails(responseCallback, throwableCallback);
     }
