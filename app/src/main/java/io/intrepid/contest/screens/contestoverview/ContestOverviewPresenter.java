@@ -43,8 +43,7 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
         Disposable apiCallDisposable = restApi.getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
-                    Contest contest = response.contest;
-                    updateViewWithContest(contest);
+                    updateViewWithContest(response.contest);
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
@@ -52,7 +51,7 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
         disposables.add(apiCallDisposable);
     }
 
-    private void updateViewWithContest(Contest contest){
+    private void updateViewWithContest(Contest contest) {
         view.showContestName(contest.getTitle());
         view.showContestDescription(contest.getDescription());
         showCategoriesForContest(contest);
