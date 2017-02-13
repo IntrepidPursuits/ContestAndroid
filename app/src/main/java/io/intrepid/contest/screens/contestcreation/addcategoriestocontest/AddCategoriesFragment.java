@@ -65,6 +65,11 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
     }
 
     @Override
+    public void onFocus() {
+        //Do nothing - Intentional
+    }
+
+    @Override
     public void addCategory(Category category) {
         activity.addCategory(category);
     }

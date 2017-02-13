@@ -39,6 +39,11 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
     }
 
     @Override
+    public void onFocus() {
+        presenter.onTextChanged(descriptionField.getText());
+    }
+
+    @Override
     public void setNextEnabled(boolean enabled) {
         ((EditContestContract) getActivity()).setNextEnabled(enabled);
     }

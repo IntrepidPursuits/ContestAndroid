@@ -84,4 +84,9 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     public void showDefaultCategory() {
         categoryAdapter.setExampleCategories();
     }
+
+    @Override
+    public void onFocus() {
+        //Do nothing - Intentional
+    }
 }
