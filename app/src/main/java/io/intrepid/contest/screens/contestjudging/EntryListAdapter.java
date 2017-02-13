@@ -10,10 +10,15 @@ import io.intrepid.contest.models.Entry;
 
 public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
     private final List<Entry> entries = new ArrayList<>();
+    private final EntryOnClickListener listener;
+
+    public EntryListAdapter(EntryOnClickListener listener){
+        this.listener = listener;
+    }
 
     @Override
     public EntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new EntryViewHolder(parent);
+        return new EntryViewHolder(parent, listener);
     }
 
     @Override

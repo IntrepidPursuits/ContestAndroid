@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/always_visible_linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    >
+
+    <TextView
+        android:id="@+id/category_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/AvenirNext_DemiBold"
+        android:textColor="@color/colorAccent"
+        />
+
+    <LinearLayout
+        android:id="@+id/expandable_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/expandable_section_height"
+        android:layout_below="@id/category_item_title"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/activity_vertical_margin"
+        >
+
+        <TextView
+            android:id="@id/category_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            />
+
+        <android.support.v7.widget.AppCompatRatingBar
+            android:id="@+id/editable_rating_bar_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:isIndicator="false"
+            android:numStars="@integer/MAX_RATING_NUM"
+            android:stepSize="@dimen/rating_bar_step_size"
+            />
+
+        <TextView
+            android:id="@+id/category_score_status_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            />
+    </LinearLayout>
+</RelativeLayout>

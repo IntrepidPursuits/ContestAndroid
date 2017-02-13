@@ -28,7 +28,7 @@ public class EditCategoryActivity extends BaseFragmentActivity implements EditCa
         return EditCategoriesFragment.newInstance(category);
     }
 
-    public static Intent makeEditCategoryIntent(Context context, @Nullable Category category) {
+    public static Intent makeEditCategoryIntent(Context context, Category category) {
         return new Intent(context, EditCategoryActivity.class)
                 .putExtra(CATEGORY_KEY, category);
     }
@@ -39,14 +39,16 @@ public class EditCategoryActivity extends BaseFragmentActivity implements EditCa
 
     @Override
     public void addCategory(Category category) {
-        Intent intent = new Intent().putExtra(CATEGORY_NAME, category.getName())
+        Intent intent = new Intent()
+                .putExtra(CATEGORY_NAME, category.getName())
                 .putExtra(CATEGORY_DESCRIPTION, category.getDescription());
         setResult(RESULT_OK, intent);
         showCategoryList();
     }
 
     public void editCategory(Category category, String name, String description) {
-        Intent intent = new Intent().putExtra(CATEGORY_KEY, category)
+        Intent intent = new Intent()
+                 .putExtra(CATEGORY_KEY, category)
                 .putExtra(CATEGORY_NAME, name)
                 .putExtra(CATEGORY_DESCRIPTION, description);
         setResult(RESULT_OK, intent);

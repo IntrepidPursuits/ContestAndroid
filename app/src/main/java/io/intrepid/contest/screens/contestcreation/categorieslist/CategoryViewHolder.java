@@ -1,7 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.categorieslist;
 
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements ItemT
     TextView categoryDescription;
     private Category category;
 
-    public CategoryViewHolder(ViewGroup parent, @Nullable CategoryClickListener listener, @LayoutRes int rowLayout) {
+    public CategoryViewHolder(ViewGroup parent, CategoryClickListener listener, @LayoutRes int rowLayout) {
         super(inflateView(parent, rowLayout));
         this.listener = listener;
         ButterKnife.bind(this, itemView);
