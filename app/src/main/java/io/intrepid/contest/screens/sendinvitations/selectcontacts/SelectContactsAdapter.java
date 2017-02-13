@@ -5,16 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.intrepid.contest.models.Contact;
 
-public class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsViewHolder> {
+class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsViewHolder> {
 
-    private ArrayList<Contact> contactsList;
-
-    public SelectContactsAdapter(@NonNull ArrayList<Contact> contactsList) {
-        updateContactList(contactsList);
-    }
+    private final List<Contact> contactsList = new ArrayList<>();
 
     @Override
     public SelectContactsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,8 +28,10 @@ public class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsVi
         return contactsList.size();
     }
 
-    public void updateContactList(@NonNull ArrayList<Contact> contactsList) {
-        this.contactsList = contactsList;
+    public void updateContactList(@NonNull List<Contact> contactsList) {
+        this.contactsList.clear();
+        this.contactsList.addAll(contactsList);
+        notifyDataSetChanged();
     }
 
     public void clear() {
