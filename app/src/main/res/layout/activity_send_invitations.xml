@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_send_invitations"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="io.intrepid.contest.screens.sendinvitations.SendInvitationsActivity"
+    >
+
+    <TextView
+        android:id="@+id/send_invitations_intro_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/invite_contestants_intro"
+        android:textAppearance="@style/AvenirNext_DemiBold"
+        android:textColor="@color/colorLightGray"
+        android:textSize="@dimen/invite_contestants_textsize"
+        />
+
+    <ImageView
+        android:id="@+id/send_invitations_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/send_invitations_intro_text_view"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:src="@drawable/empty_contacts"
+        />
+
+    <ImageView
+        android:id="@+id/select_contacts_fab_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:clickable="true"
+        android:contentDescription="@string/invite_contestants"
+        android:src="@drawable/red_f_a_b"
+        />
+
+</RelativeLayout>

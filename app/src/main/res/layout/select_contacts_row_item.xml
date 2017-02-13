@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/select_contacts_row_item_minheight"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
+
+    <ImageView
+        android:id="@+id/select_contacts_photo_image_view"
+        android:layout_width="@dimen/user_photo_size"
+        android:layout_height="@dimen/user_photo_size"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:src="@drawable/default_user_photo"
+        tools:ignore="ContentDescription"
+        />
+
+    <TextView
+        android:id="@+id/select_contacts_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/select_contacts_photo_image_view"
+        android:layout_toRightOf="@id/select_contacts_photo_image_view"
+        android:gravity="center_vertical"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/select_contacts_phone_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/select_contacts_name_text_view"
+        android:layout_toEndOf="@id/select_contacts_photo_image_view"
+        android:layout_toRightOf="@id/select_contacts_photo_image_view"
+        android:gravity="center_vertical"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/select_contacts_email_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/select_contacts_phone_text_view"
+        android:layout_toEndOf="@id/select_contacts_photo_image_view"
+        android:layout_toRightOf="@id/select_contacts_photo_image_view"
+        android:gravity="center_vertical"
+        >
+    </TextView>
+
+</RelativeLayout>

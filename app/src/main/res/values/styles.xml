@@ -7,11 +7,16 @@
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
         <item name="android:editTextStyle">@style/AppTheme.EditText</item>
+        <item name="android:actionMenuTextAppearance">@style/AppTheme.ActionMenu</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.ActionMenu" parent="TextAppearance.AppCompat.Menu">
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="AppTheme.EditText">
