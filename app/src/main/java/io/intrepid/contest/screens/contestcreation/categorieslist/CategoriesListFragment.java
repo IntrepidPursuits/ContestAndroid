@@ -21,15 +21,15 @@ import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
 
 
-public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.View, ContestCreationFragment, CategoryClickListener {
-    @BindView(R.id.categories_recycler_view)
+public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesContract.View, ContestCreationFragment {
+    @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryAdapter = new CategoryAdapter(getContext(), R.layout.category_card_row_item);
+        categoryAdapter = new CategoryAdapter(getContext());
     }
 
     @Override

@@ -23,7 +23,7 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     TextView introTextView;
     @BindView(R.id.contest_overview_description_text_view)
     TextView descriptionTextView;
-    @BindView(R.id.categories_recycler_view)
+    @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
     private DualCategoryScoreAdapter categoryAdapter;
 
