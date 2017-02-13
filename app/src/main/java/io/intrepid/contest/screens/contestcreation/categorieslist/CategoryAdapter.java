@@ -18,18 +18,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
     private final Context context;
     private List<Category> categories;
     private Category exampleCategory;
-    private @LayoutRes int rowItemLayout;
+    @LayoutRes
+    private int rowItemLayout;
 
-    public CategoryAdapter(Context context) {
+    public CategoryAdapter(Context context, @LayoutRes int rowLayout) {
         this.context = context;
+        rowItemLayout = rowLayout;
         categories = new ArrayList<>();
         makeExampleCategory();
-    }
-
-    public CategoryAdapter(Context context, @LayoutRes int rowItemLayout) {
-        this.context = context;
-        categories = new ArrayList<>();
-        this.rowItemLayout = rowItemLayout;
     }
 
     private void makeExampleCategory() {
@@ -46,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CategoryViewHolder(parent, this);
+        return new CategoryViewHolder(parent, this, rowItemLayout);
     }
 
     @Override

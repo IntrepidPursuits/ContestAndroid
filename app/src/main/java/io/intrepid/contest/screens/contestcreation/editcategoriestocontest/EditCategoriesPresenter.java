@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestcreation.addcategoriestocontest;
+package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 
 import android.support.annotation.NonNull;
 
@@ -8,16 +8,14 @@ import java.util.List;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.models.Contest;
-import io.intrepid.contest.screens.contestcreation.ValidatableView;
 import timber.log.Timber;
 
-import static io.intrepid.contest.screens.contestcreation.addcategoriestocontest.AddCategoriesContract.View;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoriesContract.View;
 
-class AddCategoriesPresenter extends BasePresenter<AddCategoriesContract.View> implements AddCategoriesContract.Presenter {
+class EditCategoriesPresenter extends BasePresenter<EditCategoriesContract.View> implements EditCategoriesContract.Presenter {
     private final List<Category> categories = new ArrayList<>();
 
-    AddCategoriesPresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
+    EditCategoriesPresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
     }
 

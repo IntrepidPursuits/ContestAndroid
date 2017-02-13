@@ -55,6 +55,8 @@
 
     <string name="status_results_available_title">The Results Are In!</string>
     <string name="status_results_available_button">View results</string>
+
+    <string name="scoring_weight">Scoring Weight</string>
     <string name="contest_overview_intro">%1$s are waiting to be scored on the criteria below.</string>
     <string name="contest_overview_submit_button_text">Let\'s get started</string>
     <string name="poor">Poor</string>
@@ -70,5 +72,6 @@
     <string name="no_contacts_permissions">We don\'t have access to your contacts. You can enable settings in privacy settings</string>
     <string name="invite_contestants">Invite contestants</string>
     <string name="add_participants_action">Add contestants</string>
-    <string name="add_participants_quantified_action">Add %1$s</string>
+    <string name="add_participants_quantified_action">Add %1</string>
+    <string name="one_point">1x</string>
 </resources>

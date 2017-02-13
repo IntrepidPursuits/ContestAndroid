@@ -17,10 +17,10 @@ import static org.mockito.Mockito.when;
 
 public class CategoriesListPresenterTest {
     @Mock
-    CategoriesContract.View mockView;
+    CategoriesListContract.View mockView;
     @Mock
     Contest.Builder mockContestBuilder;
-    private CategoriesContract.Presenter categoriesListPresenter;
+    private CategoriesListContract.Presenter categoriesListPresenter;
 
     @Before
     public void setup() {

@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestcreation.addcategoriestocontest;
+package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,19 +7,25 @@ import android.support.v4.app.Fragment;
 import io.intrepid.contest.base.BaseFragmentActivity;
 import io.intrepid.contest.models.Category;
 
-public class AddCategoryActivity extends BaseFragmentActivity implements AddCategoriesFragment.ActivityCallback{
+public class EditCategoryActivity extends BaseFragmentActivity implements EditCategoriesFragment.ActivityCallback {
 
     public static final String CATEGORY_NAME = "NAME";
     public static final String CATEGORY_DESCRIPTION = "DESCRIPTION";
     public static final int NOTIFY_NEW_CATEGORY = 200;
 
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, AddCategoryActivity.class);
-    }
-
     @Override
     protected Fragment createFragment(Intent intent) {
-        return new AddCategoriesFragment();
+        return new EditCategoriesFragment();
+    }
+
+    public static Intent makeEditCategoryIntent(Context context, Category category) {
+        return new Intent(context, EditCategoryActivity.class)
+                .putExtra(CATEGORY_NAME, category.getName())
+                .putExtra(CATEGORY_DESCRIPTION, category.getDescription());
+    }
+
+    public static Intent makeAddCategoryIntent(Context context) {
+        return new Intent(context, EditCategoryActivity.class);
     }
 
     @Override
@@ -34,5 +40,4 @@ public class AddCategoryActivity extends BaseFragmentActivity implements AddCate
     public void showCategoryList() {
         onBackPressed();
     }
-
 }

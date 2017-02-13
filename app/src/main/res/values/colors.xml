@@ -16,4 +16,5 @@
     <color name="colorCoral">#f75f52</color>
     <color name="colorDarkGray">#404040</color>
     <color name="colorLightGray">#d0d0d0</color>
+    <color name="category_card_background">#fdfdfd</color>
 </resources>

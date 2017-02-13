@@ -45,7 +45,7 @@
             />
         <activity android:name=".screens.conteststatus.ContestStatusActivity">
         </activity>
-        <activity android:name=".screens.contestcreation.addcategoriestocontest.AddCategoryActivity"/>
+        <activity android:name=".screens.contestcreation.editcategoriestocontest.EditCategoryActivity"/>
         <activity android:name=".screens.contestoverview.ContestOverviewActivity"/>
         <activity android:name=".screens.sendinvitations.SendInvitationsActivity"/>
         <activity android:name=".screens.sendinvitations.selectcontacts.SelectContactsActivity"/>

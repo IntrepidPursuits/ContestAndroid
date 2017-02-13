@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestcreation.addcategoriestocontest;
+package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,28 +15,28 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AddCategoriesPresenterTest {
+public class EditCategoriesPresenterTest {
     @Mock
-    AddCategoriesContract.View mockView;
-    private AddCategoriesContract.Presenter addCategoryPresenter;
+    EditCategoriesContract.View mockView;
+    private EditCategoriesContract.Presenter editCategoryPresenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        addCategoryPresenter = new AddCategoriesPresenter(mockView,
-                                                          TestPresenterConfiguration.createTestConfiguration());
+        editCategoryPresenter = new EditCategoriesPresenter(mockView,
+                                                           TestPresenterConfiguration.createTestConfiguration());
     }
 
     @Test
     public void presenterCanBeCreated() {
-        assertTrue(addCategoryPresenter != null);
+        assertTrue(editCategoryPresenter != null);
     }
 
     @Test
     public void onNextClickedShouldTriggerViewToAddCategory() {
         String categoryName = "NewCategory";
         String categoryDescription = "NewCategory Description";
-        addCategoryPresenter.onNextClicked(categoryName, categoryDescription);
+        editCategoryPresenter.onNextClicked(categoryName, categoryDescription);
         verify(mockView).addCategory(eq(new Category(categoryName, categoryDescription)));
     }
 }

@@ -1,13 +1,12 @@
-package io.intrepid.contest.screens.contestcreation.addcategoriestocontest;
+package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Category;
 
-class AddCategoriesContract {
+class EditCategoriesContract {
 
     public interface View extends BaseContract.View {
         void addCategory(Category category);
-
         void showCategoriesList();
     }
 
