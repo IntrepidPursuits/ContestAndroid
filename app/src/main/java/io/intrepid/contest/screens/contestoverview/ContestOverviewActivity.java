@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -48,6 +49,12 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
         setActionBarDisplayHomeAsUpEnabled(true);
         setupCategoriesRecyclerView();
+        setupScoreWeightsRecyclerView();
+    }
+
+    @OnClick(R.id.contest_overview_submit_button)
+    public void onOverviewSubmitButtonClicked() {
+        presenter.onOverViewSubmitButtonClicked();
     }
 
     private void setupCategoriesRecyclerView() {
@@ -77,5 +84,10 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
                 .getQuantityString(R.plurals.numberOfSubmissions, numSubmissionsWaiting, numSubmissionsWaiting);
         introTextView.setText(
                 getResources().getString(R.string.contest_overview_intro, submissions));
+    }
+
+    @Override
+    public void advanceToJudgingScreen(Contest contest) {
+        startActivity(SubmissionEntriesActivity.makeIntent(this, contest.getEntries()));
     }
 }

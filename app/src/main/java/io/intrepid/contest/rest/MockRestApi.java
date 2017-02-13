@@ -77,10 +77,8 @@ public class MockRestApi implements RestApi {
 
     @NonNull
     private EntryResponse getValidEntryResponse() {
-        Entry entry = new Entry();
-        entry.id = UUID.randomUUID();
         EntryResponse entryResponse = new EntryResponse();
-        entryResponse.setEntry(entry);
+        entryResponse.setEntry(new Entry());
         return entryResponse;
     }
 
@@ -126,8 +124,19 @@ public class MockRestApi implements RestApi {
         for (int i = 0; i < 5; i++) {
             contestCategories.add(new Category("Category " + i, "This is category " + i));
         }
+        contest.setEntries(makeListOfEntries());
         ContestWrapper response = new ContestWrapper(contest);
         return response;
+    }
+
+    private List<Entry> makeListOfEntries() {
+        List<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Entry entry = new Entry();
+            entry.title = "Test Entry " + i;
+            entries.add(entry);
+        }
+        return entries;
     }
 
     @Override
