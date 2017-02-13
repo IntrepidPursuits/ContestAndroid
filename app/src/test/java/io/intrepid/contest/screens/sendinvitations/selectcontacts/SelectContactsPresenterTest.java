@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.intrepid.contest.models.Contact;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -12,6 +13,7 @@ import io.intrepid.contest.testutils.BasePresenterTest;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -46,21 +48,16 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
     @Test
     public void onContactListUpdatedShouldUpdateContactListFilteringOutContactsWithoutPhoneOrEmail() {
-        ArrayList<Contact> initialContactList = getMockContactList();
+        List<Contact> initialContactList = getMockContactList();
         presenter.onContactListUpdated(initialContactList);
         verify(mockView).updateContactList(argThat(argument -> argument.size() == initialContactList.size() - 1));
     }
 
-    private ArrayList<Contact> getMockContactList() {
+    private List<Contact> getMockContactList() {
         final String EMPTY = "";
         final String TEST_PHONE = "555-555-5555";
         final String TEST_EMAIL = "email@test.com";
-        ArrayList<Contact> contactList = new ArrayList<>();
-
-        Contact noPhoneOrEmail = new Contact();
-        noPhoneOrEmail.setPhone(EMPTY);
-        noPhoneOrEmail.setEmail(EMPTY);
-        contactList.add(noPhoneOrEmail);
+        List<Contact> contactList = new ArrayList<>();
 
         Contact onlyPhone = new Contact();
         onlyPhone.setPhone(TEST_PHONE);
@@ -77,6 +74,11 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
         phoneAndEmail.setEmail(TEST_EMAIL);
         contactList.add(phoneAndEmail);
 
+        Contact noPhoneOrEmail = new Contact();
+        noPhoneOrEmail.setPhone(EMPTY);
+        noPhoneOrEmail.setEmail(EMPTY);
+        contactList.add(noPhoneOrEmail);
+
         return contactList;
     }
 
@@ -89,5 +91,48 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
     public void onQueryTextChangeShouldUpdateContactSearchFilter() {
         presenter.onQueryTextChange(anyString());
         verify(mockView).updateContactSearchFilter(anyString());
+    }
+
+    @Test
+    public void onContactClickShouldNotifyAdapterDataSetChangedWhenContactIsClicked() {
+        presenter.onContactListUpdated(getMockContactList()); // Pre-requisite
+
+        presenter.onContactClick(mock(Contact.class));
+
+        verify(mockView).onContactSelected();
+    }
+
+    @Test
+    public void onContactClickShouldShowAndIncreaseAddContestantButtonWhenUnselectedContactIsClicked() {
+        List<Contact> list = getMockContactList();
+        list.get(0).setSelected(false);
+        presenter.onContactListUpdated(list);
+
+        presenter.onContactClick(list.get(0));
+
+        verify(mockView).showAddContestantButton(1);
+    }
+
+    @Test
+    public void onContactClickShouldShowAndDecreaseAddContestantButtonWhenOneOfMultipleSelectedContactsIsClicked() {
+        List<Contact> list = getMockContactList();
+        list.get(0).setSelected(true);
+        list.get(1).setSelected(true);
+        presenter.onContactListUpdated(list);
+
+        presenter.onContactClick(list.get(0));
+
+        verify(mockView).showAddContestantButton(1);
+    }
+
+    @Test
+    public void onContactClickShouldHideAddContestantButtonWhenTheOnlySelectedContactIsClicked() {
+        List<Contact> list = getMockContactList();
+        list.get(0).setSelected(true);
+        presenter.onContactListUpdated(list);
+
+        presenter.onContactClick(list.get(0));
+
+        verify(mockView).hideAddContestantButton();
     }
 }

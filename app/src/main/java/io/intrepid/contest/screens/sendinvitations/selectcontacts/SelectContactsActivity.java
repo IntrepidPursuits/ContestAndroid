@@ -30,6 +30,8 @@ import timber.log.Timber;
 import static android.provider.ContactsContract.CommonDataKinds;
 import static android.provider.ContactsContract.Contacts;
 import static android.provider.ContactsContract.Data;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContract.Presenter>
         implements SelectContactsContract.View, LoaderManager.LoaderCallbacks<Cursor> {
@@ -135,7 +137,7 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
 
     @Override
     public void displayContactList() {
-        selectContactsAdapter = new SelectContactsAdapter();
+        selectContactsAdapter = new SelectContactsAdapter(presenter);
         selectContactsRecyclerView.setAdapter(selectContactsAdapter);
 
         getSupportLoaderManager().initLoader(CONTACTS_LOADER, null, this);
@@ -215,5 +217,24 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
     public void updateContactSearchFilter(String newFilter) {
         contactSearchString = newFilter;
         getSupportLoaderManager().restartLoader(CONTACTS_LOADER, null, this);
+    }
+
+    @Override
+    public void onContactSelected() {
+        selectContactsAdapter.onContactSelected();
+    }
+
+    @Override
+    public void showAddContestantButton(int numContestants) {
+        String contestants = getResources()
+                .getQuantityString(R.plurals.numberOfContestants, numContestants, numContestants);
+        addParticipantsButton.setText(getResources().getString(R.string.add_participants_quantified_action,
+                                                               contestants));
+        addParticipantsButton.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void hideAddContestantButton() {
+        addParticipantsButton.setVisibility(GONE);
     }
 }

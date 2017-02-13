@@ -27,10 +27,14 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.select_contacts_email_text_view)
     TextView emailTextView;
 
-    public SelectContactsViewHolder(ViewGroup parent) {
+    private Contact viewHolderContact;
+
+    public SelectContactsViewHolder(ViewGroup parent, ContactClickListener onContactClickListener) {
         super(inflateView(parent));
 
         ButterKnife.bind(this, itemView);
+
+        itemView.setOnClickListener(view -> onContactClickListener.onContactClick(viewHolderContact));
     }
 
     private static View inflateView(ViewGroup parent) {
@@ -39,6 +43,7 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindData(Contact contact) {
+        viewHolderContact = contact;
         nameTextView.setText(contact.getName());
 
         if (!contact.getEmail().isEmpty()) {
@@ -51,11 +56,19 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
             emailTextView.setVisibility(GONE);
         }
 
-        byte[] photo = contact.getPhoto();
-        if (photo == null) {
-            photoImageView.setImageResource(R.drawable.default_user_photo);
+        if (contact.isSelected()) {
+            photoImageView.setImageResource(R.drawable.selected_contact_icon);
         } else {
-            photoImageView.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
+            byte[] photo = contact.getPhoto();
+            if (photo == null) {
+                photoImageView.setImageResource(R.drawable.default_user_photo);
+            } else {
+                photoImageView.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
+            }
         }
+    }
+
+    public interface ContactClickListener {
+        void onContactClick(Contact contact);
     }
 }

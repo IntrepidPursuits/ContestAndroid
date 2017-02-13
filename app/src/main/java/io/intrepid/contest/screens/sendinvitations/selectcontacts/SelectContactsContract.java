@@ -18,9 +18,16 @@ class SelectContactsContract {
         void updateContactList(List<Contact> contacts);
 
         void updateContactSearchFilter(String newFilter);
+
+        void onContactSelected();
+
+        void showAddContestantButton(int numContestants);
+
+        void hideAddContestantButton();
     }
 
-    interface Presenter extends BaseContract.Presenter<View>, SearchView.OnQueryTextListener {
+    interface Presenter extends BaseContract.Presenter<View>,
+            SearchView.OnQueryTextListener, SelectContactsViewHolder.ContactClickListener {
         void onContactListUpdated(List<Contact> contacts);
     }
 }

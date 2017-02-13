@@ -13,9 +13,15 @@ class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsViewHolde
 
     private final List<Contact> contactsList = new ArrayList<>();
 
+    private SelectContactsViewHolder.ContactClickListener onContactClickListener;
+
+    public SelectContactsAdapter(@NonNull SelectContactsViewHolder.ContactClickListener onContactClickListener) {
+        this.onContactClickListener = onContactClickListener;
+    }
+
     @Override
     public SelectContactsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SelectContactsViewHolder(parent);
+        return new SelectContactsViewHolder(parent, this.onContactClickListener);
     }
 
     @Override
@@ -36,5 +42,9 @@ class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsViewHolde
 
     public void clear() {
         contactsList.clear();
+    }
+
+    public void onContactSelected() {
+        notifyDataSetChanged();
     }
 }

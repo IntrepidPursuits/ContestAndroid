@@ -5,6 +5,7 @@ public class Contact {
     private String phone;
     private String email;
     private byte[] photo;
+    private boolean selected = false;
 
     public String getName() {
         return name;
@@ -30,11 +31,19 @@ public class Contact {
         this.email = email;
     }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
+
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
-    public byte[] getPhoto() {
-        return photo;
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
