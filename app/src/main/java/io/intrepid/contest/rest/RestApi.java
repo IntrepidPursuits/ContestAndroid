@@ -1,6 +1,5 @@
 package io.intrepid.contest.rest;
 
-import io.intrepid.contest.models.Contest;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -9,7 +8,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RestApi {
-    @POST("users")
+    @POST("api/users")
     Observable<UserCreationResponse> createUser();
 
     @PATCH("api/invitations/{code}/redeem")

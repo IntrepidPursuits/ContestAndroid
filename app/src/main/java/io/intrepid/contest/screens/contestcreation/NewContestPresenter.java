@@ -13,6 +13,7 @@ import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter, ViewPager.OnPageChangeListener {
+    private static final int LAST_PAGE_INDEX = 2;
     private Contest.Builder contest;
 
     NewContestPresenter(@NonNull NewContestMvpContract.View view,
@@ -51,7 +52,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     public void showNextScreen() {
         int currentIndex = view.getCurrentIndex();
-        if(currentIndex == 2){
+        if (currentIndex == LAST_PAGE_INDEX) {
             submitContest();
         }
         view.showContestSubmissionPage(currentIndex + 1);
@@ -80,9 +81,6 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
                 .subscribe((this::onApiResult), throwable -> {
                     Timber.d("API error creating contest " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
-
-                    //todo - remove when api endpoints are complete
-                    onApiResult(new ContestWrapper(contest.build()));
                 });
         disposables.add(submitCall);
     }
