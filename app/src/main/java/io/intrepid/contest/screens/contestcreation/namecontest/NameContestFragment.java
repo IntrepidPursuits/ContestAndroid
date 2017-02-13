@@ -41,7 +41,7 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
 
     @Override
     public void onFocus() {
-        onTextChanged(contestNameField.getText());
+        presenter.onTextChanged(contestNameField.getText());
     }
 
     @Override

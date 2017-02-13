@@ -14,7 +14,6 @@ import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
-import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
 public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> implements AddCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
@@ -67,7 +66,7 @@ public class AddCategoriesFragment extends BaseFragment<AddCategoriesPresenter> 
 
     @Override
     public void onFocus() {
-
+        //Do nothing - Intentional
     }
 
     @Override

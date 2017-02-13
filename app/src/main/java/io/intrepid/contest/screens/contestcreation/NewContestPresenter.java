@@ -1,6 +1,7 @@
 package io.intrepid.contest.screens.contestcreation;
 
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
@@ -11,7 +12,7 @@ import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter {
+class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter, ViewPager.OnPageChangeListener {
     private Contest.Builder contest;
 
     NewContestPresenter(@NonNull NewContestMvpContract.View view,
@@ -88,5 +89,22 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     private void onApiResult(ContestWrapper response) {
         view.showMessage(response.contest.toString() + " was created ");
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        onPageSelected(position);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        ContestCreationFragment fragment = view.getChildEditFragment(position);
+        fragment.onFocus();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        int position = view.getCurrentIndex();
+        onPageSelected(position);
     }
 }

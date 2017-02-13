@@ -1,7 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.describecontest;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.OnTextChanged;
@@ -37,6 +36,11 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
     @Override
     public void onNextClicked() {
         presenter.onNextClicked(descriptionField.getText());
+    }
+
+    @Override
+    public void onFocus() {
+        presenter.onTextChanged(descriptionField.getText());
     }
 
     @Override

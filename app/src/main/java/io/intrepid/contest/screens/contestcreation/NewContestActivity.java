@@ -54,6 +54,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
             actionBar.setDisplayHomeAsUpEnabled(true);
             setActionBarTitle(R.string.new_contest);
         }
+        viewPager.addOnPageChangeListener(presenter);
     }
 
     @Override
