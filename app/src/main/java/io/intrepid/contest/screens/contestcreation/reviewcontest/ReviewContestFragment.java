@@ -81,6 +81,7 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
 
     @Override
     public void onNextClicked() {
+        ((EditContestContract) getActivity()).showNextScreen();
         //todo - submit contest
     }
 }
