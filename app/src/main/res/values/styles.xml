@@ -8,6 +8,8 @@
         <item name="android:buttonStyle">@style/AppTheme.Button</item>
         <item name="android:editTextStyle">@style/AppTheme.EditText</item>
         <item name="android:actionMenuTextAppearance">@style/AppTheme.ActionMenu</item>
+        <item name="searchViewStyle">@style/AppTheme.SearchView</item>
+        <item name="autoCompleteTextViewStyle">@style/AppTheme.AutoCompleteTextView.SearchView</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -17,6 +19,17 @@
 
     <style name="AppTheme.ActionMenu" parent="TextAppearance.AppCompat.Menu">
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="AppTheme.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/search_icon</item>
+        <item name="searchHintIcon">@drawable/search_icon</item>
+        <item name="closeIcon">@drawable/close_icon</item>
+    </style>
+
+    <style name="AppTheme.AutoCompleteTextView.SearchView" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
     </style>
 
     <style name="AppTheme.EditText">

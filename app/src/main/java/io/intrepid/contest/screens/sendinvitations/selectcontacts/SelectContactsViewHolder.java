@@ -13,6 +13,9 @@ import butterknife.ButterKnife;
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Contact;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.select_contacts_photo_image_view)
@@ -37,11 +40,21 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
 
     public void bindData(Contact contact) {
         nameTextView.setText(contact.getName());
-        phoneTextView.setText(contact.getPhone());
-        emailTextView.setText(contact.getEmail());
+
+        if (!contact.getEmail().isEmpty()) {
+            emailTextView.setText(contact.getEmail());
+            emailTextView.setVisibility(VISIBLE);
+            phoneTextView.setVisibility(GONE);
+        } else {
+            phoneTextView.setText(contact.getPhone());
+            phoneTextView.setVisibility(VISIBLE);
+            emailTextView.setVisibility(GONE);
+        }
 
         byte[] photo = contact.getPhoto();
-        if (photo != null) {
+        if (photo == null) {
+            photoImageView.setImageResource(R.drawable.default_user_photo);
+        } else {
             photoImageView.setImageBitmap(BitmapFactory.decodeByteArray(photo, 0, photo.length));
         }
     }

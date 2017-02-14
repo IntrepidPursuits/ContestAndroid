@@ -11,11 +11,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import io.intrepid.contest.R;
@@ -31,6 +34,7 @@ import static android.provider.ContactsContract.Data;
 public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContract.Presenter>
         implements SelectContactsContract.View, LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String ACTION_BAR_TITLE = "";
     private static final int CONTACTS_LOADER = 0;
 
     // Columns to read from the Contacts table
@@ -97,6 +101,26 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
     }
 
     @Override
+    protected void onViewCreated(Bundle savedInstanceState) {
+        super.onViewCreated(savedInstanceState);
+
+        setActionBarTitle(ACTION_BAR_TITLE);
+        setActionBarDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem searchItem = menu.add(R.string.common_search);
+        searchItem.setIcon(R.drawable.search_icon);
+        searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        SearchView searchView = new SearchView(this);
+        searchView.setOnQueryTextListener(presenter);
+        searchItem.setActionView(searchView);
+        return true;
+    }
+
+    @Override
     public boolean hasContactsPermissions() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -111,9 +135,8 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
 
     @Override
     public void displayContactList() {
-        selectContactsAdapter = new SelectContactsAdapter(new ArrayList<>());
+        selectContactsAdapter = new SelectContactsAdapter();
         selectContactsRecyclerView.setAdapter(selectContactsAdapter);
-        selectContactsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         getSupportLoaderManager().initLoader(CONTACTS_LOADER, null, this);
     }
@@ -135,13 +158,10 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        ArrayList<Contact> contacts = new ArrayList<>();
+        List<Contact> contacts = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Contact contact = new Contact();
-
             String[] lookupKey = { cursor.getString(CONTACTS_PROJECTION_INDEX_CONTACT_LOOKUP_KEY) };
-            long contactId = cursor.getLong(CONTACTS_PROJECTION_INDEX_CONTACT_ID);
             String displayName = cursor.getString(CONTACTS_PROJECTION_INDEX_CONTACT_DISPLAY_NAME);
             String phone = "";
             String email = "";
@@ -169,8 +189,8 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
             }
             details.close();
 
-            Timber.d("Contact ID: " + contactId + ", name: " + displayName + ", phone: " + phone + ", email: " + email);
-            contact.setId(cursor.getLong(CONTACTS_PROJECTION_INDEX_CONTACT_ID));
+            Timber.d("Contact name: " + displayName + ", phone: " + phone + ", email: " + email);
+            Contact contact = new Contact();
             contact.setName(displayName);
             contact.setPhone(phone);
             contact.setEmail(email);
@@ -178,11 +198,22 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
             contacts.add(contact);
         }
 
+        presenter.onContactListUpdated(contacts);
+    }
+
+    @Override
+    public void updateContactList(List<Contact> contacts) {
         selectContactsAdapter.updateContactList(contacts);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         selectContactsAdapter.clear();
+    }
+
+    @Override
+    public void updateContactSearchFilter(String newFilter) {
+        contactSearchString = newFilter;
+        getSupportLoaderManager().restartLoader(CONTACTS_LOADER, null, this);
     }
 }

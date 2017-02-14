@@ -1,19 +1,10 @@
 package io.intrepid.contest.models;
 
 public class Contact {
-    private long id;
     private String name;
     private String phone;
     private String email;
     private byte[] photo;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
