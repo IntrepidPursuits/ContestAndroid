@@ -18,6 +18,7 @@ import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesList
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
 import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
+import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFragment;
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.SlidingTabAdapter;
 import timber.log.Timber;
@@ -80,6 +81,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         tabAdapter.addFragment(new NameContestFragment());
         tabAdapter.addFragment(new DescribeContestFragment());
         tabAdapter.addFragment(new CategoriesListFragment());
+        tabAdapter.addFragment(new ReviewContestFragment());
         viewPager.setAdapter(tabAdapter);
     }
 
@@ -167,6 +169,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
         return presenter.getContest();
     }
 
+    @Override
     public void showNextScreen() {
         presenter.showNextScreen();
     }
