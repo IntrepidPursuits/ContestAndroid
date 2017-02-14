@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.ParticipationType;
+import io.intrepid.contest.rest.ContestStatus;
 import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.intrepid.contest.screens.conteststatus.ContestStatusContract.Presenter;
@@ -53,8 +54,9 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @NonNull
     private ContestStatusResponse getContestStatusResponseWaitingForSubmissions() {
         ContestStatusResponse response = new ContestStatusResponse();
-        response.setSubmissionData(false, 0, 5);
-        response.setJudgeData(false, 0, 1);
+        response.contestStatus = new ContestStatus();
+        response.contestStatus.setSubmissionData(false, 0, 5);
+        response.contestStatus.setJudgeData(false, 0, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
         return response;
     }
@@ -62,8 +64,9 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @NonNull
     private ContestStatusResponse getContestStatusResponseWaitingForScores() {
         ContestStatusResponse response = new ContestStatusResponse();
-        response.setSubmissionData(true, 5, 5);
-        response.setJudgeData(false, 0, 1);
+        response.contestStatus = new ContestStatus();
+        response.contestStatus.setSubmissionData(true, 5, 5);
+        response.contestStatus.setJudgeData(false, 0, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
         return response;
     }
@@ -71,8 +74,9 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @NonNull
     private ContestStatusResponse getContestStatusResponseResultsAvailable() {
         ContestStatusResponse response = new ContestStatusResponse();
-        response.setSubmissionData(true, 5, 5);
-        response.setJudgeData(true, 1, 1);
+        response.contestStatus = new ContestStatus();
+        response.contestStatus.setSubmissionData(true, 5, 5);
+        response.contestStatus.setJudgeData(true, 1, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
         return response;
     }
@@ -84,7 +88,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showWaitingSubmissionsFragment(response.getNumSubmissionsMissing());
+        verify(mockView).showWaitingSubmissionsFragment(response.contestStatus.getNumSubmissionsMissing());
         verify(mockView, never()).showResultsAvailableFragment();
         verify(mockView, never()).showContestOverviewPage();
     }
@@ -123,7 +127,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         testConfiguration.getIoScheduler().advanceTimeBy(3, TimeUnit.SECONDS);
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView, times(2)).showWaitingSubmissionsFragment(response.getNumSubmissionsMissing());
+        verify(mockView, times(2)).showWaitingSubmissionsFragment(response.contestStatus.getNumSubmissionsMissing());
     }
 
     @Test
