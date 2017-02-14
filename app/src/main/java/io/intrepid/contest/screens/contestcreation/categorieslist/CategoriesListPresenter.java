@@ -37,6 +37,12 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View>
     }
 
     @Override
+    protected void onViewBound() {
+        super.onViewBound();
+        determineNextIconVisibility();
+    }
+
+    @Override
     public void displayCategories() {
         view.showCategories(contestBuilder.getCategories());
     }
@@ -61,5 +67,11 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View>
     public void onDeleteClicked(Category category) {
         contestBuilder.getCategories().remove(category);
         view.showCategories(contestBuilder.getCategories());
+        determineNextIconVisibility();
+    }
+
+    private void determineNextIconVisibility() {
+        boolean nextEnabled = !contestBuilder.getCategories().isEmpty();
+        view.setNextEnabled(nextEnabled);
     }
 }
