@@ -69,7 +69,7 @@ public class RetrofitClient {
 
     private static Converter.Factory getConverter() {
         Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .setPrettyPrinting()
                 .create();
         return GsonConverterFactory.create(gson);
