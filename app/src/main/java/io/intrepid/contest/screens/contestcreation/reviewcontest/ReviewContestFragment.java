@@ -19,7 +19,6 @@ import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoryAdapter;
 
 public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> implements ReviewContestContract.View, ContestCreationFragment {
-    private static final String CONTEST_KEY = "CONTEST_KEY";
     @BindView(R.id.contest_title_button)
     TextView titleButton;
     @BindView(R.id.contest_description_button)
@@ -83,10 +82,5 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
     @Override
     public void onNextClicked() {
         //todo - submit contest
-    }
-
-    @Override
-    public void onFocus() {
-        //Do nothing - Intentional
     }
 }

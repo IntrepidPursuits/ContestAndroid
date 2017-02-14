@@ -3,7 +3,6 @@ package io.intrepid.contest.screens.contestcreation.describecontest;
 import android.support.annotation.NonNull;
 
 import butterknife.BindView;
-import butterknife.OnTextChanged;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -28,19 +27,9 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
         return new DescribeContestPresenter(this, configuration, contestBuilder);
     }
 
-    @OnTextChanged(R.id.hint_label_edit_text)
-    public final void onTextChanged(CharSequence newDescription) {
-        presenter.onTextChanged(newDescription);
-    }
-
     @Override
     public void onNextClicked() {
         presenter.onNextClicked(descriptionField.getText());
-    }
-
-    @Override
-    public void onFocus() {
-        presenter.onTextChanged(descriptionField.getText());
     }
 
     @Override

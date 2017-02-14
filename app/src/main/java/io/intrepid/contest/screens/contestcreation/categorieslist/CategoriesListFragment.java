@@ -29,7 +29,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryAdapter = new CategoryAdapter(getContext());
+        categoryAdapter = new CategoryAdapter(getContext(), R.layout.category_card_row_item);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     }
 
     @Override
-    public void onFocus() {
-        //Do nothing - Intentional
+    public void onCategoryClicked(Category category) {
+        presenter.onCategoryClicked(category);
     }
 }
