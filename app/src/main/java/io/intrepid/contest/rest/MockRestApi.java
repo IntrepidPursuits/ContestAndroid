@@ -89,16 +89,18 @@ public class MockRestApi implements RestApi {
     @NonNull
     private ContestStatusResponse getValidEntryResponseWaitingForSubmissions() {
         ContestStatusResponse response = new ContestStatusResponse();
-        response.setSubmissionData(false, 5, 10);
-        response.setJudgeData(false, 0, 6);
+        response.contestStatus = new ContestStatus();
+        response.contestStatus.setSubmissionData(false, 5, 10);
+        response.contestStatus.setJudgeData(false, 0, 6);
         return response;
     }
 
     @NonNull
     private ContestStatusResponse getValidEntryResponseWaitingForScores() {
         ContestStatusResponse response = new ContestStatusResponse();
-        response.setSubmissionData(true, 10, 10);
-        response.setJudgeData(false, 2, 6);
+        response.contestStatus = new ContestStatus();
+        response.contestStatus.setSubmissionData(true, 10, 10);
+        response.contestStatus.setJudgeData(false, 2, 6);
         return response;
     }
 
