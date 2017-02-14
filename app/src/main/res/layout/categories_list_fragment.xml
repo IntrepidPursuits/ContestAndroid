@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_vertical_margin"
+    android:padding="@dimen/activity_vertical_margin"
     >
 
     <include layout="@layout/include_layout_recycler_view"/>
@@ -18,6 +18,4 @@
         android:contentDescription="@string/add_a_category"
         android:src="@drawable/red_f_a_b"
         />
-
-
 </RelativeLayout>
