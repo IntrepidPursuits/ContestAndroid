@@ -3,6 +3,7 @@ package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,12 +16,22 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_KEY;
+
 public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter> implements EditCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
     EditText categoryNameField;
     @BindView(R.id.category_description_edittext)
     EditText categoryDescriptionField;
     private ActivityCallback activity;
+
+    public static Fragment newInstance(@Nullable Category category) {
+        EditCategoriesFragment fragment = new EditCategoriesFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(CATEGORY_KEY, category);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +66,9 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
     @NonNull
     @Override
     public EditCategoriesPresenter createPresenter(PresenterConfiguration configuration) {
-        return new EditCategoriesPresenter(this, configuration);
+        Bundle args = getArguments();
+        Category category = (Category) args.get(CATEGORY_KEY);
+        return new EditCategoriesPresenter(this, configuration, category);
     }
 
     @Override
@@ -74,8 +87,20 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
         activity.showCategoryList();
     }
 
+    @Override
+    public void showEditableCategory(String previousCategoryName, String previousCategoryDescription) {
+        categoryNameField.setText(previousCategoryName);
+        categoryDescriptionField.setText(previousCategoryDescription);
+    }
+
+    @Override
+    public void editCategory(Category category, String name, String description) {
+        ((EditCategoryActivity) activity).editCategory(category, name, description);
+    }
+
     public interface ActivityCallback {
         void addCategory(Category category);
+
         void showCategoryList();
     }
 }

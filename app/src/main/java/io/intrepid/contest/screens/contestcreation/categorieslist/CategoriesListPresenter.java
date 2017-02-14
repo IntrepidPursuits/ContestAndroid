@@ -2,16 +2,16 @@ package io.intrepid.contest.screens.contestcreation.categorieslist;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 
-
 class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View> implements CategoriesListContract.Presenter {
-
     private final Contest.Builder contestBuilder;
 
     CategoriesListPresenter(@NonNull CategoriesListContract.View view,
@@ -19,15 +19,26 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View>
                             Contest.Builder contestBuilder) {
         super(view, configuration);
         this.contestBuilder = contestBuilder;
+        List<Category> categories = this.contestBuilder.categories;
+        categories = categories == null ? new ArrayList<>() : categories;
+
+        if (categories.isEmpty()) {
+            Category defaultCategory = view.getDefaultCategory(R.string.default_category_name,
+                                                               R.string.default_category_description);
+            categories.add(defaultCategory);
+            this.contestBuilder.setCategories(categories);
+        }
+    }
+
+    @Override
+    public void onViewCreated() {
+        super.onViewCreated();
+        displayCategories();
     }
 
     @Override
     public void displayCategories() {
-        if (contestBuilder == null || contestBuilder.getCategories().size() == 0) {
-            view.showDefaultCategory();
-        } else {
-            view.showCategories(contestBuilder.getCategories());
-        }
+        view.showCategories(contestBuilder.getCategories());
     }
 
     @Override
@@ -44,5 +55,11 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View>
     @Override
     public void onCategoryClicked(Category category) {
         view.showEditCategoryPage(category);
+    }
+
+    @Override
+    public void onDeleteClicked(Category category) {
+        contestBuilder.getCategories().remove(category);
+        view.showCategories(contestBuilder.getCategories());
     }
 }

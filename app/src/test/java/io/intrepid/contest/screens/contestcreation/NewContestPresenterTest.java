@@ -93,7 +93,7 @@ public class NewContestPresenterTest {
     @Test
     public void onNewCategoryAddedShouldCauseViewToShowUpdatedCategories() {
         newContestPresenter.onNewCategoryAdded("Category name", "Category description");
-        verify(mockView).showUpdatedCategories(eq(newContestPresenter.getContest()));
+        verify(mockView).showUpdatedCategories();
     }
 
     @Test

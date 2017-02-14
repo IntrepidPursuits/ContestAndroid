@@ -1,6 +1,7 @@
 package io.intrepid.contest.screens.contestcreation;
 
 import io.intrepid.contest.base.BaseContract;
+import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 
 class NewContestMvpContract {
@@ -17,7 +18,7 @@ class NewContestMvpContract {
 
         int getCurrentIndex();
 
-        void showUpdatedCategories(Contest.Builder contest);
+        void showUpdatedCategories();
 
         void navigateToAddCategoryPage(Contest.Builder  contest);
 
@@ -37,5 +38,7 @@ class NewContestMvpContract {
         void showNextScreen();
 
         void showAddCategoryScreen();
+
+        void onContestEditEntered(Category editableCategory, String newName, String newDescription);
     }
 }

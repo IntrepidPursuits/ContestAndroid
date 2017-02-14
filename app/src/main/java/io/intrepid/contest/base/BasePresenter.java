@@ -78,5 +78,4 @@ public abstract class BasePresenter<T extends BaseContract.View> implements Base
         return observable -> observable.subscribeOn(ioScheduler).observeOn(uiScheduler);
     }
 
-
 }

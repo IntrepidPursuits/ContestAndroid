@@ -40,8 +40,8 @@
     <string name="scoring_categories">Scoring Categories</string>
     <string name="category_name">Category Name</string>
     <string name="description_optional">Description (optional)</string>
-    <string name="category_name_example">Example Category</string>
-    <string name="category_description_example">This is an example</string>
+    <string name="category_name_example">Score</string>
+    <string name="category_description_example">Overall Submission Score</string>
     <string name="trophy">Trophy</string>
     <string name="add_a_category">Add a category</string>
 
@@ -79,4 +79,6 @@
     <string name="select_submission_prompt">Select a submission to begin with</string>
     <string name="default_zero_score">0.00</string>
     <string name="submissions">Submissions</string>
+    <string name="default_category_name">Score</string>
+    <string name="default_category_description">Overall Submission Score</string>
 </resources>
