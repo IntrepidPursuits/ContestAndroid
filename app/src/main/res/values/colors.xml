@@ -18,5 +18,5 @@
     <color name="colorLightGray">#d0d0d0</color>
     <color name="category_card_background">#fdfdfd</color>
 
-    <color name="colorBlack">#131313</color>
+    <color name="submissionPromptTextColor">#131313</color>
 </resources>

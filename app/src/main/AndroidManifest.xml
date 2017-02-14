@@ -49,7 +49,7 @@
         <activity android:name=".screens.contestoverview.ContestOverviewActivity"/>
         <activity android:name=".screens.sendinvitations.SendInvitationsActivity"/>
         <activity android:name=".screens.sendinvitations.selectcontacts.SelectContactsActivity"/>
-        <activity android:name=".screens.contestjudging.submissionentrieslist.SubmissionEntriesActivity"/>
+        <activity android:name=".screens.contestjudging.scoresubmission.SubmissionEntriesActivity"/>
     </application>
 
 </manifest>

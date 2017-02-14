@@ -10,9 +10,9 @@
         android:layout_height="wrap_content"
         android:text="@string/select_submission_prompt"
         android:layout_marginTop="@dimen/submission_prompt_top_margin"
-        android:textColor="@color/colorBlack"
+        android:textColor="@color/submissionPromptTextColor"
         android:gravity="center_horizontal"
-        android:fontFamily="@string/AvenirNext_Regular"
+        android:textAppearance="@string/AvenirNext_Regular"
         android:textSize="@dimen/select_submission_text_size"
         />
 

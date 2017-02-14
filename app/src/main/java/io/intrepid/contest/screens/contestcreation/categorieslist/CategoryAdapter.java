@@ -20,6 +20,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
     private Category exampleCategory;
     @LayoutRes private int rowItemLayout;
 
+    public CategoryAdapter(Context context) {
+        this(context, R.layout.category_card_row_item);
+    }
+
+
     public CategoryAdapter(Context context, @LayoutRes int rowLayout) {
         this.context = context;
         rowItemLayout = rowLayout;

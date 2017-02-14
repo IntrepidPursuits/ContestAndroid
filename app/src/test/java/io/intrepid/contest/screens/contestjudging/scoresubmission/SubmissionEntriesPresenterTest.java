@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestjudging.submissionentrieslist;
+package io.intrepid.contest.screens.contestjudging.scoresubmission;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +8,6 @@ import java.util.List;
 
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.testutils.BasePresenterTest;
-import io.intrepid.contest.testutils.TestPresenterConfiguration;
 
 import static org.mockito.Mockito.verify;
 
@@ -20,9 +19,7 @@ public class SubmissionEntriesPresenterTest extends BasePresenterTest<Submission
 
     @Before
     public void setup() {
-        presenter = new SubmissionEntriesPresenter(mockView,
-                                                   TestPresenterConfiguration.createTestConfiguration(),
-                                                   mockEntries);
+        presenter = new SubmissionEntriesPresenter(mockView, testConfiguration, mockEntries);
     }
 
     @Test

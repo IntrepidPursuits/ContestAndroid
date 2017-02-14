@@ -87,7 +87,7 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     }
 
     @Override
-    public void advanceToJudgingScreen(Contest contest) {
-        startActivity(SubmissionEntriesActivity.makeIntent(this, contest.getEntries()));
+    public void advanceToJudgingScreen(List<Entry> entries) {
+        startActivity(SubmissionEntriesActivity.makeIntent(this, entries));
     }
 }

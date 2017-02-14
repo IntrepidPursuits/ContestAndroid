@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestjudging.submissionentrieslist;
+package io.intrepid.contest.screens.contestjudging.scoresubmission;
 
 import android.support.annotation.NonNull;
 
@@ -8,7 +8,7 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Entry;
 
-import static io.intrepid.contest.screens.contestjudging.submissionentrieslist.SubmissionEntriesContract.View;
+import static io.intrepid.contest.screens.contestjudging.scoresubmission.SubmissionEntriesContract.View;
 
 class SubmissionEntriesPresenter extends BasePresenter<SubmissionEntriesContract.View>
         implements SubmissionEntriesContract.Presenter {

@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestjudging.submissionentrieslist;
+package io.intrepid.contest.screens.contestjudging.scoresubmission;
 
 import java.util.List;
 

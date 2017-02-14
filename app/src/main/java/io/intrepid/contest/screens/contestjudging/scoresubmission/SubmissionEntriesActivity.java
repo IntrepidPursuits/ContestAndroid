@@ -1,4 +1,4 @@
-package io.intrepid.contest.screens.contestjudging.submissionentrieslist;
+package io.intrepid.contest.screens.contestjudging.scoresubmission;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,7 @@ import io.intrepid.contest.screens.contestjudging.EntryListAdapter;
 
 public class SubmissionEntriesActivity extends BaseMvpActivity<SubmissionEntriesPresenter>
         implements SubmissionEntriesContract.View {
-    public static final String SUBMISSION_ENTRIES_KEY = "submissionEntries";
+    private static final String SUBMISSION_ENTRIES_KEY = "submissionEntries";
     @BindView(R.id.generic_recycler_view)
     RecyclerView entriesRecyclerView;
     private EntryListAdapter entryListAdapter;
