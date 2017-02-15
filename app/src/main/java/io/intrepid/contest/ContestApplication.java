@@ -3,6 +3,7 @@ package io.intrepid.contest;
 import android.app.Application;
 
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.rest.RestApi;
 import io.intrepid.contest.rest.RetrofitClient;
 import io.intrepid.contest.settings.SharedPreferencesManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -29,11 +30,13 @@ public class ContestApplication extends Application {
     }
 
     public PresenterConfiguration getPresenterConfiguration() {
+        RestApi api = (BuildConfig.DEV_BUILD) ? RetrofitClient.getMockApi() : RetrofitClient.getApi();
+
         return new PresenterConfiguration(
                 Schedulers.io(),
                 AndroidSchedulers.mainThread(),
                 SharedPreferencesManager.getInstance(this),
-                RetrofitClient.getMockApi()
+                api
         );
     }
 }
