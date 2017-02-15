@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -19,21 +18,18 @@ import io.intrepid.contest.screens.contestjudging.EntryListAdapter;
 
 public class SubmissionEntriesActivity extends BaseMvpActivity<SubmissionEntriesPresenter>
         implements SubmissionEntriesContract.View {
-    private static final String SUBMISSION_ENTRIES_KEY = "submissionEntries";
     @BindView(R.id.generic_recycler_view)
     RecyclerView entriesRecyclerView;
     private EntryListAdapter entryListAdapter;
 
-    public static Intent makeIntent(Context context, List<Entry> entries) {
-        Intent intent = new Intent(context, SubmissionEntriesActivity.class);
-        return intent.putParcelableArrayListExtra(SUBMISSION_ENTRIES_KEY, (ArrayList<Entry>) entries);
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, SubmissionEntriesActivity.class);
     }
 
     @NonNull
     @Override
     public SubmissionEntriesPresenter createPresenter(PresenterConfiguration configuration) {
-        List<Entry> entries = getIntent().getParcelableArrayListExtra(SUBMISSION_ENTRIES_KEY);
-        return new SubmissionEntriesPresenter(this, configuration, entries);
+        return new SubmissionEntriesPresenter(this, configuration);
     }
 
     @Override
