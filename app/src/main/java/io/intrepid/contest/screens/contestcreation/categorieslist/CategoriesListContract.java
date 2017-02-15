@@ -13,6 +13,7 @@ interface CategoriesListContract {
         void showAddCategoryScreen();
         void showNextScreen();
         void showEditCategoryPage(Category category);
+        void onCategoryClicked(Category category);
     }
 
     interface Presenter extends BaseContract.Presenter<CategoriesListContract.View> {
