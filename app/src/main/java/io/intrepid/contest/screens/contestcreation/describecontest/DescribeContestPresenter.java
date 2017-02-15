@@ -1,7 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.describecontest;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -40,9 +39,14 @@ class DescribeContestPresenter extends BasePresenter<DescribeContestContract.Vie
         view.setNextEnabled(true);
     }
 
+    boolean isEmpty(CharSequence sequence) {
+        String sequenceString = String.valueOf(sequence);
+        return sequenceString.trim().isEmpty();
+    }
+
     @Override
     public void onTextChanged(CharSequence newDescription) {
-        if (TextUtils.isEmpty(newDescription)) {
+        if (isEmpty(newDescription)) {
             view.setNextEnabled(false);
         } else {
             view.setNextEnabled(true);
