@@ -11,11 +11,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.ScoreWeight;
+import io.intrepid.contest.screens.contestjudging.scoresubmission.SubmissionEntriesActivity;
 
 public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
         implements ContestOverviewContract.View {
@@ -23,7 +25,7 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     TextView introTextView;
     @BindView(R.id.contest_overview_description_text_view)
     TextView descriptionTextView;
-    @BindView(R.id.categories_recycler_view)
+    @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
     private DualCategoryScoreAdapter categoryAdapter;
 
@@ -48,6 +50,11 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
         setActionBarDisplayHomeAsUpEnabled(true);
         setupCategoriesRecyclerView();
+    }
+
+    @OnClick(R.id.contest_overview_submit_button)
+    public void onOverviewSubmitButtonClicked() {
+        presenter.onOverViewSubmitButtonClicked();
     }
 
     private void setupCategoriesRecyclerView() {
@@ -77,5 +84,10 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
                 .getQuantityString(R.plurals.numberOfSubmissions, numSubmissionsWaiting, numSubmissionsWaiting);
         introTextView.setText(
                 getResources().getString(R.string.contest_overview_intro, submissions));
+    }
+
+    @Override
+    public void advanceToJudgingScreen() {
+        startActivity(SubmissionEntriesActivity.makeIntent(this));
     }
 }

@@ -77,4 +77,7 @@
     <string name="add_participants_action">Add contestants</string>
     <string name="add_participants_quantified_action">Add %1</string>
     <string name="one_point">1x</string>
+    <string name="select_submission_prompt">Select a submission to begin with</string>
+    <string name="default_zero_score">0.00</string>
+    <string name="submissions">Submissions</string>
 </resources>

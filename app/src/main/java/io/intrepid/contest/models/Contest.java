@@ -24,6 +24,7 @@ public class Contest {
     private String description;
     @SerializedName("scoring_categories")
     private List<Category> categories;
+    private List<Entry> entries;
 
     public Contest() {
         categories = new ArrayList<>();
@@ -62,6 +63,14 @@ public class Contest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 
     public static class Builder {

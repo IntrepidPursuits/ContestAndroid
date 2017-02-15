@@ -67,5 +67,12 @@
 
     <dimen name="select_contacts_row_item_minheight">18dp</dimen>
     <dimen name="user_photo_size">32dp</dimen>
+
     <dimen name="overview_card_bottom_margin">20dp</dimen>
+
+    <dimen name="select_submission_text_size">18sp</dimen>
+    <dimen name="entry_submission_image_size">100dp</dimen>
+    <dimen name="submission_score_top_margin">9dp</dimen>
+    <dimen name="submission_title_bottom_margin">12dp</dimen>
+    <dimen name="submission_prompt_top_margin">19dp</dimen>
 </resources>

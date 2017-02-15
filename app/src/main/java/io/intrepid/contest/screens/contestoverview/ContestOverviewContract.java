@@ -15,9 +15,12 @@ class ContestOverviewContract {
         void showCategoriesAndWeights(List<Category> categories, List<ScoreWeight> weights);
 
         void showNumSubmissionsWaiting(int numSubmissionsWaiting);
+
+        void advanceToJudgingScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
 
+        void onOverViewSubmitButtonClicked();
     }
 }
