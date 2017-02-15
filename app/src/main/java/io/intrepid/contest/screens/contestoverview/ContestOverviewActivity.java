@@ -15,22 +15,17 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.screens.contestcreation.categorieslist.CategoryAdapter;
-import timber.log.Timber;
+import io.intrepid.contest.models.ScoreWeight;
 
 public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
         implements ContestOverviewContract.View {
-
     @BindView(R.id.contest_overview_intro_text_view)
     TextView introTextView;
     @BindView(R.id.contest_overview_description_text_view)
     TextView descriptionTextView;
     @BindView(R.id.categories_recycler_view)
     RecyclerView categoriesRecyclerView;
-    @BindView(R.id.score_weight_guide_recycler_view)
-    RecyclerView scoreWeightRecyclerView;
-    private CategoryAdapter categoryAdapter;
-    private ScoreWeightAdapter scoreWeightAdapter;
+    private DualCategoryScoreAdapter categoryAdapter;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, ContestOverviewActivity.class);
@@ -53,19 +48,12 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
         setActionBarDisplayHomeAsUpEnabled(true);
         setupCategoriesRecyclerView();
-        setupScoreWeightsRecyclerView();
     }
 
     private void setupCategoriesRecyclerView() {
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        categoryAdapter = new CategoryAdapter(this, R.layout.category_overview_row_item);
+        categoryAdapter = new DualCategoryScoreAdapter();
         categoriesRecyclerView.setAdapter(categoryAdapter);
-    }
-
-    private void setupScoreWeightsRecyclerView() {
-        scoreWeightRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        scoreWeightAdapter = new ScoreWeightAdapter();
-        scoreWeightRecyclerView.setAdapter(scoreWeightAdapter);
     }
 
     @Override
@@ -79,8 +67,8 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     }
 
     @Override
-    public void showCategories(List<Category> categories) {
-        categoryAdapter.setCategories(categories);
+    public void showCategoriesAndWeights(List<Category> categories, List<ScoreWeight> weights) {
+        categoryAdapter.setData(categories, weights);
     }
 
     @Override
@@ -89,11 +77,5 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
                 .getQuantityString(R.plurals.numberOfSubmissions, numSubmissionsWaiting, numSubmissionsWaiting);
         introTextView.setText(
                 getResources().getString(R.string.contest_overview_intro, submissions));
-    }
-
-    @Override
-    public void showRatingGuide() {
-        Timber.d(" Updating rating guide ");
-        scoreWeightAdapter.notifyDataSetChanged();
     }
 }
