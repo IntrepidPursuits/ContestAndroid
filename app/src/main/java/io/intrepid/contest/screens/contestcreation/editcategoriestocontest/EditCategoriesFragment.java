@@ -15,7 +15,6 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 
-
 public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter> implements EditCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
     EditText categoryNameField;
@@ -66,11 +65,6 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
     }
 
     @Override
-    public void onFocus() {
-        //Do nothing - Intentional
-    }
-
-    @Override
     public void addCategory(Category category) {
         activity.addCategory(category);
     }
@@ -85,4 +79,3 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
         void showCategoryList();
     }
 }
-

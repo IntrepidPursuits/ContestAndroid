@@ -12,11 +12,12 @@ import io.intrepid.contest.customviews.HintLabelEditText;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.ValidatableView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class NameContestFragment extends BaseFragment<NameContestPresenter> implements NameContestContract.View, ContestCreationFragment {
+public class NameContestFragment extends BaseFragment<NameContestPresenter> implements NameContestContract.View, ContestCreationFragment, ValidatableView {
     @BindView(R.id.contest_name_edittext)
     HintLabelEditText contestNameField;
     @BindView(R.id.trophy_icon)

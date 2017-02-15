@@ -29,9 +29,9 @@ public class DescribeContestPresenterTest {
     }
 
     @Test
-    public void onViewCreatedShouldCauseViewToDisableNext() {
+    public void onViewCreatedShouldCauseViewToEnableNext() {
         describeContestPresenter.onViewCreated();
-        verify(mockView).setNextEnabled(false);
+        verify(mockView).setNextEnabled(true);
     }
 
     @Test
@@ -40,17 +40,4 @@ public class DescribeContestPresenterTest {
         describeContestPresenter.onNextClicked(VALID_TEXT);
         verify(mockView).showNextScreen();
     }
-
-    @Test
-    public void onNextValidatedShouldCauseViewToEnableNext() {
-        describeContestPresenter.onNextValidated();
-        verify(mockView).setNextEnabled(true);
-    }
-
-    @Test
-    public void onNextInValidatedShouldCauseViewToDisableNext() {
-        describeContestPresenter.onNextInvalidated();
-        verify(mockView).setNextEnabled(false);
-    }
 }
-
