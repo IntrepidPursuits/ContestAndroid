@@ -34,7 +34,6 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         contest.setTitle("Contest title");
         ContestWrapper response = new ContestWrapper(contest);
         when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(response));
-        presenter.contest = response.contest;
     }
 
     private void setupFailedContestDetailsCall() {
@@ -97,6 +96,6 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     public void onOverviewSubmitButtonClickedShouldOpenJudgingScreen() {
         setupSuccessfulContestDetailsCall();
         presenter.onOverViewSubmitButtonClicked();
-        verify(mockView).advanceToJudgingScreen(any());
+        verify(mockView).advanceToJudgingScreen();
     }
 }

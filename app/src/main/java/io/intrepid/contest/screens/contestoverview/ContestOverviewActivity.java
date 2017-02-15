@@ -17,6 +17,7 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.ScoreWeight;
+import io.intrepid.contest.screens.contestjudging.scoresubmission.SubmissionEntriesActivity;
 
 public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
         implements ContestOverviewContract.View {
@@ -49,7 +50,6 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
         setActionBarDisplayHomeAsUpEnabled(true);
         setupCategoriesRecyclerView();
-        setupScoreWeightsRecyclerView();
     }
 
     @OnClick(R.id.contest_overview_submit_button)
@@ -87,7 +87,7 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     }
 
     @Override
-    public void advanceToJudgingScreen(List<Entry> entries) {
-        startActivity(SubmissionEntriesActivity.makeIntent(this, entries));
+    public void advanceToJudgingScreen() {
+        startActivity(SubmissionEntriesActivity.makeIntent(this));
     }
 }

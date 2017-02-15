@@ -4,7 +4,6 @@ import java.util.List;
 
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.ScoreWeight;
 
 class ContestOverviewContract {
@@ -17,7 +16,7 @@ class ContestOverviewContract {
 
         void showNumSubmissionsWaiting(int numSubmissionsWaiting);
 
-        void advanceToJudgingScreen(Contest contest);
+        void advanceToJudgingScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

@@ -2,6 +2,7 @@ package io.intrepid.contest.rest;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -125,8 +126,7 @@ public class MockRestApi implements RestApi {
             contestCategories.add(new Category("Category " + i, "This is category " + i));
         }
         contest.setEntries(makeListOfEntries());
-        ContestWrapper response = new ContestWrapper(contest);
-        return response;
+        return new ContestWrapper(contest);
     }
 
     private List<Entry> makeListOfEntries() {

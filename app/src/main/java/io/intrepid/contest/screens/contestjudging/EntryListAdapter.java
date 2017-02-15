@@ -9,11 +9,7 @@ import java.util.List;
 import io.intrepid.contest.models.Entry;
 
 public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
-    private final List<Entry> entries;
-
-    public EntryListAdapter() {
-        entries = new ArrayList<>();
-    }
+    private final List<Entry> entries = new ArrayList<>();
 
     @Override
     public EntryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,5 +29,6 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryViewHolder> {
     public void setEntries(List<Entry> entries) {
         this.entries.clear();
         this.entries.addAll(entries);
+        notifyDataSetChanged();
     }
 }
