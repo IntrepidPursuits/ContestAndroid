@@ -24,6 +24,7 @@ public class MockRestApi implements RestApi {
     private String contestTitle;
     private String contestDescription;
     private int numGetContestStatusCallsForParticipant;
+    private int numBatchInviteCallsForParticipant;
 
     public MockRestApi() {
         userId = UUID.randomUUID();
@@ -31,6 +32,7 @@ public class MockRestApi implements RestApi {
         contestTitle = "Contest title";
         contestDescription = "Contest Description";
         numGetContestStatusCallsForParticipant = 0;
+        numBatchInviteCallsForParticipant = 0;
     }
 
     @NonNull
@@ -44,6 +46,25 @@ public class MockRestApi implements RestApi {
     @Override
     public Observable<UserCreationResponse> createUser() {
         return Observable.just(getValidUserCreationResponse());
+    }
+
+    @Override
+    public Observable<BatchInviteResponse> batchInvite(@Path("contestId") String contestId,
+                                                       @Body BatchInviteRequest batchInviteRequest) {
+        if (contestId == null) {
+            return Observable.error(new Throwable());
+        }
+
+        BatchInviteResponse batchInviteResponse = new BatchInviteResponse();
+        batchInviteResponse.invitationResponses = new ArrayList<>();
+        int numRequests = batchInviteRequest.invitations.invitationList.size();
+        for (int i = 0; i < numRequests; i++) {
+            InvitationResponse response = new InvitationResponse();
+            response.code = "code" + i;
+            batchInviteResponse.invitationResponses.add(response);
+        }
+
+        return Observable.just(batchInviteResponse);
     }
 
     @NonNull

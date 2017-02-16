@@ -7,7 +7,7 @@ import io.intrepid.contest.testutils.BasePresenterTest;
 
 import static org.mockito.Mockito.verify;
 
-public class InvitationIntroPresenterTest extends BasePresenterTest<InvitationIntroPresenter> {
+public class InvitationRequestIntroPresenterTest extends BasePresenterTest<InvitationIntroPresenter> {
     @Mock
     InvitationIntroContract.View mockView;
 

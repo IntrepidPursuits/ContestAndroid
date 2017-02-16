@@ -1,21 +1,30 @@
 package io.intrepid.contest.screens.sendinvitations;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.rest.BatchInviteResponse;
+import io.intrepid.contest.rest.InvitationResponse;
 import io.intrepid.contest.testutils.BasePresenterTest;
+import io.reactivex.Observable;
 
+import static io.reactivex.Observable.error;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -186,15 +195,47 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitations() {
-        presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsSkip() {
+        presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
         verify(mockView).showMessage(anyString());
     }
 
     @Test
-    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsSkip() {
-        presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
-        verify(mockView).showMessage(anyString());
+    public void onOptionsItemSelectedShouldShowErrorMessageWhenWhenItemIsSendInvitationsAndNoContactsWereSelected() {
+        presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+        verify(mockView).showMessage(R.string.no_contacts_selected);
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsAndWhenApiResponseIsValid() {
+        showPreviewContactsContent(getMockContactList(true));
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        BatchInviteResponse batchInviteResponse = new BatchInviteResponse();
+        batchInviteResponse.invitationResponses = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            InvitationResponse response = new InvitationResponse();
+            response.code = "code" + i;
+            batchInviteResponse.invitationResponses.add(response);
+        }
+        when(mockRestApi.batchInvite(any(), any())).thenReturn(Observable.just(batchInviteResponse));
+
+        presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView, atLeastOnce()).showMessage(anyString());
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldShowApiErrorMessageWhenItemIsSendInvitationsAndApiCallThrowsError()
+            throws HttpException {
+        showPreviewContactsContent(getMockContactList(true));
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        when(mockRestApi.batchInvite(any(), any())).thenReturn(error(new Throwable()));
+
+        presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showMessage(any(int.class));
     }
 
     private void showSelectContactsContent() {

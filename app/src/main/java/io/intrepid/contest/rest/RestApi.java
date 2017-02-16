@@ -11,6 +11,10 @@ public interface RestApi {
     @POST("api/users")
     Observable<UserCreationResponse> createUser();
 
+    @POST("api/contests/{contestId}/batch_invite")
+    Observable<BatchInviteResponse> batchInvite(@Path("contestId") String contestId,
+                                                @Body BatchInviteRequest batchInviteRequest);
+
     @PATCH("api/invitations/{code}/redeem")
     Observable<RedeemInvitationResponse> redeemInvitationCode(@Path("code") String code,
                                                               @Body RedeemInvitationRequest redeemInvitationRequest);
