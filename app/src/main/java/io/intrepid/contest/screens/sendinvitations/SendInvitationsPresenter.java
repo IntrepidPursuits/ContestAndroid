@@ -16,7 +16,7 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
     private final List<Contact> fullContactList = new ArrayList<>();
     private final List<Contact> selectedContactList = new ArrayList<>();
     private boolean contactSelectionEnabled = false;
-    private boolean displayMenuItems = true;
+    private boolean displayMenuItemsAndActionBar = true;
 
     public SendInvitationsPresenter(@NonNull SendInvitationsContract.View view,
                                     @NonNull PresenterConfiguration configuration) {
@@ -67,7 +67,7 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
     }
 
     private void showSelectContactsContent() {
-        displayMenuItems = false;
+        displayMenuItemsAndActionBar = false;
 
         view.showSelectContactsButton(false);
 
@@ -91,7 +91,7 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
     }
 
     private void showPreviewContent() {
-        displayMenuItems = true;
+        displayMenuItemsAndActionBar = true;
         boolean hasPermissions = hasContactPermissions();
         view.showSelectContactsButton(hasPermissions);
 
@@ -110,7 +110,7 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
 
     @Override
     public void onCreateOptionsMenu() {
-        displayMenuItems();
+        updateMenuItemsAndActionBar();
     }
 
     @Override
@@ -122,17 +122,27 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
                 break;
             case R.id.send_invitations_skip_menu_action:
                 view.showMessage("TODO: Go to next screen");
+            case android.R.id.home:
+                onBackButtonClicked();
         }
     }
 
-    private void displayMenuItems() {
-        if (displayMenuItems) {
+    private void updateMenuItemsAndActionBar() {
+        if (displayMenuItemsAndActionBar) {
             view.setActionBarTitle(R.string.invite_contestants_bar_title);
+            view.setActionBarDisplayHomeAsUpEnabled(false);
             view.showSendInvitationsMenuItem(!selectedContactList.isEmpty());
             view.showSendInvitationsSkipMenuItem(selectedContactList.isEmpty());
         } else {
             view.showSendInvitationsMenuItem(false);
             view.showSendInvitationsSkipMenuItem(false);
+        }
+    }
+
+    @Override
+    public void onBackButtonClicked() {
+        if (contactSelectionEnabled) {
+            showPreviewContent();
         }
     }
 }

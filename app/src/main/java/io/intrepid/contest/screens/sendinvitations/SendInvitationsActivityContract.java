@@ -12,4 +12,6 @@ public interface SendInvitationsActivityContract {
     List<Contact> getContactList();
 
     void onAddContestantsButtonClicked(List<Contact> contactList);
+
+    void onBackPressed();
 }
