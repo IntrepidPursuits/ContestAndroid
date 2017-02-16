@@ -9,13 +9,13 @@ import io.intrepid.contest.models.Contact;
 
 class SelectContactsContract {
     interface View extends BaseContract.View {
-        boolean hasContactsPermissions();
+        void createMenuSearchItem();
 
-        void displayContactList();
+        void setupAdapter(boolean displayContactSelection);
 
-        void goBackToPreviousScreen();
+        void displayPhoneContactList();
 
-        void updateContactList(List<Contact> contacts);
+        void updateAdapterContactList(List<Contact> contacts);
 
         void updateContactSearchFilter(String newFilter);
 
@@ -25,11 +25,17 @@ class SelectContactsContract {
 
         void hideAddContestantButton();
 
+        void showSendInvitationsScreen(List<Contact> contactList);
+
         void showProgressBar(boolean visible);
     }
 
     interface Presenter extends BaseContract.Presenter<View>,
             SearchView.OnQueryTextListener, SelectContactsViewHolder.ContactClickListener {
+        void onCreateOptionsMenu();
+
         void onContactListUpdated(List<Contact> contacts);
+
+        void onAddParticipantsButtonClicked();
     }
 }

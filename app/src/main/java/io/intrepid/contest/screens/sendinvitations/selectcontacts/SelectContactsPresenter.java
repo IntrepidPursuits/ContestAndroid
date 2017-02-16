@@ -12,52 +12,78 @@ import io.intrepid.contest.models.Contact;
 public class SelectContactsPresenter extends BasePresenter<SelectContactsContract.View>
         implements SelectContactsContract.Presenter {
 
-    public static final int SEARCH_MIN_NUM_CHARACTERS = 2;
-    private final List<Contact> filteredContacts = new ArrayList<>();
+    private static final int SEARCH_MIN_NUM_CHARACTERS = 2;
+    private final List<Contact> contactList = new ArrayList<>();
+    private final boolean contactSelectionEnabled;
     private int numSelectedContacts;
 
     public SelectContactsPresenter(@NonNull SelectContactsContract.View view,
-                                   @NonNull PresenterConfiguration configuration) {
+                                   @NonNull PresenterConfiguration configuration,
+                                   boolean contactSelectionEnabled,
+                                   @NonNull List<Contact> contactList) {
         super(view, configuration);
 
-        numSelectedContacts = 0;
+        this.contactSelectionEnabled = contactSelectionEnabled;
+        this.contactList.clear();
+        this.contactList.addAll(contactList);
+        for (Contact contact : contactList) {
+            if (contact.isSelected()) {
+                numSelectedContacts++;
+            }
+        }
     }
 
     @Override
-    protected void onViewBound() {
-        super.onViewBound();
+    public void onViewCreated() {
+        super.onViewCreated();
 
-        if (!view.hasContactsPermissions()) {
-            view.goBackToPreviousScreen();
-            return;
+        view.setupAdapter(contactSelectionEnabled);
+
+        if (contactList.isEmpty()) {
+            view.showProgressBar(true);
+            view.displayPhoneContactList();
+        } else {
+            view.showProgressBar(false);
+            view.updateAdapterContactList(contactList);
         }
-
-        view.showProgressBar(true);
-        view.displayContactList();
     }
 
-    private void updateAddContestantButton() {
-        if (numSelectedContacts == 0) {
-            view.hideAddContestantButton();
-        } else {
-            view.showAddContestantButton(numSelectedContacts);
+    @Override
+    public void onCreateOptionsMenu() {
+        if (contactSelectionEnabled) {
+            view.createMenuSearchItem();
         }
     }
 
     @Override
     public void onContactListUpdated(List<Contact> contacts) {
-        numSelectedContacts = 0;
-        filteredContacts.clear();
+        List<Contact> filteredContacts = new ArrayList<>();
+
         for (Contact contact : contacts) {
-            if (!contact.getPhone().isEmpty() || !contact.getEmail().isEmpty()) {
+            if (contact.getPhone().isEmpty() && contact.getEmail().isEmpty()) {
+                continue;
+            }
+
+            boolean contactExists = false;
+            for (Contact existingContact : contactList) {
+                if (existingContact.getId() == contact.getId()) {
+                    filteredContacts.add(existingContact);
+                    contactExists = true;
+                    break;
+                }
+            }
+
+            if (!contactExists) {
+                contactList.add(contact);
                 filteredContacts.add(contact);
+
                 if (contact.isSelected()) {
                     numSelectedContacts++;
                 }
             }
         }
 
-        view.updateContactList(filteredContacts);
+        view.updateAdapterContactList(filteredContacts);
         view.showProgressBar(false);
     }
 
@@ -84,12 +110,26 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
 
 
     public void onContactClick(Contact contact) {
+        if (!contactSelectionEnabled) {
+            return;
+        }
+
         boolean select = !contact.isSelected();
 
         contact.setSelected(select);
         view.onContactSelected();
 
-        numSelectedContacts = select ? numSelectedContacts + 1 : numSelectedContacts - 1;
-        updateAddContestantButton();
+        numSelectedContacts = select ? (numSelectedContacts + 1) : (numSelectedContacts - 1);
+
+        if (numSelectedContacts == 0) {
+            view.hideAddContestantButton();
+        } else {
+            view.showAddContestantButton(numSelectedContacts);
+        }
+    }
+
+    @Override
+    public void onAddParticipantsButtonClicked() {
+        view.showSendInvitationsScreen(contactList);
     }
 }

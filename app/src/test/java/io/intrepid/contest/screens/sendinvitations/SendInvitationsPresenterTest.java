@@ -2,14 +2,19 @@ package io.intrepid.contest.screens.sendinvitations;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.intrepid.contest.R;
+import io.intrepid.contest.models.Contact;
 import io.intrepid.contest.testutils.BasePresenterTest;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -25,21 +30,72 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onViewBoundShouldCheckForContactsPermissions() {
+    public void onViewCreatedShouldShowInvitationIntroFragmentWhenAppHasPermissions() {
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+        presenter.onViewCreated();
+        verify(mockView).showInvitationIntroFragment();
+    }
+
+    @Test
+    public void onViewCreatedShouldShowInvitationIntroFragmentWhenAppDoesNotHavePermissions() {
+        when(mockView.checkContactsPermissions()).thenReturn(false);
+        presenter.onViewCreated();
+        verify(mockView).showInvitationIntroFragment();
+    }
+
+    @Test
+    public void onViewBoundShouldRequestContactsPermissionsWhenDoesNotHavePermissions() {
+        when(mockView.checkContactsPermissions()).thenReturn(false);
         presenter.onViewBound();
-        verify(mockView).hasContactsPermissions();
+        verify(mockView).requestContactsPermissions();
+    }
+
+    @Test
+    public void isContactSelectionEnabledShouldReturnTrueWhenShowingSelectContactsContent() {
+        showSelectContactsContent();
+        assertTrue(presenter.isContactSelectionEnabled());
+    }
+
+    @Test
+    public void isContactSelectionEnabledShouldReturnFalseWhenShowingPreviewContactsContent() {
+        showPreviewContactsContent(getMockContactList(false));
+        assertFalse(presenter.isContactSelectionEnabled());
+    }
+
+    @Test
+    public void getContactListShouldReturnFullContactListWhenShowingSelectContactsContent() {
+        List<Contact> fullContactList = getMockContactList(true);
+        presenter.onAddContestantsButtonClicked(fullContactList);
+        showSelectContactsContent();
+
+        List<Contact> contactList = presenter.getContactList();
+
+        assertEquals(fullContactList.size(), contactList.size());
+    }
+
+    @Test
+    public void getContactListShouldReturnFullContactListWhenShowingPreviewContactsContent() {
+        showPreviewContactsContent(getMockContactList(true));
+        List<Contact> contactList = presenter.getContactList();
+        assertEquals(1, contactList.size());
+    }
+
+    @Test
+    public void onViewBoundShouldShowInvitationIntroFragment() {
+        presenter.onViewBound();
+        verify(mockView).showInvitationIntroFragment();
     }
 
     @Test
     public void onViewBoundShouldRequestContactsPermissionsWhenAppDoesNotHavePermissions() {
-        when(mockView.hasContactsPermissions()).thenReturn(false);
+        when(mockView.checkContactsPermissions()).thenReturn(false);
         presenter.onViewBound();
         verify(mockView).requestContactsPermissions();
     }
 
     @Test
     public void onViewBoundShouldNotRequestContactsPermissionsWhenAppHasPermissions() {
-        when(mockView.hasContactsPermissions()).thenReturn(true);
+        when(mockView.checkContactsPermissions()).thenReturn(true);
         presenter.onViewBound();
         verify(mockView, never()).requestContactsPermissions();
     }
@@ -47,47 +103,79 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     @Test
     public void onSelectContactsButtonClickedShouldShowSelectContactsScreen() {
         presenter.onSelectContactsButtonClicked();
-        verify(mockView).showSelectContactsScreen();
+        verify(mockView).showSelectContactsFragment();
     }
 
     @Test
-    public void onContactsPermissionsResultShouldShowSelectContactsButtonWhenPermissionHasBeenGranted() {
-        presenter.onContactsPermissionsResult(true);
-        verify(mockView).showSelectContactsButton(true);
-    }
-
-    @Test
-    public void onContactsPermissionsResultShouldShowSelectContactsMessageWhenPermissionHasBeenGranted() {
-        presenter.onContactsPermissionsResult(true);
-
-        verify(mockView).showSelectContactsMessage();
-        verify(mockView, never()).showPermissionDeniedMessage();
-    }
-
-    @Test
-    public void onContactsPermissionsResultShouldHideSelectContactsButtonWhenPermissionHasBeenDenied() {
-        presenter.onContactsPermissionsResult(false);
+    public void onSelectContactsButtonClickedShouldNotShowSelectContactsButton() {
+        presenter.onSelectContactsButtonClicked();
         verify(mockView).showSelectContactsButton(false);
     }
 
     @Test
-    public void onContactsPermissionsResultShouldShowPermissionDeniedMessageWhenPermissionHasBeenDenied() {
-        presenter.onContactsPermissionsResult(false);
-
-        verify(mockView).showPermissionDeniedMessage();
-        verify(mockView, never()).showSelectContactsMessage();
+    public void onContactsPermissionsResultShouldShowSelectContactsButtonWhenPermissionHasBeenGranted() {
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+        presenter.onContactsPermissionsResult();
+        verify(mockView).showSelectContactsButton(true);
     }
 
     @Test
-    public void onCreateOptionsMenuShouldHideSendInvitationsMenuItem() {
+    public void onContactsPermissionsResultShouldShowInvitationIntroWhenPermissionHasBeenDenied() {
+        when(mockView.checkContactsPermissions()).thenReturn(false);
+        presenter.onContactsPermissionsResult();
+        verify(mockView).showInvitationIntroFragment();
+    }
+
+    @Test
+    public void onContactsPermissionsResultShouldShowInvitationIntroWhenNoContactsAreSelectedForPreview() {
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+        presenter.onContactsPermissionsResult();
+        verify(mockView).showInvitationIntroFragment();
+    }
+
+    @Test
+    public void onContactsPermissionsResultShouldHideSelectContactsButtonWhenPermissionHasBeenDenied() {
+        when(mockView.checkContactsPermissions()).thenReturn(false);
+        presenter.onContactsPermissionsResult();
+        verify(mockView).showSelectContactsButton(false);
+    }
+
+    @Test
+    public void onContactsPermissionsResultShouldShowSelectContactsWhenAppHasPermissionsAndContactsHaveBeenSelected() {
+        presenter.onAddContestantsButtonClicked(getMockContactList(true));
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+
+        presenter.onContactsPermissionsResult();
+
+        verify(mockView).showSelectContactsFragment();
+    }
+
+    @Test
+    public void onCreateOptionsMenuShouldHideSendInvitationsMenuItemWhenShowingPreviewContent() {
         presenter.onCreateOptionsMenu();
         verify(mockView).showSendInvitationsMenuItem(false);
     }
 
     @Test
-    public void onCreateOptionsMenuShouldShowSendInvitationsSkipMenuItem() {
+    public void onCreateOptionsMenuShouldShowSendInvitationsSkipMenuItemWhenShowingPreviewContent() {
         presenter.onCreateOptionsMenu();
         verify(mockView).showSendInvitationsSkipMenuItem(true);
+    }
+
+    @Test
+    public void onCreateOptionsMenuShouldSetActionBarTitleWhenShowingPreviewContent() {
+        presenter.onCreateOptionsMenu();
+        verify(mockView).setActionBarTitle(anyInt());
+    }
+
+    @Test
+    public void onCreateOptionsMenuShouldHideMenuItemsWhenShowingSelectContactsContent() {
+        showSelectContactsContent();
+
+        presenter.onCreateOptionsMenu();
+
+        verify(mockView).showSendInvitationsMenuItem(false);
+        verify(mockView).showSendInvitationsSkipMenuItem(false);
     }
 
     @Test
@@ -100,5 +188,50 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsSkip() {
         presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
         verify(mockView).showMessage(anyString());
+    }
+
+    private void showSelectContactsContent() {
+        presenter.onSelectContactsButtonClicked();
+    }
+
+    private void showPreviewContactsContent(List<Contact> contactList) {
+        presenter.onAddContestantsButtonClicked(contactList);
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+    }
+
+    private List<Contact> getMockContactList(boolean selectOneValidContact) {
+        final String EMPTY = "";
+        final String TEST_PHONE = "555-555-5555";
+        final String TEST_EMAIL = "email@test.com";
+        List<Contact> contactList = new ArrayList<>();
+
+        Contact onlyPhone = new Contact();
+        onlyPhone.setId(1);
+        onlyPhone.setPhone(TEST_PHONE);
+        onlyPhone.setEmail(EMPTY);
+        contactList.add(onlyPhone);
+        if (selectOneValidContact) {
+            onlyPhone.setSelected(true);
+        }
+
+        Contact onlyEmail = new Contact();
+        onlyEmail.setId(2);
+        onlyEmail.setPhone(EMPTY);
+        onlyEmail.setEmail(TEST_EMAIL);
+        contactList.add(onlyEmail);
+
+        Contact phoneAndEmail = new Contact();
+        phoneAndEmail.setId(3);
+        phoneAndEmail.setPhone(TEST_PHONE);
+        phoneAndEmail.setEmail(TEST_EMAIL);
+        contactList.add(phoneAndEmail);
+
+        Contact noPhoneOrEmail = new Contact();
+        noPhoneOrEmail.setId(4);
+        noPhoneOrEmail.setPhone(EMPTY);
+        noPhoneOrEmail.setEmail(EMPTY);
+        contactList.add(noPhoneOrEmail);
+
+        return contactList;
     }
 }

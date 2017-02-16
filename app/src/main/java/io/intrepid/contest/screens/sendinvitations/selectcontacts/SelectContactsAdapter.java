@@ -12,11 +12,13 @@ import io.intrepid.contest.models.Contact;
 class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsViewHolder> {
 
     private final List<Contact> contactsList = new ArrayList<>();
+    private final SelectContactsViewHolder.ContactClickListener onContactClickListener;
+    private final boolean displayContactSelection;
 
-    private SelectContactsViewHolder.ContactClickListener onContactClickListener;
-
-    public SelectContactsAdapter(@NonNull SelectContactsViewHolder.ContactClickListener onContactClickListener) {
+    public SelectContactsAdapter(@NonNull SelectContactsViewHolder.ContactClickListener onContactClickListener,
+                                 boolean displayContactSelection) {
         this.onContactClickListener = onContactClickListener;
+        this.displayContactSelection = displayContactSelection;
     }
 
     @Override
@@ -26,7 +28,7 @@ class SelectContactsAdapter extends RecyclerView.Adapter<SelectContactsViewHolde
 
     @Override
     public void onBindViewHolder(SelectContactsViewHolder holder, int position) {
-        holder.bindData(contactsList.get(position));
+        holder.bindData(contactsList.get(position), displayContactSelection);
     }
 
     @Override
