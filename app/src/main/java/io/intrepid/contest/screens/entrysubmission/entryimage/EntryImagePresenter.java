@@ -12,6 +12,14 @@ import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 class EntryImagePresenter extends BasePresenter<EntryImageContract.View> implements EntryImageContract.Presenter {
+    /**
+     * Quality ranges from 0-100: 0 meaning compress for small size, 100 meaning compress for max quality.
+     * Lossless formats like PGN will ignore this setting.
+     */
+    private static final int QUALITY = 100;
+    private static final Bitmap.CompressFormat FORMAT = Bitmap.CompressFormat.PNG;
+    private static final String FORMAT_PREFIX = "data:image/png;base64,";
+
     private Bitmap bitmap;
     private String entryName;
 
@@ -47,7 +55,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
         Timber.d("Entry creation API call.");
 
         String contestId = persistentSettings.getCurrentContestId().toString();
-        EntryRequest entryRequest = new EntryRequest(entryName, bitmap);
+        EntryRequest entryRequest = new EntryRequest(entryName, bitmap, FORMAT_PREFIX, FORMAT, QUALITY);
 
         Disposable disposable = restApi.createEntry(contestId, entryRequest)
                 .compose(subscribeOnIoObserveOnUi())
