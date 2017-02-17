@@ -2,43 +2,78 @@ package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.testutils.TestPresenterConfiguration;
+import io.intrepid.contest.testutils.BasePresenterTest;
 
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
-public class EditCategoriesPresenterTest {
+public class EditCategoriesPresenterTest extends BasePresenterTest<EditCategoriesPresenter> {
+
     @Mock
     EditCategoriesContract.View mockView;
-    private EditCategoriesContract.Presenter editCategoryPresenter;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
-        editCategoryPresenter = new EditCategoriesPresenter(mockView,
-                                                           TestPresenterConfiguration.createTestConfiguration());
+        prepareEditCategoryPresenter();
+    }
+
+    //For testing presenter in Edit Existing Category Mode
+    private void prepareEditCategoryPresenter() {
+        presenter = new EditCategoriesPresenter(mockView,
+                                                testConfiguration,
+                                                new Category("a", "d"));
+    }
+
+    //For testing Presenter in Add Category Mode
+    private void prepareAddCategoryPresenter() {
+        presenter = new EditCategoriesPresenter(mockView,
+                                                testConfiguration,
+                                                null);
     }
 
     @Test
     public void presenterCanBeCreated() {
-        assertTrue(editCategoryPresenter != null);
+        assertTrue(presenter != null);
     }
 
     @Test
-    public void onNextClickedShouldTriggerViewToAddCategory() {
+    public void onViewCreatedShouldDisplayPreExistingCategoryDetails() {
+        presenter.onViewCreated();
+        verify(mockView).showEditableCategory(any(), any());
+    }
+
+
+    @Test
+    public void onNextClickedShouldTriggerViewToEditCategory() {
         String categoryName = "NewCategory";
         String categoryDescription = "NewCategory Description";
-        editCategoryPresenter.onNextClicked(categoryName, categoryDescription);
-        verify(mockView).addCategory(eq(new Category(categoryName, categoryDescription)));
+
+        presenter.onNextClicked(categoryName, categoryDescription);
+
+        verify(mockView).editCategory(any(), eq(categoryName), eq(categoryDescription));
+    }
+
+    @Test
+    public void onViewCreatedShouldNeverEditinAddCategoryMode() {
+        prepareAddCategoryPresenter();
+        presenter.onViewCreated();
+        verify(mockView, never()).showEditableCategory(any(), any());
+    }
+
+    @Test
+    public void onNextClickedShouldTriggerViewToAddCategoryWhenParamsAreNull() {
+        prepareAddCategoryPresenter();
+        String categoryName = "NewCategory";
+        String categoryDescription = "NewCategory Description";
+
+        presenter.onNextClicked(categoryName, categoryDescription);
+
+        verify(mockView).addCategory(any());
     }
 }
-
-

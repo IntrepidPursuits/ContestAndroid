@@ -9,18 +9,21 @@ interface CategoriesListContract {
 
     interface View extends BaseContract.View {
         void showCategories(List<Category> categories);
-        void showDefaultCategory();
+
         void showAddCategoryScreen();
+
         void showNextScreen();
+
         void showEditCategoryPage(Category category);
-        void onCategoryClicked(Category category);
+
+        Category getDefaultCategory(int categoryName, int categoryDescription);
     }
 
-    interface Presenter extends BaseContract.Presenter<CategoriesListContract.View> {
+    interface Presenter extends BaseContract.Presenter<CategoriesListContract.View>, CategoryClickListener {
         void displayCategories();
+
         void onNextClicked(List<Category> categories);
+
         void onAddCategoryClicked();
-        void onCategoryClicked(Category category);
     }
 }
-

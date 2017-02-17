@@ -1,6 +1,5 @@
 package io.intrepid.contest.screens.contestcreation.categorieslist;
 
-import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
@@ -9,43 +8,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.intrepid.contest.R;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.utils.dragdrop.ItemTouchHelperAdapter;
-import timber.log.Timber;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ItemTouchHelperAdapter, CategoryViewHolder.CategoryClickListener {
-    private final Context context;
-    private List<Category> categories;
-    private Category exampleCategory;
-    @LayoutRes private int rowItemLayout;
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> implements ItemTouchHelperAdapter {
+    private final List<Category> categories = new ArrayList<>();
+    @LayoutRes
+    private int rowItemLayout;
+    private CategoryClickListener listener;
 
-    public CategoryAdapter(Context context) {
-        this(context, R.layout.category_card_row_item);
-    }
-
-    public CategoryAdapter(Context context, @LayoutRes int rowLayout) {
-        this.context = context;
+    public CategoryAdapter(@LayoutRes int rowLayout, CategoryClickListener listener) {
         rowItemLayout = rowLayout;
-        categories = new ArrayList<>();
-        makeExampleCategory();
-    }
-
-    private void makeExampleCategory() {
-        final String categoryName = context.getString(R.string.category_name_example);
-        final String categoryDescription = context.getString(R.string.category_description_example);
-        exampleCategory = new Category(categoryName, categoryDescription);
-    }
-
-    void setExampleCategories() {
-        categories.clear();
-        categories.add(exampleCategory);
-        notifyDataSetChanged();
+        this.listener = listener;
     }
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CategoryViewHolder(parent, this, rowItemLayout);
+        return new CategoryViewHolder(parent, listener, rowItemLayout);
     }
 
     @Override
@@ -58,21 +37,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
         return categories.size();
     }
 
-    @Override
-    public void onCategoryClicked(Category category) {
-        Timber.d(category + " was clicked for review/edit");
-    }
-
     public List<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(List<Category> categories) {
-        if (categories == null || categories.isEmpty()) {
-            setExampleCategories();
-        } else {
-            this.categories = categories;
-        }
+        this.categories.clear();
+        this.categories.addAll(categories);
         notifyDataSetChanged();
     }
 

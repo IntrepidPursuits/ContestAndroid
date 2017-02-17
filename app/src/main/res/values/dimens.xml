@@ -68,6 +68,9 @@
     <dimen name="select_contacts_row_item_minheight">18dp</dimen>
     <dimen name="user_photo_size">32dp</dimen>
 
+    <dimen name="delete_icon_elevation">20dp</dimen>
+    <dimen name="delete_icon_z_translation">8dp</dimen>
+
     <dimen name="overview_card_bottom_margin">20dp</dimen>
 
     <dimen name="select_submission_text_size">18sp</dimen>

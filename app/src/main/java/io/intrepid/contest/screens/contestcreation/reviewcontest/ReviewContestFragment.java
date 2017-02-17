@@ -40,7 +40,7 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        categoryAdapter = new CategoryAdapter(getContext(), R.layout.category_overview_row_item);
+        categoryAdapter = new CategoryAdapter(R.layout.category_overview_row_item, null);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categoriesRecyclerView.setAdapter(categoryAdapter);
     }

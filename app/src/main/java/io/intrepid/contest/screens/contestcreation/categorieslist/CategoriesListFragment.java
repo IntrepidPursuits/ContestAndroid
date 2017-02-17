@@ -1,5 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.categorieslist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +19,11 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
+import timber.log.Timber;
+
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 
 
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.View, ContestCreationFragment {
@@ -29,7 +34,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryAdapter = new CategoryAdapter(getContext(), R.layout.category_card_row_item);
+        categoryAdapter = new CategoryAdapter(R.layout.category_card_row_item, presenter);
     }
 
     @Override
@@ -77,21 +82,20 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
 
     @Override
     public void showEditCategoryPage(Category category) {
-        //todo
+        Intent intent = EditCategoryActivity.makeEditCategoryIntent(getContext(), category);
+        getActivity().startActivityForResult(intent, NOTIFY_EDIT_EXISTING_CATEGORY);
     }
 
     @Override
     public void showCategories(List<Category> categories) {
         categoryAdapter.setCategories(categories);
+        Timber.d("Categories size " + categoryAdapter.getItemCount());
     }
 
     @Override
-    public void showDefaultCategory() {
-        categoryAdapter.setExampleCategories();
-    }
-
-    @Override
-    public void onCategoryClicked(Category category) {
-        presenter.onCategoryClicked(category);
+    public Category getDefaultCategory(int categoryNameRes, int categoryDescriptionRes) {
+        String categoryName = getString(categoryNameRes);
+        String categoryDescription = getString(categoryDescriptionRes);
+        return new Category(categoryName, categoryDescription);
     }
 }

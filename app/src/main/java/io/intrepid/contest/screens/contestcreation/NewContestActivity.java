@@ -13,6 +13,7 @@ import butterknife.BindView;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListFragment;
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestFragment;
@@ -25,7 +26,9 @@ import io.intrepid.contest.utils.SlidingTabAdapter;
 import timber.log.Timber;
 
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_DESCRIPTION;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_KEY;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_NAME;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_NEW_CATEGORY;
 
 public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> implements NewContestMvpContract.View, EditContestContract {
@@ -119,6 +122,13 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
                     presenter.onNewCategoryAdded(categoryName, categoryDescription);
                 }
                 break;
+            case NOTIFY_EDIT_EXISTING_CATEGORY:
+                if (resultCode == RESULT_OK && data != null) {
+                    Category editableCategory = data.getParcelableExtra(CATEGORY_KEY);
+                    String newName = data.getStringExtra(CATEGORY_NAME);
+                    String newDescription = data.getStringExtra(CATEGORY_DESCRIPTION);
+                    presenter.onContestEditEntered(editableCategory, newName, newDescription);
+                }
         }
     }
 
@@ -149,7 +159,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     }
 
     @Override
-    public void showUpdatedCategories(Contest.Builder contest) {
+    public void showUpdatedCategories() {
         Timber.d("Got back contest data");
         setupViewPager();
         viewPager.setCurrentItem(2);
