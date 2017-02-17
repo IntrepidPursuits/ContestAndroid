@@ -19,6 +19,7 @@ import io.intrepid.contest.screens.contestcreation.describecontest.DescribeConte
 import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestFragment;
 import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFragment;
+import io.intrepid.contest.screens.sendinvitations.SendInvitationsActivity;
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.SlidingTabAdapter;
 import timber.log.Timber;
@@ -162,6 +163,11 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void showAddCategoryScreen() {
         presenter.showAddCategoryScreen();
+    }
+
+    @Override
+    public void navigateToSendInvitationsScreen() {
+        startActivity(SendInvitationsActivity.makeIntent(this));
     }
 
     @Override

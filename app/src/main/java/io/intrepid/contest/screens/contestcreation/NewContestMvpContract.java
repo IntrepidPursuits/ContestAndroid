@@ -20,6 +20,8 @@ class NewContestMvpContract {
         void showUpdatedCategories(Contest.Builder contest);
 
         void navigateToAddCategoryPage(Contest.Builder  contest);
+
+        void navigateToSendInvitationsScreen();
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
