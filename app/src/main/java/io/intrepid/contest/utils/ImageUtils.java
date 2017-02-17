@@ -6,17 +6,11 @@ import android.util.Base64;
 import java.io.ByteArrayOutputStream;
 
 public class ImageUtils {
-    /**
-     * Quality ranges from 0-100: 0 meaning compress for small size, 100 meaning compress for max quality.
-     * Lossless formats like PGN will ignore this setting.
-     */
-    private static final int QUALITY = 100;
-    private static final Bitmap.CompressFormat FORMAT = Bitmap.CompressFormat.PNG;
-
-    public static String convert(Bitmap bitmap) {
+    public static String convert(Bitmap bitmap, Bitmap.CompressFormat format, int quality) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(FORMAT, QUALITY, outputStream);
+        bitmap.compress(format, quality, outputStream);
 
-        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        String imageEncoded = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        return imageEncoded.replace(" ", "").replace("\n", "");
     }
 }

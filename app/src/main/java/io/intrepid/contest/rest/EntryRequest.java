@@ -15,12 +15,12 @@ public class EntryRequest {
     @SerializedName("entry")
     private final HashMap<String, Object> entry;
 
-    public EntryRequest(String title, Bitmap photo) {
+    public EntryRequest(String title, Bitmap photo, String formatPrefix, Bitmap.CompressFormat format, int quality) {
         entry = new HashMap<>();
         entry.put(TITLE_KEY, title);
 
         if (photo != null) {
-            entry.put(PICTURE_DATA_KEY, ImageUtils.convert(photo));
+            entry.put(PICTURE_DATA_KEY, formatPrefix + ImageUtils.convert(photo, format, quality));
         }
     }
 }
