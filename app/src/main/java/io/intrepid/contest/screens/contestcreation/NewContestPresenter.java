@@ -94,6 +94,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     private void onApiResult(ContestWrapper response) {
         view.showMessage(response.contest.toString() + " was created ");
+        persistentSettings.setCurrentContestId(response.contest.getId());
         view.navigateToSendInvitationsScreen();
     }
 

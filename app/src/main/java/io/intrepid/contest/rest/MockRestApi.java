@@ -119,6 +119,7 @@ public class MockRestApi implements RestApi {
     @NonNull
     private ContestWrapper getValidContestResponse() {
         Contest contest = new Contest();
+        contest.setId(UUID.randomUUID());
         contest.setTitle(contestTitle);
         contest.setDescription(contestDescription);
         List<Category> contestCategories = contest.getCategories();
