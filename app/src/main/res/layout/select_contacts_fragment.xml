@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/add_participants_button"
         style="@style/AppTheme.BottomNavigationButton"
-        android:text="@string/add_participants_action"
+        android:visibility="gone"
         />
 
     <android.support.v7.widget.RecyclerView
