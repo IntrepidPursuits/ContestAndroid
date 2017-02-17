@@ -5,6 +5,7 @@ import org.mockito.Mock;
 
 import io.intrepid.contest.testutils.BasePresenterTest;
 
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 
 public class InvitationRequestIntroPresenterTest extends BasePresenterTest<InvitationIntroPresenter> {
@@ -23,10 +24,11 @@ public class InvitationRequestIntroPresenterTest extends BasePresenterTest<Invit
         presenter.onViewBound();
         verify(mockView).showSelectContactsMessage();
     }
+
     @Test
     public void onViewBoundShouldShowPermissionDeniedMessageWhenAppDoesNotHavePermissions() {
         setupWithPermissions(false);
         presenter.onViewBound();
-        verify(mockView).showPermissionDeniedMessage();
+        verify(mockView).showPermissionDeniedMessage(anyInt(), anyInt());
     }
 }

@@ -22,6 +22,7 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
 
     private final List<Contact> fullContactList = new ArrayList<>();
     private final List<Contact> selectedContactList = new ArrayList<>();
+    private SendInvitationsContent lastShowed;
     private boolean contactSelectionEnabled = false;
     private boolean displayMenuItemsAndActionBar = true;
     private ParticipationType participationType;
@@ -67,6 +68,12 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
 
         if (!hasContactPermissions()) {
             view.requestContactsPermissions();
+        }
+
+        // Restore content
+        if (lastShowed == SendInvitationsContent.SELECT_CONTACTS) {
+            showSelectContactsContent();
+        } else {
             showPreviewContent();
         }
     }
@@ -77,10 +84,10 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
     }
 
     private void showSelectContactsContent() {
+        lastShowed = SendInvitationsContent.SELECT_CONTACTS;
+
         displayMenuItemsAndActionBar = false;
-
         view.showSelectContactsButton(false);
-
         setContactSelectionEnabled(true);
         view.showSelectContactsFragment();
     }
@@ -106,8 +113,10 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
         view.showSelectContactsButton(hasPermissions);
 
         if (!hasPermissions || selectedContactList.isEmpty()) {
+            lastShowed = SendInvitationsContent.PREVIEW_INTRO;
             view.showInvitationIntroFragment();
         } else {
+            lastShowed = SendInvitationsContent.PREVIEW_CONTACTS;
             setContactSelectionEnabled(false);
             view.showSelectContactsFragment();
         }
@@ -183,5 +192,9 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
         if (contactSelectionEnabled) {
             showPreviewContent();
         }
+    }
+
+    private enum SendInvitationsContent {
+        PREVIEW_INTRO, PREVIEW_CONTACTS, SELECT_CONTACTS
     }
 }
