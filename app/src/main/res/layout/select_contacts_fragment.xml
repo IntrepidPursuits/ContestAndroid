@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     >
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
     <Button
         android:id="@+id/add_participants_button"
         style="@style/AppTheme.BottomNavigationButton"
@@ -15,9 +21,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/select_contacts_recycler_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/add_participants_button"
+        android:layout_below="@id/progress_bar"
         app:layoutManager="LinearLayoutManager"
         />
 

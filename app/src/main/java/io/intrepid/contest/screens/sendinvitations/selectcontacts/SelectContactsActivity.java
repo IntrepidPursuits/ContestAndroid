@@ -16,6 +16,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,8 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
     RecyclerView selectContactsRecyclerView;
     @BindView(R.id.add_participants_button)
     Button addParticipantsButton;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private String contactSearchString = "";
     private String[] contactSelectionArgs = { contactSearchString };
@@ -236,5 +239,10 @@ public class SelectContactsActivity extends BaseMvpActivity<SelectContactsContra
     @Override
     public void hideAddContestantButton() {
         addParticipantsButton.setVisibility(GONE);
+    }
+
+    @Override
+    public void showProgressBar(boolean visible) {
+        progressBar.setVisibility(visible ? VISIBLE : GONE);
     }
 }
