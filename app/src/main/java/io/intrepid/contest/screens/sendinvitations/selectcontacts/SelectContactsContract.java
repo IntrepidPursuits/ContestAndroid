@@ -24,6 +24,8 @@ class SelectContactsContract {
         void showAddContestantButton(int numContestants);
 
         void hideAddContestantButton();
+
+        void showProgressBar(boolean visible);
     }
 
     interface Presenter extends BaseContract.Presenter<View>,

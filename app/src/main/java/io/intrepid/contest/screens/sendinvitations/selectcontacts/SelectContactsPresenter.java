@@ -12,6 +12,7 @@ import io.intrepid.contest.models.Contact;
 public class SelectContactsPresenter extends BasePresenter<SelectContactsContract.View>
         implements SelectContactsContract.Presenter {
 
+    public static final int SEARCH_MIN_NUM_CHARACTERS = 2;
     private final List<Contact> filteredContacts = new ArrayList<>();
     private int numSelectedContacts;
 
@@ -31,6 +32,7 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
             return;
         }
 
+        view.showProgressBar(true);
         view.displayContactList();
     }
 
@@ -56,6 +58,7 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
         }
 
         view.updateContactList(filteredContacts);
+        view.showProgressBar(false);
     }
 
     @Override
@@ -66,9 +69,19 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        view.updateContactSearchFilter(newText);
+        if (newText.isEmpty()) {
+            view.showProgressBar(false);
+            view.updateContactSearchFilter(newText);
+            return true;
+        }
+
+        view.showProgressBar(true);
+        if (newText.length() >= SEARCH_MIN_NUM_CHARACTERS) {
+            view.updateContactSearchFilter(newText);
+        }
         return true;
     }
+
 
     public void onContactClick(Contact contact) {
         boolean select = !contact.isSelected();

@@ -14,6 +14,7 @@ import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,6 +31,13 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
     public void onViewBoundShouldCheckForContactsPermissions() {
         presenter.onViewBound();
         verify(mockView).hasContactsPermissions();
+    }
+
+    @Test
+    public void onViewBoundShouldShowProgressBarWhenAppHasPermissions() {
+        when(mockView.hasContactsPermissions()).thenReturn(true);
+        presenter.onViewBound();
+        verify(mockView).showProgressBar(true);
     }
 
     @Test
@@ -53,33 +61,10 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
         verify(mockView).updateContactList(argThat(argument -> argument.size() == initialContactList.size() - 1));
     }
 
-    private List<Contact> getMockContactList() {
-        final String EMPTY = "";
-        final String TEST_PHONE = "555-555-5555";
-        final String TEST_EMAIL = "email@test.com";
-        List<Contact> contactList = new ArrayList<>();
-
-        Contact onlyPhone = new Contact();
-        onlyPhone.setPhone(TEST_PHONE);
-        onlyPhone.setEmail(EMPTY);
-        contactList.add(onlyPhone);
-
-        Contact onlyEmail = new Contact();
-        onlyEmail.setPhone(EMPTY);
-        onlyEmail.setEmail(TEST_EMAIL);
-        contactList.add(onlyEmail);
-
-        Contact phoneAndEmail = new Contact();
-        phoneAndEmail.setPhone(TEST_PHONE);
-        phoneAndEmail.setEmail(TEST_EMAIL);
-        contactList.add(phoneAndEmail);
-
-        Contact noPhoneOrEmail = new Contact();
-        noPhoneOrEmail.setPhone(EMPTY);
-        noPhoneOrEmail.setEmail(EMPTY);
-        contactList.add(noPhoneOrEmail);
-
-        return contactList;
+    @Test
+    public void onContactListUpdatedShouldHideProgressBar() {
+        presenter.onContactListUpdated(getMockContactList());
+        verify(mockView).showProgressBar(false);
     }
 
     @Test
@@ -88,9 +73,33 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
     }
 
     @Test
-    public void onQueryTextChangeShouldUpdateContactSearchFilter() {
-        presenter.onQueryTextChange(anyString());
+    public void onQueryTextChangeShouldUpdateContactSearchFilterWhenTextIsEmpty() {
+        presenter.onQueryTextChange("");
         verify(mockView).updateContactSearchFilter(anyString());
+    }
+
+    @Test
+    public void onQueryTextChangeShouldNotUpdateContactSearchFilterWhenTextHasOneCharacter() {
+        presenter.onQueryTextChange("1");
+        verify(mockView, never()).updateContactSearchFilter(anyString());
+    }
+
+    @Test
+    public void onQueryTextChangeShouldUpdateContactSearchFilterWhenTextHasTwoCharactersOrMore() {
+        presenter.onQueryTextChange("12");
+        verify(mockView).updateContactSearchFilter(anyString());
+    }
+
+    @Test
+    public void onQueryTextChangeShouldHideProgressBarWhenTextIsEmpty() {
+        presenter.onQueryTextChange("");
+        verify(mockView).showProgressBar(false);
+    }
+
+    @Test
+    public void onQueryTextChangeShouldShowProgressBarWhenTextIsNotEmpty() {
+        presenter.onQueryTextChange("1");
+        verify(mockView).showProgressBar(true);
     }
 
     @Test
@@ -134,5 +143,34 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
         presenter.onContactClick(list.get(0));
 
         verify(mockView).hideAddContestantButton();
+    }
+
+    private List<Contact> getMockContactList() {
+        final String EMPTY = "";
+        final String TEST_PHONE = "555-555-5555";
+        final String TEST_EMAIL = "email@test.com";
+        List<Contact> contactList = new ArrayList<>();
+
+        Contact onlyPhone = new Contact();
+        onlyPhone.setPhone(TEST_PHONE);
+        onlyPhone.setEmail(EMPTY);
+        contactList.add(onlyPhone);
+
+        Contact onlyEmail = new Contact();
+        onlyEmail.setPhone(EMPTY);
+        onlyEmail.setEmail(TEST_EMAIL);
+        contactList.add(onlyEmail);
+
+        Contact phoneAndEmail = new Contact();
+        phoneAndEmail.setPhone(TEST_PHONE);
+        phoneAndEmail.setEmail(TEST_EMAIL);
+        contactList.add(phoneAndEmail);
+
+        Contact noPhoneOrEmail = new Contact();
+        noPhoneOrEmail.setPhone(EMPTY);
+        noPhoneOrEmail.setEmail(EMPTY);
+        contactList.add(noPhoneOrEmail);
+
+        return contactList;
     }
 }
