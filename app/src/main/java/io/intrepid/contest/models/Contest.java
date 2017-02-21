@@ -12,6 +12,7 @@ import java.util.UUID;
 import timber.log.Timber;
 
 public class Contest {
+    @SerializedName("id")
     private UUID contestId;
     private UUID creatorId;
     @SerializedName("created_at")
@@ -43,6 +44,10 @@ public class Contest {
 
     public UUID getId() {
         return contestId;
+    }
+
+    public void setId(UUID id) {
+        this.contestId = id;
     }
 
     public String getTitle() {
