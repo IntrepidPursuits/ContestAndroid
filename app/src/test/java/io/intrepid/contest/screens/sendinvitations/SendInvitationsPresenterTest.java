@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -306,10 +305,10 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsSkipInvitingJudges() {
+    public void onOptionsItemSelectedShouldShowContestStatusScreenWhenItemIsSendInvitationsSkipInvitingJudges() {
         setParticipationType(ParticipationType.JUDGE);
         presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
-        verify(mockView).showMessage(anyString());
+        verify(mockView).showContestStatusScreen();
     }
 
     @Test
@@ -341,14 +340,14 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onOptionsItemSelectedShouldShowMessageWhenSuccessfullySentJudgeInvitations() {
+    public void onOptionsItemSelectedShouldShowContestStatusScreenWhenSuccessfullySentJudgeInvitations() {
         setParticipationType(ParticipationType.JUDGE);
         showPreviewContactsContent(getMockContactList(true));
 
         presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView, atLeastOnce()).showMessage(anyString());
+        verify(mockView).showContestStatusScreen();
     }
 
     @Test

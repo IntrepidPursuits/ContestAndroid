@@ -51,17 +51,6 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     @Test
-    public void onViewCreatedShouldShowContestNameWhenSuccessfullyRetrievedContestDetails() throws Exception {
-        setupSuccessfulContestDetailsCall();
-
-        presenter.onViewCreated();
-        testConfiguration.triggerRxSchedulers();
-
-        verify(mockView).showContestName(any());
-    }
-
-
-    @Test
     public void onViewCreatedShouldShowRatingGuide() throws Exception {
         //Not a pre-condition for this test but is required to make sure onViewCreated does not fail
         setupSuccessfulContestDetailsCall();

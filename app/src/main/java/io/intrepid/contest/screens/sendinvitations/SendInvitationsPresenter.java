@@ -157,8 +157,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
                 showPreviewContent();
                 break;
             case JUDGE:
-                // TODO: next screen after judge submission is status (CON-175)
-                view.showMessage("TODO: Go to status screen");
+                view.showContestStatusScreen();
         }
     }
 
