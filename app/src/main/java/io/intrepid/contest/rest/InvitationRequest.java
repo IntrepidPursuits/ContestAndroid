@@ -21,8 +21,17 @@ public class InvitationRequest {
 
         for (Contact contact : contactList) {
             Map<String, String> invitee = new HashMap<>();
-            invitee.put(EMAIL_KEY, contact.getEmail());
-            invitee.put(PHONE_KEY, contact.getPhone());
+
+            String email = contact.getEmail();
+            if (!email.isEmpty()) {
+                invitee.put(EMAIL_KEY, email);
+            }
+
+            String phone = contact.getPhone();
+            if (!phone.isEmpty()) {
+                invitee.put(PHONE_KEY, phone);
+            }
+
             invitationList.add(invitee);
         }
     }
