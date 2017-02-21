@@ -3,6 +3,7 @@ package io.intrepid.contest.screens.sendinvitations.selectcontacts;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.PluralsRes;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -79,10 +80,10 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
 
     @BindView(R.id.select_contacts_recycler_view)
     RecyclerView selectContactsRecyclerView;
-    @BindView(R.id.add_participants_button)
-    Button addParticipantsButton;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.add_contacts_button)
+    Button addContactsButton;
 
     private String contactSearchString = "";
     private String[] contactSelectionArgs = { contactSearchString };
@@ -97,6 +98,7 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
 
         return new SelectContactsPresenter(this,
                                            configuration,
+                                           sendInvitationsActivity.getParticipationType(),
                                            sendInvitationsActivity.isContactSelectionEnabled(),
                                            sendInvitationsActivity.getContactList());
     }
@@ -231,22 +233,22 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
     }
 
     @Override
-    public void showAddContestantButton(int numContestants) {
-        String contestants = getResources()
-                .getQuantityString(R.plurals.numberOfContestants, numContestants, numContestants);
-        addParticipantsButton.setText(getResources().getString(R.string.add_participants_quantified_action,
-                                                               contestants));
-        addParticipantsButton.setVisibility(VISIBLE);
+    public void showAddContactsButton(int numContacts, @PluralsRes int plural) {
+        String contactsQuantifiedString = getResources()
+                .getQuantityString(plural, numContacts, numContacts);
+        addContactsButton.setText(getString(R.string.add_contacts_quantified_action,
+                                                           contactsQuantifiedString));
+        addContactsButton.setVisibility(VISIBLE);
     }
 
     @Override
-    public void hideAddContestantButton() {
-        addParticipantsButton.setVisibility(GONE);
+    public void hideAddContactsButton() {
+        addContactsButton.setVisibility(GONE);
     }
 
-    @OnClick(R.id.add_participants_button)
-    public void onAddParticipantsButtonClicked() {
-        presenter.onAddParticipantsButtonClicked();
+    @OnClick(R.id.add_contacts_button)
+    public void onAddContactsButtonClicked() {
+        presenter.onAddContactsButtonClicked();
     }
 
     @Override

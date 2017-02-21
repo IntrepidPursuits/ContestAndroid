@@ -18,7 +18,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     private Contest.Builder contest;
 
     NewContestPresenter(@NonNull NewContestMvpContract.View view,
-                               @NonNull PresenterConfiguration configuration) {
+                        @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
         contest = new Contest.Builder();
     }

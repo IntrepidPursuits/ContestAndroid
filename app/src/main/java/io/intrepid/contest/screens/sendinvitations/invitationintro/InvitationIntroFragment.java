@@ -41,7 +41,10 @@ public class InvitationIntroFragment extends BaseFragment<InvitationIntroContrac
     public InvitationIntroContract.Presenter createPresenter(PresenterConfiguration configuration) {
         SendInvitationsActivityContract activity = (SendInvitationsActivity) getActivity();
 
-        return new InvitationIntroPresenter(this, configuration, activity.hasContactPermissions());
+        return new InvitationIntroPresenter(this,
+                                            configuration,
+                                            activity.hasContactPermissions(),
+                                            activity.getParticipationType());
     }
 
     @Override
@@ -50,9 +53,9 @@ public class InvitationIntroFragment extends BaseFragment<InvitationIntroContrac
     }
 
     @Override
-    public void showSelectContactsMessage() {
+    public void showSelectContactsMessage(@StringRes int messageResource) {
         sendInvitationsIcon.setVisibility(VISIBLE);
-        sendInvitationsIntroTextView.setText(getResources().getString(R.string.invite_contestants_intro));
+        sendInvitationsIntroTextView.setText(getString(messageResource));
     }
 
     @Override

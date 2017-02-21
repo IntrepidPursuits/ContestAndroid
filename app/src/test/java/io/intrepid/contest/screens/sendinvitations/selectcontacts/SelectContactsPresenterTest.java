@@ -6,12 +6,15 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.testutils.BasePresenterTest;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -23,17 +26,22 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
     @Mock
     SelectContactsContract.View mockView;
 
+    private void setupContactSelectionScreen(ParticipationType participationType) {
+        setup(participationType, true, new ArrayList<>());
+    }
+
     private void setupContactSelectionScreen() {
-        setup(true, new ArrayList<>());
+        setupContactSelectionScreen(ParticipationType.CONTESTANT);
     }
 
-    private void setupPreviewContactsScreen() {
-        setup(false, getMockContactList(true));
+    private void setupPreviewContactsScreen(ParticipationType participationType) {
+        setup(participationType, false, getMockContactList(true));
     }
 
-    private void setup(boolean contactSelectionEnabled, List<Contact> contactList) {
+    private void setup(ParticipationType participationType, boolean contactSelectionEnabled, List<Contact> contactList) {
         presenter = new SelectContactsPresenter(mockView,
                                                 testConfiguration,
+                                                participationType,
                                                 contactSelectionEnabled,
                                                 contactList);
     }
@@ -47,7 +55,7 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
     @Test
     public void onViewCreatedShouldSetupAdapterWithoutContactSelectionWhenShowingPreviewContactsScreen() {
-        setupPreviewContactsScreen();
+        setupPreviewContactsScreen(ParticipationType.CONTESTANT);
         presenter.onViewCreated();
         verify(mockView).setupAdapter(false);
     }
@@ -68,14 +76,14 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
     @Test
     public void onViewCreatedShouldUpdateAdapterContactListWhenShowingPreviewContactsScreen() {
-        setupPreviewContactsScreen();
+        setupPreviewContactsScreen(ParticipationType.CONTESTANT);
         presenter.onViewCreated();
         verify(mockView).updateAdapterContactList(any());
     }
 
     @Test
     public void onViewCreatedShouldHideProgressBarWhenShowingPreviewContactsScreen() {
-        setupPreviewContactsScreen();
+        setupPreviewContactsScreen(ParticipationType.CONTESTANT);
         presenter.onViewCreated();
         verify(mockView).showProgressBar(false);
     }
@@ -89,7 +97,7 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
     @Test
     public void onCreateOptionsMenuShouldNotCreateMenuSearchItemWhenShowingPreviewContactsScreen() {
-        setupPreviewContactsScreen();
+        setupPreviewContactsScreen(ParticipationType.CONTESTANT);
         presenter.onCreateOptionsMenu();
         verify(mockView, never()).createMenuSearchItem();
     }
@@ -173,38 +181,50 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
     @Test
     public void onContactClickShouldDoNothingWhenShowingPreviewContactsScreen() {
-        setupPreviewContactsScreen();
+        setupPreviewContactsScreen(ParticipationType.CONTESTANT);
         presenter.onContactListUpdated(getMockContactList(false));
 
         presenter.onContactClick(mock(Contact.class));
 
         verify(mockView, never()).onContactSelected();
-        verify(mockView, never()).showAddContestantButton(anyInt());
+        verify(mockView, never()).showAddContactsButton(anyInt(), anyInt());
     }
 
     @Test
     public void onContactClickShouldNotifyAdapterDataSetChanged() {
         setupContactSelectionScreen();
-        presenter.onContactListUpdated(getMockContactList(false));
+        List<Contact> contactList = getMockContactList(false);
+        presenter.onContactListUpdated(contactList);
 
-        presenter.onContactClick(mock(Contact.class));
+        presenter.onContactClick(contactList.get(0));
 
         verify(mockView).onContactSelected();
     }
 
     @Test
-    public void onContactClickShouldShowAndIncreaseAddContestantButtonWhenUnselectedContactIsClicked() {
+    public void onContactClickShouldShowAndIncreaseAddContestantsButtonWhenUnselectedContestantIsClicked() {
         setupContactSelectionScreen();
         List<Contact> list = getMockContactList(false);
         presenter.onContactListUpdated(list);
 
         presenter.onContactClick(list.get(0));
 
-        verify(mockView).showAddContestantButton(1);
+        verify(mockView).showAddContactsButton(1, R.plurals.numberOfContestants);
     }
 
     @Test
-    public void onContactClickShouldShowAndDecreaseAddContestantButtonWhenOneOfMultipleSelectedContactsIsClicked() {
+    public void onContactClickShouldShowAndIncreaseAddJudgesButtonWhenUnselectedJudgeIsClicked() {
+        setupContactSelectionScreen(ParticipationType.JUDGE);
+        List<Contact> list = getMockContactList(false);
+        presenter.onContactListUpdated(list);
+
+        presenter.onContactClick(list.get(0));
+
+        verify(mockView).showAddContactsButton(1, R.plurals.numberOfJudges);
+    }
+
+    @Test
+    public void onContactClickShouldShowAndDecreaseAddContestantsButtonWhenOneOfMultipleSelectedContestantsClicked() {
         setupContactSelectionScreen();
         List<Contact> list = getMockContactList(false);
         list.get(0).setSelected(true);
@@ -213,11 +233,24 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
         presenter.onContactClick(list.get(0));
 
-        verify(mockView).showAddContestantButton(1);
+        verify(mockView).showAddContactsButton(1, R.plurals.numberOfContestants);
     }
 
     @Test
-    public void onContactClickShouldHideAddContestantButtonWhenTheOnlySelectedContactIsClicked() {
+    public void onContactClickShouldShowAndDecreaseAddJudgesButtonWhenOneOfMultipleSelectedJudgesClicked() {
+        setupContactSelectionScreen(ParticipationType.JUDGE);
+        List<Contact> list = getMockContactList(false);
+        list.get(0).setSelected(true);
+        list.get(1).setSelected(true);
+        presenter.onContactListUpdated(list);
+
+        presenter.onContactClick(list.get(0));
+
+        verify(mockView).showAddContactsButton(1, R.plurals.numberOfJudges);
+    }
+
+    @Test
+    public void onContactClickShouldHideAddContactsButtonWhenTheOnlySelectedContactIsClicked() {
         setupContactSelectionScreen();
         List<Contact> list = getMockContactList(false);
         list.get(0).setSelected(true);
@@ -225,14 +258,14 @@ public class SelectContactsPresenterTest extends BasePresenterTest<SelectContact
 
         presenter.onContactClick(list.get(0));
 
-        verify(mockView).hideAddContestantButton();
+        verify(mockView).hideAddContactsButton();
     }
 
     @Test
     public void onAddParticipantsButtonClickedShouldShowSendInvitationsScreen() {
         setupContactSelectionScreen();
-        presenter.onAddParticipantsButtonClicked();
-        verify(mockView).showSendInvitationsScreen(any());
+        presenter.onAddContactsButtonClicked();
+        verify(mockView).showSendInvitationsScreen(anyList());
     }
 
     private List<Contact> getMockContactList(boolean selectOneValidContact) {

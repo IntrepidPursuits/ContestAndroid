@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.BatchInviteResponse;
 import io.intrepid.contest.rest.InvitationResponse;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -22,7 +23,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
@@ -133,6 +133,18 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
+    public void getParticipationTypeShouldReturnContestantWhenViewIsShowingContestants() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        assertEquals(ParticipationType.CONTESTANT, presenter.getParticipationType());
+    }
+
+    @Test
+    public void getParticipationTypeShouldReturnJudgeWhenViewIsShowingJudges() {
+        setParticipationType(ParticipationType.JUDGE);
+        assertEquals(ParticipationType.JUDGE, presenter.getParticipationType());
+    }
+
+    @Test
     public void onViewBoundShouldShowInvitationIntroFragment() {
         presenter.onViewBound();
         verify(mockView).showInvitationIntroFragment();
@@ -210,21 +222,63 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onCreateOptionsMenuShouldHideSendInvitationsMenuItemWhenShowingPreviewContent() {
+    public void onCreateOptionsMenuShouldHideSendInvitationsMenuItemWhenShowingPreviewWithNoContactsSelected() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        showPreviewContactsContent(getMockContactList(false));
+
         presenter.onCreateOptionsMenu();
+
         verify(mockView).showSendInvitationsMenuItem(false);
     }
 
     @Test
-    public void onCreateOptionsMenuShouldShowSendInvitationsSkipMenuItemWhenShowingPreviewContent() {
+    public void onCreateOptionsMenuShouldShowSendInvitationsSkipMenuItemWhenShowingPreviewWithNoContactsSelected() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        showPreviewContactsContent(getMockContactList(false));
+
         presenter.onCreateOptionsMenu();
+
         verify(mockView).showSendInvitationsSkipMenuItem(true);
     }
 
     @Test
-    public void onCreateOptionsMenuShouldSetActionBarTitleWhenShowingPreviewContent() {
+    public void onCreateOptionsMenuShouldShowSendInvitationsMenuItemWhenShowingPreviewWithContactsSelected() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        showPreviewContactsContent(getMockContactList(true));
+
         presenter.onCreateOptionsMenu();
-        verify(mockView).setActionBarTitle(anyInt());
+
+        verify(mockView).showSendInvitationsMenuItem(true);
+    }
+
+    @Test
+    public void onCreateOptionsMenuShouldHideSendInvitationsSkipMenuItemWhenShowingPreviewWithContactsSelected() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        showPreviewContactsContent(getMockContactList(true));
+
+        presenter.onCreateOptionsMenu();
+
+        verify(mockView).showSendInvitationsSkipMenuItem(false);
+    }
+
+    @Test
+    public void onCreateOptionsMenuShouldSetContestantActionBarTitleWhenShowingPreviewContentInvitingContestants() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        showPreviewContactsContent(getMockContactList(true));
+
+        presenter.onCreateOptionsMenu();
+
+        verify(mockView).setActionBarTitle(R.string.invite_contestants_bar_title);
+    }
+
+    @Test
+    public void onCreateOptionsMenuShouldSetJudgeActionBarTitleWhenShowingPreviewContentInvitingJudges() {
+        setParticipationType(ParticipationType.JUDGE);
+        showPreviewContactsContent(getMockContactList(true));
+
+        presenter.onCreateOptionsMenu();
+
+        verify(mockView).setActionBarTitle(R.string.invite_judges_bar_title);
     }
 
     @Test
@@ -238,7 +292,22 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsSkip() {
+    public void onOptionsItemSelectedShouldShowInvitationIntroWhenItemIsSendInvitationsSkipInvitingContestants() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
+        verify(mockView, atLeastOnce()).showInvitationIntroFragment();
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldSetParticipationJudgeWhenItemIsSendInvitationsSkipInvitingContestants() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
+        assertEquals(ParticipationType.JUDGE, presenter.getParticipationType());
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsSkipInvitingJudges() {
+        setParticipationType(ParticipationType.JUDGE);
         presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
         verify(mockView).showMessage(anyString());
     }
@@ -250,17 +319,31 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
-    public void onOptionsItemSelectedShouldShowMessageWhenItemIsSendInvitationsAndWhenApiResponseIsValid() {
+    public void onOptionsItemSelectedShouldSetParticipationTypeJudgeWhenSuccessfullySentContestantInvitations() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        setupSuccessfulInvitationApiCall();
+
+        presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+        testConfiguration.triggerRxSchedulers();
+
+        assertEquals(ParticipationType.JUDGE, presenter.getParticipationType());
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldShowInvitationIntroWhenSuccessfullySentContestantInvitations() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        setupSuccessfulInvitationApiCall();
+
+        presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showInvitationIntroFragment();
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldShowMessageWhenSuccessfullySentJudgeInvitations() {
+        setParticipationType(ParticipationType.JUDGE);
         showPreviewContactsContent(getMockContactList(true));
-        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
-        BatchInviteResponse batchInviteResponse = new BatchInviteResponse();
-        batchInviteResponse.invitationResponses = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            InvitationResponse response = new InvitationResponse();
-            response.code = "code" + i;
-            batchInviteResponse.invitationResponses.add(response);
-        }
-        when(mockRestApi.batchInvite(any(), any())).thenReturn(Observable.just(batchInviteResponse));
 
         presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
         testConfiguration.triggerRxSchedulers();
@@ -272,6 +355,7 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     public void onOptionsItemSelectedShouldShowApiErrorMessageWhenItemIsSendInvitationsAndApiCallThrowsError()
             throws HttpException {
         showPreviewContactsContent(getMockContactList(true));
+        reset(mockView);
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
         when(mockRestApi.batchInvite(any(), any())).thenReturn(error(new Throwable()));
 
@@ -324,5 +408,29 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
         contactList.add(noPhoneOrEmail);
 
         return contactList;
+    }
+
+    private void setParticipationType(ParticipationType participationType) {
+        presenter.onViewCreated();
+        if (participationType.equals(ParticipationType.JUDGE)) {
+            setupSuccessfulInvitationApiCall();
+            presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
+            testConfiguration.triggerRxSchedulers();
+        }
+        reset(mockView);
+    }
+
+    private void setupSuccessfulInvitationApiCall() {
+        showPreviewContactsContent(getMockContactList(true));
+        reset(mockView);
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        BatchInviteResponse batchInviteResponse = new BatchInviteResponse();
+        batchInviteResponse.invitationResponses = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            InvitationResponse response = new InvitationResponse();
+            response.code = "code" + i;
+            batchInviteResponse.invitationResponses.add(response);
+        }
+        when(mockRestApi.batchInvite(any(), any())).thenReturn(Observable.just(batchInviteResponse));
     }
 }

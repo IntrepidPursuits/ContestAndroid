@@ -14,7 +14,7 @@
         />
 
     <Button
-        android:id="@+id/add_participants_button"
+        android:id="@+id/add_contacts_button"
         style="@style/AppTheme.BottomNavigationButton"
         android:visibility="gone"
         />
@@ -23,8 +23,8 @@
         android:id="@+id/select_contacts_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/add_participants_button"
         android:layout_below="@id/progress_bar"
+        android:layout_above="@id/add_contacts_button"
         app:layoutManager="LinearLayoutManager"
         />
 

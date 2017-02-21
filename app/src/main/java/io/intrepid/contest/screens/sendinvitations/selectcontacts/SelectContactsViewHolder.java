@@ -18,6 +18,9 @@ import static android.view.View.VISIBLE;
 
 public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
 
+    private final float ENABLED_CONTACT_ALPHA = 1f;
+    private final float DISABLED_CONTACT_ALPHA = 0.25f;
+
     @BindView(R.id.select_contacts_photo_image_view)
     ImageView photoImageView;
     @BindView(R.id.select_contacts_name_text_view)
@@ -44,6 +47,9 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
 
     public void bindData(Contact contact, boolean displayContactSelection) {
         viewHolderContact = contact;
+
+        itemView.setAlpha(contact.isEnabled() ? ENABLED_CONTACT_ALPHA : DISABLED_CONTACT_ALPHA);
+
         nameTextView.setText(contact.getName());
 
         if (!contact.getEmail().isEmpty()) {

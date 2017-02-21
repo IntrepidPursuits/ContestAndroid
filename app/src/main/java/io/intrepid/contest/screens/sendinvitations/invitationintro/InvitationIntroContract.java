@@ -6,7 +6,7 @@ import io.intrepid.contest.base.BaseContract;
 
 class InvitationIntroContract {
     interface View extends BaseContract.View {
-        void showSelectContactsMessage();
+        void showSelectContactsMessage(@StringRes int resource);
 
         void showPermissionDeniedMessage(@StringRes int wrappingStringResource, @StringRes int clickableResource);
     }
