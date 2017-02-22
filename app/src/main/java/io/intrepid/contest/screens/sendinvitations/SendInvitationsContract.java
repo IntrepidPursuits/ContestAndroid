@@ -9,6 +9,10 @@ import io.intrepid.contest.models.Contact;
 
 class SendInvitationsContract {
     interface View extends BaseContract.View {
+        void setActionBarTitle(@StringRes int titleResource);
+
+        void setActionBarDisplayHomeAsUpEnabled(boolean enabled);
+
         boolean checkContactsPermissions();
 
         void requestContactsPermissions();
@@ -22,11 +26,11 @@ class SendInvitationsContract {
         void showSelectContactsFragment();
 
         void showInvitationIntroFragment();
-
-        void setActionBarTitle(@StringRes int titleResource);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
+        void onBackButtonClicked();
+
         void onSelectContactsButtonClicked();
 
         void onAddContestantsButtonClicked(List<Contact> selectedContactList);

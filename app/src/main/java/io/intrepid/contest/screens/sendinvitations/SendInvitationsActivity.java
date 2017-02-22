@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -54,10 +53,13 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
     }
 
     @Override
-    protected void onViewCreated(Bundle savedInstanceState) {
-        super.onViewCreated(savedInstanceState);
+    public void onBackPressed() {
+        presenter.onBackButtonClicked();
+    }
 
-        setActionBarDisplayHomeAsUpEnabled(true);
+    @Override
+    public void setActionBarDisplayHomeAsUpEnabled(boolean enabled) {
+        super.setActionBarDisplayHomeAsUpEnabled(enabled);
     }
 
     @Override

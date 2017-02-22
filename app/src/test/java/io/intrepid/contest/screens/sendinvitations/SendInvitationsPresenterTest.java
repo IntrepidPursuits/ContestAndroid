@@ -134,6 +134,13 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     }
 
     @Test
+    public void onBackButtonClickedShouldShowPreviewInvitationWhenShowingSelectContactsContent() {
+        showSelectContactsContent();
+        presenter.onBackButtonClicked();
+        verify(mockView).showInvitationIntroFragment();
+    }
+
+    @Test
     public void onContactsPermissionsResultShouldHideSelectContactsButtonWhenPermissionHasBeenDenied() {
         when(mockView.checkContactsPermissions()).thenReturn(false);
         presenter.onContactsPermissionsResult();
