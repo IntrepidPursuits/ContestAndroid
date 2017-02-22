@@ -71,7 +71,6 @@ public class SharedPreferencesManager implements PersistentSettings {
 
     @Override
     public void clear() {
-        Timber.e("Clearing %d settings", preferences.getAll().keySet().size());
         preferences.edit().clear().apply();  // BURN IT DOWN
     }
 }

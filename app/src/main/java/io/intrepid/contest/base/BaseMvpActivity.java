@@ -71,7 +71,6 @@ public abstract class BaseMvpActivity<T extends BaseContract.Presenter> extends 
         super.onStart();
         presenter.bindView(this);
         shakeSubscription = shakeFlowable.subscribe((Consumer<Object>) o -> {
-            Timber.e("WOOT WOOT");
             ((ContestApplication) getApplication()).resetState();
             Intent intent = new Intent(this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
