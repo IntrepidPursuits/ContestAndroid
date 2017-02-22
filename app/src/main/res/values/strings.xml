@@ -72,8 +72,9 @@
     <string name="send_invitations_menu_action">Invite</string>
     <string name="invite_contestants_bar_title">Select Contestants</string>
     <string name="invite_contestants_intro">Invite contestants from your contacts!</string>
-    <string name="no_contacts_permissions">We don\'t have access to your contacts. You can enable settings in privacy settings</string>
     <string name="no_contacts_selected">Please select a contact to invite</string>
+    <string name="no_contacts_permissions">We don\'t have access to your contacts. You can enable settings in %1$s.</string>
+    <string name="no_contacts_permissions_link">privacy settings</string>
     <string name="invite_contestants">Invite contestants</string>
     <string name="add_participants_quantified_action">Add %1$s</string>
 

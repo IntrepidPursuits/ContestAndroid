@@ -1,6 +1,18 @@
 package io.intrepid.contest.screens.sendinvitations.invitationintro;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +28,8 @@ import static android.view.View.VISIBLE;
 
 public class InvitationIntroFragment extends BaseFragment<InvitationIntroContract.Presenter>
         implements InvitationIntroContract.View {
+
+    private static final String PACKAGE_KEY = "package";
 
     @BindView(R.id.send_invitations_icon)
     ImageView sendInvitationsIcon;
@@ -42,11 +56,32 @@ public class InvitationIntroFragment extends BaseFragment<InvitationIntroContrac
     }
 
     @Override
-    public void showPermissionDeniedMessage() {
-        sendInvitationsIcon.setVisibility(GONE);
-        sendInvitationsIntroTextView.setText(getString(R.string.no_contacts_permissions));
+    public void showPermissionDeniedMessage(@StringRes int wrappingStringResource, @StringRes int clickableResource) {
+        String clickableString = getString(clickableResource);
+        String fullString = getString(wrappingStringResource, clickableString);
+        SpannableString spannableString = new SpannableString(fullString);
 
-        // TODO: Enable click in part of the message that starts ACTION_PRIVACY_SETTINGS intent
-        showMessage("Display permission denied message with intent to ACTION_PRIVACY_SETTINGS");
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                           Uri.fromParts(PACKAGE_KEY, getActivity().getPackageName(), null));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        };
+
+        int indexClickStart = fullString.indexOf(clickableString);
+        int indexClickEnd = indexClickStart + clickableString.length();
+
+        spannableString.setSpan(clickableSpan, indexClickStart, indexClickEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new UnderlineSpan(), indexClickStart, indexClickEnd, 0);
+        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.colorAccent)),
+                                indexClickStart, indexClickEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        sendInvitationsIntroTextView.setText(spannableString);
+        sendInvitationsIntroTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        sendInvitationsIcon.setVisibility(GONE);
     }
 }

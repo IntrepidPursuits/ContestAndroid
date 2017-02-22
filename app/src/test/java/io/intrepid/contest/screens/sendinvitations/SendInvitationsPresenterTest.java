@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -57,6 +58,48 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
         when(mockView.checkContactsPermissions()).thenReturn(false);
         presenter.onViewBound();
         verify(mockView).requestContactsPermissions();
+    }
+
+    @Test
+    public void onViewBoundShouldShowSelectContactsFragmentWhenPreviouslyShowedSelectContactsContent() {
+        showSelectContactsContent();
+        reset(mockView);
+
+        presenter.onViewBound();
+
+        verify(mockView).showSelectContactsFragment();
+    }
+
+    @Test
+    public void onViewBoundShouldShowSelectContactsFragmentWhenAppHasPermissionsAndPreviouslyShowedPreviewContacts() {
+        showPreviewContactsContent(getMockContactList(true));
+        reset(mockView);
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+
+        presenter.onViewBound();
+
+        verify(mockView).showSelectContactsFragment();
+    }
+
+    @Test
+    public void onViewBoundShouldShowInvitationIntroFragmentWhenAppDoesNotHavePermissions() {
+        showPreviewContactsContent(getMockContactList(true));
+        reset(mockView);
+        when(mockView.checkContactsPermissions()).thenReturn(false);
+
+        presenter.onViewBound();
+
+        verify(mockView).showInvitationIntroFragment();
+    }
+    @Test
+    public void onViewBoundShouldShowInvitationIntroFragmentWhenPreviouslyShowedInvitationIntroContent() {
+        showPreviewContactsContent(getMockContactList(false));
+        reset(mockView);
+        when(mockView.checkContactsPermissions()).thenReturn(true);
+
+        presenter.onViewBound();
+
+        verify(mockView).showInvitationIntroFragment();
     }
 
     @Test

@@ -2,17 +2,18 @@ package io.intrepid.contest.screens.sendinvitations.invitationintro;
 
 import android.support.annotation.NonNull;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 
-public class InvitationIntroPresenter extends BasePresenter<InvitationIntroContract.View>
+class InvitationIntroPresenter extends BasePresenter<InvitationIntroContract.View>
         implements InvitationIntroContract.Presenter {
 
-    private boolean hasContactPermissions;
+    private final boolean hasContactPermissions;
 
-    public InvitationIntroPresenter(@NonNull InvitationIntroContract.View view,
-                                    @NonNull PresenterConfiguration configuration,
-                                    boolean hasContactPermissions) {
+    InvitationIntroPresenter(@NonNull InvitationIntroContract.View view,
+                             @NonNull PresenterConfiguration configuration,
+                             boolean hasContactPermissions) {
         super(view, configuration);
 
         this.hasContactPermissions = hasContactPermissions;
@@ -25,7 +26,7 @@ public class InvitationIntroPresenter extends BasePresenter<InvitationIntroContr
         if (hasContactPermissions) {
             view.showSelectContactsMessage();
         } else {
-            view.showPermissionDeniedMessage();
+            view.showPermissionDeniedMessage(R.string.no_contacts_permissions, R.string.no_contacts_permissions_link);
         }
     }
 }
