@@ -39,7 +39,7 @@ public class ShakeDetector {
         SensorManager mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_LINEAR_ACCELERATION);
         if (sensorList == null || sensorList.isEmpty()) {
-            throw new IllegalStateException("Device has no linear acceleration sensor");
+            return Flowable.empty();
         }
         Sensor sensor = sensorList.get(0);
 
