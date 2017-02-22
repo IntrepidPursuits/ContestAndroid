@@ -8,7 +8,6 @@ import java.util.UUID;
 
 import io.intrepid.commonutils.StringUtils;
 import io.intrepid.contest.models.ParticipationType;
-import timber.log.Timber;
 
 public class SharedPreferencesManager implements PersistentSettings {
 
