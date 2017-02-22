@@ -7,33 +7,34 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
-import io.intrepid.contest.screens.sendinvitations.selectcontacts.SelectContactsActivity;
+import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.screens.sendinvitations.invitationintro.InvitationIntroFragment;
+import io.intrepid.contest.screens.sendinvitations.selectcontacts.SelectContactsFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsContract.Presenter>
-        implements SendInvitationsContract.View {
+        implements SendInvitationsContract.View, SendInvitationsActivityContract {
 
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     @BindView(R.id.select_contacts_fab_button)
     ImageView selectContactsButton;
-    @BindView(R.id.send_invitations_icon)
-    ImageView sendInvitationsIcon;
-    @BindView(R.id.send_invitations_intro_text_view)
-    TextView sendInvitationsIntroTextView;
 
     private Menu menu;
 
@@ -48,16 +49,20 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
     }
 
     @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_send_invitations;
+    }
+
+    @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
 
-        setActionBarTitle(R.string.invite_contestants_bar_title);
         setActionBarDisplayHomeAsUpEnabled(true);
     }
 
     @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_send_invitations;
+    public void setActionBarTitle(@StringRes int titleResource) {
+        super.setActionBarTitle(titleResource);
     }
 
     @Override
@@ -75,8 +80,9 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
         return true;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
-    public boolean hasContactsPermissions() {
+    public boolean checkContactsPermissions() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
@@ -103,26 +109,7 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
 
     @Override
     public void showSelectContactsButton(boolean show) {
-        if (show) {
-            selectContactsButton.setVisibility(VISIBLE);
-        } else {
-            selectContactsButton.setVisibility(GONE);
-        }
-    }
-
-    @Override
-    public void showSelectContactsMessage() {
-        sendInvitationsIcon.setVisibility(VISIBLE);
-        sendInvitationsIntroTextView.setText(getResources().getString(R.string.invite_contestants_intro));
-    }
-
-    @Override
-    public void showPermissionDeniedMessage() {
-        sendInvitationsIcon.setVisibility(GONE);
-        sendInvitationsIntroTextView.setText(getResources().getString(R.string.no_contacts_permissions));
-
-        // TODO: Enable click in part of the message that starts ACTION_PRIVACY_SETTINGS intent
-        showMessage("Display permission denied message with intent to ACTION_PRIVACY_SETTINGS");
+        selectContactsButton.setVisibility(show ? VISIBLE : GONE);
     }
 
     @Override
@@ -132,8 +119,7 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            boolean granted = (grantResults[0] == PackageManager.PERMISSION_GRANTED);
-            presenter.onContactsPermissionsResult(granted);
+            presenter.onContactsPermissionsResult();
         }
     }
 
@@ -142,8 +128,54 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
         presenter.onSelectContactsButtonClicked();
     }
 
+    private void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commitAllowingStateLoss();
+    }
+
     @Override
-    public void showSelectContactsScreen() {
-        startActivity(SelectContactsActivity.makeIntent(this));
+    public void showInvitationIntroFragment() {
+        InvitationIntroFragment fragment = (InvitationIntroFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_invitation_intro);
+
+        if (fragment == null) {
+            fragment = new InvitationIntroFragment();
+        }
+
+        replaceFragment(fragment);
+    }
+
+    @Override
+    public void showSelectContactsFragment() {
+        SelectContactsFragment fragment = (SelectContactsFragment)
+                getSupportFragmentManager().findFragmentById(R.id.fragment_select_contacts);
+
+        if (fragment == null) {
+            fragment = new SelectContactsFragment();
+        }
+
+        replaceFragment(fragment);
+    }
+
+    @Override
+    public boolean hasContactPermissions() {
+        return presenter.hasContactPermissions();
+    }
+
+    @Override
+    public boolean isContactSelectionEnabled() {
+        return presenter.isContactSelectionEnabled();
+    }
+
+    @Override
+    public List<Contact> getContactList() {
+        return presenter.getContactList();
+    }
+
+    @Override
+    public void onAddContestantsButtonClicked(List<Contact> selectedContactList) {
+        presenter.onAddContestantsButtonClicked(selectedContactList);
     }
 }

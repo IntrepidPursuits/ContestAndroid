@@ -42,7 +42,7 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
         return layoutInflater.inflate(R.layout.select_contacts_row_item, parent, false);
     }
 
-    public void bindData(Contact contact) {
+    public void bindData(Contact contact, boolean displayContactSelection) {
         viewHolderContact = contact;
         nameTextView.setText(contact.getName());
 
@@ -56,7 +56,7 @@ public class SelectContactsViewHolder extends RecyclerView.ViewHolder {
             emailTextView.setVisibility(GONE);
         }
 
-        if (contact.isSelected()) {
+        if (displayContactSelection && contact.isSelected()) {
             photoImageView.setImageResource(R.drawable.selected_contact_icon);
         } else {
             byte[] photo = contact.getPhoto();

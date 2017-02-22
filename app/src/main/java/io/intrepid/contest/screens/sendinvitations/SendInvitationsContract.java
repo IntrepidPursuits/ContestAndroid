@@ -1,10 +1,15 @@
 package io.intrepid.contest.screens.sendinvitations;
 
+import android.support.annotation.StringRes;
+
+import java.util.List;
+
 import io.intrepid.contest.base.BaseContract;
+import io.intrepid.contest.models.Contact;
 
 class SendInvitationsContract {
     interface View extends BaseContract.View {
-        boolean hasContactsPermissions();
+        boolean checkContactsPermissions();
 
         void requestContactsPermissions();
 
@@ -14,20 +19,28 @@ class SendInvitationsContract {
 
         void showSelectContactsButton(boolean visible);
 
-        void showSelectContactsScreen();
+        void showSelectContactsFragment();
 
-        void showSelectContactsMessage();
+        void showInvitationIntroFragment();
 
-        void showPermissionDeniedMessage();
+        void setActionBarTitle(@StringRes int titleResource);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
         void onSelectContactsButtonClicked();
 
-        void onContactsPermissionsResult(boolean granted);
+        void onAddContestantsButtonClicked(List<Contact> selectedContactList);
+
+        void onContactsPermissionsResult();
 
         void onCreateOptionsMenu();
 
         void onOptionsItemSelected(int itemId);
+
+        boolean isContactSelectionEnabled();
+
+        List<Contact> getContactList();
+
+        boolean hasContactPermissions();
     }
 }
