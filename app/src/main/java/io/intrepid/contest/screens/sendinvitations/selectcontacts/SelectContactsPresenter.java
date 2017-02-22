@@ -5,29 +5,34 @@ import android.support.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.models.ParticipationType;
 
 public class SelectContactsPresenter extends BasePresenter<SelectContactsContract.View>
         implements SelectContactsContract.Presenter {
 
     private static final int SEARCH_MIN_NUM_CHARACTERS = 2;
-    private final List<Contact> contactList = new ArrayList<>();
+    private final ParticipationType participationType;
     private final boolean contactSelectionEnabled;
+    private final List<Contact> contactList = new ArrayList<>();
     private int numSelectedContacts;
 
     public SelectContactsPresenter(@NonNull SelectContactsContract.View view,
                                    @NonNull PresenterConfiguration configuration,
+                                   ParticipationType participationType,
                                    boolean contactSelectionEnabled,
                                    @NonNull List<Contact> contactList) {
         super(view, configuration);
 
+        this.participationType = participationType;
         this.contactSelectionEnabled = contactSelectionEnabled;
         this.contactList.clear();
         this.contactList.addAll(contactList);
         for (Contact contact : contactList) {
-            if (contact.isSelected()) {
+            if (contact.isEnabled() && contact.isSelected()) {
                 numSelectedContacts++;
             }
         }
@@ -77,7 +82,7 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
                 contactList.add(contact);
                 filteredContacts.add(contact);
 
-                if (contact.isSelected()) {
+                if (contact.isEnabled() && contact.isSelected()) {
                     numSelectedContacts++;
                 }
             }
@@ -110,7 +115,7 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
 
 
     public void onContactClick(Contact contact) {
-        if (!contactSelectionEnabled) {
+        if (!contactSelectionEnabled || !contact.isEnabled()) {
             return;
         }
 
@@ -122,14 +127,17 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
         numSelectedContacts = select ? (numSelectedContacts + 1) : (numSelectedContacts - 1);
 
         if (numSelectedContacts == 0) {
-            view.hideAddContestantButton();
+            view.hideAddContactsButton();
         } else {
-            view.showAddContestantButton(numSelectedContacts);
+            int pluralResource = participationType.equals(ParticipationType.CONTESTANT) ?
+                    R.plurals.numberOfContestants : R.plurals.numberOfJudges;
+            view.showAddContactsButton(numSelectedContacts,
+                                       pluralResource);
         }
     }
 
     @Override
-    public void onAddParticipantsButtonClicked() {
+    public void onAddContactsButtonClicked() {
         view.showSendInvitationsScreen(contactList);
     }
 }

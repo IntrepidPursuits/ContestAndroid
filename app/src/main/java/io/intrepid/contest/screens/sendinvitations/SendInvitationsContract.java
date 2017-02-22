@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.models.ParticipationType;
 
 class SendInvitationsContract {
     interface View extends BaseContract.View {
@@ -46,5 +47,7 @@ class SendInvitationsContract {
         List<Contact> getContactList();
 
         boolean hasContactPermissions();
+
+        ParticipationType getParticipationType();
     }
 }

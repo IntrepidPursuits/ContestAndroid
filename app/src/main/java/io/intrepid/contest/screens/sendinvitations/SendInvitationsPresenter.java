@@ -17,7 +17,7 @@ import io.intrepid.contest.rest.InvitationResponse;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.View>
+class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.View>
         implements SendInvitationsContract.Presenter {
 
     private final List<Contact> fullContactList = new ArrayList<>();
@@ -27,11 +27,9 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
     private boolean displayMenuItemsAndActionBar = true;
     private ParticipationType participationType;
 
-    public SendInvitationsPresenter(@NonNull SendInvitationsContract.View view,
-                                    @NonNull PresenterConfiguration configuration) {
+    SendInvitationsPresenter(@NonNull SendInvitationsContract.View view,
+                             @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
-
-        this.participationType = ParticipationType.CONTESTANT;
     }
 
     @Override
@@ -57,8 +55,14 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
     }
 
     @Override
+    public ParticipationType getParticipationType() {
+        return participationType;
+    }
+
+    @Override
     public void onViewCreated() {
         super.onViewCreated();
+        participationType = ParticipationType.CONTESTANT;
         showPreviewContent();
     }
 
@@ -99,7 +103,7 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
 
         selectedContactList.clear();
         for (Contact contact : contactList) {
-            if (contact.isSelected()) {
+            if (contact.isEnabled() && contact.isSelected()) {
                 selectedContactList.add(contact);
             }
         }
@@ -139,10 +143,22 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
                 sendInvitations();
                 break;
             case R.id.send_invitations_skip_menu_action:
-                // TODO: go to next screen
-                view.showMessage("TODO: Go to next screen");
+                showNextScreen();
             case android.R.id.home:
                 onBackButtonClicked();
+        }
+    }
+
+    private void showNextScreen() {
+        switch (participationType) {
+            case CONTESTANT:
+                participationType = ParticipationType.JUDGE;
+                selectedContactList.clear();
+                showPreviewContent();
+                break;
+            case JUDGE:
+                // TODO: next screen after judge submission is status (CON-175)
+                view.showMessage("TODO: Go to status screen");
         }
     }
 
@@ -172,12 +188,20 @@ public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContr
         for (InvitationResponse invitationResponse : response.invitationResponses) {
             Timber.d("Code: " + invitationResponse.code);
         }
-        view.showMessage("Go to next screen");
+        disableContactsForFutureSelection();
+        showNextScreen();
+    }
+
+    private void disableContactsForFutureSelection() {
+        for (Contact contact : selectedContactList) {
+            contact.setEnabled(false);
+        }
     }
 
     private void updateMenuItemsAndActionBar() {
         if (displayMenuItemsAndActionBar) {
-            view.setActionBarTitle(R.string.invite_contestants_bar_title);
+            view.setActionBarTitle(participationType.equals(ParticipationType.CONTESTANT) ?
+                                           R.string.invite_contestants_bar_title : R.string.invite_judges_bar_title);
             view.setActionBarDisplayHomeAsUpEnabled(false);
             view.showSendInvitationsMenuItem(!selectedContactList.isEmpty());
             view.showSendInvitationsSkipMenuItem(selectedContactList.isEmpty());

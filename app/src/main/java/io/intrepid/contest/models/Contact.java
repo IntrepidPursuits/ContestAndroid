@@ -7,6 +7,7 @@ public class Contact {
     private String email;
     private byte[] photo;
     private boolean selected = false;
+    private boolean enabled = true;
 
     public long getId() {
         return id;
@@ -54,5 +55,13 @@ public class Contact {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

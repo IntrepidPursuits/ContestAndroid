@@ -1,11 +1,13 @@
 package io.intrepid.contest.screens.sendinvitations.selectcontacts;
 
+import android.support.annotation.PluralsRes;
 import android.support.v7.widget.SearchView;
 
 import java.util.List;
 
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.models.ParticipationType;
 
 class SelectContactsContract {
     interface View extends BaseContract.View {
@@ -21,9 +23,9 @@ class SelectContactsContract {
 
         void onContactSelected();
 
-        void showAddContestantButton(int numContestants);
+        void showAddContactsButton(int numContacts, @PluralsRes int plural);
 
-        void hideAddContestantButton();
+        void hideAddContactsButton();
 
         void showSendInvitationsScreen(List<Contact> contactList);
 
@@ -36,6 +38,6 @@ class SelectContactsContract {
 
         void onContactListUpdated(List<Contact> contacts);
 
-        void onAddParticipantsButtonClicked();
+        void onAddContactsButtonClicked();
     }
 }

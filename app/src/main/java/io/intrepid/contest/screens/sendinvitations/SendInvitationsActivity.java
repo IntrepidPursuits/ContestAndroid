@@ -21,6 +21,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contact;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.screens.sendinvitations.invitationintro.InvitationIntroFragment;
 import io.intrepid.contest.screens.sendinvitations.selectcontacts.SelectContactsFragment;
 
@@ -50,6 +51,11 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_send_invitations;
+    }
+
+    @Override
+    public ParticipationType getParticipationType() {
+        return presenter.getParticipationType();
     }
 
     @Override
