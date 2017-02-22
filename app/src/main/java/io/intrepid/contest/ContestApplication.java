@@ -5,6 +5,7 @@ import android.app.Application;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.RestApi;
 import io.intrepid.contest.rest.RetrofitClient;
+import io.intrepid.contest.settings.PersistentSettings;
 import io.intrepid.contest.settings.SharedPreferencesManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -13,12 +14,20 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 public class ContestApplication extends Application {
 
+    private PersistentSettings settings;
+
     @Override
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
-        RetrofitClient.init(SharedPreferencesManager.getInstance(this));
+        settings = SharedPreferencesManager.getInstance(this);
+        RetrofitClient.init(settings);
         initCalligraphy();
+    }
+
+    public void resetState() {
+        settings.clear();
+        RetrofitClient.init(settings);
     }
 
     private void initCalligraphy() {

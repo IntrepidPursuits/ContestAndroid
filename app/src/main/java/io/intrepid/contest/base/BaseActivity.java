@@ -13,12 +13,19 @@ import android.widget.Toast;
 
 import butterknife.ButterKnife;
 import io.intrepid.contest.ContestApplication;
+import io.intrepid.contest.screens.splash.SplashActivity;
+import io.intrepid.contest.utils.ShakeDetector;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 abstract class BaseActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
+    private Flowable<?> shakeFlowable;
+    private Disposable shakeSubscription;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +36,7 @@ abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         actionBar = getSupportActionBar();
+        shakeFlowable = ShakeDetector.create(this);
     }
 
     @Override
@@ -50,6 +58,14 @@ abstract class BaseActivity extends AppCompatActivity {
     protected void onStart() {
         Timber.v("Lifecycle onStart: " + this);
         super.onStart();
+        shakeSubscription = shakeFlowable.subscribe((Consumer<Object>) o -> {
+            ((ContestApplication) getApplication()).resetState();
+            Intent intent = new Intent(this, SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            Runtime.getRuntime().exit(0);
+        });
     }
 
     @Override
@@ -71,6 +87,7 @@ abstract class BaseActivity extends AppCompatActivity {
     protected void onStop() {
         Timber.v("Lifecycle onStop: " + this);
         super.onStop();
+        shakeSubscription.dispose();
     }
 
     @Override
