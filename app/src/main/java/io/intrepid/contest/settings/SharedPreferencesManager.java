@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import io.intrepid.commonutils.StringUtils;
 import io.intrepid.contest.models.ParticipationType;
+import timber.log.Timber;
 
 public class SharedPreferencesManager implements PersistentSettings {
 
@@ -66,5 +67,11 @@ public class SharedPreferencesManager implements PersistentSettings {
     @Override
     public void setCurrentParticipationType(ParticipationType participationType) {
         preferences.edit().putString(CURRENT_PARTICIPATION_TYPE, participationType.getValue()).apply();
+    }
+
+    @Override
+    public void clear() {
+        Timber.e("Clearing %d settings", preferences.getAll().keySet().size());
+        preferences.edit().clear().apply();  // BURN IT DOWN
     }
 }

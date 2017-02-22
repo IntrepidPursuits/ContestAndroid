@@ -18,4 +18,6 @@ public interface PersistentSettings {
     ParticipationType getCurrentParticipationType();
 
     void setCurrentParticipationType(ParticipationType participationType);
+
+    void clear();
 }
