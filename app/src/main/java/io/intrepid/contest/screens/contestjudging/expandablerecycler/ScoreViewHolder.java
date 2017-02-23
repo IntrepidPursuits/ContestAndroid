@@ -20,7 +20,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 class ScoreViewHolder extends RecyclerView.ViewHolder implements ExpandableViewHolder, RatingBar.OnRatingBarChangeListener {
-    private static final long COLLAPSE_DELAY = 800;
+    private static final long COLLAPSE_DELAY = 5;
     private final CategoryScoreListener listener;
     @BindView(R.id.category_item_title)
     TextView categoryTitleField;
@@ -48,7 +48,8 @@ class ScoreViewHolder extends RecyclerView.ViewHolder implements ExpandableViewH
     }
 
     void bindScore(Score score) {
-        bindScore(score, true);
+        reveal = (score.getScoreValue() == 0);
+        bindScore(score, reveal);
     }
 
     private void bindScore(Score score, boolean reveal) {
@@ -57,6 +58,7 @@ class ScoreViewHolder extends RecyclerView.ViewHolder implements ExpandableViewH
         categoryTitleField.setText(score.getCategoryName());
         categoryDescriptionField.setText(score.getCategoryDescription());
         setRatingPaneVisibility(reveal);
+        ratingBar.setRating(score.getScoreValue());
     }
 
     private void setRatingPaneVisibility(boolean reveal) {

@@ -5,21 +5,32 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Button;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.EntryBallot;
 import io.intrepid.contest.screens.contestjudging.EntryListAdapter;
 import io.intrepid.contest.screens.contestjudging.EntryOnClickListener;
-import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivity;
+import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivityContract;
+import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 
-public class EntriesListFragment extends BaseFragment<EntriesListContract.Presenter> implements EntriesListContract.View {
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+public class EntriesListFragment extends BaseFragment<EntriesListContract.Presenter>
+        implements EntriesListContract.View {
     @BindView(R.id.generic_recycler_view)
     RecyclerView entriesRecyclerView;
+    @BindView(R.id.contest_judging_submit_button)
+    Button submitButton;
+
     private EntryListAdapter entryListAdapter;
 
     @Override
@@ -47,7 +58,12 @@ public class EntriesListFragment extends BaseFragment<EntriesListContract.Presen
 
     @Override
     public List<Entry> getEntries() {
-        return ((ScoreEntriesActivity) getActivity()).getEntriesList();
+        return ((ScoreEntriesActivityContract) getActivity()).getEntriesList();
+    }
+
+    @Override
+    public List<EntryBallot> getEntryBallots() {
+        return ((ScoreEntriesActivityContract) getActivity()).getEntryBallotsList();
     }
 
     @Override
@@ -58,6 +74,21 @@ public class EntriesListFragment extends BaseFragment<EntriesListContract.Presen
 
     @Override
     public void setNextVisible(boolean nextVisible) {
-        ((ScoreEntriesActivity) getActivity()).setNextEnabled(nextVisible);
+        ((ScoreEntriesActivityContract) getActivity()).setNextEnabled(nextVisible);
+    }
+
+    @Override
+    public void showSubmitButton(boolean visible) {
+        submitButton.setVisibility(visible ? VISIBLE : GONE);
+    }
+
+    @OnClick(R.id.contest_judging_submit_button)
+    public void onSubmitButtonClicked() {
+        presenter.onSubmitButtonClicked();
+    }
+
+    @Override
+    public void showContestStatusScreen() {
+        startActivity(ContestStatusActivity.makeIntent(getActivity()));
     }
 }

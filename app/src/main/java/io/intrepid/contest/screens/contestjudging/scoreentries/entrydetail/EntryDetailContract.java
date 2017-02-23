@@ -5,6 +5,7 @@ import java.util.List;
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.EntryBallot;
 import io.intrepid.contest.models.Score;
 import io.intrepid.contest.screens.contestjudging.expandablerecycler.CategoryScoreListener;
 
@@ -19,6 +20,8 @@ class EntryDetailContract {
         List<Category> getCategories();
 
         void setNextEnabled(boolean nextEnabled);
+
+        EntryBallot getEntryBallot();
     }
 
     public interface Presenter extends BaseContract.Presenter<View>, CategoryScoreListener {

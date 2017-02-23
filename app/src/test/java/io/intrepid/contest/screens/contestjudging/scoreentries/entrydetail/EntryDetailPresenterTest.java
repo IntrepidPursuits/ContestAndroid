@@ -6,6 +6,7 @@ import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
@@ -21,12 +22,8 @@ import static org.mockito.Mockito.when;
 public class EntryDetailPresenterTest extends BasePresenterTest<EntryDetailPresenter> {
     @Mock
     EntryDetailContract.View mockView;
-    @Mock
-    Entry mockEntry;
-    @Mock
-    EntryBallot mockEntryBallot;
+
     private List<Category> categories;
-    private List<Score> scores;
 
     @Before
     public void setup() {
@@ -35,24 +32,23 @@ public class EntryDetailPresenterTest extends BasePresenterTest<EntryDetailPrese
             Category category = new Category("TEST " + i, "TESTER");
             categories.add(category);
         }
-        scores = new ArrayList<>();
+
+        List<Score> scores = new ArrayList<>();
         for (int i = 0; i < categories.size(); i++) {
             Category category = categories.get(i);
             Score score = new Score(category, 0);
             scores.add(score);
         }
-        when(mockView.getEntryToRate()).thenReturn(new Entry());
+
+        Entry entry = new Entry();
+        entry.id = UUID.randomUUID();
+
+        when(mockView.getEntryToRate()).thenReturn(entry);
+        when(mockView.getEntryBallot()).thenReturn(new EntryBallot(entry.id));
         when(mockView.getCategories()).thenReturn(categories);
+
         presenter = new EntryDetailPresenter(mockView, testConfiguration);
         presenter.onViewCreated();
-    }
-
-    @Test
-    public void onCategoryRateChangeShouldCauseEntryToAddScore() {
-        presenter.onViewCreated();
-        presenter.currentEntryBallot = mockEntryBallot;
-        presenter.onScoreChanged(0, 2);
-        verify(mockEntryBallot).setScore(0, 2);
     }
 
     @Test

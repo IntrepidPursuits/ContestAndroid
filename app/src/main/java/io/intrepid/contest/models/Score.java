@@ -11,7 +11,7 @@ public class Score {
         this.score = score;
     }
 
-    int getScoreValue() {
+    public int getScoreValue() {
         return score;
     }
 

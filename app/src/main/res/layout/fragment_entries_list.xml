@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     >
 
+    <Button
+        android:id="@+id/contest_judging_submit_button"
+        style="@style/AppTheme.BottomNavigationButton"
+        android:layout_alignParentBottom="true"
+        android:text="@string/common_submit"
+        android:visibility="gone"
+        />
+
     <TextView
+        android:id="@+id/contest_judging_intro_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/submission_prompt_top_margin"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:gravity="center_horizontal"
         android:text="@string/select_submission_prompt"
         android:textAppearance="@string/AvenirNext_Regular"
@@ -17,5 +27,14 @@
         android:textSize="@dimen/select_submission_text_size"
         />
 
-    <include layout="@layout/include_layout_recycler_view"/>
-</LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/contest_judging_submit_button"
+        android:layout_below="@id/contest_judging_intro_text_view"
+        >
+
+        <include layout="@layout/include_layout_recycler_view"/>
+
+    </FrameLayout>
+</RelativeLayout>

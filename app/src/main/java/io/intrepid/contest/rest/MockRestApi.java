@@ -2,6 +2,7 @@ package io.intrepid.contest.rest;
 
 import android.support.annotation.NonNull;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -14,6 +15,9 @@ import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.models.RankedEntryResult;
 import io.intrepid.contest.models.User;
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Path;
 
@@ -157,17 +161,18 @@ public class MockRestApi implements RestApi {
         contest.setId(UUID.randomUUID());
         contest.setTitle(contestTitle);
         contest.setDescription(contestDescription);
-        List<Category> contestCategories = contest.getCategories();
-        for (int i = 0; i < 5; i++) {
+        List<Category> contestCategories = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
             contestCategories.add(new Category("Category " + i, "This is category " + i));
         }
+        contest.setCategories(contestCategories);
         contest.setEntries(makeListOfEntries());
         return new ContestWrapper(contest);
     }
 
     private List<Entry> makeListOfEntries() {
         List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             Entry entry = new Entry();
             entry.title = "Test Entry " + i;
             entry.photoUrl = TEST_ENTRY_IMAGE;
@@ -223,5 +228,16 @@ public class MockRestApi implements RestApi {
             return Observable.error(new Throwable());
         }
         return Observable.just(getValidContestResultResponse());
+    }
+
+    @Override
+    public Observable<Response<Void>> adjudicate(@Path("contestId") String contestId,
+                                                 @Body AdjudicateRequest adjudicateRequest) {
+        if (contestId == null) {
+            return Observable.just(Response.error(HttpURLConnection.HTTP_NOT_FOUND,
+                                                  ResponseBody.create(MediaType.parse("application/json"),
+                                                                      "{\"errors\":[\"Error\"]}")));
+        }
+        return Observable.just(Response.success(null));
     }
 }

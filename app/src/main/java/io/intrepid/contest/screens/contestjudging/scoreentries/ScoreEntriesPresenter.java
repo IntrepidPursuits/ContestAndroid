@@ -2,6 +2,7 @@ package io.intrepid.contest.screens.contestjudging.scoreentries;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.intrepid.contest.R;
@@ -9,13 +10,16 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.EntryBallot;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> implements ScoresEntriesContract.Presenter {
+    private final List<EntryBallot> entryBallots = new ArrayList<>();
     private List<Entry> entries;
     private List<Category> categories;
     private Entry currentEntry;
+    private EntryBallot currentEntryBallot;
 
     ScoreEntriesPresenter(@NonNull ScoresEntriesContract.View view,
                           @NonNull PresenterConfiguration configuration) {
@@ -30,6 +34,7 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
 
     private void showEntriesList() {
         currentEntry = null;
+        currentEntryBallot = null;
         view.showEntriesList();
     }
 
@@ -41,6 +46,10 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
                     Timber.d("Received response " + response.contest.getTitle());
                     this.entries = response.contest.getEntries();
                     this.categories = response.contest.getCategories();
+                    entryBallots.clear();
+                    for (Entry entry : entries) {
+                        entryBallots.add(new EntryBallot(entry.id));
+                    }
                     view.showEntriesList();
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
@@ -60,19 +69,35 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
     }
 
     @Override
+    public EntryBallot getCurrentEntryBallot() {
+        return currentEntryBallot;
+    }
+
+    @Override
     public List<Entry> getEntries() {
         return entries;
     }
 
     @Override
+    public List<EntryBallot> getEntryBallotsList() {
+        return entryBallots;
+    }
+
+    @Override
     public void onNextClicked() {
-        if (currentEntry != null) {
-            int index = entries.indexOf(currentEntry);
-            if (index < entries.size() - 1) {
-                currentEntry = entries.get(++index);
-                int humanReadableIndex = index + 1;
-                view.showEntryDetail(humanReadableIndex, entries.size());
-            }
+        if (currentEntry == null) {
+            return;
+        }
+
+        int index = entries.indexOf(currentEntry);
+        if (index == entries.size() - 1) {
+            showEntriesList();
+        } else {
+            index++;
+            currentEntry = entries.get(index);
+            currentEntryBallot = entryBallots.get(index);
+            int humanReadableIndex = index + 1;
+            view.showEntryDetail(humanReadableIndex, entries.size());
         }
     }
 
@@ -88,6 +113,7 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
     @Override
     public void onEntryClicked(Entry entry) {
         currentEntry = entry;
+        currentEntryBallot = entryBallots.get(entries.indexOf(entry));
         int humanReadableIndex = entries.indexOf(entry) + 1;
         view.showEntryDetail(humanReadableIndex, entries.size());
     }
