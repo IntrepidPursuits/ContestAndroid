@@ -22,6 +22,7 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contact;
 import io.intrepid.contest.models.ParticipationType;
+import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.sendinvitations.invitationintro.InvitationIntroFragment;
 import io.intrepid.contest.screens.sendinvitations.selectcontacts.SelectContactsFragment;
 
@@ -165,6 +166,11 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
         }
 
         replaceFragment(fragment);
+    }
+
+    @Override
+    public void showContestStatusScreen() {
+        startActivity(ContestStatusActivity.makeIntent(this));
     }
 
     @Override

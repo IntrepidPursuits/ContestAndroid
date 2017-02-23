@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 
+import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -18,8 +19,11 @@ import timber.log.Timber;
 class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> implements ContestStatusContract.Presenter {
 
     private static final int API_CALL_INITIAL_DELAY = 0;
-    private static final int API_CALL_INTERVAL = 3; // TODO: change to 2 for release
-    private static final TimeUnit API_CALL_INTERVAL_UNIT = TimeUnit.SECONDS; // TODO: change to MINUTES for release
+    /*
+     * API call interval is shorter for dev builds, a little longer for QA builds, and longest for release
+     */
+    private static final int API_CALL_INTERVAL = (BuildConfig.DEV_BUILD ? 3 : (BuildConfig.DEBUG ? 10 : 2));
+    private static final TimeUnit API_CALL_INTERVAL_UNIT = (BuildConfig.DEBUG ? TimeUnit.SECONDS : TimeUnit.MINUTES);
 
     ContestStatusPresenter(@NonNull ContestStatusContract.View view,
                            @NonNull PresenterConfiguration configuration) {
@@ -29,7 +33,6 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-
         checkContestStatusPeriodically();
     }
 
@@ -54,19 +57,19 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     }
 
     private void showContestStatusScreen(ContestStatusResponse response) {
-        if (!response.contestStatus.haveSubmissionsEnded()) {
-            view.showWaitingSubmissionsFragment(response.contestStatus.getNumSubmissionsMissing());
+        if (response.contestStatus.hasContestEnded()) {
+            view.showResultsAvailableFragment();
+            disposables.clear();
             return;
         }
 
-        if (!response.contestStatus.hasContestEnded() &&
-                (persistentSettings.getCurrentParticipationType() == ParticipationType.JUDGE)) {
-            view.showContestOverviewPage();
+        if (!response.contestStatus.haveSubmissionsEnded() ||
+                (persistentSettings.getCurrentParticipationType() != ParticipationType.JUDGE)) {
+            view.showStatusWaitingFragment();
             return;
         }
 
-        // TODO: there is a story to show contest overview for contestants when waiting for scores
-        view.showResultsAvailableFragment();
+        view.showContestOverviewPage();
     }
 
     @Override

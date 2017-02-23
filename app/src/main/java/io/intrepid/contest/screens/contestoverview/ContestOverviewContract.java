@@ -8,19 +8,14 @@ import io.intrepid.contest.models.ScoreWeight;
 
 class ContestOverviewContract {
     interface View extends BaseContract.View {
-        void showContestName(String contestName);
-
         void showContestDescription(String description);
 
         void showCategoriesAndWeights(List<Category> categories, List<ScoreWeight> weights);
-
-        void showNumSubmissionsWaiting(int numSubmissionsWaiting);
 
         void advanceToJudgingScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-
         void onOverViewSubmitButtonClicked();
     }
 }

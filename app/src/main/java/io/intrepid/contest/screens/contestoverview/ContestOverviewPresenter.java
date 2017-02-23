@@ -17,7 +17,6 @@ import timber.log.Timber;
 class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.View>
         implements ContestOverviewContract.Presenter {
 
-    private static final int TEMPORARY_NUM_SUBMISSIONS_WAITING = 3;
     private static final List<ScoreWeight> scoreWeights = Arrays.asList(new ScoreWeight(1, R.string.poor),
                                                                         new ScoreWeight(2, R.string.average),
                                                                         new ScoreWeight(3, R.string.good),
@@ -33,9 +32,6 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
     public void onViewCreated() {
         super.onViewCreated();
         requestContestDetails();
-
-        // TODO: this number will come from judge scoring
-        view.showNumSubmissionsWaiting(TEMPORARY_NUM_SUBMISSIONS_WAITING);
     }
 
     private void requestContestDetails() {
@@ -52,8 +48,7 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
         disposables.add(apiCallDisposable);
     }
 
-    private void updateViewWithContest(Contest contest){
-        view.showContestName(contest.getTitle());
+    private void updateViewWithContest(Contest contest) {
         view.showContestDescription(contest.getDescription());
         showCategoriesForContest(contest);
     }

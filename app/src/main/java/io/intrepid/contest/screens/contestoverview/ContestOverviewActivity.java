@@ -64,11 +64,6 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     }
 
     @Override
-    public void showContestName(String contestName) {
-        setActionBarTitle(getResources().getString(R.string.status_waiting_submissions_judge_bar_title, contestName));
-    }
-
-    @Override
     public void showContestDescription(String description) {
         descriptionTextView.setText(description);
     }
@@ -76,14 +71,6 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     @Override
     public void showCategoriesAndWeights(List<Category> categories, List<ScoreWeight> weights) {
         categoryAdapter.setData(categories, weights);
-    }
-
-    @Override
-    public void showNumSubmissionsWaiting(int numSubmissionsWaiting) {
-        String submissions = getResources()
-                .getQuantityString(R.plurals.numberOfSubmissions, numSubmissionsWaiting, numSubmissionsWaiting);
-        introTextView.setText(
-                getResources().getString(R.string.contest_overview_intro, submissions));
     }
 
     @Override

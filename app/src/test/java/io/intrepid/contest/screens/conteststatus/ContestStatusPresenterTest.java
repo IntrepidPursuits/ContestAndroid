@@ -1,25 +1,20 @@
 package io.intrepid.contest.screens.conteststatus;
 
-import android.support.annotation.NonNull;
-
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.ContestStatus;
-import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.rest.ContestStatusResponse;
-import io.intrepid.contest.screens.conteststatus.ContestStatusContract.Presenter;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.conteststatus.ContestStatusContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
 import io.reactivex.Observable;
@@ -34,61 +29,71 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusPresenter> {
+    /*
+     * API call interval is shorter for dev builds, a little longer for QA builds, and longest for release
+     */
+    private static final int API_CALL_INTERVAL = (BuildConfig.DEV_BUILD ? 3 : (BuildConfig.DEBUG ? 10 : 2));
+    private static final TimeUnit API_CALL_INTERVAL_UNIT = (BuildConfig.DEBUG ? TimeUnit.SECONDS : TimeUnit.MINUTES);
+
     @Mock
     View mockView;
 
-    private Presenter presenter;
     private Throwable throwable;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
         throwable = new Throwable();
         presenter = new ContestStatusPresenter(mockView, testConfiguration);
 
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
     }
 
-    @NonNull
-    private ContestStatusResponse getContestStatusResponseWaitingForSubmissions() {
+    private void getContestStatusResponseWaitingForSubmissions() {
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = new ContestStatus();
         response.contestStatus.setSubmissionData(false, 0, 5);
         response.contestStatus.setJudgeData(false, 0, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
-        return response;
     }
 
-    @NonNull
-    private ContestStatusResponse getContestStatusResponseWaitingForScores() {
+    private void getContestStatusResponseWaitingForScores() {
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = new ContestStatus();
         response.contestStatus.setSubmissionData(true, 5, 5);
         response.contestStatus.setJudgeData(false, 0, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
-        return response;
     }
 
-    @NonNull
-    private ContestStatusResponse getContestStatusResponseResultsAvailable() {
+    private void getContestStatusResponseResultsAvailable() {
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = new ContestStatus();
         response.contestStatus.setSubmissionData(true, 5, 5);
         response.contestStatus.setJudgeData(true, 1, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
-        return response;
     }
 
     @Test
-    public void onViewCreatedShouldShowWaitingSubmissionsFragmentWhenStatusIsWaitingForSubmissions() {
-        ContestStatusResponse response = getContestStatusResponseWaitingForSubmissions();
+    public void onViewCreatedShouldShowStatusWaitingFragmentWhenStatusIsWaitingForSubmissions() {
+        getContestStatusResponseWaitingForSubmissions();
 
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showWaitingSubmissionsFragment(response.contestStatus.getNumSubmissionsMissing());
+        verify(mockView).showStatusWaitingFragment();
+        verify(mockView, never()).showResultsAvailableFragment();
+        verify(mockView, never()).showContestOverviewPage();
+    }
+
+    @Test
+    public void onViewCreatedShouldShowStatusWaitingFragmentWhenWaitingForScoresAndParticipantIsContestant() {
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
+        getContestStatusResponseWaitingForScores();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showStatusWaitingFragment();
         verify(mockView, never()).showResultsAvailableFragment();
         verify(mockView, never()).showContestOverviewPage();
     }
@@ -102,7 +107,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showContestOverviewPage();
-        verify(mockView, never()).showWaitingSubmissionsFragment(anyInt());
+        verify(mockView, never()).showStatusWaitingFragment();
         verify(mockView, never()).showResultsAvailableFragment();
     }
 
@@ -114,20 +119,19 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showResultsAvailableFragment();
-        verify(mockView, never()).showWaitingSubmissionsFragment(anyInt());
+        verify(mockView, never()).showStatusWaitingFragment();
         verify(mockView, never()).showContestOverviewPage();
     }
 
     @Test
-    public void onViewCreatedShouldRefreshWaitingSubmissionsFragmentEveryThreeSeconds() {
-        // TODO: change test to 2 minutes for release
-        ContestStatusResponse response = getContestStatusResponseWaitingForSubmissions();
+    public void onViewCreatedShouldRefreshWaitingSubmissionsFragmentPeriodically() {
+        getContestStatusResponseWaitingForSubmissions();
 
         presenter.onViewCreated();
-        testConfiguration.getIoScheduler().advanceTimeBy(3, TimeUnit.SECONDS);
+        testConfiguration.getIoScheduler().advanceTimeBy(API_CALL_INTERVAL, API_CALL_INTERVAL_UNIT);
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView, times(2)).showWaitingSubmissionsFragment(response.contestStatus.getNumSubmissionsMissing());
+        verify(mockView, times(2)).showStatusWaitingFragment();
     }
 
     @Test

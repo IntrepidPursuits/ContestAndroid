@@ -6,7 +6,7 @@ import io.reactivex.functions.Consumer;
 
 class ContestStatusContract {
     interface View extends BaseContract.View {
-        void showWaitingSubmissionsFragment(int numSubmissionsMissing);
+        void showStatusWaitingFragment();
 
         void showResultsAvailableFragment();
 

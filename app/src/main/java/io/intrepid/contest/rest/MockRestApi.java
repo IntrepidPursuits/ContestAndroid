@@ -17,7 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Path;
 
 public class MockRestApi implements RestApi {
-    public static final String TEST_JUDGE_CODE = "judge";
+    private static final String TEST_JUDGE_CODE = "judge";
     private static final String TEST_ENTRY_IMAGE = "https://www.chowstatic.com/assets/2014/09/30669_spicy_slow_cooker_beef_chili_3000x2000.jpg";
 
     private final UUID userId;
@@ -25,7 +25,6 @@ public class MockRestApi implements RestApi {
     private String contestTitle;
     private String contestDescription;
     private int numGetContestStatusCallsForParticipant;
-    private int numBatchInviteCallsForParticipant;
 
     public MockRestApi() {
         userId = UUID.randomUUID();
@@ -33,7 +32,6 @@ public class MockRestApi implements RestApi {
         contestTitle = "Contest title";
         contestDescription = "Contest Description";
         numGetContestStatusCallsForParticipant = 0;
-        numBatchInviteCallsForParticipant = 0;
     }
 
     @NonNull
@@ -111,7 +109,7 @@ public class MockRestApi implements RestApi {
     }
 
     @NonNull
-    private ContestStatusResponse getValidEntryResponseWaitingForSubmissions() {
+    private ContestStatusResponse getValidStatusResponseWaitingForSubmissions() {
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = new ContestStatus();
         response.contestStatus.setSubmissionData(false, 5, 10);
@@ -120,7 +118,7 @@ public class MockRestApi implements RestApi {
     }
 
     @NonNull
-    private ContestStatusResponse getValidEntryResponseWaitingForScores() {
+    private ContestStatusResponse getValidStatusResponseWaitingForScores() {
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = new ContestStatus();
         response.contestStatus.setSubmissionData(true, 10, 10);
@@ -128,14 +126,26 @@ public class MockRestApi implements RestApi {
         return response;
     }
 
+    @NonNull
+    private ContestStatusResponse getValidStatusResponseResultsAvailable() {
+        ContestStatusResponse response = new ContestStatusResponse();
+        response.contestStatus = new ContestStatus();
+        response.contestStatus.setSubmissionData(true, 10, 10);
+        response.contestStatus.setJudgeData(true, 6, 6);
+        return response;
+    }
+
     @Override
     public Observable<ContestStatusResponse> getContestStatus(@Path("contestId") String contestId) {
         numGetContestStatusCallsForParticipant++;
 
-        if (numGetContestStatusCallsForParticipant == 1) {
-            return Observable.just(getValidEntryResponseWaitingForSubmissions());
+        switch (numGetContestStatusCallsForParticipant) {
+            case 1: return Observable.just(getValidStatusResponseWaitingForSubmissions());
+            case 2: return Observable.just(getValidStatusResponseWaitingForScores());
+            default:
+                numGetContestStatusCallsForParticipant = 0;
+                return Observable.just(getValidStatusResponseResultsAvailable());
         }
-        return Observable.just(getValidEntryResponseWaitingForScores());
     }
 
     @NonNull

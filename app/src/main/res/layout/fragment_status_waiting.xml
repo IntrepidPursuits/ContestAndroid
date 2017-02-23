@@ -1,24 +1,24 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_waiting_submissions"
+    android:id="@+id/fragment_status_waiting"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/contest_status_layout_padding"
-    tools:context="io.intrepid.contest.screens.conteststatus.waitingsubmissions.WaitingSubmissionsFragment"
+    tools:context="io.intrepid.contest.screens.conteststatus.statuswaiting.StatusWaitingFragment"
     >
 
     <TextView
-        android:id="@+id/waiting_submissions_title_textview"
+        android:id="@+id/status_waiting_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:fontFamily="@style/AvenirNext_DemiBold"
+        android:textAppearance="@style/AvenirNext_DemiBold"
         android:gravity="center"
-        android:text="@string/status_waiting_submissions_title"
+        android:text="@string/status_waiting_title"
         android:textColor="@color/colorTextLight"
         android:textSize="@dimen/contest_status_title_textsize"
         />
@@ -29,18 +29,18 @@
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:src="@drawable/tickets_icon"
+        android:src="@drawable/scores_sent_box"
         tools:ignore="ContentDescription"
         />
 
     <TextView
-        android:id="@+id/waiting_submissions_description_textview"
+        android:id="@+id/status_waiting_description_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:fontFamily="@style/AvenirNext_Medium"
+        android:textAppearance="@style/AvenirNext_Medium"
         android:gravity="center"
-        android:text="@string/status_waiting_submissions_description"
+        android:text="@string/status_waiting_description"
         android:textColor="@color/colorTextLight"
         android:textSize="@dimen/contest_status_description_textsize"
         />

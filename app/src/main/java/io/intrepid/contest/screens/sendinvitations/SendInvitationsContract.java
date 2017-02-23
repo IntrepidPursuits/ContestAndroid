@@ -27,6 +27,8 @@ class SendInvitationsContract {
         void showSelectContactsFragment();
 
         void showInvitationIntroFragment();
+
+        void showContestStatusScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
