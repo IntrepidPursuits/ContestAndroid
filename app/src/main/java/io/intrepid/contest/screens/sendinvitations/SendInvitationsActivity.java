@@ -57,7 +57,7 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
 
     @Override
     public ParticipationType getParticipationType() {
-        return presenter.getParticipationType();
+        return presenter.getInvitationParticipantType();
     }
 
     @Override

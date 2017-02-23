@@ -52,6 +52,6 @@ class SendInvitationsContract {
 
         boolean hasContactPermissions();
 
-        ParticipationType getParticipationType();
+        ParticipationType getInvitationParticipantType();
     }
 }

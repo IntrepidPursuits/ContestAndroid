@@ -134,13 +134,13 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     @Test
     public void getParticipationTypeShouldReturnContestantWhenViewIsShowingContestants() {
         setParticipationType(ParticipationType.CONTESTANT);
-        assertEquals(ParticipationType.CONTESTANT, presenter.getParticipationType());
+        assertEquals(ParticipationType.CONTESTANT, presenter.getInvitationParticipantType());
     }
 
     @Test
     public void getParticipationTypeShouldReturnJudgeWhenViewIsShowingJudges() {
         setParticipationType(ParticipationType.JUDGE);
-        assertEquals(ParticipationType.JUDGE, presenter.getParticipationType());
+        assertEquals(ParticipationType.JUDGE, presenter.getInvitationParticipantType());
     }
 
     @Test
@@ -301,7 +301,14 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
     public void onOptionsItemSelectedShouldSetParticipationJudgeWhenItemIsSendInvitationsSkipInvitingContestants() {
         setParticipationType(ParticipationType.CONTESTANT);
         presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
-        assertEquals(ParticipationType.JUDGE, presenter.getParticipationType());
+        assertEquals(ParticipationType.JUDGE, presenter.getInvitationParticipantType());
+    }
+
+    @Test
+    public void onOptionsItemSelectedShouldSetJudgeActionBarTitleWhenSkipInvitingContestants() {
+        setParticipationType(ParticipationType.CONTESTANT);
+        presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action);
+        verify(mockView).setActionBarTitle(R.string.invite_judges_bar_title);
     }
 
     @Test
@@ -325,7 +332,7 @@ public class SendInvitationsPresenterTest extends BasePresenterTest<SendInvitati
         presenter.onOptionsItemSelected(R.id.send_invitations_menu_action);
         testConfiguration.triggerRxSchedulers();
 
-        assertEquals(ParticipationType.JUDGE, presenter.getParticipationType());
+        assertEquals(ParticipationType.JUDGE, presenter.getInvitationParticipantType());
     }
 
     @Test
