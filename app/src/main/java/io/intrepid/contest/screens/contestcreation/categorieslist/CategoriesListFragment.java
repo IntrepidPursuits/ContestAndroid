@@ -19,8 +19,11 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
-import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
+import timber.log.Timber;
+
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.makeEditCategoryIntent;
 
 
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.View, ContestCreationFragment {
@@ -79,13 +82,14 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
 
     @Override
     public void showEditCategoryPage(Category category) {
-        Intent intent = EditCategoryActivity.makeEditCategoryIntent(getContext(), category);
-        getActivity().startActivityForResult(intent, EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY);
+        Intent intent = makeEditCategoryIntent(getContext(), category);
+        getActivity().startActivityForResult(intent, NOTIFY_EDIT_EXISTING_CATEGORY);
     }
 
     @Override
     public void showCategories(List<Category> categories) {
         categoryAdapter.setCategories(categories);
+        Timber.d("Categories size " + categoryAdapter.getItemCount());
     }
 
     @Override
@@ -93,5 +97,21 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         String categoryName = getString(categoryNameRes);
         String categoryDescription = getString(categoryDescriptionRes);
         return new Category(categoryName, categoryDescription);
+    }
+
+    @Override
+    public void setNextEnabled(boolean enabled) {
+        ((EditContestContract) getActivity()).setNextEnabled(enabled);
+    }
+
+    @Override
+    public void onFocus() {
+        if (presenter != null) {
+            /* The presenter may not have been created yet, though onFocus was forcefully called.
+              If presenter is null, the onViewBound method will still be called when
+               the fragment is instantiated
+             */
+            presenter.onViewBound();
+        }
     }
 }

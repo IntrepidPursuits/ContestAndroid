@@ -13,6 +13,9 @@ import io.intrepid.contest.testutils.BasePresenterTest;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,9 +42,59 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
     }
 
     @Test
+    public void onViewBoundShouldEnableNextWhenCategoriesIsNotEmpty() {
+        presenter.onViewBound();
+        verify(mockView).setNextEnabled(true);
+    }
+
+    @Test
+    public void onViewBoundShouldDisableNextWhenCategoriesIsEmpty() {
+        when(mockContestBuilder.getCategories()).thenReturn(new ArrayList<>());
+        presenter.onViewBound();
+        verify(mockView).setNextEnabled(false);
+    }
+
+    @Test
+    public void onDeleteClickedShouldNeverDisableWhenCategoriesIsNotEmpty() {
+        List<Category> categories = mockContestBuilder.getCategories();
+        for (int i = 0; i < categories.size() - 1; i++) {
+            presenter.onDeleteClicked(categories.get(i));
+        }
+
+        verify(mockView, never()).setNextEnabled(false);
+        verify(mockView, times(categories.size() - 1)).setNextEnabled(true);
+    }
+
+    @Test
+    public void onDeleteClickedShouldDisableNextWhenCategoriesIsEmpty() {
+        List<Category> singleCategoryList = new ArrayList<>();
+        Category singleCategory = new Category("Single Category", "TEST");
+        singleCategoryList.add(singleCategory);
+        when(mockContestBuilder.getCategories()).thenReturn(new ArrayList<>());
+
+        presenter.onDeleteClicked(singleCategory);
+
+        verify(mockView).setNextEnabled(false);
+        verify(mockView, never()).setNextEnabled(true);
+    }
+
+    @Test
     public void onViewShouldCreatedShouldTriggerViewToShowCategories() {
         presenter.onViewCreated();
         verify(mockView).showCategories(any());
+    }
+
+    @Test
+    public void onViewBoundShouldTriggerViewToSetNextEnabled() {
+        presenter.onViewBound();
+        verify(mockView).setNextEnabled(true);
+    }
+
+    @Test
+    public void onViewBoundShouldTriggerViewToDisableNextWhenCategoriesIsEmpty() {
+        when(mockContestBuilder.getCategories()).thenReturn(new ArrayList<>());
+        presenter.onViewBound();
+        verify(mockView).setNextEnabled(false);
     }
 
     @Test
