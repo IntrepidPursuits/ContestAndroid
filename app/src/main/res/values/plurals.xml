@@ -6,12 +6,12 @@
     </plurals>
 
     <plurals name="numberOfJudges">
-        <item quantity="one">%d judge</item>
+        <item quantity="one">%d judge </item>
         <item quantity="other">%d judges</item>
     </plurals>
 
     <plurals name="numberOfSubmissions">
-        <item quantity="one">%d submission</item>
-        <item quantity="other">%d submission</item>
+        <item quantity="one">%d submission is</item>
+        <item quantity="other">%d submissions are</item>
     </plurals>
 </resources>

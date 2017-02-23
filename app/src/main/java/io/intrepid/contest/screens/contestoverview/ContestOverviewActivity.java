@@ -3,9 +3,17 @@ package io.intrepid.contest.screens.contestoverview;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PatternMatcher;
 import android.support.annotation.NonNull;
+import android.support.annotation.PluralsRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.util.Linkify;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,6 +26,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.ScoreWeight;
 import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivity;
+import io.intrepid.contest.utils.SpannableUtil;
 
 public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
         implements ContestOverviewContract.View {
@@ -69,6 +78,12 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     }
 
     @Override
+    public void showTitle(@StringRes int titleResource, String contestName) {
+        String welcomeText = getString(titleResource, contestName);
+        setActionBarTitle(welcomeText);
+    }
+
+    @Override
     public void showCategoriesAndWeights(List<Category> categories, List<ScoreWeight> weights) {
         categoryAdapter.setData(categories, weights);
     }
@@ -76,5 +91,15 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
     @Override
     public void advanceToJudgingScreen() {
         startActivity(ScoreEntriesActivity.makeIntent(this));
+    }
+
+    @Override
+    public void showSubmissionCountMessage(int submissionCount, @PluralsRes int plural) {
+        String quanitifiedText = getResources().getQuantityString(plural, submissionCount, submissionCount);
+        SpannableString fullText = SpannableString.valueOf(getString(R.string.contest_overview_intro, quanitifiedText));
+        String numericalTextInString = quanitifiedText.split(" ")[0];
+        SpannableUtil.getInstance().setColor(this, fullText, numericalTextInString, R.color.colorPrimary);
+        SpannableUtil.getInstance().setBold(fullText, numericalTextInString);
+        introTextView.setText(fullText);
     }
 }
