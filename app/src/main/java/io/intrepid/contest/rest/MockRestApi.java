@@ -11,6 +11,7 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.Participant;
 import io.intrepid.contest.models.ParticipationType;
+import io.intrepid.contest.models.RankedEntryResult;
 import io.intrepid.contest.models.User;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -140,8 +141,10 @@ public class MockRestApi implements RestApi {
         numGetContestStatusCallsForParticipant++;
 
         switch (numGetContestStatusCallsForParticipant) {
-            case 1: return Observable.just(getValidStatusResponseWaitingForSubmissions());
-            case 2: return Observable.just(getValidStatusResponseWaitingForScores());
+            case 1:
+                return Observable.just(getValidStatusResponseWaitingForSubmissions());
+            case 2:
+                return Observable.just(getValidStatusResponseWaitingForScores());
             default:
                 numGetContestStatusCallsForParticipant = 0;
                 return Observable.just(getValidStatusResponseResultsAvailable());
@@ -176,5 +179,49 @@ public class MockRestApi implements RestApi {
     @Override
     public Observable<ContestWrapper> getContestDetails(@Path("contestId") String contestId) {
         return Observable.just(getValidContestResponse());
+    }
+
+    private ContestResultResponse getValidContestResultResponse() {
+        RankedEntryResult firstPlace = new RankedEntryResult();
+        firstPlace.setTitle("Awesome Sauce");
+        firstPlace.setOverallScore(4.25f);
+        firstPlace.setRank(1);
+        firstPlace.setPhotoUrl(
+                "https://search.chow.com/thumbnail/800/600/www.chowstatic.com/assets/recipe_photos/10828_smoked_chili.jpg");
+
+        RankedEntryResult secondPlace = new RankedEntryResult();
+        secondPlace.setTitle("Dank Chili");
+        secondPlace.setOverallScore(4.05f);
+        secondPlace.setRank(2);
+        secondPlace.setPhotoUrl("https://upload.wikimedia.org/wikipedia/commons/0/0f/Pot-o-chili.jpg");
+
+        RankedEntryResult thirdPlace = new RankedEntryResult();
+        thirdPlace.setTitle("Chill Chili");
+        thirdPlace.setOverallScore(3.50f);
+        thirdPlace.setRank(3);
+        thirdPlace.setPhotoUrl(
+                "http://cf.familyfreshmeals.com/wp-content/uploads/2015/10/Easy-Crockpot-Chili-Step-2.png");
+
+        RankedEntryResult fourthPlace = new RankedEntryResult();
+        fourthPlace.setTitle("Sweet Chili");
+        fourthPlace.setOverallScore(3.25f);
+        fourthPlace.setRank(4);
+        fourthPlace.setPhotoUrl("http://del.h-cdn.co/assets/15/41/cornbread-waffles-with-chili3.jpg");
+
+        List<RankedEntryResult> rankedScoredEntries = new ArrayList<>();
+        rankedScoredEntries.add(firstPlace);
+        rankedScoredEntries.add(secondPlace);
+        rankedScoredEntries.add(thirdPlace);
+        rankedScoredEntries.add(fourthPlace);
+
+        return new ContestResultResponse(rankedScoredEntries);
+    }
+
+    @Override
+    public Observable<ContestResultResponse> getContestResults(@Path("contestId") String contestId) {
+        if (contestId == null) {
+            return Observable.error(new Throwable());
+        }
+        return Observable.just(getValidContestResultResponse());
     }
 }
