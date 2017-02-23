@@ -48,7 +48,7 @@
         <activity android:name=".screens.contestcreation.editcategoriestocontest.EditCategoryActivity"/>
         <activity android:name=".screens.contestoverview.ContestOverviewActivity"/>
         <activity android:name=".screens.sendinvitations.SendInvitationsActivity"/>
-        <activity android:name=".screens.contestjudging.scoresubmission.SubmissionEntriesActivity"/>
+        <activity android:name=".screens.contestjudging.scoreentries.ScoreEntriesActivity"/>
     </application>
 
 </manifest>

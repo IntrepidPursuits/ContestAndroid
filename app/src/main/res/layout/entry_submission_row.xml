@@ -13,17 +13,17 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
         >
 
         <TextView
             android:id="@+id/entry_submission_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="@dimen/text_view_label_textsize"
             android:text="@string/default_zero_score"
+            android:textSize="@dimen/text_view_label_textsize"
             />
 
         <TextView
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginBottom="@dimen/submission_title_bottom_margin"
             android:textSize="@dimen/text_view_label_textsize"
             />
@@ -41,8 +41,7 @@
             android:id="@+id/entry_submission_image"
             android:layout_width="@dimen/entry_submission_image_size"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/camera_icon"
+            android:layout_alignParentEnd="true"
             />
     </RelativeLayout>
 

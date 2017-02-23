@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             >
 
@@ -45,7 +45,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginEnd="@dimen/category_card_right_margin"
                 android:layout_marginTop="@dimen/hamburger_icon_top_margin"
                 android:src="@drawable/ic_menu_gray_24dp"
@@ -57,11 +56,8 @@
         android:id="@+id/delete_category_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/common_delete"
-        android:elevation="@dimen/delete_icon_elevation"
         android:src="@drawable/delete_category_icon"
-        android:translationZ="@dimen/delete_icon_z_translation"
-        app:layout_anchor="@+id/scoring_category_card_view"
-        app:layout_anchorGravity="top|right|end"
+        app:layout_anchor="@id/scoring_category_card_view"
+        app:layout_anchorGravity="top|right"
         />
 </android.support.design.widget.CoordinatorLayout>

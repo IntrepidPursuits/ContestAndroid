@@ -18,6 +18,7 @@ import retrofit2.http.Path;
 
 public class MockRestApi implements RestApi {
     public static final String TEST_JUDGE_CODE = "judge";
+    private static final String TEST_ENTRY_IMAGE = "https://www.chowstatic.com/assets/2014/09/30669_spicy_slow_cooker_beef_chili_3000x2000.jpg";
 
     private final UUID userId;
     private UUID contestId;
@@ -156,6 +157,7 @@ public class MockRestApi implements RestApi {
         for (int i = 0; i < 5; i++) {
             Entry entry = new Entry();
             entry.title = "Test Entry " + i;
+            entry.photoUrl = TEST_ENTRY_IMAGE;
             entries.add(entry);
         }
         return entries;

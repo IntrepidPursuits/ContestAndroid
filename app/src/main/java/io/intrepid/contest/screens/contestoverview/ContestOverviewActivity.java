@@ -17,7 +17,7 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.ScoreWeight;
-import io.intrepid.contest.screens.contestjudging.scoresubmission.SubmissionEntriesActivity;
+import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivity;
 
 public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
         implements ContestOverviewContract.View {
@@ -88,6 +88,6 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
     @Override
     public void advanceToJudgingScreen() {
-        startActivity(SubmissionEntriesActivity.makeIntent(this));
+        startActivity(ScoreEntriesActivity.makeIntent(this));
     }
 }

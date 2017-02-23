@@ -9,8 +9,17 @@ public class Entry{
     public Date createdAt;
     public Date updatedAt;
     public String photoUrl;
+    private float ratingAverage;
 
     public Entry() {
         id = UUID.randomUUID();
+    }
+
+    public float getRatingAverage() {
+        return ratingAverage;
+    }
+
+    public void setRatingAverage(float ratingAverage) {
+        this.ratingAverage = ratingAverage;
     }
 }

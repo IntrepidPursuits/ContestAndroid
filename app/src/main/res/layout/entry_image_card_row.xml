@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/entry_card_image_height"
+                android:layout_margin="@dimen/activity_vertical_margin"
+    >
+
+    <ImageView
+        android:id="@+id/entry_submission_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/entry_submission_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/entry_card_title_text_left_margin"
+        android:text="@string/default_zero_score"
+        android:textAppearance="@style/AvenirNext_Medium"
+        android:textSize="@dimen/text_view_label_textsize"
+        />
+
+    <TextView
+        android:id="@+id/entry_submission_title_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="@dimen/submission_title_bottom_margin"
+        android:textAppearance="@style/AvenirNext_DemiBold"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_view_label_textsize"
+        />
+</RelativeLayout>

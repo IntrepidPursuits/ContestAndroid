@@ -74,13 +74,6 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
         view.navigateToAddCategoryPage(contest);
     }
 
-    @Override
-    public void onContestEditEntered(Category editableCategory, String newName, String newDescription) {
-        editableCategory.setName(newName);
-        editableCategory.setDescription(newDescription);
-        view.showUpdatedCategories();
-    }
-
     private void submitContest() {
         view.showMessage(R.string.submitting_contest);
         Disposable submitCall = restApi.submitContest(new ContestWrapper(contest.build()))

@@ -21,9 +21,6 @@ import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
-import timber.log.Timber;
-
-import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 
 
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.View, ContestCreationFragment {
@@ -83,13 +80,12 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void showEditCategoryPage(Category category) {
         Intent intent = EditCategoryActivity.makeEditCategoryIntent(getContext(), category);
-        getActivity().startActivityForResult(intent, NOTIFY_EDIT_EXISTING_CATEGORY);
+        getActivity().startActivityForResult(intent, EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY);
     }
 
     @Override
     public void showCategories(List<Category> categories) {
         categoryAdapter.setCategories(categories);
-        Timber.d("Categories size " + categoryAdapter.getItemCount());
     }
 
     @Override

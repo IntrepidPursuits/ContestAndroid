@@ -1,11 +1,10 @@
-package io.intrepid.contest.screens.contestjudging.scoresubmission;
+package io.intrepid.contest.screens.contestjudging.scoreentries;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import io.intrepid.contest.models.Contest;
@@ -17,20 +16,18 @@ import io.reactivex.Observable;
 import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class SubmissionEntriesPresenterTest extends BasePresenterTest<SubmissionEntriesPresenter> {
+public class ScoreEntriesPresenterTest extends BasePresenterTest<ScoreEntriesPresenter> {
     @Mock
-    SubmissionEntriesContract.View mockView;
+    ScoresEntriesContract.View mockView;
     @Mock
-    List<Entry> mockEntries;
+    Entry mockEntry;
 
     @Before
     public void setup() {
-        presenter = new SubmissionEntriesPresenter(mockView, testConfiguration);
-
+        presenter = new ScoreEntriesPresenter(mockView, testConfiguration);
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
     }
 
@@ -53,7 +50,7 @@ public class SubmissionEntriesPresenterTest extends BasePresenterTest<Submission
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
 
-        verify(mockView).showSubmissionList(anyList());
+        verify(mockView).showEntriesList();
     }
 
     @Test
@@ -64,5 +61,34 @@ public class SubmissionEntriesPresenterTest extends BasePresenterTest<Submission
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(anyInt());
+    }
+
+    @Test
+    public void onBackPressedShouldTriggerViewToCancelScoringEntries() {
+        presenter.onBackPressed();
+        verify(mockView).cancelScoringEntries();
+    }
+
+    @Test
+    public void onBackPressedShouldTriggerViewToShowEntriesListAfterScoringHasStarted() {
+        setupSuccessfulContestDetailsCall();
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        presenter.onNextClicked();
+        presenter.onBackPressed();
+
+        verify(mockView).showEntriesList();
+    }
+
+    @Test
+    public void onNextClickedShouldTriggerViewToShowNextPage() {
+        setupSuccessfulContestDetailsCall();
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        presenter.onEntryClicked(mockEntry);
+        presenter.onNextClicked();
+        verify(mockView).showEntryDetail(anyInt(), anyInt());
     }
 }
