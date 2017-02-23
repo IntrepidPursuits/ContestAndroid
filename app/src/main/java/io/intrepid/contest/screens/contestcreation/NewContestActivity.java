@@ -26,7 +26,9 @@ import io.intrepid.contest.utils.SlidingTabAdapter;
 import timber.log.Timber;
 
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_DESCRIPTION;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_INDEX;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_NAME;
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_NEW_CATEGORY;
 
 public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> implements NewContestMvpContract.View, EditContestContract {
@@ -120,6 +122,13 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
                     presenter.onNewCategoryAdded(categoryName, categoryDescription);
                 }
                 break;
+            case NOTIFY_EDIT_EXISTING_CATEGORY:
+                if (resultCode == RESULT_OK && data != null) {
+                    int index = data.getIntExtra(CATEGORY_INDEX, -1);
+                    String newName = data.getStringExtra(CATEGORY_NAME);
+                    String newDescription = data.getStringExtra(CATEGORY_DESCRIPTION);
+                    presenter.onContestEditEntered(index, newName, newDescription);
+                }
         }
     }
 

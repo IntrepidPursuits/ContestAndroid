@@ -9,13 +9,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import java.util.List;
+
 import butterknife.BindView;
+import butterknife.OnTextChanged;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 
+import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_INDEX;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_KEY;
 
 public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter> implements EditCategoriesContract.View, ContestCreationFragment {
@@ -25,10 +29,13 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
     EditText categoryDescriptionField;
     private ActivityCallback activity;
 
-    public static Fragment newInstance(@Nullable Category category) {
+    private Menu menu;
+
+    public static Fragment newInstance(@Nullable Category category, int index) {
         EditCategoriesFragment fragment = new EditCategoriesFragment();
         Bundle args = new Bundle();
         args.putParcelable(CATEGORY_KEY, category);
+        args.putInt(CATEGORY_INDEX, index);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,12 +45,6 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         activity = (ActivityCallback) getActivity();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_new_contest, menu);
     }
 
     @Override
@@ -58,6 +59,11 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
         return true;
     }
 
+    @OnTextChanged(R.id.category_name_edittext)
+    public void onCategoryNameChanged(CharSequence newName) {
+        presenter.onCategoryNameChanged(newName);
+    }
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.fragment_edit_contest_category;
@@ -67,8 +73,9 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
     @Override
     public EditCategoriesPresenter createPresenter(PresenterConfiguration configuration) {
         Bundle args = getArguments();
-        Category category = (Category) args.get(CATEGORY_KEY);
-        return new EditCategoriesPresenter(this, configuration, category);
+        Category categoryToEdit = args.getParcelable(CATEGORY_KEY);
+        int index = args.getInt(CATEGORY_INDEX);
+        return new EditCategoriesPresenter(this, configuration, categoryToEdit, index);
     }
 
     @Override
@@ -94,13 +101,20 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
     }
 
     @Override
-    public void editCategory(Category category, String name, String description) {
-        ((EditCategoryActivity) activity).editCategory(category, name, description);
+    public void editCategory(int index, String name, String description) {
+        ((EditCategoryActivity) activity).publishEditResult(index, name, description);
+    }
+
+    @Override
+    public void setNextVisible(boolean nextVisible) {
+        activity.setNextVisible(nextVisible);
     }
 
     public interface ActivityCallback {
         void addCategory(Category category);
 
         void showCategoryList();
+
+        void setNextVisible(boolean nextVisible);
     }
 }

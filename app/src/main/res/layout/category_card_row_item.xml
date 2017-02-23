@@ -56,8 +56,11 @@
         android:id="@+id/delete_category_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/common_delete"
+        android:elevation="@dimen/delete_icon_elevation"
         android:src="@drawable/delete_category_icon"
-        app:layout_anchor="@id/scoring_category_card_view"
-        app:layout_anchorGravity="top|right"
+        android:translationZ="@dimen/delete_icon_z_translation"
+        app:layout_anchor="@+id/scoring_category_card_view"
+        app:layout_anchorGravity="top|right|end"
         />
 </android.support.design.widget.CoordinatorLayout>
