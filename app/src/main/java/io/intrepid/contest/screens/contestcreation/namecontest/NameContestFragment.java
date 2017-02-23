@@ -1,6 +1,8 @@
 package io.intrepid.contest.screens.contestcreation.namecontest;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import butterknife.BindView;
@@ -33,6 +35,11 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
     public NameContestPresenter createPresenter(PresenterConfiguration configuration) {
         Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
         return new NameContestPresenter(this, configuration, contestBuilder);
+    }
+
+    @Override
+    protected void onViewCreated(@Nullable Bundle savedInstanceState) {
+        super.onViewCreated(savedInstanceState);
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)

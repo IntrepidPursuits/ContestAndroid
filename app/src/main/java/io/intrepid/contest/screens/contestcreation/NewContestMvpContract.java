@@ -1,5 +1,7 @@
 package io.intrepid.contest.screens.contestcreation;
 
+import android.support.annotation.StringRes;
+
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Contest;
 
@@ -22,6 +24,8 @@ class NewContestMvpContract {
         void navigateToAddCategoryPage(Contest.Builder  contest);
 
         void navigateToSendInvitationsScreen();
+
+        void setPageTitle(@StringRes int pageTitle);
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
