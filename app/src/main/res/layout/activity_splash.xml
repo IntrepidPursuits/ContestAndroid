@@ -5,30 +5,25 @@
     android:layout_height="match_parent"
     >
 
-    <TextView
+    <ImageView
         android:id="@+id/contest_app_header"
-        style="@style/AppTheme.TextViewLabel"
-        fontPath="@string/AvenirNext_Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/splash_card_header_top_margin"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textAllCaps="true"
-        android:textSize="@dimen/splash_title_textsize"
-        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/splash_header_bottom_margin"
+        android:layout_marginTop="@dimen/splash_header_top_margin"
+        android:src="@drawable/logo"
         />
 
     <TextView
         android:id="@+id/prompt_sub_header"
-        fontPath="@string/AvenirNext_Regular"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/contest_app_header"
         android:gravity="center_horizontal"
         android:text="@string/create_join_prompt"
-        android:textSize="@dimen/button_textsize"
+        android:textAppearance="@style/AvenirNext_Regular"
+        android:textColor="@color/colorVeryLightGray"
+        android:textSize="@dimen/splash_subtitle_textsize"
         />
 
     <android.support.percent.PercentRelativeLayout
