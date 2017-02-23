@@ -140,6 +140,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void cancelEdit() {
         startActivity(SplashActivity.makeIntent(this));
+        finish();
     }
 
     @Override
@@ -178,6 +179,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void navigateToSendInvitationsScreen() {
         startActivity(SendInvitationsActivity.makeIntent(this));
+        finish();
     }
 
     @Override

@@ -144,8 +144,10 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
                 break;
             case R.id.send_invitations_skip_menu_action:
                 showNextScreen();
+                break;
             case android.R.id.home:
                 onBackButtonClicked();
+                break;
         }
     }
 
@@ -214,6 +216,8 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
     public void onBackButtonClicked() {
         if (contactSelectionEnabled) {
             showPreviewContent();
+        } else {
+            view.cancelSelection();
         }
     }
 
