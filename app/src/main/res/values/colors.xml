@@ -19,4 +19,9 @@
     <color name="category_card_background">#fdfdfd</color>
 
     <color name="submissionPromptTextColor">#131313</color>
+
+    <color name="colorFirstPlaceResult">#f0bf22</color>
+    <color name="colorSecondPlaceResult">#b1b6bc</color>
+    <color name="colorThirdPlaceResult">#d4862f</color>
+    <color name="colorOtherPlacesResult">#FFFFFF</color>
 </resources>

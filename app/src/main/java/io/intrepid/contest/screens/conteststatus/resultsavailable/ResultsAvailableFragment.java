@@ -11,6 +11,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.ContestWrapper;
+import io.intrepid.contest.screens.contestresults.ContestResultsActivity;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivityContract;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
@@ -56,7 +57,7 @@ public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContr
 
     @Override
     public void showResultsPage() {
-        Timber.d("Show results page");
+        startActivity(ContestResultsActivity.makeIntent(getActivity()));
     }
 
     @Override

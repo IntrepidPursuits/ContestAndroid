@@ -85,4 +85,14 @@
     <dimen name="expandable_section_height">176dp</dimen>
 
     <item name="rating_bar_step_size" format="float" type="dimen">1.0</item>
+
+    <dimen name="contest_result_row_vertical_padding">24dp</dimen>
+    <dimen name="contest_result_card_elevation">8dp</dimen>
+    <dimen name="contest_result_content_horizontal_spacing">12dp</dimen>
+    <dimen name="contest_result_content_vertical_spacing">12dp</dimen>
+    <dimen name="contest_result_entry_score_textsize">18sp</dimen>
+    <dimen name="contest_result_entry_title_textsize">16sp</dimen>
+    <dimen name="contest_result_entry_rank_textsize">14sp</dimen>
+    <dimen name="contest_result_entry_image_width">88dp</dimen>
+    <dimen name="contest_result_entry_image_height">100dp</dimen>
 </resources>

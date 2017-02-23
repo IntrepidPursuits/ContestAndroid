@@ -40,6 +40,5 @@ public class ResultsAvailablePresenter extends BasePresenter<ResultsAvailableCon
     @Override
     public void onViewResultsButtonClicked() {
         view.showResultsPage();
-        view.showMessage("Show results page");
     }
 }

@@ -30,4 +30,7 @@ public interface RestApi {
 
     @GET("api/contests/{contestId}")
     Observable<ContestWrapper> getContestDetails(@Path("contestId") String contestId);
+
+    @GET("api/contests/{contestId}/results")
+    Observable<ContestResultResponse> getContestResults(@Path("contestId") String contestId);
 }

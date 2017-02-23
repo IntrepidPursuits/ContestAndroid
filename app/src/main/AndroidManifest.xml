@@ -49,6 +49,7 @@
         <activity android:name=".screens.contestoverview.ContestOverviewActivity"/>
         <activity android:name=".screens.sendinvitations.SendInvitationsActivity"/>
         <activity android:name=".screens.contestjudging.scoreentries.ScoreEntriesActivity"/>
+        <activity android:name=".screens.contestresults.ContestResultsActivity" />
     </application>
 
 </manifest>
