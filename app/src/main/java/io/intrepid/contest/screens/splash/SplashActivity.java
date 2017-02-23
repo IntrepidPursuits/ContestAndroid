@@ -2,12 +2,8 @@ package io.intrepid.contest.screens.splash;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.LinearGradient;
-import android.graphics.Shader;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -20,8 +16,6 @@ import io.intrepid.contest.screens.join.JoinActivity;
 import static android.view.View.VISIBLE;
 
 public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements SplashContract.View {
-    @BindView(R.id.contest_app_header)
-    TextView splashHeader;
     @BindView(R.id.splash_screen_actions_layout)
     RelativeLayout splashScreenActionsLayout;
 
@@ -33,16 +27,6 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     @Override
     public SplashContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new SplashPresenter(this, configuration);
-    }
-
-    @Override
-    protected void onViewCreated(Bundle savedInstanceState) {
-        super.onViewCreated(savedInstanceState);
-        Shader textShader = new LinearGradient(0, 0, 0, 20,
-                                               new int[] { getResources().getColor(R.color.colorPrimaryDark),
-                                                           getResources().getColor(R.color.colorAccent) },
-                                               new float[] { 0, 1 }, Shader.TileMode.CLAMP);
-        splashHeader.getPaint().setShader(textShader);
     }
 
     @Override
