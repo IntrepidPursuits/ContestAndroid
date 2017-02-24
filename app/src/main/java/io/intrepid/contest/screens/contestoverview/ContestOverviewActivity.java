@@ -3,17 +3,12 @@ package io.intrepid.contest.screens.contestoverview;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PatternMatcher;
 import android.support.annotation.NonNull;
 import android.support.annotation.PluralsRes;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.text.util.Linkify;
 import android.widget.TextView;
 
 import java.util.List;
@@ -95,9 +90,9 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
     @Override
     public void showSubmissionCountMessage(int submissionCount, @PluralsRes int plural) {
-        String quanitifiedText = getResources().getQuantityString(plural, submissionCount, submissionCount);
-        SpannableString fullText = SpannableString.valueOf(getString(R.string.contest_overview_intro, quanitifiedText));
-        String numericalTextInString = quanitifiedText.split(" ")[0];
+        String quantifiedText = getResources().getQuantityString(plural, submissionCount, submissionCount);
+        SpannableString fullText = SpannableString.valueOf(getString(R.string.contest_overview_intro, quantifiedText));
+        String numericalTextInString = quantifiedText.split(" ")[0];
         SpannableUtil.getInstance().setColor(this, fullText, numericalTextInString, R.color.colorPrimary);
         SpannableUtil.getInstance().setBold(fullText, numericalTextInString);
         introTextView.setText(fullText);
