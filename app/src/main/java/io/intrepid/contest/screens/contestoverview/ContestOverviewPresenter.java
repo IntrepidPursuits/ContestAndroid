@@ -51,6 +51,8 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
     private void updateViewWithContest(Contest contest) {
         view.showContestDescription(contest.getDescription());
         showCategoriesForContest(contest);
+        view.showSubmissionCountMessage(contest.getEntries().size(), R.plurals.numberOfSubmissions);
+        view.showTitle(R.string.welcome_to_contest_text, contest.getTitle());
     }
 
     private void showCategoriesForContest(Contest contest) {

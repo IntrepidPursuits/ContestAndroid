@@ -54,7 +54,7 @@
     <string name="status_results_available_button">View results</string>
 
     <string name="scoring_weight">Scoring Weight</string>
-    <string name="contest_overview_intro">%1$s are waiting to be scored on the criteria below.</string>
+    <string name="contest_overview_intro">%1$s waiting to be scored on the criteria below.</string>
     <string name="contest_overview_submit_button_text">Let\'s get started</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
@@ -85,7 +85,7 @@
     <string name="default_category_name">Score</string>
     <string name="default_category_description">Overall Submission Score</string>
     <string name="rate_entry_x_out_of_entries">Rate %1$d out of %2$d</string>
-
+    <string name="welcome_to_contest_text">Welcome to %1$s</string>
     <string name="contest_result_first_place">1st</string>
     <string name="contest_result_second_place">2nd</string>
     <string name="contest_result_third_place">3rd</string>

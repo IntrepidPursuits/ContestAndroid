@@ -15,48 +15,50 @@
         android:text="@string/contest_overview_submit_button_text"
         />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/contest_overview_submit_button"
-            android:orientation="vertical"
-            android:padding="@dimen/activity_vertical_margin"
-            >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/contest_overview_submit_button"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_vertical_margin"
+        >
 
         <TextView
             android:id="@+id/contest_overview_intro_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/contest_overview_intro"
+            android:textAlignment="center"
+            android:textAppearance="@style/AppTheme.TextViewLabel"
+            android:textColor="@color/colorGreyishBlack"
             />
 
         <TextView
             style="@style/ContestOverviewTextViewLabel"
-            android:text="@string/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/description"
             />
 
-            <TextView
-                android:id="@+id/contest_overview_description_text_view"
-                android:textColor="@color/colorEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/overview_description_box_right_margin"
-                />
+        <TextView
+            android:id="@+id/contest_overview_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/overview_description_box_right_margin"
+            android:textColor="@color/colorEditText"
+            />
 
-            <View style="@style/AppTheme.HorizontalRow"/>
+        <View style="@style/AppTheme.HorizontalRow"/>
 
         <TextView
             style="@style/ContestOverviewTextViewLabel"
-            android:layout_marginLeft="@dimen/category_overview_margin_left"
-            android:text="@string/categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/category_overview_margin_left"
+            android:text="@string/categories"
             />
 
-            <include layout="@layout/include_layout_recycler_view"/>
+        <include layout="@layout/include_layout_recycler_view"/>
 
-        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
