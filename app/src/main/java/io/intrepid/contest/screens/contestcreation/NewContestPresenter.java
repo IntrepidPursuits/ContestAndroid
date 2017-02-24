@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
@@ -128,7 +126,6 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
                 break;
             case 3:
                 pageTitle = R.string.review_contest;
-                view.hideKeyboard();
                 break;
             default:
                 pageTitle = R.string.new_contest;

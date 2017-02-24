@@ -19,12 +19,12 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.NewContestActivity;
 import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
 import timber.log.Timber;
 
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
-import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.makeEditCategoryIntent;
 
 
 public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.View, ContestCreationFragment {
@@ -106,8 +106,13 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         ((EditContestContract) getActivity()).setNextEnabled(enabled);
     }
 
+    private void hideKeyboard() {
+        ((NewContestActivity) getActivity()).hideKeyboard();
+    }
+
     @Override
     public void onFocus() {
+        hideKeyboard();
         if (presenter != null) {
             /* The presenter may not have been created yet, though onFocus was forcefully called.
               If presenter is null, the onViewBound method will still be called when
