@@ -91,4 +91,5 @@
     <string name="contest_result_third_place">3rd</string>
     <string name="contest_result_other_places"/>
     <string name="contest_results_no_entries_message">No entries have been submitted.</string>
+    <string name="results">Results</string>
 </resources>

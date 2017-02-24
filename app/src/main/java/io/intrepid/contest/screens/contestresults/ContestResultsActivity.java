@@ -47,6 +47,8 @@ public class ContestResultsActivity extends BaseMvpActivity<ContestResultsContra
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
 
+        setActionBarTitle(R.string.results);
+        setActionBarDisplayHomeAsUpEnabled(true);
         contestResultsAdapter = new ContestResultsAdapter();
         contestResultsRecyclerView.setAdapter(contestResultsAdapter);
         contestResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
