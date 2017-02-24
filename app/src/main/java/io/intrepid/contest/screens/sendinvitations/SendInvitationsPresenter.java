@@ -25,7 +25,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
     private SendInvitationsContent lastShowed;
     private boolean contactSelectionEnabled = false;
     private boolean displayMenuItemsAndActionBar = true;
-    private ParticipationType participationType;
+    private ParticipationType invitationParticipantType;
 
     SendInvitationsPresenter(@NonNull SendInvitationsContract.View view,
                              @NonNull PresenterConfiguration configuration) {
@@ -54,15 +54,14 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
         return view.checkContactsPermissions();
     }
 
-    @Override
-    public ParticipationType getParticipationType() {
-        return participationType;
+    public ParticipationType getInvitationParticipantType() {
+        return invitationParticipantType;
     }
 
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        participationType = ParticipationType.CONTESTANT;
+        invitationParticipantType = ParticipationType.CONTESTANT;
         showPreviewContent();
     }
 
@@ -152,11 +151,13 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
     }
 
     private void showNextScreen() {
-        switch (participationType) {
+        // Screen to display after inviting participants of this type
+        switch (invitationParticipantType) {
             case CONTESTANT:
-                participationType = ParticipationType.JUDGE;
+                invitationParticipantType = ParticipationType.JUDGE;
                 selectedContactList.clear();
                 showPreviewContent();
+                updateMenuItemsAndActionBar();
                 break;
             case JUDGE:
                 view.showContestStatusScreen();
@@ -173,7 +174,8 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
 
         String contestId = persistentSettings.getCurrentContestId().toString();
         BatchInviteRequest batchInviteRequest = new BatchInviteRequest();
-        batchInviteRequest.invitations = new InvitationRequest(contestId, participationType, selectedContactList);
+        batchInviteRequest.invitations = new InvitationRequest(contestId,
+                                                               invitationParticipantType, selectedContactList);
 
         Disposable disposable = restApi.batchInvite(contestId, batchInviteRequest)
                 .compose(subscribeOnIoObserveOnUi())
@@ -201,7 +203,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
 
     private void updateMenuItemsAndActionBar() {
         if (displayMenuItemsAndActionBar) {
-            view.setActionBarTitle(participationType.equals(ParticipationType.CONTESTANT) ?
+            view.setActionBarTitle(invitationParticipantType.equals(ParticipationType.CONTESTANT) ?
                                            R.string.invite_contestants_bar_title : R.string.invite_judges_bar_title);
             view.setActionBarDisplayHomeAsUpEnabled(false);
             view.showSendInvitationsMenuItem(!selectedContactList.isEmpty());
