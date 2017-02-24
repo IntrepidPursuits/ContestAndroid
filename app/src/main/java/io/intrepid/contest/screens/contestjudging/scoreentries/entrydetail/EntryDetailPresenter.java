@@ -38,8 +38,7 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
     private void loadCurrentEntry() {
         entryBeingRated = view.getEntryToRate();
 
-        //todo - Current Entry Ballot needs to be refactored to track UUID
-        currentEntryBallot = new EntryBallot();
+        currentEntryBallot = view.getEntryBallot();
 
         if (entryBeingRated != null) {
             Timber.d(entryBeingRated.toString());
@@ -49,11 +48,13 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
 
     private void loadEditableEntryScores() {
         List<Category> categories = view.getCategories();
-        for (Category category : categories) {
-            Score score = new Score(category, 0);
-            currentEntryBallot.addScore(score);
-        }
 
+        if (currentEntryBallot.getScores().isEmpty()) {
+            for (Category category : categories) {
+                Score score = new Score(category, 0);
+                currentEntryBallot.addScore(score);
+            }
+        }
         view.showListOfEntryScores(currentEntryBallot.getScores());
     }
 

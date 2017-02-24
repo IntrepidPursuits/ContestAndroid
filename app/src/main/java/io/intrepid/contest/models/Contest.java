@@ -62,6 +62,10 @@ public class Contest {
         return categories;
     }
 
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
     public String getDescription() {
         return description;
     }

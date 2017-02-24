@@ -6,6 +6,11 @@ import java.util.UUID;
 
 public class EntryBallot {
     private final List<Score> scores = new ArrayList<>();
+    private UUID entryId;
+
+    public EntryBallot(UUID entryId) {
+        this.entryId = entryId;
+    }
 
     public void addScore(Score score) {
         scores.add(score);
@@ -21,8 +26,8 @@ public class EntryBallot {
     }
 
     public boolean isCompletelyScored() {
-        for(Score score : scores){
-            if(score.getScoreValue() == 0) {
+        for (Score score : scores) {
+            if (score.getScoreValue() == 0) {
                 return false;
             }
         }
@@ -31,9 +36,9 @@ public class EntryBallot {
 
     public float getScoreAverage() {
         int scoreSum = 0;
-        for(Score score : scores){
+        for (Score score : scores) {
             scoreSum += score.getScoreValue();
         }
-        return scoreSum/scores.size();
+        return scoreSum / scores.size();
     }
 }

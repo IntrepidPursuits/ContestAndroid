@@ -5,6 +5,7 @@ import java.util.List;
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.EntryBallot;
 import io.intrepid.contest.screens.contestjudging.EntryOnClickListener;
 
 class ScoresEntriesContract {
@@ -27,8 +28,12 @@ class ScoresEntriesContract {
 
         List<Category> getCategories();
 
+        Entry getCurrentEntry();
+
+        EntryBallot getCurrentEntryBallot();
+
         List<Entry> getEntries();
 
-        Entry getCurrentEntry();
+        List<EntryBallot> getEntryBallotsList();
     }
 }

@@ -78,7 +78,6 @@
     <dimen name="entry_submission_image_size">100dp</dimen>
     <dimen name="submission_score_top_margin">9dp</dimen>
     <dimen name="submission_title_bottom_margin">12dp</dimen>
-    <dimen name="submission_prompt_top_margin">19dp</dimen>
     <dimen name="entry_card_image_height">164dp</dimen>
     <dimen name="entry_card_title_text_left_margin">28dp</dimen>
     <dimen name="rating_image_card_height">164dp</dimen>

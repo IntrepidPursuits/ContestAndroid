@@ -18,15 +18,18 @@ import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.EntryBallot;
 import io.intrepid.contest.models.Score;
 import io.intrepid.contest.screens.contestjudging.expandablerecycler.ScoreAdapter;
-import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivity;
+import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivityContract;
 
-public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presenter> implements EntryDetailContract.View {
+public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presenter>
+        implements EntryDetailContract.View {
     @BindView(R.id.top_horizontal_entry_image_card)
     ImageView topImageCard;
     @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
+
     private ScoreAdapter scoreAdapter;
 
     @Override
@@ -65,16 +68,21 @@ public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presen
 
     @Override
     public List<Category> getCategories() {
-        return ((ScoreEntriesActivity) getActivity()).getCategories();
+        return ((ScoreEntriesActivityContract) getActivity()).getCategories();
     }
 
     @Override
     public void setNextEnabled(boolean nextEnabled) {
-        ((ScoreEntriesActivity) getActivity()).setNextEnabled(nextEnabled);
+        ((ScoreEntriesActivityContract) getActivity()).setNextEnabled(nextEnabled);
     }
 
     @Override
     public Entry getEntryToRate() {
-        return ((ScoreEntriesActivity) getActivity()).getCurrentEntry();
+        return ((ScoreEntriesActivityContract) getActivity()).getCurrentEntry();
+    }
+
+    @Override
+    public EntryBallot getEntryBallot() {
+        return ((ScoreEntriesActivityContract) getActivity()).getCurrentEntryBallot();
     }
 }

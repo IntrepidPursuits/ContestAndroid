@@ -15,10 +15,12 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.EntryBallot;
 import io.intrepid.contest.screens.contestjudging.scoreentries.entrieslist.EntriesListFragment;
 import io.intrepid.contest.screens.contestjudging.scoreentries.entrydetail.EntryDetailFragment;
 
-public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter> implements ScoresEntriesContract.View {
+public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
+        implements ScoresEntriesContract.View, ScoreEntriesActivityContract {
 
     private boolean nextVisible = false;
 
@@ -106,15 +108,28 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
         presenter.onEntryClicked(entry);
     }
 
+    @Override
     public List<Category> getCategories() {
         return presenter.getCategories();
     }
 
+    @Override
     public Entry getCurrentEntry() {
         return presenter.getCurrentEntry();
     }
 
+    @Override
+    public EntryBallot getCurrentEntryBallot() {
+        return presenter.getCurrentEntryBallot();
+    }
+
+    @Override
     public List<Entry> getEntriesList() {
         return presenter.getEntries();
+    }
+
+    @Override
+    public List<EntryBallot> getEntryBallotsList() {
+        return presenter.getEntryBallotsList();
     }
 }
