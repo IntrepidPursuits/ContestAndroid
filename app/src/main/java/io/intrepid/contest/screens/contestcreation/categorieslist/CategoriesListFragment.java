@@ -1,5 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.categorieslist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.util.List;
 
@@ -48,6 +51,15 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(categoriesRecyclerView);
         presenter.displayCategories();
+    }
+
+    @Override
+    public void hideKeyboard() {
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(getActivity().INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     @OnClick(R.id.add_new_category_fab)
@@ -113,6 +125,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
               If presenter is null, the onViewBound method will still be called when
                the fragment is instantiated
              */
+            hideKeyboard();
             presenter.onViewBound();
         }
     }

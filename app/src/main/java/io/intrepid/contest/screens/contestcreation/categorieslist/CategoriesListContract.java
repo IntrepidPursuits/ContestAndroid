@@ -20,6 +20,8 @@ interface CategoriesListContract {
         Category getDefaultCategory(int categoryName, int categoryDescription);
 
         void setNextEnabled(boolean enabled);
+
+        void hideKeyboard();
     }
 
     interface Presenter extends BaseContract.Presenter<CategoriesListContract.View>, CategoryClickListener {
