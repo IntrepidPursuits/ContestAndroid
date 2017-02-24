@@ -114,7 +114,6 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
             case 3:
                 pageTitle = R.string.review_contest;
                 break;
-            case 0:
             default:
                 pageTitle = R.string.new_contest;
         }
