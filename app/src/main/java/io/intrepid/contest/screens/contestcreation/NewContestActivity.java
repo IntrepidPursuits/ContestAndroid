@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -168,6 +169,11 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
     @Override
     public void navigateToSendInvitationsScreen() {
         startActivity(SendInvitationsActivity.makeIntent(this));
+    }
+
+    @Override
+    public void setPageTitle(@StringRes int pageTitle) {
+        setActionBarTitle(pageTitle);
     }
 
     @Override

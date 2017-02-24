@@ -1,6 +1,7 @@
 package io.intrepid.contest.screens.contestcreation;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.view.ViewPager;
 
 import io.intrepid.contest.R;
@@ -102,6 +103,21 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
             ValidatableView fragment = (ValidatableView) view.getChildEditFragment(position);
             fragment.onFocus();
         }
+        @StringRes int pageTitle;
+        switch (position) {
+            case 1:
+                pageTitle = R.string.description;
+                break;
+            case 2:
+                pageTitle = R.string.scoring_categories;
+                break;
+            case 3:
+                pageTitle = R.string.review_contest;
+                break;
+            default:
+                pageTitle = R.string.new_contest;
+        }
+        view.setPageTitle(pageTitle);
     }
 
     @Override

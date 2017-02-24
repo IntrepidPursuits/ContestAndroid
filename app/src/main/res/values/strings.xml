@@ -85,6 +85,7 @@
     <string name="default_category_name">Score</string>
     <string name="default_category_description">Overall Submission Score</string>
     <string name="rate_entry_x_out_of_entries">Rate %1$d out of %2$d</string>
+    <string name="review_contest">Review Contest</string>
     <string name="welcome_to_contest_text">Welcome to %1$s</string>
     <string name="contest_result_first_place">1st</string>
     <string name="contest_result_second_place">2nd</string>
