@@ -43,7 +43,6 @@
             android:layout_width="@dimen/entry_submission_image_size"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/default_entry_icon"
             />
     </RelativeLayout>
 

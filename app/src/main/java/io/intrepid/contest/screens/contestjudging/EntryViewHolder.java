@@ -45,9 +45,9 @@ class EntryViewHolder extends RecyclerView.ViewHolder {
         this.entry = entry;
         submissionTitleField.setText(entry.title);
         scoreField.setText(String.valueOf(entry.getRatingAverage()));
-        String thumbNailUrl = entry.photoUrl;
-        if (thumbNailUrl != null && !thumbNailUrl.isEmpty()) {
-            Picasso.with(itemView.getContext()).load(thumbNailUrl).into(entryThumbnail);
-        }
+        Picasso.with(itemView.getContext())
+                .load(entry.photoUrl)
+                .placeholder(R.drawable.default_entry_icon)
+                .into(entryThumbnail);
     }
 }
