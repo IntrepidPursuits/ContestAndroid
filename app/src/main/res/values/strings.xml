@@ -42,7 +42,6 @@
     <string name="description_optional">Description (optional)</string>
     <string name="category_name_example">Score</string>
     <string name="category_description_example">Overall Submission Score</string>
-    <string name="trophy">Trophy</string>
     <string name="add_a_category">Add a category</string>
 
     <string name="contest_status_bar_title">Contest Status</string>

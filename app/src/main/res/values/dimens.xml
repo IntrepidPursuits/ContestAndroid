@@ -31,7 +31,9 @@
     <dimen name="removable_image_layout_margin">13dp</dimen>
 
     <dimen name="entry_name_icon_margin">28dp</dimen>
-    <dimen name="trophy_margin">28dp</dimen>
+    <dimen name="trophy_top_margin">42dp</dimen>
+    <dimen name="trophy_min_height">56dp</dimen>
+    <dimen name="trophy_min_width">44dp</dimen>
 
     <dimen name="category_card_height">128dp</dimen>
     <dimen name="category_card_width">325dp</dimen>
