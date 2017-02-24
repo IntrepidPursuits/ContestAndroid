@@ -46,6 +46,8 @@ class EntryViewHolder extends RecyclerView.ViewHolder {
         submissionTitleField.setText(entry.title);
         scoreField.setText(String.valueOf(entry.getRatingAverage()));
         String thumbNailUrl = entry.photoUrl;
-        Picasso.with(itemView.getContext()).load(thumbNailUrl).into(entryThumbnail);
+        if (thumbNailUrl != null && !thumbNailUrl.isEmpty()) {
+            Picasso.with(itemView.getContext()).load(thumbNailUrl).into(entryThumbnail);
+        }
     }
 }

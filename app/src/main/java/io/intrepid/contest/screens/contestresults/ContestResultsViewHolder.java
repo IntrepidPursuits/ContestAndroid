@@ -37,7 +37,11 @@ class ContestResultsViewHolder extends RecyclerView.ViewHolder {
     }
 
     void bindResultData(RankedEntryResult rankedEntryResult) {
-        Picasso.with(itemView.getContext()).load(rankedEntryResult.getPhotoUrl()).into(entryImage);
+        String photoUrl = rankedEntryResult.getPhotoUrl();
+        if (photoUrl != null && !photoUrl.isEmpty()) {
+            Picasso.with(itemView.getContext()).load(photoUrl).into(entryImage);
+        }
+
         entryScore.setText(String.valueOf(rankedEntryResult.getOverallScore()));
         entryTitle.setText(rankedEntryResult.getTitle());
 

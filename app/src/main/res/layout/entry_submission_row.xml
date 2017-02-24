@@ -17,6 +17,7 @@
         >
 
         <TextView
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:id="@+id/entry_submission_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/submission_title_bottom_margin"
+            android:paddingBottom="@dimen/submission_title_bottom_margin"
             android:textSize="@dimen/text_view_label_textsize"
             />
 
@@ -42,6 +43,7 @@
             android:layout_width="@dimen/entry_submission_image_size"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
+            android:src="@drawable/default_entry_icon"
             />
     </RelativeLayout>
 

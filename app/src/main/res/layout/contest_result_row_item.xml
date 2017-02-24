@@ -38,6 +38,7 @@
                 android:layout_marginStart="@dimen/contest_result_content_horizontal_spacing"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:src="@drawable/default_entry_icon"
                 />
 
             <TextView

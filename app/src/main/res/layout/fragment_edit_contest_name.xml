@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/activity_vertical_margin"
@@ -12,18 +13,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/trophy_margin"
-        android:contentDescription="@string/trophy"
+        android:layout_marginTop="@dimen/trophy_top_margin"
+        android:minHeight="@dimen/trophy_min_height"
+        android:minWidth="@dimen/trophy_min_width"
         android:src="@drawable/trophy_icon"
+        tools:ignore="ContentDescription"
         />
 
     <io.intrepid.contest.customviews.HintLabelEditText
         android:id="@+id/contest_name_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/trophy_icon"
+        android:layout_below="@id/trophy_icon"
         android:layout_margin="@dimen/activity_vertical_margin"
         custom:hint="@string/name_your_contest"
         custom:label="@string/name_your_contest"
         />
+
 </RelativeLayout>

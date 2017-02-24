@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/entry_name_icon_margin"
-            android:src="@drawable/paper_icon"
+            android:src="@drawable/medal_icon"
             android:contentDescription="@string/name_entry"
             />
 

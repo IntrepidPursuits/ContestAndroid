@@ -211,7 +211,7 @@ public class MockRestApi implements RestApi {
         fourthPlace.setTitle("Sweet Chili");
         fourthPlace.setOverallScore(3.25f);
         fourthPlace.setRank(4);
-        fourthPlace.setPhotoUrl("http://del.h-cdn.co/assets/15/41/cornbread-waffles-with-chili3.jpg");
+//        fourthPlace.setPhotoUrl("http://del.h-cdn.co/assets/15/41/cornbread-waffles-with-chili3.jpg");
 
         List<RankedEntryResult> rankedScoredEntries = new ArrayList<>();
         rankedScoredEntries.add(firstPlace);
