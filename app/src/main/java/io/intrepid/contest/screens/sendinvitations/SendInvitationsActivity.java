@@ -25,6 +25,7 @@ import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.sendinvitations.invitationintro.InvitationIntroFragment;
 import io.intrepid.contest.screens.sendinvitations.selectcontacts.SelectContactsFragment;
+import io.intrepid.contest.screens.splash.SplashActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -171,6 +172,12 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
     @Override
     public void showContestStatusScreen() {
         startActivity(ContestStatusActivity.makeIntent(this));
+    }
+
+    @Override
+    public void cancelSelection() {
+        startActivity(SplashActivity.makeIntent(this));
+        finish();
     }
 
     @Override

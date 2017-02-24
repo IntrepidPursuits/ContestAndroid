@@ -29,6 +29,8 @@ class SendInvitationsContract {
         void showInvitationIntroFragment();
 
         void showContestStatusScreen();
+
+        void cancelSelection();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
