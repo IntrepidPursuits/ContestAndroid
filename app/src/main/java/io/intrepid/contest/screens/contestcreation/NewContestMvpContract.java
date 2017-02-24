@@ -41,5 +41,7 @@ class NewContestMvpContract {
         void showNextScreen();
 
         void showAddCategoryScreen();
+
+        void onContestEditEntered(int index, String newName, String newDescription);
     }
 }

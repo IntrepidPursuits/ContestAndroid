@@ -13,13 +13,14 @@ import io.intrepid.contest.models.Contest;
 
 class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View> implements CategoriesListContract.Presenter {
     private final Contest.Builder contestBuilder;
+    private List<Category> categories;
 
     CategoriesListPresenter(@NonNull CategoriesListContract.View view,
                             @NonNull PresenterConfiguration configuration,
                             Contest.Builder contestBuilder) {
         super(view, configuration);
         this.contestBuilder = contestBuilder;
-        List<Category> categories = this.contestBuilder.categories;
+        categories = this.contestBuilder.getCategories();
         categories = categories == null ? new ArrayList<>() : categories;
 
         if (categories.isEmpty()) {
@@ -60,7 +61,7 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View>
 
     @Override
     public void onCategoryClicked(Category category) {
-        view.showEditCategoryPage(category);
+        view.showEditCategoryPage(category, categories.indexOf(category));
     }
 
     @Override

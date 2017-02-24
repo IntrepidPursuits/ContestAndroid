@@ -15,7 +15,7 @@ interface CategoriesListContract {
 
         void showNextScreen();
 
-        void showEditCategoryPage(Category category);
+        void showEditCategoryPage(Category category, int indexOfCategory);
 
         Category getDefaultCategory(int categoryName, int categoryDescription);
 

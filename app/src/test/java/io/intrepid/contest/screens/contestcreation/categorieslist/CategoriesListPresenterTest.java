@@ -12,8 +12,8 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.BasePresenterTest;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -27,10 +27,10 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
 
     @Before
     public void setup() {
+        when(mockContestBuilder.getCategories()).thenReturn(makeCategories());
         presenter = new CategoriesListPresenter(mockView,
                                                 testConfiguration,
                                                 mockContestBuilder);
-        when(mockContestBuilder.getCategories()).thenReturn(makeCategories());
     }
 
     private List<Category> makeCategories() {
@@ -39,6 +39,13 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
             categories.add(new Category("Test", "Tester"));
         }
         return categories;
+    }
+
+    @Test
+    public void presenterShouldAddDefaultCategoryIfCategoriesIsEmptyOrNull() {
+        when(mockContestBuilder.getCategories()).thenReturn(new ArrayList<>());
+        presenter = new CategoriesListPresenter(mockView, testConfiguration, mockContestBuilder);
+        verify(mockView).getDefaultCategory(anyInt(), anyInt());
     }
 
     @Test
@@ -137,9 +144,9 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
 
     @Test
     public void onCategoryClickedShouldTriggerViewToShowEditPage() {
-        Category category = mockContestBuilder.getCategories().get(0);
+        Category category = new Category("Test", "Tester");
         presenter.onCategoryClicked(category);
-        verify(mockView).showEditCategoryPage(category);
+        verify(mockView).showEditCategoryPage(category, 0);
     }
 
     @Test

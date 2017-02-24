@@ -2,6 +2,7 @@ package io.intrepid.contest.screens.contestcreation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.ViewPager;
 
 import io.intrepid.contest.R;
@@ -17,7 +18,9 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     private static final int NAME_CONTEST_PAGE_INDEX = 0;
     private static final int CATEGORIES_LIST_PAGE_INDEX = 2;
     private static final int LAST_PAGE_INDEX = 3;
-    private Contest.Builder contest;
+
+    @VisibleForTesting
+    Contest.Builder contest;
 
     NewContestPresenter(@NonNull NewContestMvpContract.View view,
                         @NonNull PresenterConfiguration configuration) {
@@ -67,13 +70,23 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     @Override
     public void onNewCategoryAdded(String categoryName, String categoryDescription) {
-        contest.categories.add(new Category(categoryName, categoryDescription));
+        contest.getCategories().add(new Category(categoryName, categoryDescription));
         view.showUpdatedCategories();
     }
 
     @Override
     public void showAddCategoryScreen() {
         view.navigateToAddCategoryPage(contest);
+    }
+
+    @Override
+    public void onContestEditEntered(int index, String newName, String newDescription) {
+        Category category = contest.getCategories().get(index);
+        if (category != null) {
+            category.setName(newName);
+            category.setDescription(newDescription);
+            view.showUpdatedCategories();
+        }
     }
 
     private void submitContest() {

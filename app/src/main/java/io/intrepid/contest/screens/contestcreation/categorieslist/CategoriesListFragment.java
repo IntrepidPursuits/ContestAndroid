@@ -19,6 +19,7 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
+import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
 import io.intrepid.contest.utils.dragdrop.SimpleItemTouchHelperCallback;
 import timber.log.Timber;
 
@@ -40,6 +41,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
+        setActionBarTitle(R.string.scoring_categories);
         categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         categoriesRecyclerView.setAdapter(categoryAdapter);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
@@ -71,18 +73,18 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     }
 
     @Override
-    public void showAddCategoryScreen() {
-        ((EditContestContract) getActivity()).showAddCategoryScreen();
-    }
-
-    @Override
     public void showNextScreen() {
         ((EditContestContract) getActivity()).showNextScreen();
     }
 
     @Override
-    public void showEditCategoryPage(Category category) {
-        Intent intent = makeEditCategoryIntent(getContext(), category);
+    public void showAddCategoryScreen() {
+        ((EditContestContract) getActivity()).showAddCategoryScreen();
+    }
+
+    @Override
+    public void showEditCategoryPage(Category category, int index) {
+        Intent intent = EditCategoryActivity.makeEditCategoryIntent(getContext(), category, index);
         getActivity().startActivityForResult(intent, NOTIFY_EDIT_EXISTING_CATEGORY);
     }
 
