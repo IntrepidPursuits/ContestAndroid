@@ -15,6 +15,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.RankedEntryResult;
+import io.intrepid.contest.screens.splash.SplashActivity;
 
 import static android.view.View.GONE;
 
@@ -52,6 +53,11 @@ public class ContestResultsActivity extends BaseMvpActivity<ContestResultsContra
         contestResultsAdapter = new ContestResultsAdapter();
         contestResultsRecyclerView.setAdapter(contestResultsAdapter);
         contestResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(SplashActivity.makeIntent(this));
     }
 
     @Override
