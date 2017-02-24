@@ -3,7 +3,10 @@ package io.intrepid.contest.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.UUID;
+
 public class Category implements Parcelable {
+    private UUID id;
     private String name;
     private String description;
 
@@ -65,5 +68,9 @@ public class Category implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public UUID getId() {
+        return id;
     }
 }

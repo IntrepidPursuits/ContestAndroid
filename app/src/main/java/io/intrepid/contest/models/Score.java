@@ -1,11 +1,18 @@
 package io.intrepid.contest.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.UUID;
+
 public class Score {
     private int score;
-    private String categoryName;
-    private String categoryDescription;
+    @SerializedName("scoring_category_id")
+    private UUID categoryId;
+    private transient String categoryName;
+    private transient String categoryDescription;
 
     public Score(Category category, int score) {
+        this.categoryId = category.getId();
         this.categoryName = category.getName();
         this.categoryDescription = category.getDescription();
         this.score = score;
@@ -15,6 +22,10 @@ public class Score {
         return score;
     }
 
+    void setScoreValue(int scoreValue) {
+        this.score = scoreValue;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Score)) {
@@ -22,10 +33,6 @@ public class Score {
         }
         Score other = (Score) obj;
         return score == other.score;
-    }
-
-    void setScoreValue(int scoreValue) {
-        this.score = scoreValue;
     }
 
     public String getCategoryName() {
