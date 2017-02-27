@@ -8,7 +8,6 @@ import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
-import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.rest.ContestStatusResponse;
 import io.intrepid.contest.rest.ContestWrapper;
 import io.reactivex.Observable;
@@ -60,16 +59,15 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
         if (response.contestStatus.hasContestEnded()) {
             view.showResultsAvailableFragment();
             disposables.clear();
-            return;
+        } else {
+            switch (persistentSettings.getCurrentParticipationType()) {
+                case JUDGE:
+                    view.showContestOverviewPage();
+                    break;
+                default:
+                    view.showStatusWaitingFragment();
+            }
         }
-
-        if (!response.contestStatus.haveSubmissionsEnded() ||
-                (persistentSettings.getCurrentParticipationType() != ParticipationType.JUDGE)) {
-            view.showStatusWaitingFragment();
-            return;
-        }
-
-        view.showContestOverviewPage();
     }
 
     @Override

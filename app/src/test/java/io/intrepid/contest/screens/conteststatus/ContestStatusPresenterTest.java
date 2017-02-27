@@ -60,7 +60,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     private void getContestStatusResponseWaitingForScores() {
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = new ContestStatus();
-        response.contestStatus.setSubmissionData(true, 5, 5);
+        response.contestStatus.setSubmissionData(false, 5, 5);
         response.contestStatus.setJudgeData(false, 0, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
     }
@@ -76,6 +76,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @Test
     public void onViewCreatedShouldShowStatusWaitingFragmentWhenStatusIsWaitingForSubmissions() {
         getContestStatusResponseWaitingForSubmissions();
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
 
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
@@ -87,8 +88,9 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
 
     @Test
     public void onViewCreatedShouldShowStatusWaitingFragmentWhenWaitingForScoresAndParticipantIsContestant() {
-        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
         getContestStatusResponseWaitingForScores();
+
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
 
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
@@ -126,12 +128,25 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @Test
     public void onViewCreatedShouldRefreshWaitingSubmissionsFragmentPeriodically() {
         getContestStatusResponseWaitingForSubmissions();
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
 
         presenter.onViewCreated();
         testConfiguration.getIoScheduler().advanceTimeBy(API_CALL_INTERVAL, API_CALL_INTERVAL_UNIT);
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView, times(2)).showStatusWaitingFragment();
+    }
+
+    @Test
+    public void onViewCreatedShouldRefreshOverviewPageWhenParticipationTypeIsJudge() {
+        getContestStatusResponseWaitingForSubmissions();
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
+
+        presenter.onViewCreated();
+        testConfiguration.getIoScheduler().advanceTimeBy(API_CALL_INTERVAL, API_CALL_INTERVAL_UNIT);
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView, times(2)).showContestOverviewPage();
     }
 
     @Test

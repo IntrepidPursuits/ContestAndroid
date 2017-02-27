@@ -101,6 +101,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     }
 
     private void onApiResult(ContestWrapper response) {
+        Timber.d("Contest id " + response.contest.getId());
         persistentSettings.setCurrentContestId(response.contest.getId());
         view.navigateToSendInvitationsScreen();
     }

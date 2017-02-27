@@ -21,7 +21,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Path;
 
-public class MockRestApi implements RestApi {
+class MockRestApi implements RestApi {
     private static final String TEST_JUDGE_CODE = "judge";
     private static final String TEST_ENTRY_IMAGE = "https://www.chowstatic.com/assets/2014/09/30669_spicy_slow_cooker_beef_chili_3000x2000.jpg";
 
@@ -31,7 +31,7 @@ public class MockRestApi implements RestApi {
     private String contestDescription;
     private int numGetContestStatusCallsForParticipant;
 
-    public MockRestApi() {
+    MockRestApi() {
         userId = UUID.randomUUID();
         contestId = UUID.randomUUID();
         contestTitle = "Contest title";
@@ -94,6 +94,12 @@ public class MockRestApi implements RestApi {
             return Observable.just(getValidRedeemInvitationResponse(ParticipationType.JUDGE));
         }
         return Observable.just(getValidRedeemInvitationResponse(ParticipationType.CONTESTANT));
+    }
+
+    public Observable<ContestWrapper> endContest(String id) {
+        Contest contest = new Contest();
+        contest.setId(UUID.fromString(id));
+        return Observable.just(new ContestWrapper(contest));
     }
 
     @Override

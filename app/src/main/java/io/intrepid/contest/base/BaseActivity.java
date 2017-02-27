@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
-import io.intrepid.contest.BuildConfig;
 import io.intrepid.contest.ContestApplication;
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.ShakeDetector;
@@ -137,9 +136,7 @@ abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void showMessage(String message) {
-        if (BuildConfig.DEV_BUILD) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     public void showMessage(@StringRes int messageResource) {
