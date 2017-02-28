@@ -20,6 +20,9 @@ public interface RestApi {
     Observable<RedeemInvitationResponse> redeemInvitationCode(@Path("code") String code,
                                                               @Body RedeemInvitationRequest redeemInvitationRequest);
 
+    @PATCH("api/admin/contests/{id}/end")
+    Observable<ContestWrapper> endContest(String id);
+
     @POST("api/contests")
     Observable<ContestWrapper> submitContest(@Body ContestWrapper contest);
 
