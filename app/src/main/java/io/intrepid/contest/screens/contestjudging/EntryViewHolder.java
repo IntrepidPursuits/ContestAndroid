@@ -23,6 +23,8 @@ class EntryViewHolder extends RecyclerView.ViewHolder {
     TextView scoreField;
     @BindView(R.id.entry_submission_image)
     ImageView entryThumbnail;
+    @BindView(R.id.checkmark_icon)
+    ImageView checkMarkIcon;
     private Entry entry;
 
     EntryViewHolder(ViewGroup parent, EntryOnClickListener listener) {
@@ -44,6 +46,9 @@ class EntryViewHolder extends RecyclerView.ViewHolder {
     void bindEntry(Entry entry) {
         this.entry = entry;
         submissionTitleField.setText(entry.title);
+        if (entry.isCompletelyScored()) {
+            checkMarkIcon.setVisibility(View.VISIBLE);
+        }
         scoreField.setText(String.valueOf(entry.getRatingAverage()));
         Picasso.with(itemView.getContext())
                 .load(entry.photoUrl)

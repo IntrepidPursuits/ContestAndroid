@@ -17,12 +17,12 @@
         >
 
         <TextView
-            android:paddingTop="@dimen/activity_vertical_margin"
             android:id="@+id/entry_submission_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:paddingTop="@dimen/activity_vertical_margin"
             android:text="@string/default_zero_score"
             android:textSize="@dimen/text_view_label_textsize"
             />
@@ -36,6 +36,17 @@
             android:layout_alignParentStart="true"
             android:paddingBottom="@dimen/submission_title_bottom_margin"
             android:textSize="@dimen/text_view_label_textsize"
+            />
+
+        <ImageView
+            android:id="@+id/checkmark_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/entry_submission_image"
+            android:paddingEnd="@dimen/entry_checkmark_end_padding"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:src="@drawable/entry_status_check_mark"
+            android:visibility="gone"
             />
 
         <ImageView

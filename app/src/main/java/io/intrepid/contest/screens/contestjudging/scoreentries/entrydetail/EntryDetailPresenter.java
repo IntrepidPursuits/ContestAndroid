@@ -61,11 +61,9 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
     @Override
     public void onScoreChanged(int position, int newRating) {
         currentEntryBallot.setScore(position, newRating);
+        entryBeingRated.acceptScore(position, newRating);
         if (currentEntryBallot.isCompletelyScored()) {
             view.setNextEnabled(true);
         }
-
-        float ratingAverage = currentEntryBallot.getScoreAverage();
-        entryBeingRated.setRatingAverage(ratingAverage);
     }
 }

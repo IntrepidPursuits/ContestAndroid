@@ -48,6 +48,7 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
                     this.categories = response.contest.getCategories();
                     entryBallots.clear();
                     for (Entry entry : entries) {
+                        entry.setCategoriesSize(categories.size());
                         entryBallots.add(new EntryBallot(entry.id));
                     }
                     view.showEntriesList();

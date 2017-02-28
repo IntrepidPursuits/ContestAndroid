@@ -97,4 +97,5 @@
     <dimen name="contest_result_entry_rank_textsize">14sp</dimen>
     <dimen name="contest_result_entry_image_width">88dp</dimen>
     <dimen name="contest_result_entry_image_height">100dp</dimen>
+    <dimen name="entry_checkmark_end_padding">8dp</dimen>
 </resources>
