@@ -26,6 +26,8 @@ class NewContestMvpContract {
         void navigateToSendInvitationsScreen();
 
         void setPageTitle(@StringRes int pageTitle);
+
+        void hideKeyboard();
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
