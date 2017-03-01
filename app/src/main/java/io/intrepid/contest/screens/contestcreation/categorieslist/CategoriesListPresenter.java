@@ -11,11 +11,11 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 
-class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View> implements CategoriesListContract.Presenter {
+class CategoriesListPresenter extends BasePresenter<CategoriesListContract.ContestCreationFragment> implements CategoriesListContract.Presenter {
     private final Contest.Builder contestBuilder;
     private List<Category> categories;
 
-    CategoriesListPresenter(@NonNull CategoriesListContract.View view,
+    CategoriesListPresenter(@NonNull CategoriesListContract.ContestCreationFragment view,
                             @NonNull PresenterConfiguration configuration,
                             Contest.Builder contestBuilder) {
         super(view, configuration);
