@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,36 +26,39 @@ import static org.mockito.Mockito.when;
 public class EntriesListPresenterTest extends BasePresenterTest<EntriesListPresenter> {
     @Mock
     EntriesListContract.View mockView;
-    private List<Entry> entries;
+    @Mock
+    List<Entry> mockEntries;
+    @Mock
+    Entry mockEntry;
+    @Mock
+    Iterator<Entry> mockEntryIterator;
 
     @Before
     public void setup() {
-        entries = new ArrayList<>();
-        entries.add(new Entry());
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
-        when(mockView.getEntries()).thenReturn(entries);
-
+        when(mockView.getEntries()).thenReturn(mockEntries);
+        when(mockEntryIterator.hasNext()).thenReturn(true, true, false);
+        when(mockEntryIterator.next()).thenReturn(mockEntry).thenReturn(mockEntry);
+        when(mockEntries.iterator()).thenReturn(mockEntryIterator);
         presenter = new EntriesListPresenter(mockView, testConfiguration);
-        presenter.onViewCreated();
     }
 
     @Test
     public void onViewCreatedShouldTriggerViewToShowEntriesList() {
+        presenter.onViewCreated();
         verify(mockView).showEntriesList();
     }
 
     @Test
     public void onViewCreatedShouldShowSubmitButtonWhenEntriesAreCompletelyRated() {
-        for (Entry entry : entries) {
-            entry.setRatingAverage(1);
-        }
+        when(mockEntry.isCompletelyScored()).thenReturn(true);
         presenter.onViewCreated();
         verify(mockView).showSubmitButton(true);
     }
 
     @Test
     public void onViewCreatedShouldHideSubmitButtonWhenEntriesAreNotCompletelyRated() {
-        when(mockView.getEntries()).thenReturn(makeCompletedListOfEntries());
+        when(mockEntry.isCompletelyScored()).thenReturn(false);
         presenter.onViewCreated();
         verify(mockView).showSubmitButton(false);
     }
@@ -94,13 +97,5 @@ public class EntriesListPresenterTest extends BasePresenterTest<EntriesListPrese
         testConfiguration.triggerRxSchedulers();
 
         mockView.showMessage(anyInt());
-    }
-
-    private List<Entry> makeCompletedListOfEntries() {
-        List<Entry> entries = new ArrayList<>();
-        for (Entry entry : entries) {
-            entry.setRatingAverage(anyInt() + 1);
-        }
-        return entries;
     }
 }

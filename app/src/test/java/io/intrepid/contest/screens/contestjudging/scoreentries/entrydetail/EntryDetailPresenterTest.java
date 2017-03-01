@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class EntryDetailPresenterTest extends BasePresenterTest<EntryDetailPresenter> {
     @Mock
     EntryDetailContract.View mockView;
-
+    @Mock Entry mockEntry;
     private List<Category> categories;
 
     @Before
@@ -40,11 +40,10 @@ public class EntryDetailPresenterTest extends BasePresenterTest<EntryDetailPrese
             scores.add(score);
         }
 
-        Entry entry = new Entry();
-        entry.id = UUID.randomUUID();
+       mockEntry.id = UUID.randomUUID();
 
-        when(mockView.getEntryToRate()).thenReturn(entry);
-        when(mockView.getEntryBallot()).thenReturn(new EntryBallot(entry.id));
+        when(mockView.getEntryToRate()).thenReturn(mockEntry);
+        when(mockView.getEntryBallot()).thenReturn(new EntryBallot(mockEntry.id));
         when(mockView.getCategories()).thenReturn(categories);
 
         presenter = new EntryDetailPresenter(mockView, testConfiguration);

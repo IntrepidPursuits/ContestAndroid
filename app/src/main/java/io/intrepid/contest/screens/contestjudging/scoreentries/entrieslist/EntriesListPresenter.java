@@ -27,7 +27,7 @@ class EntriesListPresenter extends BasePresenter<EntriesListContract.View> imple
 
     private boolean hasCompletedScores() {
         for (Entry entry : view.getEntries()) {
-            if (entry.getRatingAverage() == 0) {
+            if (!entry.isCompletelyScored()) {
                 return false;
             }
         }
