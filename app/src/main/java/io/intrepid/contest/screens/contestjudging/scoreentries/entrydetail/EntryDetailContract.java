@@ -17,13 +17,20 @@ class EntryDetailContract {
 
         void showListOfEntryScores(List<Score> entryScores);
 
+        void setReviewRatingsButtonVisibility(boolean visible);
+
         List<Category> getCategories();
 
         void setNextEnabled(boolean nextEnabled);
 
         EntryBallot getEntryBallot();
+
+        List<EntryBallot> getAllBallots();
+
+        void returnToEntriesListPage();
     }
 
     public interface Presenter extends BaseContract.Presenter<View>, CategoryScoreListener {
+        void onEntryScoreReviewClicked();
     }
 }

@@ -92,4 +92,5 @@
     <string name="contest_result_other_places"/>
     <string name="contest_results_no_entries_message">No entries have been submitted.</string>
     <string name="results">Results</string>
+    <string name="review_rating">Review Ratings</string>
 </resources>

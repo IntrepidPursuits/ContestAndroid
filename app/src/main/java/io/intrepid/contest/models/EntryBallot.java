@@ -33,12 +33,4 @@ public class EntryBallot {
         }
         return true;
     }
-
-    public float getScoreAverage() {
-        int scoreSum = 0;
-        for (Score score : scores) {
-            scoreSum += score.getScoreValue();
-        }
-        return scoreSum / scores.size();
-    }
 }

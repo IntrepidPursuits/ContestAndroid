@@ -9,8 +9,6 @@ import io.intrepid.contest.models.EntryBallot;
 public interface ScoreEntriesActivityContract {
     List<Category> getCategories();
 
-    void setNextEnabled(boolean nextEnabled);
-
     Entry getCurrentEntry();
 
     EntryBallot getCurrentEntryBallot();
@@ -18,4 +16,6 @@ public interface ScoreEntriesActivityContract {
     List<Entry> getEntriesList();
 
     List<EntryBallot> getEntryBallotsList();
+
+    void setNextEnabled(boolean enabled);
 }

@@ -12,8 +12,6 @@ class ScoresEntriesContract {
     public interface View extends BaseContract.View, EntryOnClickListener {
         void showEntriesList();
 
-        void setNextEnabled(boolean enabled);
-
         void showEntryDetail(int humanReadableIndex, int size);
 
         void cancelScoringEntries();

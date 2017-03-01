@@ -16,6 +16,7 @@ import timber.log.Timber;
 class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> implements EntryDetailContract.Presenter {
     @VisibleForTesting
     EntryBallot currentEntryBallot;
+    private List<EntryBallot> allBallots;
     private Entry entryBeingRated;
 
     EntryDetailPresenter(@NonNull EntryDetailContract.View view,
@@ -26,7 +27,7 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        loadCurrentEntry();
+        loadEntryBallotData();
         loadEditableEntryScores();
         view.setNextEnabled(determineNextVisibility());
     }
@@ -35,9 +36,9 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
         return currentEntryBallot.isCompletelyScored();
     }
 
-    private void loadCurrentEntry() {
+    private void loadEntryBallotData() {
         entryBeingRated = view.getEntryToRate();
-
+        allBallots = view.getAllBallots();
         currentEntryBallot = view.getEntryBallot();
 
         if (entryBeingRated != null) {
@@ -62,8 +63,24 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
     public void onScoreChanged(int position, int newRating) {
         currentEntryBallot.setScore(position, newRating);
         entryBeingRated.acceptScore(position, newRating);
-        if (currentEntryBallot.isCompletelyScored()) {
-            view.setNextEnabled(true);
+        if (allBallots.indexOf(currentEntryBallot) == allBallots.size() - 1) {
+            view.setReviewRatingsButtonVisibility(allBallotsScored());
+        } else {
+            view.setNextEnabled(determineNextVisibility());
         }
+    }
+
+    private boolean allBallotsScored() {
+        for (EntryBallot ballot : allBallots) {
+            if (!ballot.isCompletelyScored()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onEntryScoreReviewClicked() {
+        view.returnToEntriesListPage();
     }
 }
