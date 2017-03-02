@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/admin_status_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/admin_status_panel_height"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="@dimen/admin_status_top_panel_left_margin"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/admin_status_top_panel_padding_top"
+        >
+
+        <TextView
+            android:id="@+id/awaiting_submission_text_indicator"
+            style="@style/AppTheme.AdminStatusTopTextView"
+            android:text="@string/awaiting_submissions"
+            />
+
+        <View style="@style/AppTheme.ContestStatusHorizontalRow"/>
+
+        <TextView
+            android:id="@+id/judging_text_indicator"
+            style="@style/AppTheme.AdminStatusTopTextView"
+            android:text="@string/judging"
+            />
+
+        <View style="@style/AppTheme.ContestStatusHorizontalRow"/>
+
+        <TextView
+            android:id="@+id/end_of_contest_text_indicator"
+            style="@style/AppTheme.AdminStatusTopTextView"
+            android:text="@string/end_of_contest"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bottom_navigation_button"
+        style="@style/AppTheme.BottomNavigationButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/start_contest"
+        android:textAllCaps="true"
+        android:textAppearance="@style/AppTheme.TextViewLabel"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/entry_review_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/admin_status_linear_layout"
+        />
+</RelativeLayout>

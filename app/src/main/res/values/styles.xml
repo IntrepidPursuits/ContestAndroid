@@ -105,4 +105,18 @@
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
         <item name="android:background">@color/colorLightGray</item>
     </style>
+
+    <style name="AppTheme.AdminStatusTopTextView">
+        <item name="android:layout_width">@dimen/admin_status_top_textview_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableTop">@drawable/idle_admin</item>
+        <item name="android:maxEms">8</item>
+    </style>
+
+    <style name="AppTheme.ContestStatusHorizontalRow" parent="AppTheme.HorizontalRow">
+        <item name="android:layout_width">@dimen/admin_status_line_width</item>
+        <item name="android:layout_height">@dimen/admin_status_line_height</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
 </resources>

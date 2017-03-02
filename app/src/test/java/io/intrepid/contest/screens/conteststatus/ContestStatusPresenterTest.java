@@ -115,6 +115,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
 
     @Test
     public void onViewCreatedShouldShowResultsAvailableFragmentWhenStatusIsResultsAvailable() {
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CONTESTANT);
         getContestStatusResponseResultsAvailable();
 
         presenter.onViewCreated();
