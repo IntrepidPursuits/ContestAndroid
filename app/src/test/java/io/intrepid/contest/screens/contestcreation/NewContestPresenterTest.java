@@ -1,6 +1,8 @@
 package io.intrepid.contest.screens.contestcreation;
 
 
+import android.support.annotation.StringRes;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -8,11 +10,16 @@ import org.mockito.Mock;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.intrepid.contest.R;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.testutils.BasePresenterTest;
+import io.reactivex.Observable;
 
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,8 +31,11 @@ public class NewContestPresenterTest extends BasePresenterTest<NewContestPresent
     @Mock
     ContestCreationFragment mockChildFragment;
     @Mock
+    ValidatableContestCreationFragment mockValidatableContestCreationFragment;
+    @Mock
     Contest.Builder mockContestBuilder;
     private List<Category> categories;
+
 
     @Before
     public void setup() {
@@ -33,7 +43,6 @@ public class NewContestPresenterTest extends BasePresenterTest<NewContestPresent
         for (int i = 0; i < 3; i++) {
             categories.add(new Category("TEST TITLE " + i, "TEST DESCRIPTION " + i));
         }
-        when(mockContestBuilder.getCategories()).thenReturn(categories);
         presenter = new NewContestPresenter(mockView, testConfiguration);
         presenter.contest = mockContestBuilder;
         presenter.onViewCreated();
@@ -102,8 +111,66 @@ public class NewContestPresenterTest extends BasePresenterTest<NewContestPresent
 
     @Test
     public void onEditContestCaegoryShouldTriggerViewToUpdateCategory() {
+        when(mockContestBuilder.getCategories()).thenReturn(categories);
         presenter.onContestEditEntered(0, "New Name", "New Description");
         verify(mockView).showUpdatedCategories();
     }
-}
 
+    @Test
+    public void onPageSelectedShouldCauseViewToShowCorrectPageTitle() {
+        testOnPageScrolledWithExpectedPageTitleStringResource(0, R.string.new_contest);
+        testOnPageScrolledWithExpectedPageTitleStringResource(1, R.string.description);
+        testOnPageScrolledWithExpectedPageTitleStringResource(2, R.string.scoring_categories);
+        testOnPageScrolledWithExpectedPageTitleStringResource(3, R.string.review_contest);
+    }
+
+    @Test
+    public void onPageScrolledShouldCauseViewToShowCorrectPage() {
+        when(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildFragment);
+        presenter.onPageScrolled(0, 0, 0);
+        verify(mockView).setPageTitle(R.string.new_contest);
+    }
+
+    @Test
+    public void onPageScrollStateChangedShouldCauseViewToShowCorrectPageTitle() {
+        when(mockView.getCurrentIndex()).thenReturn(2);
+        presenter.onPageScrollStateChanged(1);
+        verify(mockView).setPageTitle(R.string.scoring_categories);
+    }
+
+    @Test
+    public void onPageChangedToValidatableViewShouldTriggerViewToDoOnFocus() {
+        when(mockView.getChildEditFragment(anyInt())).thenReturn(mockValidatableContestCreationFragment);
+        presenter.onPageSelected(2);
+        verify(mockValidatableContestCreationFragment).onFocus();
+    }
+
+    @Test
+    public void submitContestSuccessfullyShouldTriggerViewToNavigateToInviteScreen() {
+        ContestWrapper contestResponse = new ContestWrapper(new Contest());
+        when(mockRestApi.submitContest(any())).thenReturn(Observable.just(contestResponse));
+        when(mockView.getCurrentIndex()).thenReturn(NewContestPresenter.LAST_PAGE_INDEX);
+
+        presenter.showNextScreen();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).navigateToSendInvitationsScreen();
+    }
+
+    @Test
+    public void submitContestFailureShouldTriggerViewToShowErrorMessage() {
+        when(mockRestApi.submitContest(any())).thenReturn(Observable.error(new Throwable()));
+        when(mockView.getCurrentIndex()).thenReturn(NewContestPresenter.LAST_PAGE_INDEX);
+
+        presenter.showNextScreen();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showMessage(R.string.error_api);
+    }
+
+    private void testOnPageScrolledWithExpectedPageTitleStringResource(int pageToNavigateTo, @StringRes int pageTitle) {
+        when(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildFragment);
+        presenter.onPageSelected(pageToNavigateTo);
+        verify(mockView).setPageTitle(pageTitle);
+    }
+}

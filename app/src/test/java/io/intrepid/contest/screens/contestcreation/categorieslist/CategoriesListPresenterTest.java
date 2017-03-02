@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesListPresenter> {
     @Mock
-    CategoriesListContract.View mockView;
+    CategoriesListContract.ContestCreationFragment mockView;
     @Mock
     Contest.Builder mockContestBuilder;
 

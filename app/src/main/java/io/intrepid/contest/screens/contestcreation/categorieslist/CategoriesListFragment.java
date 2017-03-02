@@ -17,7 +17,6 @@ import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
-import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.screens.contestcreation.NewContestActivity;
 import io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity;
@@ -27,7 +26,7 @@ import timber.log.Timber;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 
 
-public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.View, ContestCreationFragment {
+public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.ContestCreationFragment, io.intrepid.contest.screens.contestcreation.ContestCreationFragment {
     @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;

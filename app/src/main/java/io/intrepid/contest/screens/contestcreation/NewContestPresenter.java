@@ -15,10 +15,8 @@ import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter, ViewPager.OnPageChangeListener {
-    private static final int NAME_CONTEST_PAGE_INDEX = 0;
-    private static final int CATEGORIES_LIST_PAGE_INDEX = 2;
-    private static final int LAST_PAGE_INDEX = 3;
-
+    @VisibleForTesting
+    static final int LAST_PAGE_INDEX = 3;
     @VisibleForTesting
     Contest.Builder contest;
 
@@ -113,10 +111,12 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     @Override
     public void onPageSelected(int position) {
-        if (position == NAME_CONTEST_PAGE_INDEX || position == CATEGORIES_LIST_PAGE_INDEX) {
-            ValidatableView fragment = (ValidatableView) view.getChildEditFragment(position);
+        if (view.getChildEditFragment(position) instanceof ValidatableContestCreationFragment) {
+            ValidatableContestCreationFragment fragment = (ValidatableContestCreationFragment) view.getChildEditFragment(
+                    position);
             fragment.onFocus();
         }
+
         @StringRes int pageTitle;
         switch (position) {
             case 1:
