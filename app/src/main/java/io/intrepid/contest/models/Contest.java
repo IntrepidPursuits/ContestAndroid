@@ -39,7 +39,8 @@ public class Contest {
                 creatorId + " " + creationDate +
                 " /n size of categories was " + categories.size() +
                 "categories " + categories +
-                " /n Last updated " + lastUpdatedDate;
+                " /n Last updated " + lastUpdatedDate +
+                " /n Ended Data " + endedDate;
     }
 
     public UUID getId() {
@@ -80,6 +81,10 @@ public class Contest {
 
     public void setEntries(List<Entry> entries) {
         this.entries = entries;
+    }
+
+    public void setEndedData(Date endedData) {
+        this.endedDate = endedData;
     }
 
     public static class Builder {
