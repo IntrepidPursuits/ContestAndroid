@@ -8,6 +8,7 @@ import org.mockito.junit.MockitoRule;
 import io.intrepid.contest.InstrumentationTestApplication;
 
 public class BaseUiTest {
+    // Testing Testing 1 2 3
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
