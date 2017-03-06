@@ -56,18 +56,22 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     }
 
     private void showContestStatusScreen(ContestStatusResponse response) {
-        if (response.contestStatus.hasContestEnded()) {
-            view.showResultsAvailableFragment();
-            disposables.clear();
-        } else {
-            switch (persistentSettings.getCurrentParticipationType()) {
-                case JUDGE:
-                    view.showContestOverviewPage();
-                    break;
-                default:
+        switch (persistentSettings.getCurrentParticipationType()) {
+            case JUDGE:
+                view.showContestOverviewPage();
+                break;
+            case CREATOR:
+                view.showAdminStatusPage();
+                break;
+            default:
+                if (response.contestStatus.hasContestEnded()) {
+                    view.showResultsAvailableFragment();
+                    disposables.clear();
+                } else {
                     view.showStatusWaitingFragment();
-            }
+                }
         }
+
     }
 
     @Override

@@ -50,6 +50,7 @@
         <activity android:name=".screens.sendinvitations.SendInvitationsActivity"/>
         <activity android:name=".screens.contestjudging.scoreentries.ScoreEntriesActivity"/>
         <activity android:name=".screens.contestresults.ContestResultsActivity" />
+        <activity android:name=".screens.adminstatus.AdminStatusActivity"/>
     </application>
 
 </manifest>

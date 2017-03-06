@@ -11,6 +11,8 @@ class ContestStatusContract {
         void showResultsAvailableFragment();
 
         void showContestOverviewPage();
+
+        void showAdminStatusPage();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

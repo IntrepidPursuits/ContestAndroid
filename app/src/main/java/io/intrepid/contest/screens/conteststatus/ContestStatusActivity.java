@@ -9,6 +9,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.rest.ContestWrapper;
+import io.intrepid.contest.screens.adminstatus.AdminStatusActivity;
 import io.intrepid.contest.screens.contestoverview.ContestOverviewActivity;
 import io.intrepid.contest.screens.conteststatus.resultsavailable.ResultsAvailableFragment;
 import io.intrepid.contest.screens.conteststatus.statuswaiting.StatusWaitingFragment;
@@ -78,5 +79,10 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
     @Override
     public void showContestOverviewPage() {
         startActivity(ContestOverviewActivity.makeIntent(this));
+    }
+
+    @Override
+    public void showAdminStatusPage() {
+        startActivity(AdminStatusActivity.makeIntent(this));
     }
 }
