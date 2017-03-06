@@ -83,8 +83,22 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
         if (numJudgeRatingsMissing > 0) {
             view.showConfirmEndContestDialog();
         } else {
-            advanceToEndOfContestIndicator();
+            endContest();
         }
+    }
+
+    private void endContest() {
+        Disposable endContestDisposable = restApi.endContest(persistentSettings.getCurrentContestId().toString())
+                .compose(subscribeOnIoObserveOnUi())
+                .subscribe(response -> {
+                               Timber.d(" End contest response " + response.contest.toString());
+                               AdminStatusPresenter.this.advanceToEndOfContestIndicator();
+                           },
+                           throwable -> {
+                               Timber.d(throwable.getMessage());
+                               view.showMessage(R.string.error_api);
+                           });
+        disposables.add(endContestDisposable);
     }
 
     private void advanceToJudgingIndicator() {
@@ -103,7 +117,7 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
         if (actionType == ConfirmStartContestDialog.AdminActionType.START_CONTEST) {
             advanceToJudgingIndicator();
         } else {
-            advanceToEndOfContestIndicator();
+            endContest();
         }
     }
 

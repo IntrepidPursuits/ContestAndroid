@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -99,6 +100,7 @@ class MockRestApi implements RestApi {
     public Observable<ContestWrapper> endContest(String id) {
         Contest contest = new Contest();
         contest.setId(UUID.fromString(id));
+        contest.setEndedData(new Date());
         return Observable.just(new ContestWrapper(contest));
     }
 

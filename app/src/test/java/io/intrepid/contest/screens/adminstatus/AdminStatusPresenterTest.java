@@ -19,6 +19,7 @@ import static io.intrepid.contest.screens.adminstatus.ConfirmStartContestDialog.
 import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,10 +40,10 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
     private void setupSuccessfulApiResponse() {
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
         when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
+        when(mockRestApi.endContest(anyString())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = mockStatus;
-        when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response))
-        ;
+        when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
     }
 
     @Test
@@ -119,9 +120,20 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
     }
 
     @Test
+    public void failureEndingContestShouldCauseViewToShowErrorMessage() {
+        when(mockRestApi.endContest(anyString())).thenReturn(error(new Throwable()));
+
+        presenter.onPositiveButtonClicked(END_CONTEST);
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showMessage(R.string.error_api);
+    }
+
+    @Test
     public void onBottomNavClickedTwiceShouldCauseViewToAdvanceToEndOfContestIndicatorWhenNoMissingJudges() {
         presenter.onBottomNavigationButtonClicked();
         presenter.onBottomNavigationButtonClicked();
+        testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showJudgingStatusIndicator(false);
         verify(mockView).showEndOfContestIndicator(true);
@@ -136,6 +148,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
     @Test
     public void onPositiveButtonClickedOnEndContestDialogShouldCauseViewToAdvanceToEndOfContestIndicator() {
         presenter.onPositiveButtonClicked(END_CONTEST);
+        testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showJudgingStatusIndicator(false);
         verify(mockView).showEndOfContestIndicator(true);
