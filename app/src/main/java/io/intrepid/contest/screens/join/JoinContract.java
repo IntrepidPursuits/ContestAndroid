@@ -17,11 +17,15 @@ class JoinContract {
         String getLastCopiedText();
 
         void showClipboardData(String potentialCodeFromClipboard);
+
+        void cancelJoinContest();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
         void onEntryCodeTextChanged(String newCode);
 
         void onSubmitButtonClicked(String code);
+
+        void onBackPressed();
     }
 }

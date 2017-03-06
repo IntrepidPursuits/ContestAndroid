@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.view.MenuItem;
 import android.widget.Button;
 
 import butterknife.BindView;
@@ -18,6 +19,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.customviews.HintLabelEditText;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.entrysubmission.entryname.EntryNameActivity;
+import io.intrepid.contest.screens.splash.SplashActivity;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -40,6 +42,11 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     }
 
     @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+    }
+
+    @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_join;
     }
@@ -50,6 +57,16 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
         setActionBarTitle(getResources().getString(R.string.join_contest_bar_title));
         setActionBarDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                presenter.onBackPressed();
+                break;
+        }
+        return true;
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)
@@ -105,5 +122,10 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     @Override
     public void showClipboardData(String potentialCode) {
         enterCodeEditView.setText(potentialCode);
+    }
+
+    @Override
+    public void cancelJoinContest() {
+        startActivity(SplashActivity.makeIntent(this));
     }
 }
