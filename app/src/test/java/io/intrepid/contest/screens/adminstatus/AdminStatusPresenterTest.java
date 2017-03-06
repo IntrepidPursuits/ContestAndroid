@@ -33,14 +33,11 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Before
     public void setup() {
-        setupSuccessfulApiResponse();
         presenter = new AdminStatusPresenter(mockView, testConfiguration);
     }
 
     private void setupSuccessfulApiResponse() {
-        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
         when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
-        when(mockRestApi.endContest(anyString())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
         ContestStatusResponse response = new ContestStatusResponse();
         response.contestStatus = mockStatus;
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
@@ -48,8 +45,11 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onViewCreatedShouldCauseViewToShowAwaitSubmissionsIndicator() {
+        setupSuccessfulApiResponse();
+
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
+
         verify(mockView).showAwaitSubmissionsIndicator(anyBoolean());
     }
 
@@ -62,6 +62,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onViewCreatedShouldCauseViewToShowSubmittedEntries() {
+        setupSuccessfulApiResponse();
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
         verify(mockView).showSubmittedEntries(any());
@@ -69,6 +70,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onViewCreatedShouldCauseViewToShowErrorMessageWhenGetContestDetailsReturnsThrowable() {
+        setupSuccessfulApiResponse();
         when(mockRestApi.getContestDetails(any())).thenReturn(error(new Throwable()));
 
         presenter.onViewCreated();
@@ -79,6 +81,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onViewCreatedShouldCauseViewToShowErrorMessageWhenGetContestStatusReturnsThrowable() {
+        setupSuccessfulApiResponse();
         when(mockRestApi.getContestStatus(any())).thenReturn(error(new Throwable()));
 
         presenter.onViewCreated();
@@ -89,6 +92,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onBottomNavigationButtonClickedShouldCauseViewToShowConfirmStartContestDialog() {
+        setupSuccessfulApiResponse();
         when(mockStatus.getNumSubmissionsMissing()).thenReturn(6);
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
@@ -107,6 +111,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onBottomNavClickedTwiceShouldCauseViewToShowConfirmEndContestDialogIfMissingJudges() {
+        setupSuccessfulApiResponse();
         when(mockStatus.getNumScoresMissing()).thenReturn(5);
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
@@ -121,6 +126,7 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void failureEndingContestShouldCauseViewToShowErrorMessage() {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
         when(mockRestApi.endContest(anyString())).thenReturn(error(new Throwable()));
 
         presenter.onPositiveButtonClicked(END_CONTEST);
@@ -131,6 +137,8 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onBottomNavClickedTwiceShouldCauseViewToAdvanceToEndOfContestIndicatorWhenNoMissingJudges() {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        when(mockRestApi.endContest(anyString())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
         presenter.onBottomNavigationButtonClicked();
         presenter.onBottomNavigationButtonClicked();
         testConfiguration.triggerRxSchedulers();
@@ -147,6 +155,8 @@ public class AdminStatusPresenterTest extends BasePresenterTest<AdminStatusPrese
 
     @Test
     public void onPositiveButtonClickedOnEndContestDialogShouldCauseViewToAdvanceToEndOfContestIndicator() {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        when(mockRestApi.endContest(anyString())).thenReturn(Observable.just(new ContestWrapper(new Contest())));
         presenter.onPositiveButtonClicked(END_CONTEST);
         testConfiguration.triggerRxSchedulers();
 
