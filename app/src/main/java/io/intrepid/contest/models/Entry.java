@@ -30,6 +30,10 @@ public class Entry {
         return sum / categoriesSize;
     }
 
+    public int getScoreAt(int categoryIndex) {
+        return mapOfIndexToScore.get(categoryIndex);
+    }
+
     public void setCategoriesSize(int categoriesSize) {
         this.categoriesSize = categoriesSize;
     }

@@ -102,4 +102,6 @@
     <string name="review_rating">Review Ratings</string>
     <string name="not_all_judge_scores_received_prompt">Not all judges have submitted</string>
     <string name="end_contest_prompt">Are you sure you want to end your contest?</string>
+    <string name="review_submissions">Review Submissions</string>
+    <string name="review_your_scores">Review Your Scores</string>
 </resources>

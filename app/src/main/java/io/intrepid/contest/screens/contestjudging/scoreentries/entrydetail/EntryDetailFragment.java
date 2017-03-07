@@ -3,14 +3,11 @@ package io.intrepid.contest.screens.contestjudging.scoreentries.entrydetail;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -22,21 +19,17 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.EntryBallot;
-import io.intrepid.contest.models.Score;
-import io.intrepid.contest.screens.contestjudging.expandablerecycler.ScoreAdapter;
 import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivity;
 import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivityContract;
+import io.intrepid.contest.utils.CustomSnapHelper;
 
 public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presenter>
         implements EntryDetailContract.View {
-    @BindView(R.id.top_horizontal_entry_image_card)
-    ImageView topImageCard;
-    @BindView(R.id.generic_recycler_view)
-    RecyclerView categoriesRecyclerView;
     @BindView(R.id.entry_score_review_button)
     Button reviewButton;
-
-    private ScoreAdapter scoreAdapter;
+    @BindView(R.id.snappable_entries_recycler_view)
+    RecyclerView entriesRecyclerView;
+    private EntryPageAdapter allEntriesAdapter;
 
     @Override
     protected int getLayoutResourceId() {
@@ -57,24 +50,20 @@ public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presen
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        scoreAdapter = new ScoreAdapter(presenter);
-        categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        categoriesRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                                                                           DividerItemDecoration.VERTICAL));
-        categoriesRecyclerView.setAdapter(scoreAdapter);
+        allEntriesAdapter = new EntryPageAdapter(presenter, getCategories());
+        entriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
+                                                                     LinearLayoutManager.HORIZONTAL,
+                                                                     false));
+        entriesRecyclerView.setAdapter(allEntriesAdapter);
+        SnapHelper snapHelper = new CustomSnapHelper(presenter);
+        snapHelper.attachToRecyclerView(entriesRecyclerView);
+
     }
 
     @Override
-    public void showEntry(Entry entry) {
-        String photoUrl = entry.photoUrl;
-        int imageWidth = (int) getResources().getDimension(R.dimen.rating_image_card_width);
-        int imageHeight = (int) getResources().getDimension(R.dimen.rating_image_card_height);
-        Picasso.with(getContext()).load(photoUrl).resize(imageWidth, imageHeight).into(topImageCard);
-    }
-
-    @Override
-    public void showListOfEntryScores(List<Score> entryScores) {
-        scoreAdapter.setData(entryScores);
+    public void scrollToEntry(int index) {
+        entriesRecyclerView.scrollToPosition(index);
+        presenter.onPageScrolled();
     }
 
     @Override
@@ -109,7 +98,22 @@ public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presen
     }
 
     @Override
-    public void returnToEntriesListPage() {
+    public void returnToEntriesListPage(boolean review) {
         ((ScoreEntriesActivity) getActivity()).showEntriesList();
+    }
+
+    @Override
+    public List<Entry> getAllEntries() {
+        return ((ScoreEntriesActivity) getActivity()).getEntriesList();
+    }
+
+    @Override
+    public void showEntries(List<Entry> entries) {
+        allEntriesAdapter.setData(entries);
+    }
+
+    @Override
+    public void onPageSwipedTo(int pageIndex) {
+        ((ScoreEntriesActivity) getActivity()).onEntryDetailFragmentPageChanged(pageIndex);
     }
 }

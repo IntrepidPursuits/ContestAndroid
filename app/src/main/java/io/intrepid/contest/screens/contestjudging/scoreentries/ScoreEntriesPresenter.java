@@ -11,6 +11,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.EntryBallot;
+import io.intrepid.contest.models.Score;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -34,7 +35,6 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
 
     private void showEntriesList() {
         currentEntry = null;
-        currentEntryBallot = null;
         view.showEntriesList();
     }
 
@@ -49,8 +49,13 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
                     entryBallots.clear();
                     for (Entry entry : entries) {
                         entry.setCategoriesSize(categories.size());
-                        entryBallots.add(new EntryBallot(entry.id));
+                        EntryBallot ballot = new EntryBallot(entry.id);
+                        for(Category category : categories){
+                            ballot.addScore(new Score(category, 0));
+                        }
+                        entryBallots.add(ballot);
                     }
+                    Timber.d("Entry Ballots size " + entryBallots.size());
                     view.showEntriesList();
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
@@ -97,8 +102,7 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
             index++;
             currentEntry = entries.get(index);
             currentEntryBallot = entryBallots.get(index);
-            int humanReadableIndex = index + 1;
-            view.showEntryDetail(humanReadableIndex, entries.size());
+            view.showEntryDetail(index);
         }
     }
 
@@ -112,10 +116,9 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
     }
 
     @Override
-    public void onEntryClicked(Entry entry) {
+    public void onEntrySelected(Entry entry) {
         currentEntry = entry;
         currentEntryBallot = entryBallots.get(entries.indexOf(entry));
-        int humanReadableIndex = entries.indexOf(entry) + 1;
-        view.showEntryDetail(humanReadableIndex, entries.size());
+        view.showEntryDetail(entries.indexOf(entry));
     }
 }

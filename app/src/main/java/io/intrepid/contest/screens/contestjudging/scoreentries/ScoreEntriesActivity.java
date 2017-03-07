@@ -46,7 +46,11 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
         setActionBarDisplayHomeAsUpEnabled(true);
     }
 
-    private void hostFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFragment == fragment) {
+            return;
+        }
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -82,14 +86,24 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
 
     @Override
     public void showEntriesList() {
-        setActionBarTitle(R.string.submissions);
-        hostFragment(new EntriesListFragment());
+        replaceFragment(new EntriesListFragment());
     }
 
     @Override
-    public void showEntryDetail(int pageIndex, int totalPages) {
-        setActionBarTitle(getString(R.string.rate_entry_x_out_of_entries, pageIndex, totalPages));
-        hostFragment(new EntryDetailFragment());
+    public void showEntryDetail(int pageIndex) {
+        updateToolbarTitleForIndex(pageIndex);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment instanceof EntryDetailFragment) {
+            ((EntryDetailFragment) fragment).scrollToEntry(pageIndex);
+        } else {
+            replaceFragment(new EntryDetailFragment());
+        }
+    }
+
+    private void updateToolbarTitleForIndex(int index) {
+        int totalPages = getEntriesList().size();
+        int humanReadableIndex = index + 1;
+        setActionBarTitle(getString(R.string.rate_entry_x_out_of_entries, humanReadableIndex, totalPages));
     }
 
     @Override
@@ -100,12 +114,12 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
     @Override
     public void setNextEnabled(boolean enabled) {
         nextVisible = enabled;
-        invalidateOptionsMenu();
+        supportInvalidateOptionsMenu();
     }
 
     @Override
     public void onEntryClicked(Entry entry) {
-        presenter.onEntryClicked(entry);
+        presenter.onEntrySelected(entry);
     }
 
     @Override
@@ -131,5 +145,10 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
     @Override
     public List<EntryBallot> getEntryBallotsList() {
         return presenter.getEntryBallotsList();
+    }
+
+    @Override
+    public void onEntryDetailFragmentPageChanged(int newPage) {
+        presenter.onEntrySelected(getEntriesList().get(newPage));
     }
 }

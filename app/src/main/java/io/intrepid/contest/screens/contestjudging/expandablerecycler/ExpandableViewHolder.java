@@ -2,7 +2,7 @@ package io.intrepid.contest.screens.contestjudging.expandablerecycler;
 
 import android.support.annotation.StringRes;
 
-public interface ExpandableViewHolder{
+interface ExpandableViewHolder {
 
     void toggle();
 

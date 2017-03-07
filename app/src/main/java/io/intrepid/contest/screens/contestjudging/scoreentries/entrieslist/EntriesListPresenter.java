@@ -22,7 +22,8 @@ class EntriesListPresenter extends BasePresenter<EntriesListContract.View> imple
         super.onViewCreated();
         view.setNextVisible(false);
         view.showSubmitButton(hasCompletedScores());
-        view.showEntriesList();
+        boolean reviewMode = hasCompletedScores();
+        view.showEntriesList(reviewMode);
     }
 
     private boolean hasCompletedScores() {

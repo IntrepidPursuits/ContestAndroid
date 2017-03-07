@@ -12,7 +12,7 @@ class ScoresEntriesContract {
     public interface View extends BaseContract.View, EntryOnClickListener {
         void showEntriesList();
 
-        void showEntryDetail(int humanReadableIndex, int size);
+        void showEntryDetail(int humanReadableIndex);
 
         void cancelScoringEntries();
     }
@@ -22,7 +22,7 @@ class ScoresEntriesContract {
 
         void onBackPressed();
 
-        void onEntryClicked(Entry entry);
+        void onEntrySelected(Entry entry);
 
         List<Category> getCategories();
 

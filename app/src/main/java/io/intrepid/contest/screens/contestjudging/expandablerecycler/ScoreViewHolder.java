@@ -58,7 +58,6 @@ class ScoreViewHolder extends RecyclerView.ViewHolder implements ExpandableViewH
         categoryTitleField.setText(score.getCategoryName());
         categoryDescriptionField.setText(score.getCategoryDescription());
         setRatingPaneVisibility(reveal);
-        ratingBar.setRating(score.getScoreValue());
     }
 
     private void setRatingPaneVisibility(boolean reveal) {
