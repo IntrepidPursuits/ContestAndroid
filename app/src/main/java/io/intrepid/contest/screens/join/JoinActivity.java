@@ -1,5 +1,7 @@
 package io.intrepid.contest.screens.join;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -88,5 +90,20 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     @Override
     public void showContestStatusScreen() {
         startActivity(ContestStatusActivity.makeIntent(this));
+    }
+
+    @Override
+    public String getLastCopiedText() {
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clipData = clipboardManager.getPrimaryClip();
+        if (clipData != null && clipData.getItemAt(0) != null) {
+            return clipData.getItemAt(0).getText().toString();
+        }
+        return null;
+    }
+
+    @Override
+    public void showClipboardData(String potentialCode) {
+        enterCodeEditView.setText(potentialCode);
     }
 }

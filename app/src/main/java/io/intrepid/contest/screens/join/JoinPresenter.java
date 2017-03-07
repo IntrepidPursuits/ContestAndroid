@@ -2,6 +2,8 @@ package io.intrepid.contest.screens.join;
 
 import android.support.annotation.NonNull;
 
+import java.util.regex.Pattern;
+
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -15,6 +17,24 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
 
     JoinPresenter(@NonNull JoinContract.View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
+    }
+
+    @Override
+    protected void onViewBound() {
+        super.onViewBound();
+        String clipboardData = view.getLastCopiedText();
+        if (isPotentialValidCode(clipboardData)) {
+            view.showClipboardData(clipboardData);
+        }
+    }
+
+    private boolean isPotentialValidCode(String clipboardData) {
+        //Verify 7-lettered input with capital and lowercase text
+        String capsMatch = ".*[A-Z].*,{0,7}";
+        String lowerCaseMatch = ".*[a-z].*,{0,7}";
+        boolean capsSatisfied = Pattern.compile(capsMatch).matcher(clipboardData).matches();
+        boolean lowerCaseSatisfied = Pattern.compile(lowerCaseMatch).matcher(clipboardData).matches();
+        return capsSatisfied && lowerCaseSatisfied && !clipboardData.contains(" ");
     }
 
     @Override

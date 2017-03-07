@@ -84,4 +84,9 @@ public class HintLabelEditText extends LinearLayout {
     public String getText() {
         return editText.getText().toString();
     }
+
+    public void setText(String text) {
+        editText.setText(text);
+        editText.setSelection(text.length());
+    }
 }
