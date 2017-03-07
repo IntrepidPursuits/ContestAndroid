@@ -3,6 +3,7 @@ package io.intrepid.contest.customviews;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class HintLabelEditText extends LinearLayout {
     EditText editText;
     private String hint;
     private String label;
+    private int inputType;
 
     public HintLabelEditText(final Context context) {
         super(context);
@@ -48,6 +50,8 @@ public class HintLabelEditText extends LinearLayout {
             try {
                 hint = styledAttributes.getString(R.styleable.HintLabelEditText_hint);
                 label = styledAttributes.getString(R.styleable.HintLabelEditText_label);
+                inputType = styledAttributes.getInteger(R.styleable.HintLabelEditText_android_inputType,
+                                                        EditorInfo.TYPE_NULL);
             } finally {
                 styledAttributes.recycle();
             }
@@ -60,8 +64,9 @@ public class HintLabelEditText extends LinearLayout {
 
         ButterKnife.bind(this);
 
-        editText.setHint(hint);
         labelTextView.setText(label);
+        editText.setHint(hint);
+        editText.setInputType(inputType);
     }
 
     @OnTextChanged(R.id.hint_label_edit_text)

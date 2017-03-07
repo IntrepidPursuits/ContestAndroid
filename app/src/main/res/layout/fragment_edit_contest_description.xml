@@ -13,10 +13,10 @@
         android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/description_edittext_margin_right"
         android:gravity="center"
+        android:inputType="textCapSentences"
         android:paddingTop="@dimen/description_edittext_padding_top"
         android:textSize="@dimen/contest_description_edittext_textsize"
         custom:hint="@string/description_optional"
         custom:label="@string/description_optional"
         />
-
 </RelativeLayout>
