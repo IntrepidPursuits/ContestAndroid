@@ -107,11 +107,11 @@
     </style>
 
     <style name="AppTheme.AdminStatusTopTextView">
-        <item name="android:layout_width">@dimen/admin_status_top_textview_width</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:drawableTop">@drawable/idle_admin</item>
-        <item name="android:maxEms">8</item>
+        <item name="android:textAppearance">@style/AvenirNext_Medium</item>
     </style>
 
     <style name="AppTheme.ContestStatusHorizontalRow" parent="AppTheme.HorizontalRow">

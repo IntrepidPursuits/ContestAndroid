@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,6 +16,7 @@ import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
+import io.intrepid.contest.customviews.ProgressIndicatorTextView;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.screens.splash.SplashActivity;
 
@@ -29,11 +29,11 @@ public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter> i
     @BindView(R.id.entry_review_recycler_view)
     RecyclerView entriesRecyclerView;
     @BindView(R.id.awaiting_submission_text_indicator)
-    TextView awaitingSubmissionsIndicator;
+    ProgressIndicatorTextView awaitingSubmissionsIndicator;
     @BindView(R.id.judging_text_indicator)
-    TextView judgingIndicator;
+    ProgressIndicatorTextView judgingIndicator;
     @BindView(R.id.end_of_contest_text_indicator)
-    TextView endOfContestIndicator;
+    ProgressIndicatorTextView endOfContestIndicator;
     @BindView(R.id.bottom_navigation_button)
     Button bottomNavigationButton;
 
@@ -51,7 +51,7 @@ public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter> i
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.admin_status_fragment;
+        return R.layout.admin_status_activity;
     }
 
     @Override
@@ -78,9 +78,12 @@ public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter> i
         startActivity(SplashActivity.makeIntent(this));
     }
 
-    private void updateStatusIndicator(TextView textView, boolean inProgress) {
-        int drawableRes = inProgress ? R.drawable.processing : R.drawable.check_with_circle;
-        textView.setCompoundDrawablesWithIntrinsicBounds(0, drawableRes, 0, 0);
+    private void updateStatusIndicator(ProgressIndicatorTextView textView, boolean inProgress) {
+        if (inProgress) {
+            textView.enableProgressAnimation();
+        } else {
+            textView.showCompleteIndicator();
+        }
     }
 
     @Override

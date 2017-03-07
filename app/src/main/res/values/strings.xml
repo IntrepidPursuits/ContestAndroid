@@ -93,8 +93,8 @@
     <string name="contest_results_no_entries_message">No entries have been submitted.</string>
     <string name="results">Results</string>
     <string name="start_contest">Start Contest</string>
-    <string name="awaiting_submissions">Awaiting Submissions</string>
-    <string name="end_of_contest">End of Contest</string>
+    <string name="awaiting_submissions">Awaiting \nSubmissions</string>
+    <string name="end_of_contest">End of \nContest</string>
     <string name="judging">Judging</string>
     <string name="start_contest_prompt">Are you sure you want to start your contest?</string>
     <string name="not_all_contestants_received_prompt">Not all contestants have submitted</string>
