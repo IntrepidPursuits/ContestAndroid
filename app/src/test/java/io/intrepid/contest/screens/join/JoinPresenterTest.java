@@ -110,6 +110,12 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
     }
 
     @Test
+    public void onBackPressedShouldCauseViewToCancelJoinContest() {
+        presenter.onBackPressed();
+        verify(mockView).cancelJoinContest();
+    }
+
+    @Test
     public void onViewBoundShouldCauseViewToShowClipboardDataWhenClipboardDataIsValid() {
         String VALID_POTENTIAL_CODE = "KbUEcko";
         when(mockView.getLastCopiedText()).thenReturn(VALID_POTENTIAL_CODE);

@@ -52,11 +52,16 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
 
         Disposable disposable = restApi.redeemInvitationCode(code, redeemInvitationRequest)
                 .compose(subscribeOnIoObserveOnUi())
-                .subscribe(response -> showResult(response), throwable -> {
+                .subscribe(this::showResult, throwable -> {
                     Timber.d("API error redeeming invitation code: " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
                 });
         disposables.add(disposable);
+    }
+
+    @Override
+    public void onBackPressed() {
+        view.cancelJoinContest();
     }
 
     private void showResult(RedeemInvitationResponse response) {
