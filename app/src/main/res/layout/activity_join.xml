@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_join"
     android:layout_width="match_parent"
@@ -25,8 +24,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        custom:hint="@string/enter_code"
-        custom:label="@string/enter_code"
+        android:hint="@string/enter_code"
+        android:label="@string/enter_code"
         />
-
 </RelativeLayout>
