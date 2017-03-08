@@ -106,7 +106,9 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     }
 
     private void hideKeyboard() {
-        ((NewContestActivity) getActivity()).hideKeyboard();
+        if (isAdded()) {
+            ((NewContestActivity) getActivity()).hideKeyboard();
+        }
     }
 
     @Override
