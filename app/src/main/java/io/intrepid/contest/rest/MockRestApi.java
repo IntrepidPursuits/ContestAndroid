@@ -24,6 +24,7 @@ import retrofit2.http.Path;
 
 class MockRestApi implements RestApi {
     private static final String TEST_JUDGE_CODE = "judge";
+    private static final String TEST_CONTESTANT_CODE = "tester";
     private static final String TEST_ENTRY_IMAGE = "https://www.chowstatic.com/assets/2014/09/30669_spicy_slow_cooker_beef_chili_3000x2000.jpg";
 
     private final UUID userId;
@@ -93,8 +94,10 @@ class MockRestApi implements RestApi {
 
         if (code.equals(TEST_JUDGE_CODE)) {
             return Observable.just(getValidRedeemInvitationResponse(ParticipationType.JUDGE));
+        } else if (code.equals(TEST_CONTESTANT_CODE)) {
+            return Observable.just(getValidRedeemInvitationResponse(ParticipationType.CONTESTANT));
         }
-        return Observable.just(getValidRedeemInvitationResponse(ParticipationType.CONTESTANT));
+        return Observable.just(new RedeemInvitationResponse());
     }
 
     public Observable<ContestWrapper> endContest(String id) {

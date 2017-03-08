@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Button;
 
@@ -96,12 +95,8 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
     @Override
     public void showInvalidCodeErrorMessage() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.error_redeeming_code)
-                .setTitle(R.string.error_redeeming_code_title)
-                .setNeutralButton(R.string.common_ok, (dialog, id) -> {
-                });
-        builder.create().show();
+        String errorString = getString(R.string.error_redeeming_code);
+        enterCodeEditView.setError(errorString);
     }
 
     @Override
