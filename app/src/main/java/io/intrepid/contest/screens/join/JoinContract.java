@@ -13,6 +13,10 @@ class JoinContract {
         void showInvalidCodeErrorMessage();
 
         void showContestStatusScreen();
+
+        String getLastCopiedText();
+
+        void showClipboardData(String potentialCodeFromClipboard);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {

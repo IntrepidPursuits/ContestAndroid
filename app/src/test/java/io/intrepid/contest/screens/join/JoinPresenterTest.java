@@ -30,7 +30,7 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
     @Mock
     View mockView;
 
-    private JoinContract.Presenter presenter;
+    private JoinPresenter presenter;
     private Throwable throwable;
 
     @Before
@@ -107,5 +107,25 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(any(int.class));
+    }
+
+    @Test
+    public void onViewBoundShouldCauseViewToShowClipboardDataWhenClipboardDataIsValid() {
+        String VALID_POTENTIAL_CODE = "KbUEcko";
+        when(mockView.getLastCopiedText()).thenReturn(VALID_POTENTIAL_CODE);
+
+        presenter.onViewBound();
+
+        verify(mockView).showClipboardData(VALID_POTENTIAL_CODE);
+    }
+
+    @Test
+    public void onViewBoundShouldCauseViewToDoNothingWhenClipboardDataIsInvalid() {
+        String INVALID_POTENTIAL_CODE = "kbuecko";
+        when(mockView.getLastCopiedText()).thenReturn(INVALID_POTENTIAL_CODE);
+
+        presenter.onViewBound();
+
+        verify(mockView, never()).showClipboardData(INVALID_POTENTIAL_CODE);
     }
 }
