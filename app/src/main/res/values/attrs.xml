@@ -4,4 +4,7 @@
         <attr name="hint" format="string" />
         <attr name="label" format="string" />
     </declare-styleable>
+    <declare-styleable name="ProgressIndicatorTextView">
+        <attr name="text" format="string"/>
+    </declare-styleable>
 </resources>

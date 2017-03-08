@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -10,31 +11,35 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/admin_status_panel_height"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/admin_status_top_panel_margin_bottom"
         android:layout_marginStart="@dimen/admin_status_top_panel_left_margin"
         android:orientation="horizontal"
         android:paddingTop="@dimen/admin_status_top_panel_padding_top"
         >
 
-        <TextView
+        <io.intrepid.contest.customviews.ProgressIndicatorTextView
             android:id="@+id/awaiting_submission_text_indicator"
-            style="@style/AppTheme.AdminStatusTopTextView"
-            android:text="@string/awaiting_submissions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:text="@string/awaiting_submissions"
             />
 
         <View style="@style/AppTheme.ContestStatusHorizontalRow"/>
 
-        <TextView
+        <io.intrepid.contest.customviews.ProgressIndicatorTextView
             android:id="@+id/judging_text_indicator"
-            style="@style/AppTheme.AdminStatusTopTextView"
-            android:text="@string/judging"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:text="@string/judging"
             />
 
         <View style="@style/AppTheme.ContestStatusHorizontalRow"/>
 
-        <TextView
+        <io.intrepid.contest.customviews.ProgressIndicatorTextView
             android:id="@+id/end_of_contest_text_indicator"
-            style="@style/AppTheme.AdminStatusTopTextView"
-            android:text="@string/end_of_contest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            custom:text="@string/end_of_contest"
             />
     </LinearLayout>
 
