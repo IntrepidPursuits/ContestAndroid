@@ -23,7 +23,7 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
     protected void onViewBound() {
         super.onViewBound();
         String clipboardData = view.getLastCopiedText();
-        if (isPotentialValidCode(clipboardData)) {
+        if (clipboardData != null && isPotentialValidCode(clipboardData)) {
             view.showClipboardData(clipboardData);
         }
     }

@@ -2,8 +2,8 @@ package io.intrepid.contest.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.InputType;
 import android.util.AttributeSet;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,7 +51,7 @@ public class HintLabelEditText extends LinearLayout {
                 hint = styledAttributes.getString(R.styleable.HintLabelEditText_hint);
                 label = styledAttributes.getString(R.styleable.HintLabelEditText_label);
                 inputType = styledAttributes.getInteger(R.styleable.HintLabelEditText_android_inputType,
-                                                        EditorInfo.TYPE_NULL);
+                                                        InputType.TYPE_CLASS_TEXT);
             } finally {
                 styledAttributes.recycle();
             }
