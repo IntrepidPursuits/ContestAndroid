@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/trophy_icon"
         android:layout_margin="@dimen/activity_vertical_margin"
+        android:inputType="textCapWords"
         custom:hint="@string/name_your_contest"
         custom:label="@string/name_your_contest"
         />
-
 </RelativeLayout>
