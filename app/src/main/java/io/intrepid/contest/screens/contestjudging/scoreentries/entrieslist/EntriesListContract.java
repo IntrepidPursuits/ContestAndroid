@@ -10,7 +10,7 @@ interface EntriesListContract {
     interface View extends BaseContract.View {
         List<Entry> getEntries();
 
-        void showEntriesList();
+        void showEntriesList(boolean reviewMode);
 
         void setNextVisible(boolean nextVisible);
 

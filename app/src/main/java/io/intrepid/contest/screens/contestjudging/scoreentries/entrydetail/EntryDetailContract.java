@@ -6,16 +6,12 @@ import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.EntryBallot;
-import io.intrepid.contest.models.Score;
 import io.intrepid.contest.screens.contestjudging.expandablerecycler.CategoryScoreListener;
+import io.intrepid.contest.utils.CustomSnapHelper;
 
 class EntryDetailContract {
     public interface View extends BaseContract.View {
         Entry getEntryToRate();
-
-        void showEntry(Entry entry);
-
-        void showListOfEntryScores(List<Score> entryScores);
 
         void setReviewRatingsButtonVisibility(boolean visible);
 
@@ -27,10 +23,20 @@ class EntryDetailContract {
 
         List<EntryBallot> getAllBallots();
 
-        void returnToEntriesListPage();
+        void returnToEntriesListPage(boolean review);
+
+        List<Entry> getAllEntries();
+
+        void showEntries(List<Entry> entries);
+
+        void onPageSwipedTo(int pageIndex);
+
+        void scrollToEntry(int pageIndex);
     }
 
-    public interface Presenter extends BaseContract.Presenter<View>, CategoryScoreListener {
+    public interface Presenter extends BaseContract.Presenter<View>, CategoryScoreListener, CustomSnapHelper.OnPageSwipeListener {
         void onEntryScoreReviewClicked();
+
+        void onPageScrolled();
     }
 }

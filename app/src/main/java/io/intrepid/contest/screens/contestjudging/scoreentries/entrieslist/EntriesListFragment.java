@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class EntriesListFragment extends BaseFragment<EntriesListContract.Presen
     RecyclerView entriesRecyclerView;
     @BindView(R.id.contest_judging_submit_button)
     Button submitButton;
+    @BindView(R.id.contest_judging_intro_text_view)
+    TextView introTextView;
 
     private EntryListAdapter entryListAdapter;
 
@@ -67,7 +70,9 @@ public class EntriesListFragment extends BaseFragment<EntriesListContract.Presen
     }
 
     @Override
-    public void showEntriesList() {
+    public void showEntriesList(boolean reviewMode) {
+        setActionBarTitle(reviewMode ? R.string.review_submissions : R.string.submissions);
+        introTextView.setText(reviewMode ? R.string.review_your_scores : R.string.select_submission_prompt);
         List<Entry> entries = getEntries();
         entryListAdapter.setEntries(entries);
     }

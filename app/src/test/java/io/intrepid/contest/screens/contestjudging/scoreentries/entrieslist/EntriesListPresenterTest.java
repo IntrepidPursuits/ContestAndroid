@@ -46,7 +46,7 @@ public class EntriesListPresenterTest extends BasePresenterTest<EntriesListPrese
     @Test
     public void onViewCreatedShouldTriggerViewToShowEntriesList() {
         presenter.onViewCreated();
-        verify(mockView).showEntriesList();
+        verify(mockView).showEntriesList(false);
     }
 
     @Test

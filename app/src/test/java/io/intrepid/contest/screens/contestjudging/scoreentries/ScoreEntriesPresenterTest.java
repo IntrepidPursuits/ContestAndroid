@@ -95,7 +95,7 @@ public class ScoreEntriesPresenterTest extends BasePresenterTest<ScoreEntriesPre
     @Test
     public void onBackPressedShouldTriggerViewToShowEntriesListWhenViewingAnEntry() {
         setupSuccessfulContestDetailsCall();
-        presenter.onEntryClicked(entriesList.get(0));
+        presenter.onEntrySelected(entriesList.get(0));
         reset(mockView);
 
         presenter.onBackPressed();
@@ -140,7 +140,7 @@ public class ScoreEntriesPresenterTest extends BasePresenterTest<ScoreEntriesPre
     @Test
     public void getCurrentEntryShouldReturnCorrectEntryWhenViewingIt() {
         setupSuccessfulContestDetailsCall();
-        presenter.onEntryClicked(entriesList.get(0));
+        presenter.onEntrySelected(entriesList.get(0));
 
         assertEquals(entriesList.get(0), presenter.getCurrentEntry());
     }
@@ -154,7 +154,7 @@ public class ScoreEntriesPresenterTest extends BasePresenterTest<ScoreEntriesPre
     @Test
     public void getCurrentEntryBallotShouldReturnCorrectBallotWhenViewingEntry() {
         setupSuccessfulContestDetailsCall();
-        presenter.onEntryClicked(entriesList.get(0));
+        presenter.onEntrySelected(entriesList.get(0));
         List<EntryBallot> entryBallotList = presenter.getEntryBallotsList();
 
         assertEquals(entryBallotList.get(0), presenter.getCurrentEntryBallot());
@@ -169,18 +169,18 @@ public class ScoreEntriesPresenterTest extends BasePresenterTest<ScoreEntriesPre
     @Test
     public void onNextClickedShouldTriggerViewToShowNextEntryWhenNotViewingLastEntry() {
         setupSuccessfulContestDetailsCall();
-        presenter.onEntryClicked(entriesList.get(0));
+        presenter.onEntrySelected(entriesList.get(0));
         reset(mockView);
 
         presenter.onNextClicked();
 
-        verify(mockView).showEntryDetail(anyInt(), anyInt());
+        verify(mockView).showEntryDetail(anyInt());
     }
 
     @Test
     public void onNextClickedShouldTriggerViewToShowEntriesListWhenViewingLastEntry() {
         setupSuccessfulContestDetailsCall();
-        presenter.onEntryClicked(entriesList.get(entriesList.size() - 1));
+        presenter.onEntrySelected(entriesList.get(entriesList.size() - 1));
         reset(mockView);
 
         presenter.onNextClicked();

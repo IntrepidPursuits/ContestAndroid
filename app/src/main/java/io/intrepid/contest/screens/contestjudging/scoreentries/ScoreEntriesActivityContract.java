@@ -17,5 +17,7 @@ public interface ScoreEntriesActivityContract {
 
     List<EntryBallot> getEntryBallotsList();
 
+    void onEntryDetailFragmentPageChanged(int newPage);
+
     void setNextEnabled(boolean enabled);
 }
