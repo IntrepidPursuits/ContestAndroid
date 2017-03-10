@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_entry_name"
     android:layout_width="match_parent"
@@ -34,17 +33,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/entry_name_icon_margin"
-            android:src="@drawable/medal_icon"
             android:contentDescription="@string/name_entry"
+            android:src="@drawable/medal_icon"
             />
 
         <io.intrepid.contest.customviews.HintLabelEditText
             android:id="@+id/entry_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/name_entry"
+            android:label="@string/name_entry"
             android:maxLines="2"
-            custom:hint="@string/name_entry"
-            custom:label="@string/name_entry"
             />
 
     </LinearLayout>

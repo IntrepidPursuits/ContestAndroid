@@ -48,8 +48,8 @@ public class HintLabelEditText extends LinearLayout {
                     0, 0);
 
             try {
-                hint = styledAttributes.getString(R.styleable.HintLabelEditText_hint);
-                label = styledAttributes.getString(R.styleable.HintLabelEditText_label);
+                hint = styledAttributes.getString(R.styleable.HintLabelEditText_android_hint);
+                label = styledAttributes.getString(R.styleable.HintLabelEditText_android_label);
                 inputType = styledAttributes.getInteger(R.styleable.HintLabelEditText_android_inputType,
                                                         InputType.TYPE_CLASS_TEXT);
             } finally {
