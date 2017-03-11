@@ -12,8 +12,8 @@
         android:layout_height="@dimen/admin_status_panel_height"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="@dimen/admin_status_top_panel_margin_bottom"
-        android:layout_marginStart="@dimen/admin_status_top_panel_left_margin"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:paddingTop="@dimen/admin_status_top_panel_padding_top"
         >
 
