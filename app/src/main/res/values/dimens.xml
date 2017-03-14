@@ -109,4 +109,6 @@
     <dimen name="admin_status_top_panel_padding_top">40dp</dimen>
     <dimen name="entry_review_row_margin_bottom">9dp</dimen>
     <dimen name="admin_status_top_panel_margin_bottom">40dp</dimen>
+    <dimen name="ongoing_contests_top_margin">160dp</dimen>
+    <dimen name="contest_row_imageview_right_margin">24dp</dimen>
 </resources>

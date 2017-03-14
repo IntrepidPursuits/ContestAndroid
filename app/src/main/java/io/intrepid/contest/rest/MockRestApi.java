@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import io.intrepid.contest.models.ActiveContestListResponse;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.Entry;
@@ -249,5 +250,17 @@ class MockRestApi implements RestApi {
                                                                       "{\"errors\":[\"Error\"]}")));
         }
         return Observable.just(Response.success(null));
+    }
+
+    @Override
+    public Observable<ActiveContestListResponse> getActiveContests(@Path("currentUser") String currentUser) {
+        List<Contest> contests = new ArrayList<>();
+        Contest contest = new Contest();
+        contest.setTitle("Chili Cookoff");
+        contests.add(contest);
+        Contest contest2 = new Contest();
+        contest2.setTitle("Intrepid's 2nd Annual Chili Cookoff");
+        contests.add(contest2);
+        return Observable.just(new ActiveContestListResponse(contests));
     }
 }

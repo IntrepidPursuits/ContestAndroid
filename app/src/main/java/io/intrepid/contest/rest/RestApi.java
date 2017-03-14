@@ -1,5 +1,6 @@
 package io.intrepid.contest.rest;
 
+import io.intrepid.contest.models.ActiveContestListResponse;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -41,4 +42,7 @@ public interface RestApi {
     @POST("api/contests/{contestId}/adjudicate")
     Observable<Response<Void>> adjudicate(@Path("contestId") String contestId,
                                           @Body AdjudicateRequest adjudicateRequest);
+
+    @GET("/api/{currentUser}/contests")
+    Observable<ActiveContestListResponse> getActiveContests(@Path("currentUser") String currentUser);
 }
