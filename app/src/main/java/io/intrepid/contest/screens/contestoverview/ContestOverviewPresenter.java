@@ -64,4 +64,9 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
     public void onOverViewSubmitButtonClicked() {
         view.advanceToJudgingScreen();
     }
+
+    @Override
+    public void onBackPressed() {
+        view.returnToSplashScreen();
+    }
 }

@@ -15,9 +15,11 @@ interface SplashContract {
         void showUserButtons();
 
         void showOngoingContests(List<Contest> contests);
+
+        void resumeContest(Contest contest);
     }
 
-    interface Presenter extends BaseContract.Presenter<View> {
+    interface Presenter extends BaseContract.Presenter<View>, ContestRowViewHolder.OnContestClickedListener {
         void onCreateContestClicked();
 
         void onJoinContestClicked();

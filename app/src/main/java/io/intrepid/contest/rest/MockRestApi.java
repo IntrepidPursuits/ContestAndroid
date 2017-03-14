@@ -264,10 +264,18 @@ class MockRestApi implements RestApi {
         List<Contest> contests = new ArrayList<>();
         Contest contest = new Contest();
         contest.setTitle("Chili Cookoff");
+        contest.setParticipationType(ParticipationType.CONTESTANT);
         contests.add(contest);
+
         Contest contest2 = new Contest();
         contest2.setTitle("Intrepid's 2nd Annual Chili Cookoff");
+        contest2.setParticipationType(ParticipationType.JUDGE);
         contests.add(contest2);
+
+        Contest contest3 = new Contest();
+        contest3.setTitle("Intrepid Pie-Off");
+        contest3.setParticipationType(ParticipationType.CREATOR);
+        contests.add(contest3);
         return Observable.just(new ActiveContestListResponse(contests));
     }
 }

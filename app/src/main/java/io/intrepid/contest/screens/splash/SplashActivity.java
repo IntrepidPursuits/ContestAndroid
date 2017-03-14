@@ -17,6 +17,7 @@ import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.NewContestActivity;
+import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.join.JoinActivity;
 import timber.log.Timber;
 
@@ -27,7 +28,7 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     RelativeLayout splashScreenActionsLayout;
     @BindView(R.id.ongoing_contests_recycler_view)
     RecyclerView activeContestsRecyclerView;
-    private ContestAdapter contestAdapter = new ContestAdapter();
+    private ContestAdapter contestAdapter;
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, SplashActivity.class);
@@ -47,6 +48,7 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
+        contestAdapter = new ContestAdapter(presenter);
         activeContestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         activeContestsRecyclerView.setAdapter(contestAdapter);
     }
@@ -81,5 +83,10 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     public void showOngoingContests(List<Contest> contests) {
         Timber.d("Contests size " + contests.size());
         contestAdapter.setData(contests);
+    }
+
+    @Override
+    public void resumeContest(Contest contest) {
+        startActivity(ContestStatusActivity.makeIntent(this));
     }
 }

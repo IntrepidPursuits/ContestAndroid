@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.ActiveContestListResponse;
+import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.models.User;
 import io.intrepid.contest.rest.UserCreationResponse;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -30,6 +31,8 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     SplashContract.View mockView;
     @Mock
     ActiveContestListResponse mockActiveContestListResponse;
+    @Mock
+    Contest mockContest;
 
     @Before
     public void setup() {
@@ -103,7 +106,7 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     }
 
     private void doSuccessfulAuthenticationApiCallAndActiveContestsCallInSequence(boolean successfulActiveContestCall) {
-        Observable response = successfulActiveContestCall ?
+        Observable<ActiveContestListResponse> response = successfulActiveContestCall ?
                 Observable.just(mockActiveContestListResponse) :
                 error(new Throwable());
         when(mockRestApi.getActiveContests(any())).thenReturn(response);
@@ -126,5 +129,11 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     public void onViewCreatedShouldShowErrorWhenDiscoverOngoingContestReturnsThrowable() {
         doSuccessfulAuthenticationApiCallAndActiveContestsCallInSequence(false);
         verify(mockView).showMessage(R.string.error_api);
+    }
+
+    @Test
+    public void onContestClickedShouldCauseViewToResumeContest() {
+        presenter.onContestClicked(mockContest);
+        verify(mockView).resumeContest(mockContest);
     }
 }

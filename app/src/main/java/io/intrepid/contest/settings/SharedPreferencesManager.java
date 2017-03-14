@@ -65,7 +65,7 @@ public class SharedPreferencesManager implements PersistentSettings {
 
     @Override
     public void setCurrentParticipationType(ParticipationType participationType) {
-        preferences.edit().putString(CURRENT_PARTICIPATION_TYPE, participationType.getValue()).apply();
+        preferences.edit().putString(CURRENT_PARTICIPATION_TYPE, participationType.name()).apply();
     }
 
     @Override
