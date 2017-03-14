@@ -94,6 +94,6 @@ public class EntriesListFragment extends BaseFragment<EntriesListContract.Presen
 
     @Override
     public void showContestStatusScreen() {
-        startActivity(ContestStatusActivity.makeIntent(getActivity()));
+        startActivity(ContestStatusActivity.makeIntent(getActivity(), true));
     }
 }

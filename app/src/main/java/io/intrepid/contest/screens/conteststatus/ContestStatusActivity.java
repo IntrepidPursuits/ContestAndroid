@@ -19,6 +19,12 @@ import io.reactivex.functions.Consumer;
 public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract.Presenter>
         implements ContestStatusContract.View, ContestStatusActivityContract {
 
+    private static final String JUDGE_JUST_SUBMITTED_KEY = "judge_submitted_key";
+
+    public static Intent makeIntent(Context context, boolean judgeSubmitted) {
+        return makeIntent(context).putExtra(JUDGE_JUST_SUBMITTED_KEY, judgeSubmitted);
+    }
+
     public static Intent makeIntent(Context context) {
         return new Intent(context, ContestStatusActivity.class);
     }
@@ -26,7 +32,8 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
     @NonNull
     @Override
     public ContestStatusContract.Presenter createPresenter(PresenterConfiguration configuration) {
-        return new ContestStatusPresenter(this, configuration);
+        boolean recentlySubmittedAsJudge = getIntent().getBooleanExtra(JUDGE_JUST_SUBMITTED_KEY, false);
+        return new ContestStatusPresenter(this, configuration, recentlySubmittedAsJudge);
     }
 
     @Override
