@@ -44,7 +44,7 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     @Before
     public void setup() {
         throwable = new Throwable();
-        presenter = new ContestStatusPresenter(mockView, testConfiguration);
+        presenter = new ContestStatusPresenter(mockView, testConfiguration, false);
 
         when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
     }
@@ -71,6 +71,41 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
         response.contestStatus.setSubmissionData(true, 5, 5);
         response.contestStatus.setJudgeData(true, 1, 1);
         when(mockRestApi.getContestStatus(any())).thenReturn(Observable.just(response));
+    }
+
+    @Test
+    public void onViewCreatedShouldShowAdminStatusPageIfParticipationTypeIsCreator() {
+        getContestStatusResponseWaitingForSubmissions();
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.CREATOR);
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showAdminStatusPage();
+    }
+
+    @Test
+    public void onViewCreatedShouldShowResultsWhenJudgeHasSubmittedScoreAndResultsAreAvailable() {
+        getContestStatusResponseResultsAvailable();
+        presenter = new ContestStatusPresenter(mockView, testConfiguration, true);
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showResultsAvailableFragment();
+    }
+
+    @Test
+    public void onViewCreatedShouldShowStatusWaitingFragmentIfJudgeJustVoted() {
+        getContestStatusResponseWaitingForScores();
+        when(mockPersistentSettings.getCurrentParticipationType()).thenReturn(ParticipationType.JUDGE);
+
+        presenter = new ContestStatusPresenter(mockView, testConfiguration, true);
+        presenter.onViewCreated();
+
+        testConfiguration.triggerRxSchedulers();
+        verify(mockView).showStatusWaitingFragment();
     }
 
     @Test

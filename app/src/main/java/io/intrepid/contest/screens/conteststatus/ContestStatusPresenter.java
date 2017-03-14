@@ -23,10 +23,12 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
      */
     private static final int API_CALL_INTERVAL = (BuildConfig.DEV_BUILD ? 3 : (BuildConfig.DEBUG ? 10 : 2));
     private static final TimeUnit API_CALL_INTERVAL_UNIT = (BuildConfig.DEBUG ? TimeUnit.SECONDS : TimeUnit.MINUTES);
+    private boolean showWaitingScreen = false;
 
     ContestStatusPresenter(@NonNull ContestStatusContract.View view,
-                           @NonNull PresenterConfiguration configuration) {
+                           @NonNull PresenterConfiguration configuration, boolean showWaitingScreen) {
         super(view, configuration);
+        this.showWaitingScreen = showWaitingScreen;
     }
 
     @Override
@@ -46,7 +48,7 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
                     Timber.d("Contest status API call");
                     Disposable apiCallDisposable = restApi.getContestStatus(contestId)
                             .compose(subscribeOnIoObserveOnUi())
-                            .subscribe(response -> showContestStatusScreen(response), throwable -> {
+                            .subscribe((response) -> showContestStatusScreen(response), throwable -> {
                                 Timber.d("API error retrieving contest status: " + throwable.getMessage());
                                 view.showMessage(R.string.error_api);
                             });
@@ -56,22 +58,26 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     }
 
     private void showContestStatusScreen(ContestStatusResponse response) {
+        if (response.contestStatus.hasContestEnded()) {
+            view.showResultsAvailableFragment();
+            disposables.clear();
+            return;
+        }
         switch (persistentSettings.getCurrentParticipationType()) {
             case JUDGE:
-                view.showContestOverviewPage();
+                if (showWaitingScreen) {
+                    view.showStatusWaitingFragment();
+                } else {
+                    view.showContestOverviewPage();
+                }
                 break;
             case CREATOR:
                 view.showAdminStatusPage();
                 break;
             default:
-                if (response.contestStatus.hasContestEnded()) {
-                    view.showResultsAvailableFragment();
-                    disposables.clear();
-                } else {
-                    view.showStatusWaitingFragment();
-                }
-        }
+                view.showStatusWaitingFragment();
 
+        }
     }
 
     @Override
