@@ -101,10 +101,17 @@ class MockRestApi implements RestApi {
         return Observable.just(new RedeemInvitationResponse());
     }
 
+    @Override
+    public Observable<ContestWrapper> closeSubmissions(@Path("id") String id) {
+        Contest contest = getValidContestResponse().contest;
+        contest.setSubmissionsClosedAt(new Date());
+        return Observable.just(new ContestWrapper(contest));
+    }
+
     public Observable<ContestWrapper> endContest(String id) {
         Contest contest = new Contest();
         contest.setId(UUID.fromString(id));
-        contest.setEndedData(new Date());
+        contest.setEndedDate(new Date());
         return Observable.just(new ContestWrapper(contest));
     }
 
