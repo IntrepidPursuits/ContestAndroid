@@ -75,7 +75,7 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
         if (numEntriesMissing > 0) {
             view.showConfirmStartContestDialog();
         } else {
-            advanceToJudgingIndicator();
+            closeSubmissions();
         }
     }
 
@@ -101,6 +101,19 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
         disposables.add(endContestDisposable);
     }
 
+    private void closeSubmissions() {
+        Disposable closeSubmissionsDisposable = restApi.closeSubmissions(persistentSettings.getCurrentContestId().toString()) .compose(subscribeOnIoObserveOnUi())
+                .subscribe(response -> {
+                               Timber.d("Contest submission closed at " + response.contest.getSubmissionsClosedAt());
+                                advanceToJudgingIndicator();
+                           },
+                           throwable -> {
+                               Timber.d(throwable.getMessage());
+                               view.showMessage(R.string.error_api);
+                           });
+        disposables.add(closeSubmissionsDisposable);
+    }
+
     private void advanceToJudgingIndicator() {
         contestStarted = true;
         view.advanceToJudgingIndicator();
@@ -115,7 +128,7 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
     @Override
     public void onPositiveButtonClicked(ConfirmStartContestDialog.AdminActionType actionType) {
         if (actionType == ConfirmStartContestDialog.AdminActionType.START_CONTEST) {
-            advanceToJudgingIndicator();
+           closeSubmissions();
         } else {
             endContest();
         }

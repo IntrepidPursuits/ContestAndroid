@@ -26,6 +26,7 @@ public class Contest {
     @SerializedName("scoring_categories")
     private List<Category> categories;
     private List<Entry> entries;
+    private Date submissionsClosedAt;
 
     public Contest() {
         categories = new ArrayList<>();
@@ -83,8 +84,16 @@ public class Contest {
         this.entries = entries;
     }
 
-    public void setEndedData(Date endedData) {
-        this.endedDate = endedData;
+    public void setEndedDate(Date endedDate) {
+        this.endedDate = endedDate;
+    }
+
+    public Date getSubmissionsClosedAt() {
+        return submissionsClosedAt;
+    }
+
+    public void setSubmissionsClosedAt(Date submissionsClosedAt) {
+        this.submissionsClosedAt = submissionsClosedAt;
     }
 
     public static class Builder {
