@@ -26,6 +26,18 @@
         android:textSize="@dimen/splash_subtitle_textsize"
         />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/ongoing_contests_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/splash_screen_actions_layout"
+        android:layout_alignBottom="@+id/splash_screen_actions_layout"
+        android:layout_below="@id/prompt_sub_header"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/ongoing_contests_top_margin"
+    />
+
     <android.support.percent.PercentRelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/splash_screen_actions_layout"
@@ -44,7 +56,7 @@
             style="@style/AppTheme.IconButtonCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             app:layout_widthPercent="48%"
             >
 
@@ -61,7 +73,7 @@
             style="@style/AppTheme.IconButtonCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             app:layout_widthPercent="48%"
             >
 
