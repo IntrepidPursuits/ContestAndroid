@@ -8,6 +8,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Entry;
+import io.intrepid.contest.models.ParticipationType;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 

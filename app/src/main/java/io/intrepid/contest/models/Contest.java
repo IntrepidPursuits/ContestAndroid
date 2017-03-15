@@ -25,9 +25,9 @@ public class Contest {
     private String description;
     @SerializedName("scoring_categories")
     private List<Category> categories;
-    private ParticipationType participationType;
     private List<Entry> entries;
     private Date submissionsClosedAt;
+    private ParticipationType participationType;
 
     public Contest() {
         contestId = UUID.randomUUID();
@@ -117,7 +117,6 @@ public class Contest {
         Date creationDate;
         Date lastUpdatedDate;
         Date endedDate;
-        private ParticipationType participationType;
 
         public Builder() {
             this(new UUID(UUID_MIN_LIMIT, UUID_MAX_LIMIT));
