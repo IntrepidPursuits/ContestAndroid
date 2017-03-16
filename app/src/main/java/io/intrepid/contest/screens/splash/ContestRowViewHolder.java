@@ -8,17 +8,19 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Contest;
 
 class ContestRowViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.contest_row_title_textview)
     TextView titleTextView;
-
     private Contest contest;
+    private OnContestClickedListener listener;
 
-    ContestRowViewHolder(ViewGroup parent) {
+    ContestRowViewHolder(ViewGroup parent, OnContestClickedListener listener) {
         super(inflateView(parent));
+        this.listener = listener;
         ButterKnife.bind(this, itemView);
     }
 
@@ -27,8 +29,17 @@ class ContestRowViewHolder extends RecyclerView.ViewHolder {
         return inflater.inflate(R.layout.contest_row_item, parent, false);
     }
 
-    public void bind(Contest contest) {
+    @OnClick({R.id.contest_row_icon_imageview, R.id.contest_row_title_textview})
+    void onClick() {
+        listener.onContestClicked(contest);
+    }
+
+    void bind(Contest contest) {
         this.contest = contest;
         titleTextView.setText(contest.getTitle());
+    }
+
+    interface OnContestClickedListener {
+        void onContestClicked(Contest contest);
     }
 }

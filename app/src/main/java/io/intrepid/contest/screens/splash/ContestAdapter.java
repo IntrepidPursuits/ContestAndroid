@@ -8,12 +8,19 @@ import java.util.List;
 
 import io.intrepid.contest.models.Contest;
 
+import static io.intrepid.contest.screens.splash.ContestRowViewHolder.*;
+
 class ContestAdapter extends RecyclerView.Adapter<ContestRowViewHolder> {
     private final List<Contest> contests = new ArrayList<>();
+    private final OnContestClickedListener listener;
+
+    ContestAdapter(OnContestClickedListener listener){
+        this.listener = listener;
+    }
 
     @Override
     public ContestRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ContestRowViewHolder(parent);
+        return new ContestRowViewHolder(parent, listener);
     }
 
     @Override

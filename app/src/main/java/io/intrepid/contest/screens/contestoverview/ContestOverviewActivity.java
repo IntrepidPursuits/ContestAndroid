@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.ScoreWeight;
 import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivity;
+import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.SpannableUtil;
 
 public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
@@ -54,6 +56,19 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
         setActionBarDisplayHomeAsUpEnabled(true);
         setupCategoriesRecyclerView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home: presenter.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
     }
 
     @OnClick(R.id.contest_overview_submit_button)
@@ -96,5 +111,10 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
         SpannableUtil.getInstance().setColor(this, fullText, numericalTextInString, R.color.colorPrimary);
         SpannableUtil.getInstance().setBold(fullText, numericalTextInString);
         introTextView.setText(fullText);
+    }
+
+    @Override
+    public void returnToSplashScreen() {
+        startActivity(SplashActivity.makeIntent(this));
     }
 }

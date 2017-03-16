@@ -19,10 +19,14 @@ class ContestOverviewContract {
 
         void advanceToJudgingScreen();
 
-        void showSubmissionCountMessage(@StringRes int messageResource, @PluralsRes int plural);
+        void showSubmissionCountMessage(int submissionCount, @PluralsRes int plural);
+
+        void returnToSplashScreen();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
         void onOverViewSubmitButtonClicked();
+
+        void onBackPressed();
     }
 }

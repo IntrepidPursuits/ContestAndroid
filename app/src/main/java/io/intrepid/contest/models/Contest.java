@@ -25,10 +25,12 @@ public class Contest {
     private String description;
     @SerializedName("scoring_categories")
     private List<Category> categories;
+    private ParticipationType participationType;
     private List<Entry> entries;
     private Date submissionsClosedAt;
 
     public Contest() {
+        contestId = UUID.randomUUID();
         categories = new ArrayList<>();
     }
 
@@ -96,6 +98,14 @@ public class Contest {
         this.submissionsClosedAt = submissionsClosedAt;
     }
 
+    public void setParticipationType(ParticipationType participationType) {
+        this.participationType = participationType;
+    }
+
+    public ParticipationType getParticipationType() {
+        return participationType;
+    }
+
     public static class Builder {
         static final int UUID_MIN_LIMIT = 0;
         static final int UUID_MAX_LIMIT = Integer.MAX_VALUE;
@@ -107,6 +117,7 @@ public class Contest {
         Date creationDate;
         Date lastUpdatedDate;
         Date endedDate;
+        private ParticipationType participationType;
 
         public Builder() {
             this(new UUID(UUID_MIN_LIMIT, UUID_MAX_LIMIT));

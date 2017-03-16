@@ -31,11 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/splash_screen_actions_layout"
-        android:layout_alignBottom="@+id/splash_screen_actions_layout"
         android:layout_below="@id/prompt_sub_header"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/ongoing_contests_top_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/ongoing_contests_top_margin"
     />
 
     <android.support.percent.PercentRelativeLayout
@@ -46,8 +45,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/splash_card_bottom_margin"
         android:gravity="center"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:visibility="gone"
         >

@@ -67,4 +67,10 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         view.showJoinContestScreen();
     }
 
+    @Override
+    public void onContestClicked(Contest contest) {
+        persistentSettings.setCurrentContestId(contest.getId());
+        persistentSettings.setCurrentParticipationType(contest.getParticipationType());
+        view.resumeContest(contest);
+    }
 }

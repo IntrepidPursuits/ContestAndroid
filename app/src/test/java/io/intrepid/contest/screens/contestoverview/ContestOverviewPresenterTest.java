@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import io.intrepid.contest.R;
@@ -15,12 +16,16 @@ import io.reactivex.Observable;
 
 import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverviewPresenter> {
     @Mock
     View mockView;
+    @Mock
+    Contest mockContest;
 
     @Before
     public void setup() {
@@ -30,9 +35,7 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     private void setupSuccessfulContestDetailsCall() {
-        Contest contest = new Contest();
-        contest.setTitle("Contest title");
-        ContestWrapper response = new ContestWrapper(contest);
+        ContestWrapper response = new ContestWrapper(mockContest);
         when(mockRestApi.getContestDetails(any())).thenReturn(Observable.just(response));
     }
 
@@ -72,10 +75,40 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
     }
 
     @Test
+    public void onViewCreatedShouldShowCategories() {
+        setupSuccessfulContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+        verify(mockView).showCategoriesAndWeights(anyList(), anyList());
+    }
+
+    @Test
+    public void onViewCreatedShouldCauseVIewToShowContestTitle() {
+        when(mockContest.getEntries()).thenReturn(new ArrayList<>());
+        setupSuccessfulContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showTitle(anyInt(), any());
+    }
+
+    @Test
+    public void onViewCreatedShouldCauseViewToShowSubmissionCountMessage() {
+        setupSuccessfulContestDetailsCall();
+
+        presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
+        verify(mockView).showSubmissionCountMessage(anyInt(), anyInt());
+    }
+
+    @Test
     public void onViewCreatedShouldShowApiErrorMessageWhenContestDetailsCallThrowsError() throws Exception {
         setupFailedContestDetailsCall();
 
         presenter.onViewCreated();
+        testConfiguration.triggerRxSchedulers();
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(any(int.class));
@@ -86,5 +119,11 @@ public class ContestOverviewPresenterTest extends BasePresenterTest<ContestOverv
         setupSuccessfulContestDetailsCall();
         presenter.onOverViewSubmitButtonClicked();
         verify(mockView).advanceToJudgingScreen();
+    }
+
+    @Test
+    public void onBackPressedShouldCauseViewToReturnToSplashScreen() {
+        presenter.onBackPressed();
+        verify(mockView).returnToSplashScreen();
     }
 }
