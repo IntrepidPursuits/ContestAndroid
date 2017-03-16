@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_status_waiting"
     android:layout_width="match_parent"
@@ -16,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:textAppearance="@style/AvenirNext_DemiBold"
         android:gravity="center"
         android:text="@string/status_waiting_title"
+        android:textAppearance="@style/AvenirNext_DemiBold"
         android:textColor="@color/colorTextLight"
         android:textSize="@dimen/contest_status_title_textsize"
         />
@@ -31,6 +30,7 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:src="@drawable/ballot_icon"
+        android:visibility="invisible"
         tools:ignore="ContentDescription"
         />
 
@@ -41,7 +41,7 @@
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:paddingStart="@dimen/activity_vertical_margin"
         android:src="@drawable/ballot_box"
         tools:ignore="ContentDescription"
         />
@@ -51,9 +51,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textAppearance="@style/AvenirNext_Medium"
         android:gravity="center"
         android:text="@string/status_waiting_description"
+        android:textAppearance="@style/AvenirNext_Medium"
         android:textColor="@color/colorTextLight"
         android:textSize="@dimen/contest_status_description_textsize"
         />

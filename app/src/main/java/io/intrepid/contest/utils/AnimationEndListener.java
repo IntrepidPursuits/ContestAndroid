@@ -1,8 +1,8 @@
-package io.intrepid.contest.screens.contestjudging.expandablerecycler;
+package io.intrepid.contest.utils;
 
 import android.view.animation.Animation;
 
-abstract class AnimationEndListener implements Animation.AnimationListener {
+public abstract class AnimationEndListener implements Animation.AnimationListener {
 
     @Override
     public void onAnimationStart(Animation animation) {

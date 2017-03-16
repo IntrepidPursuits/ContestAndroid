@@ -48,7 +48,7 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
                     Timber.d("Contest status API call");
                     Disposable apiCallDisposable = restApi.getContestStatus(contestId)
                             .compose(subscribeOnIoObserveOnUi())
-                            .subscribe((response) -> showContestStatusScreen(response), throwable -> {
+                            .subscribe(this::showContestStatusScreen, throwable -> {
                                 Timber.d("API error retrieving contest status: " + throwable.getMessage());
                                 view.showMessage(R.string.error_api);
                             });
