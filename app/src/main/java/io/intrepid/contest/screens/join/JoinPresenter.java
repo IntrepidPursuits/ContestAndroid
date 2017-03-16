@@ -30,11 +30,12 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
 
     private boolean isPotentialValidCode(String clipboardData) {
         //Verify 7-lettered input with capital and lowercase text
-        String capsMatch = ".*[A-Z].*,{0,7}";
-        String lowerCaseMatch = ".*[a-z].*,{0,7}";
+        String capsMatch = ".*[A-Z].*";
+        String lowerCaseMatch = ".*[a-z].*";
         boolean capsSatisfied = Pattern.compile(capsMatch).matcher(clipboardData).matches();
         boolean lowerCaseSatisfied = Pattern.compile(lowerCaseMatch).matcher(clipboardData).matches();
-        return capsSatisfied && lowerCaseSatisfied && !clipboardData.contains(" ");
+        return clipboardData.length() == 7 && capsSatisfied && lowerCaseSatisfied &&
+                !clipboardData.contains(" ");
     }
 
     @Override
