@@ -5,7 +5,10 @@ import android.support.annotation.NonNull;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import io.intrepid.contest.models.ActiveContestListResponse;
@@ -23,6 +26,10 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Path;
 
+import static io.intrepid.contest.models.ParticipationType.CONTESTANT;
+import static io.intrepid.contest.models.ParticipationType.CREATOR;
+import static io.intrepid.contest.models.ParticipationType.JUDGE;
+
 class MockRestApi implements RestApi {
     private static final String TEST_JUDGE_CODE = "judge";
     private static final String TEST_CONTESTANT_CODE = "tester";
@@ -30,16 +37,45 @@ class MockRestApi implements RestApi {
 
     private final UUID userId;
     private UUID contestId;
-    private String contestTitle;
-    private String contestDescription;
+    private String contestTitle = "Contest Title";
+    private String contestDescription = "Contest Description";
     private int numGetContestStatusCallsForParticipant;
+    private static final int NUMBER_OF_MOCK_CONTESTS = 5;
+    private Map<String, Contest> ongoingContestMap;
 
     MockRestApi() {
         userId = UUID.randomUUID();
         contestId = UUID.randomUUID();
-        contestTitle = "Contest title";
-        contestDescription = "Contest Description";
         numGetContestStatusCallsForParticipant = 0;
+        populateOngoingContestMapData();
+    }
+
+    private void populateOngoingContestMapData() {
+        ongoingContestMap = new HashMap<>(NUMBER_OF_MOCK_CONTESTS);
+        for (int i = 0; i < NUMBER_OF_MOCK_CONTESTS; i++) {
+            ParticipationType participationType = i == 0
+                    ? CREATOR :
+                    (i % 2 == 0 ? CONTESTANT : JUDGE);
+
+            String title = i % 2 == 0 ? "Chili Cookoff" : "Intrepid Cookoff";
+            String description = i % 2 == 0 ? "Annual Cookoff " : "Test Cookoff ";
+            Contest contest = makeContest(title, description, participationType);
+            ongoingContestMap.put(String.valueOf(contest.getId()), contest);
+        }
+    }
+
+    private Contest makeContest(String title, String description, ParticipationType participationType) {
+        Contest contest = new Contest();
+        contest.setTitle(title);
+        contest.setDescription(description);
+        contest.setParticipationType(participationType);
+        List<Category> contestCategories = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            contestCategories.add(new Category("Category " + i, "This is category " + i));
+        }
+        contest.setCategories(contestCategories);
+        contest.setEntries(makeListOfEntries());
+        return contest;
     }
 
     @NonNull
@@ -103,21 +139,29 @@ class MockRestApi implements RestApi {
 
     @Override
     public Observable<ContestWrapper> closeSubmissions(@Path("id") String id) {
-        Contest contest = getValidContestResponse().contest;
+        Contest contest = ongoingContestMap.containsKey(id) ?
+                ongoingContestMap.get(id) :
+                makeValidContest();
         contest.setSubmissionsClosedAt(new Date());
         return Observable.just(new ContestWrapper(contest));
     }
 
+    private Contest makeValidContest() {
+        Iterator<Contest> iterator = ongoingContestMap.values().iterator();
+        return iterator.hasNext()
+                ? iterator.next() :
+                makeContest(contestTitle, contestDescription, CONTESTANT);
+    }
+
     public Observable<ContestWrapper> endContest(String id) {
-        Contest contest = new Contest();
-        contest.setId(UUID.fromString(id));
+        Contest contest = ongoingContestMap.containsKey(id) ? ongoingContestMap.get(id) : makeValidContest();
         contest.setEndedDate(new Date());
         return Observable.just(new ContestWrapper(contest));
     }
 
     @Override
-    public Observable<ContestWrapper> submitContest(@Body ContestWrapper contest) {
-        return Observable.just(getValidContestResponse());
+    public Observable<ContestWrapper> submitContest(@Body ContestWrapper contestWrapper) {
+        return Observable.just(contestWrapper);
     }
 
     @NonNull
@@ -174,21 +218,6 @@ class MockRestApi implements RestApi {
         }
     }
 
-    @NonNull
-    private ContestWrapper getValidContestResponse() {
-        Contest contest = new Contest();
-        contest.setId(UUID.randomUUID());
-        contest.setTitle(contestTitle);
-        contest.setDescription(contestDescription);
-        List<Category> contestCategories = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            contestCategories.add(new Category("Category " + i, "This is category " + i));
-        }
-        contest.setCategories(contestCategories);
-        contest.setEntries(makeListOfEntries());
-        return new ContestWrapper(contest);
-    }
-
     private List<Entry> makeListOfEntries() {
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -202,7 +231,10 @@ class MockRestApi implements RestApi {
 
     @Override
     public Observable<ContestWrapper> getContestDetails(@Path("contestId") String contestId) {
-        return Observable.just(getValidContestResponse());
+        Contest contest = ongoingContestMap.containsKey(contestId) ?
+                ongoingContestMap.get(contestId) :
+                makeValidContest();
+        return Observable.just(new ContestWrapper(contest));
     }
 
     private ContestResultResponse getValidContestResultResponse() {
@@ -256,26 +288,14 @@ class MockRestApi implements RestApi {
                                                   ResponseBody.create(MediaType.parse("application/json"),
                                                                       "{\"errors\":[\"Error\"]}")));
         }
+        ongoingContestMap.put(contestId, makeValidContest()); //replace scored contest
         return Observable.just(Response.success(null));
     }
 
     @Override
     public Observable<ActiveContestListResponse> getActiveContests(@Path("currentUser") String currentUser) {
         List<Contest> contests = new ArrayList<>();
-        Contest contest = new Contest();
-        contest.setTitle("Chili Cookoff");
-        contest.setParticipationType(ParticipationType.CONTESTANT);
-        contests.add(contest);
-
-        Contest contest2 = new Contest();
-        contest2.setTitle("Intrepid's 2nd Annual Chili Cookoff");
-        contest2.setParticipationType(ParticipationType.JUDGE);
-        contests.add(contest2);
-
-        Contest contest3 = new Contest();
-        contest3.setTitle("Intrepid Pie-Off");
-        contest3.setParticipationType(ParticipationType.CREATOR);
-        contests.add(contest3);
+        contests.addAll(ongoingContestMap.values());
         return Observable.just(new ActiveContestListResponse(contests));
     }
 }
