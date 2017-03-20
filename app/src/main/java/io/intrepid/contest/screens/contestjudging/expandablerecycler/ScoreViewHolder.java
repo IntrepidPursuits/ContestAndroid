@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.Score;
+import io.intrepid.contest.utils.AnimationEndListener;
 import io.intrepid.contest.utils.ScoreMapUtil;
 
 import static android.view.View.GONE;
