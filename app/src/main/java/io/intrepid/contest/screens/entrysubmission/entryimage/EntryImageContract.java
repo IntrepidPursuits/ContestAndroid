@@ -1,7 +1,6 @@
 package io.intrepid.contest.screens.entrysubmission.entryimage;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import io.intrepid.contest.base.BaseContract;
 
@@ -13,7 +12,7 @@ class EntryImageContract {
 
         void displayChooseImageLayout();
 
-        void startCropImage(String entryName, Uri uri);
+        void displayPreviewImageLayout(Bitmap bitmap);
 
         void dispatchTakePictureIntent();
 
@@ -22,18 +21,10 @@ class EntryImageContract {
         void showInvalidEntryErrorMessage();
 
         void showContestStatusScreen();
-
-        void checkStoragePermissions();
-
-        void requestStoragePermissions();
-
-        void displayPreviewImageLayout(Uri croppedUri);
-
-        Bitmap makeBitmap(Uri croppedUri);
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
-        void onImageReceived(Uri uri);
+        void onBitmapReceived(Bitmap bitmap);
 
         void onEntrySubmitted();
 
@@ -42,9 +33,5 @@ class EntryImageContract {
         void onCameraButtonClicked();
 
         void onGalleryButtonClicked();
-
-        void onStoragePermissionCheck(boolean hasPermissions);
-
-        void onImageCropped(Uri resultUri);
     }
 }
