@@ -1,24 +1,19 @@
 package io.intrepid.contest.screens.entrysubmission.entryimage;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.yalantis.ucrop.UCrop;
-
-import java.io.File;
 import java.io.IOException;
 
 import butterknife.BindView;
@@ -27,14 +22,8 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
-import io.intrepid.contest.screens.entrysubmission.cropimage.CustomUCrop;
-import io.intrepid.contest.utils.BitmapToUriUtil;
 import timber.log.Timber;
 
-import static android.Manifest.permission.READ_CONTACTS;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.content.pm.PackageManager.FEATURE_CAMERA;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -43,7 +32,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     private static final String EXTRAS_DATA_KEY = "data";
     private static final String PICK_IMAGE_TYPE = "image/*";
     private static final String EXTRA_ENTRY_NAME = "_extra_entry_name_";
-    private static final int PERMISSIONS_REQUEST_READ_EXT_STORAGE = 100;
+
     @BindView(R.id.entry_image_submit_button)
     Button submitButton;
     @BindView(R.id.entry_choose_image_layout)
@@ -77,7 +66,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        if (!getPackageManager().hasSystemFeature(FEATURE_CAMERA)) {
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             chooseCameraButton.setEnabled(false);
         }
 
@@ -92,10 +81,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
     @Override
     public void showEntryName(String entryName) {
-        previewLabelTextView.setText(getResources().getString(R.string.entry_image_preview_caption,
-                                                              entryName));
-        questionTextView.setText(getResources().getString(R.string.entry_image_question,
-                                                          entryName));
+        previewLabelTextView.setText(getResources().getString(R.string.entry_image_preview_caption, entryName));
+        questionTextView.setText(getResources().getString(R.string.entry_image_question, entryName));
     }
 
     @Override
@@ -106,28 +93,11 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     }
 
     @Override
-    public void startCropImage(String entryName, Uri uri) {
-        Uri destinationUri = Uri.fromFile(new File(getCacheDir(), "destination"));
-        CustomUCrop uCrop = CustomUCrop.of(entryName, uri, destinationUri);
-        uCrop.start(EntryImageActivity.this, RequestType.REQUEST_CROP_IMAGE.getValue());
-    }
-
-    @Override
-    public void displayPreviewImageLayout(Uri croppedUri) {
+    public void displayPreviewImageLayout(Bitmap bitmap) {
         submitButton.setText(R.string.common_submit);
         chooseImageLayout.setVisibility(GONE);
         previewImageLayout.setVisibility(VISIBLE);
-        previewImageView.setImageURI(croppedUri);
-    }
-
-    @Override
-    public Bitmap makeBitmap(Uri croppedUri) {
-        try {
-            return MediaStore.Images.Media.getBitmap(this.getContentResolver(), croppedUri);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        previewImageView.setImageBitmap(bitmap);
     }
 
     @OnClick(R.id.entry_image_camera_button)
@@ -160,33 +130,35 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         externalGalleriesIntent.setType(PICK_IMAGE_TYPE);
 
         Intent chooserIntent = Intent.createChooser(androidGalleryIntent, pickImageMessage);
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-                               new Intent[] { externalGalleriesIntent });
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] { externalGalleriesIntent });
 
         startActivityForResult(chooserIntent, RequestType.REQUEST_PICK_IMAGE.getValue());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK) {
+        if (resultCode != RESULT_OK || (requestCode != RequestType.REQUEST_IMAGE_CAPTURE.getValue() &&
+                requestCode != RequestType.REQUEST_PICK_IMAGE.getValue())) {
             super.onActivityResult(requestCode, resultCode, data);
             return;
         }
-        if (requestCode == RequestType.REQUEST_CROP_IMAGE.getValue()) {
-            Uri resultUri = UCrop.getOutput(data);
-            presenter.onImageCropped(resultUri);
-            return;
-        }
 
-        Uri uri;
+        Bitmap bitmap = null;
+
         if (requestCode == RequestType.REQUEST_IMAGE_CAPTURE.getValue()) {
             Bundle extras = data.getExtras();
-            Bitmap bitmap = (Bitmap) extras.get(EXTRAS_DATA_KEY);
-            uri = BitmapToUriUtil.convert(this, bitmap);
+            bitmap = (Bitmap) extras.get(EXTRAS_DATA_KEY);
         } else {
-            uri = data.getData();
+            Uri uri = data.getData();
+
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            } catch (IOException e) {
+                Timber.e(e.getMessage());
+            }
         }
-        presenter.onImageReceived(uri);
+
+        presenter.onBitmapReceived(bitmap);
     }
 
     @OnClick(R.id.removable_image_button)
@@ -214,24 +186,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         startActivity(ContestStatusActivity.makeIntent(this));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void checkStoragePermissions() {
-        boolean hasPermissions = (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-                || checkSelfPermission(READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED;
-        Timber.d("Permissions needed " + hasPermissions);
-        presenter.onStoragePermissionCheck(hasPermissions);
-    }
-
-    @SuppressLint("NewApi")
-    @Override
-    public void requestStoragePermissions() {
-        requestPermissions(new String[] { READ_CONTACTS },
-                           PERMISSIONS_REQUEST_READ_EXT_STORAGE);
-    }
-
     private enum RequestType {
-        REQUEST_IMAGE_CAPTURE(1), REQUEST_PICK_IMAGE(2), REQUEST_CROP_IMAGE(3);
+        REQUEST_IMAGE_CAPTURE(1), REQUEST_PICK_IMAGE(2);
 
         private final int value;
 

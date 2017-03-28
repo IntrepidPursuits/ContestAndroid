@@ -134,7 +134,6 @@ dependencies {
     // Other
     compile "io.intrepid.commonutils:commonutils:0.2.0"
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
-    compile 'com.yalantis:ucrop:2.2.0-native'
 
     // Common test dependencies
     def junitLib = "junit:junit:4.12"

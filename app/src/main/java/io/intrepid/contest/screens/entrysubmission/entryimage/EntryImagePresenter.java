@@ -1,7 +1,6 @@
 package io.intrepid.contest.screens.entrysubmission.entryimage;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import io.intrepid.contest.R;
@@ -21,12 +20,10 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     private static final Bitmap.CompressFormat FORMAT = Bitmap.CompressFormat.PNG;
     private static final String FORMAT_PREFIX = "data:image/png;base64,";
 
-    private Uri imageUri;
+    private Bitmap bitmap;
     private String entryName;
-    private Uri croppedUri;
 
-    EntryImagePresenter(@NonNull EntryImageContract.View view,
-                        @NonNull PresenterConfiguration configuration) {
+    EntryImagePresenter(@NonNull EntryImageContract.View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
     }
 
@@ -35,42 +32,34 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
         super.onViewCreated();
         entryName = view.getEntryName();
         view.showEntryName(entryName);
-        view.displayChooseImageLayout();
     }
 
     @Override
     protected void onViewBound() {
         super.onViewBound();
-        if (croppedUri != null) {
-            view.displayPreviewImageLayout(croppedUri);
-        } else if (imageUri != null) {
-            view.checkStoragePermissions();
-            view.startCropImage(entryName, imageUri);
-            Timber.d("Starting crop");
-        } else {
+
+        if (bitmap == null) {
             view.displayChooseImageLayout();
+        } else {
+            view.displayPreviewImageLayout(bitmap);
         }
     }
 
     @Override
-    public void onImageReceived(Uri uri) {
-        this.imageUri = uri;
+    public void onBitmapReceived(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     @Override
     public void onEntrySubmitted() {
         Timber.d("Entry creation API call.");
+
         String contestId = persistentSettings.getCurrentContestId().toString();
-        Bitmap bitmap = view.makeBitmap(croppedUri);
-        EntryRequest entryRequest = new EntryRequest(entryName,
-                                                     bitmap,
-                                                     FORMAT_PREFIX,
-                                                     FORMAT,
-                                                     QUALITY);
+        EntryRequest entryRequest = new EntryRequest(entryName, bitmap, FORMAT_PREFIX, FORMAT, QUALITY);
 
         Disposable disposable = restApi.createEntry(contestId, entryRequest)
                 .compose(subscribeOnIoObserveOnUi())
-                .subscribe(this::showResult, throwable -> {
+                .subscribe(response -> showResult(response), throwable -> {
                     Timber.d("API error creating an entry: " + throwable.getMessage());
                     view.showMessage(R.string.error_api);
                 });
@@ -89,8 +78,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
 
     @Override
     public void onBitmapRemoved() {
-        imageUri = null;
-        croppedUri = null;
+        bitmap = null;
         view.displayChooseImageLayout();
     }
 
@@ -102,22 +90,5 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     @Override
     public void onGalleryButtonClicked() {
         view.dispatchChoosePictureIntent();
-    }
-
-    @Override
-    public void onStoragePermissionCheck(boolean hasPermissions) {
-        if (!hasPermissions) {
-            view.requestStoragePermissions();
-        }
-    }
-
-    @Override
-    public void onImageCropped(Uri resultUri) {
-        if (resultUri == null) {
-            view.showMessage(R.string.crop_error_message);
-            return;
-        }
-        Timber.d("image cropped ");
-        this.croppedUri = resultUri;
     }
 }

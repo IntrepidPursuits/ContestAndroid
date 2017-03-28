@@ -111,9 +111,4 @@
     <dimen name="admin_status_top_panel_margin_bottom">40dp</dimen>
     <dimen name="ongoing_contests_top_margin">150dp</dimen>
     <dimen name="contest_row_imageview_right_margin">24dp</dimen>
-
-    <dimen name="crop_fab_margin">16dp</dimen>
-    <dimen name="aspect_fab_margin">16dp</dimen>
-    <dimen name="pick_mini_fab_margin">16dp</dimen>
-    <dimen name="crop_view_size">360dp</dimen>
 </resources>
