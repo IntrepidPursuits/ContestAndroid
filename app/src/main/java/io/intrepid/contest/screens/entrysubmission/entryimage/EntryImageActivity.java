@@ -29,9 +29,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.entrysubmission.cropimage.CustomUCrop;
 import io.intrepid.contest.utils.BitmapToUriUtil;
-import timber.log.Timber;
 
-import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.pm.PackageManager.FEATURE_CAMERA;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -130,6 +128,11 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         }
     }
 
+    @Override
+    public void cancelEntryEdit() {
+        onBackPressed();
+    }
+
     @OnClick(R.id.entry_image_camera_button)
     protected void onCameraButtonClicked() {
         presenter.onCameraButtonClicked();
@@ -191,7 +194,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
     @OnClick(R.id.removable_image_button)
     protected void onRemoveImageButtonClicked() {
-        presenter.onBitmapRemoved();
+        presenter.onRemoveBitmapClicked();
     }
 
     @OnClick(R.id.entry_image_submit_button)
@@ -216,17 +219,15 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void checkStoragePermissions() {
-        boolean hasPermissions = (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+    public boolean checkStoragePermissions() {
+        return (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 || checkSelfPermission(READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED;
-        Timber.d("Permissions needed " + hasPermissions);
-        presenter.onStoragePermissionCheck(hasPermissions);
     }
 
     @SuppressLint("NewApi")
     @Override
     public void requestStoragePermissions() {
-        requestPermissions(new String[] { READ_CONTACTS },
+        requestPermissions(new String[] { READ_EXTERNAL_STORAGE },
                            PERMISSIONS_REQUEST_READ_EXT_STORAGE);
     }
 
