@@ -23,7 +23,7 @@ class EntryImageContract {
 
         void showContestStatusScreen();
 
-        void checkStoragePermissions();
+        boolean checkStoragePermissions();
 
         void requestStoragePermissions();
 
@@ -37,7 +37,7 @@ class EntryImageContract {
 
         void onEntrySubmitted();
 
-        void onBitmapRemoved();
+        void onRemoveBitmapClicked();
 
         void onCameraButtonClicked();
 

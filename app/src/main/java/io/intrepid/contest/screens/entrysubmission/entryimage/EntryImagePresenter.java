@@ -42,11 +42,17 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     protected void onViewBound() {
         super.onViewBound();
         if (croppedUri != null) {
+            Timber.d("OVB Cropped uri " + croppedUri);
             view.displayPreviewImageLayout(croppedUri);
         } else if (imageUri != null) {
-            view.checkStoragePermissions();
-            view.startCropImage(entryName, imageUri);
-            Timber.d("Starting crop");
+            boolean hasPermissions = view.checkStoragePermissions();
+            if(hasPermissions) {
+                view.startCropImage(entryName, imageUri);
+                Timber.d("Starting crop");
+            } else {
+                view.requestStoragePermissions();
+            }
+
         } else {
             view.displayChooseImageLayout();
         }
@@ -55,6 +61,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     @Override
     public void onImageReceived(Uri uri) {
         this.imageUri = uri;
+        this.croppedUri = null;
     }
 
     @Override
@@ -88,9 +95,10 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     }
 
     @Override
-    public void onBitmapRemoved() {
+    public void onRemoveBitmapClicked() {
         imageUri = null;
         croppedUri = null;
+        Timber.d("ORBC Cropped uri " + croppedUri);
         view.displayChooseImageLayout();
     }
 

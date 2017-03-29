@@ -53,7 +53,7 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
     @Test
     public void onBitmapRemovedShouldDisplayChooseImageLayout() {
-        presenter.onBitmapRemoved();
+        presenter.onRemoveBitmapClicked();
         verify(mockView).displayChooseImageLayout();
     }
 
@@ -75,7 +75,7 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
     @Test
     public void bindingViewShouldDisplayChooseImageLayoutWhenBitmapWasRemoved() {
-        presenter.onBitmapRemoved();
+        presenter.onRemoveBitmapClicked();
         reset(mockView);
         presenter.bindView(mockView);
 
