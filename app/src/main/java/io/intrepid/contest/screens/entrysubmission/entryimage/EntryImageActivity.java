@@ -130,7 +130,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
     @Override
     public void cancelEntryEdit() {
-
+        onBackPressed();
     }
 
     @OnClick(R.id.entry_image_camera_button)
