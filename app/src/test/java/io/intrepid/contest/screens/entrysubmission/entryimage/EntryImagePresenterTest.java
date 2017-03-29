@@ -54,7 +54,7 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     @Test
     public void onBitmapRemovedShouldDisplayChooseImageLayout() {
         presenter.onRemoveBitmapClicked();
-        verify(mockView).displayChooseImageLayout();
+        verify(mockView).cancelEntryEdit();
     }
 
     @Test
@@ -65,8 +65,6 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
     @Test
     public void bindingViewShouldStartCropImageLayoutWhenBitmapWasReceived() {
-        Bitmap mockBitmap = mock(Bitmap.class);
-
         presenter.onImageReceived(mockUri);
         presenter.bindView(mockView);
 
@@ -90,8 +88,16 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
     @Test
     public void onGalleryButtonClickedShouldDispatchChoosePictureIntent() {
+        when(mockView.checkStoragePermissions()).thenReturn(true);
         presenter.onGalleryButtonClicked();
         verify(mockView).dispatchChoosePictureIntent();
+    }
+
+    @Test
+    public void onGalleryButtonClickedShouldTriggerViewToRequestPermissionsWhenNotGranted() {
+        when(mockView.checkStoragePermissions()).thenReturn(false);
+        presenter.onGalleryButtonClicked();
+        verify(mockView).requestStoragePermissions();
     }
 
     @Test
@@ -132,8 +138,9 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     }
 
     @Test
-    public void onStoragePermissionCheckFalseShouldCauseViewToRequestPermissions() {
-        presenter.onStoragePermissionCheck(false);
+    public void onViewCreatedShouldCauseViewToRequestPermissionsWhenNoStoragePermissions() {
+        when(mockView.checkStoragePermissions()).thenReturn(false);
+        presenter.onViewCreated();
         verify(mockView).requestStoragePermissions();
     }
 

@@ -35,6 +35,9 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
         super.onViewCreated();
         entryName = view.getEntryName();
         view.showEntryName(entryName);
+        if (!view.checkStoragePermissions()) {
+            view.requestStoragePermissions();
+        }
         view.displayChooseImageLayout();
     }
 
@@ -45,14 +48,8 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
             Timber.d("OVB Cropped uri " + croppedUri);
             view.displayPreviewImageLayout(croppedUri);
         } else if (imageUri != null) {
-            boolean hasPermissions = view.checkStoragePermissions();
-            if(hasPermissions) {
-                view.startCropImage(entryName, imageUri);
-                Timber.d("Starting crop");
-            } else {
-                view.requestStoragePermissions();
-            }
-
+            view.startCropImage(entryName, imageUri);
+            Timber.d("Starting crop");
         } else {
             view.displayChooseImageLayout();
         }
@@ -98,8 +95,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     public void onRemoveBitmapClicked() {
         imageUri = null;
         croppedUri = null;
-        Timber.d("ORBC Cropped uri " + croppedUri);
-        view.displayChooseImageLayout();
+        view.cancelEntryEdit();
     }
 
     @Override
@@ -109,13 +105,10 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
 
     @Override
     public void onGalleryButtonClicked() {
-        view.dispatchChoosePictureIntent();
-    }
-
-    @Override
-    public void onStoragePermissionCheck(boolean hasPermissions) {
-        if (!hasPermissions) {
+        if (!view.checkStoragePermissions()) {
             view.requestStoragePermissions();
+        } else {
+            view.dispatchChoosePictureIntent();
         }
     }
 

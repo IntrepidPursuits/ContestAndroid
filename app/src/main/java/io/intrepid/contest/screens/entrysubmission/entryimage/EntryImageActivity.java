@@ -29,9 +29,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivity;
 import io.intrepid.contest.screens.entrysubmission.cropimage.CustomUCrop;
 import io.intrepid.contest.utils.BitmapToUriUtil;
-import timber.log.Timber;
 
-import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.pm.PackageManager.FEATURE_CAMERA;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
@@ -128,6 +126,11 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public void cancelEntryEdit() {
+
     }
 
     @OnClick(R.id.entry_image_camera_button)

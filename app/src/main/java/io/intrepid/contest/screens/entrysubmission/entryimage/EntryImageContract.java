@@ -30,6 +30,8 @@ class EntryImageContract {
         void displayPreviewImageLayout(Uri croppedUri);
 
         Bitmap makeBitmap(Uri croppedUri);
+
+        void cancelEntryEdit();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
@@ -42,8 +44,6 @@ class EntryImageContract {
         void onCameraButtonClicked();
 
         void onGalleryButtonClicked();
-
-        void onStoragePermissionCheck(boolean hasPermissions);
 
         void onImageCropped(Uri resultUri);
     }
