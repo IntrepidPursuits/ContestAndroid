@@ -2,12 +2,17 @@ package io.intrepid.contest.screens.contestresults;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -15,7 +20,12 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.RankedEntryResult;
+import io.intrepid.contest.screens.contestresults.shareresults.ShareResultsActivity;
+import io.intrepid.contest.screens.entrysubmission.cropimage.CustomUCrop;
 import io.intrepid.contest.screens.splash.SplashActivity;
+import io.intrepid.contest.utils.BitmapToUriUtil;
+import io.intrepid.contest.utils.ScreenshotHelperUtil;
+import timber.log.Timber;
 
 import static android.view.View.GONE;
 
@@ -56,6 +66,20 @@ public class ContestResultsActivity extends BaseMvpActivity<ContestResultsContra
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_result_contest, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share: presenter.onShareActionClicked();
+        }
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         startActivity(SplashActivity.makeIntent(this));
     }
@@ -68,5 +92,10 @@ public class ContestResultsActivity extends BaseMvpActivity<ContestResultsContra
     @Override
     public void hideNoEntriesMessage() {
         noEntriesTextView.setVisibility(GONE);
+    }
+
+    @Override
+    public void showTopRankPreview(List<RankedEntryResult> topRankSublist) {
+        startActivity(ShareResultsActivity.makeIntent(this, topRankSublist));
     }
 }

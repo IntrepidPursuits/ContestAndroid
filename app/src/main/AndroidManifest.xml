@@ -52,6 +52,7 @@
         <activity android:name=".screens.contestjudging.scoreentries.ScoreEntriesActivity" />
         <activity android:name=".screens.contestresults.ContestResultsActivity" />
         <activity android:name=".screens.adminstatus.AdminStatusActivity" />
+        <activity android:name=".screens.contestresults.shareresults.ShareResultsActivity"/>
         <activity
             android:name=".screens.entrysubmission.cropimage.CropImageActivity"
             android:screenOrientation="portrait"
@@ -63,5 +64,4 @@
             android:theme="@style/AppTheme.NoActionBar"
             />
     </application>
-
 </manifest>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_layout_recycler_view"/>
+
+    <android.support.percent.PercentRelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/splash_screen_actions_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/splash_card_bottom_margin"
+        android:gravity="center"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:visibility="gone"
+        >
+
+        <android.support.v7.widget.CardView
+            style="@style/AppTheme.IconButtonCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            app:layout_widthPercent="48%"
+            >
+
+            <Button
+                android:id="@+id/create_contest_button"
+                style="@style/AppTheme.IconButton"
+                android:drawableTop="@drawable/add_copy_2"
+                android:text="@string/create_contest"
+                />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            style="@style/AppTheme.IconButtonCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:layout_widthPercent="48%"
+            >
+
+            <Button
+                android:id="@+id/join_contest_button"
+                style="@style/AppTheme.IconButton"
+                android:drawableTop="@drawable/join_contest_icon"
+                android:text="@string/join_contest"
+                />
+
+        </android.support.v7.widget.CardView>
+    </android.support.percent.PercentRelativeLayout>
+</RelativeLayout>
