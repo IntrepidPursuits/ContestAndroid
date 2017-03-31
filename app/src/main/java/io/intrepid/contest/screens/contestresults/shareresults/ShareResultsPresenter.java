@@ -1,6 +1,8 @@
 package io.intrepid.contest.screens.contestresults.shareresults;
 
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import io.intrepid.contest.models.RankedEntryResult;
 class ShareResultsPresenter extends BasePresenter<ShareResultsContract.View> implements ShareResultsContract.Presenter {
 
     private final List<RankedEntryResult> topResults;
+    private Bitmap bitmap;
 
     ShareResultsPresenter(@NonNull ShareResultsContract.View view,
                           @NonNull PresenterConfiguration configuration,
@@ -24,5 +27,16 @@ class ShareResultsPresenter extends BasePresenter<ShareResultsContract.View> imp
     public void onViewCreated() {
         super.onViewCreated();
         view.showResultsList(topResults);
+    }
+
+    @Override
+    public void onSaveResultsClicked() {
+        view.captureScreenshot();
+    }
+
+    @Override
+    public void onShareResultsClicked() {
+        Uri uri = view.captureScreenshot();
+        view.setShareOptions(uri);
     }
 }

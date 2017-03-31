@@ -5,13 +5,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.Date;
 import java.util.Random;
+
+import timber.log.Timber;
 
 public class BitmapToUriUtil {
 
@@ -20,19 +19,27 @@ public class BitmapToUriUtil {
         String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + directory;
 
         File outputFile = new File(path,"result.png");
-
+        Uri uri = null;
 
         outputFile.mkdirs();
-
-        FileOutputStream out = null;
         try {
-            out = new FileOutputStream(outputFile);
+            FileOutputStream out = context.openFileOutput(outputFile.getName(),
+                                                          Context.MODE_PRIVATE);
+            File file = new File(context.getFilesDir(), "Image"
+                    + new Random().nextInt() + ".jpeg");
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-        } catch (FileNotFoundException e) {
+            out.flush();
+            out.close();
+            //get absolute path
+            String realPath = file.getAbsolutePath();
+            File f = new File(realPath);
+            uri = Uri.fromFile(f);
+            Timber.d("Uri from conversion was " + uri);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new FileProvider().getUriForFile(context, "io.intrepid.contest", outputFile);
+        return uri;
     }
 
     public static Uri convertToFileUri(Context context, Bitmap bitmap) {
@@ -48,6 +55,7 @@ public class BitmapToUriUtil {
             String realPath = file.getAbsolutePath();
             File f = new File(realPath);
             uri = Uri.fromFile(f);
+            Timber.d("Uri from conversion was " + uri);
 
         } catch (Exception e) {
            e.printStackTrace();
