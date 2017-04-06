@@ -61,7 +61,12 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     public void onEntrySubmitted() {
         Timber.d("Entry creation API call.");
         String contestId = persistentSettings.getCurrentContestId().toString();
-        Bitmap bitmap = view.makeBitmap(croppedUri);
+
+        Bitmap bitmap = null;
+        if (croppedUri != null) {
+            bitmap = view.makeBitmap(croppedUri);
+        }
+
         EntryRequest entryRequest = new EntryRequest(entryName,
                                                      bitmap,
                                                      FORMAT_PREFIX,

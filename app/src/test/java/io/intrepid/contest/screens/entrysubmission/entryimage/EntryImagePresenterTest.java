@@ -1,6 +1,5 @@
 package io.intrepid.contest.screens.entrysubmission.entryimage;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
@@ -24,7 +23,6 @@ import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -65,8 +63,6 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
     @Test
     public void bindingViewShouldStartCropImageLayoutWhenBitmapWasReceived() {
-        Bitmap mockBitmap = mock(Bitmap.class);
-
         presenter.onImageReceived(mockUri);
         presenter.bindView(mockView);
 
@@ -92,6 +88,17 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     public void onGalleryButtonClickedShouldDispatchChoosePictureIntent() {
         presenter.onGalleryButtonClicked();
         verify(mockView).dispatchChoosePictureIntent();
+    }
+
+    @Test
+    public void onEntrySubmittedShouldCreateBitmapWhenImageHasBeenSelectedAndCropped() {
+        when(mockPersistentSettings.getCurrentContestId()).thenReturn(UUID.randomUUID());
+        when(mockRestApi.createEntry(any(), any())).thenReturn(error(throwable));
+        presenter.onImageCropped(mockUri);
+
+        presenter.onEntrySubmitted();
+
+        verify(mockView).makeBitmap(mockUri);
     }
 
     @Test
