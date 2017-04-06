@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_entry_image"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,112 +12,12 @@
         android:text="@string/common_submit"
         />
 
-    <android.support.percent.PercentRelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/entry_choose_image_layout"
+    <FrameLayout
+        android:id="@+id/entry_image_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/entry_image_submit_button"
         android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/entry_submit_image_padding_bottom"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        >
-
-        <TextView
-            android:id="@+id/entry_image_question_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@style/AvenirNext_Medium"
-            android:text="@string/entry_image_question"
-            android:textColor="@color/colorEntrySubmitImageTitle"
-            android:textSize="@dimen/entry_submit_image_title_textsize"
-            />
-
-        <TextView
-            android:id="@+id/entry_image_description_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/entry_image_question_text_view"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:text="@string/entry_image_description"
-            android:textColor="@color/colorEntrySubmitImageDescription"
-            android:textSize="@dimen/entry_submit_image_description_textsize"
-            />
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/entry_image_camera_button_card_view"
-            style="@style/AppTheme.IconButtonCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:layout_widthPercent="48%"
-            >
-
-            <Button
-                android:id="@+id/entry_image_camera_button"
-                style="@style/AppTheme.IconButton"
-                android:drawableTop="@drawable/camera_icon"
-                android:text="@string/upload_image_camera"
-                />
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/entry_image_gallery_button_card_view"
-            style="@style/AppTheme.IconButtonCardView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            app:layout_widthPercent="48%"
-            >
-
-            <Button
-                android:id="@+id/entry_image_gallery_button"
-                style="@style/AppTheme.IconButton"
-                android:drawableTop="@drawable/gallery_icon"
-                android:text="@string/upload_image_library"
-                />
-
-        </android.support.v7.widget.CardView>
-
-    </android.support.percent.PercentRelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/entry_preview_image_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/entry_image_submit_button"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:visibility="invisible"
-        tools:visibility="visible"
-        >
-
-        <TextView
-            android:id="@+id/entry_preview_label_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:text="@string/entry_image_preview_caption"
-            />
-
-        <io.intrepid.contest.customviews.RemovableImageFrameLayout
-            android:id="@+id/entry_preview_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/entry_preview_label_text_view"
-            />
-
-    </RelativeLayout>
+        />
 
 </RelativeLayout>

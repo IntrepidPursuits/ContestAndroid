@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.transition.Scene;
+import android.support.transition.TransitionManager;
 import android.support.v7.app.AlertDialog;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yalantis.ucrop.UCrop;
@@ -22,7 +24,9 @@ import java.io.File;
 import java.io.IOException;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -35,8 +39,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.pm.PackageManager.FEATURE_CAMERA;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Presenter> implements EntryImageContract.View {
 
@@ -44,20 +46,14 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     private static final String PICK_IMAGE_TYPE = "image/*";
     private static final String EXTRA_ENTRY_NAME = "_extra_entry_name_";
     private static final int PERMISSIONS_REQUEST_READ_EXT_STORAGE = 100;
+
     @BindView(R.id.entry_image_submit_button)
     Button submitButton;
-    @BindView(R.id.entry_choose_image_layout)
-    RelativeLayout chooseImageLayout;
-    @BindView(R.id.entry_image_camera_button)
-    Button chooseCameraButton;
-    @BindView(R.id.entry_image_question_text_view)
-    TextView questionTextView;
-    @BindView(R.id.entry_preview_image_layout)
-    RelativeLayout previewImageLayout;
-    @BindView(R.id.removable_image_image_view)
-    ImageView previewImageView;
-    @BindView(R.id.entry_preview_label_text_view)
-    TextView previewLabelTextView;
+    @BindView(R.id.entry_image_container)
+    ViewGroup sceneContainer;
+
+    private Scene sceneChooseImage;
+    private Scene scenePreviewImage;
 
     public static Intent makeIntent(Context context, String entryName) {
         return new Intent(context, EntryImageActivity.class).putExtra(EXTRA_ENTRY_NAME, entryName);
@@ -77,12 +73,23 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        if (!getPackageManager().hasSystemFeature(FEATURE_CAMERA)) {
-            chooseCameraButton.setEnabled(false);
-        }
 
         setActionBarTitle(getResources().getString(R.string.entry_image_bar_title));
         setActionBarDisplayHomeAsUpEnabled(true);
+    }
+
+    private Scene getSceneChooseImage() {
+        if (sceneChooseImage == null) {
+            sceneChooseImage = Scene.getSceneForLayout(sceneContainer, R.layout.entry_image_choose_layout, this);
+        }
+        return sceneChooseImage;
+    }
+
+    private Scene getScenePreviewImage() {
+        if (scenePreviewImage == null) {
+            scenePreviewImage = Scene.getSceneForLayout(sceneContainer, R.layout.entry_image_preview_layout, this);
+        }
+        return scenePreviewImage;
     }
 
     @Override
@@ -91,18 +98,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     }
 
     @Override
-    public void showEntryName(String entryName) {
-        previewLabelTextView.setText(getResources().getString(R.string.entry_image_preview_caption,
-                                                              entryName));
-        questionTextView.setText(getResources().getString(R.string.entry_image_question,
-                                                          entryName));
-    }
-
-    @Override
-    public void displayChooseImageLayout() {
-        submitButton.setText(R.string.common_no_thanks);
-        chooseImageLayout.setVisibility(VISIBLE);
-        previewImageLayout.setVisibility(GONE);
+    public void displayChooseImageLayout(String entryName) {
+        new ChooseImageView(entryName);
     }
 
     @Override
@@ -113,11 +110,8 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
     }
 
     @Override
-    public void displayPreviewImageLayout(Uri croppedUri) {
-        submitButton.setText(R.string.common_submit);
-        chooseImageLayout.setVisibility(GONE);
-        previewImageLayout.setVisibility(VISIBLE);
-        previewImageView.setImageURI(croppedUri);
+    public void displayPreviewImageLayout(String entryName, Uri croppedUri) {
+        new PreviewImageView(entryName, croppedUri);
     }
 
     @Override
@@ -130,22 +124,12 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         }
     }
 
-    @OnClick(R.id.entry_image_camera_button)
-    protected void onCameraButtonClicked() {
-        presenter.onCameraButtonClicked();
-    }
-
     @Override
     public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, RequestType.REQUEST_IMAGE_CAPTURE.getValue());
         }
-    }
-
-    @OnClick(R.id.entry_image_gallery_button)
-    protected void onGalleryButtonClicked() {
-        presenter.onGalleryButtonClicked();
     }
 
     @Override
@@ -187,11 +171,6 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
             uri = data.getData();
         }
         presenter.onImageReceived(uri);
-    }
-
-    @OnClick(R.id.removable_image_button)
-    protected void onRemoveImageButtonClicked() {
-        presenter.onBitmapRemoved();
     }
 
     @OnClick(R.id.entry_image_submit_button)
@@ -241,6 +220,57 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
         public int getValue() {
             return value;
+        }
+    }
+
+    class ChooseImageView {
+        @BindView(R.id.entry_image_question_text_view)
+        TextView questionTextView;
+        @BindView(R.id.entry_image_camera_button)
+        Button cameraButton;
+
+        ChooseImageView(String entryName) {
+            TransitionManager.go(getSceneChooseImage());
+            ButterKnife.bind(this, EntryImageActivity.this);
+
+            questionTextView.setText(getResources()
+                                             .getString(R.string.entry_image_question, entryName));
+            if (!getPackageManager().hasSystemFeature(FEATURE_CAMERA)) {
+                cameraButton.setEnabled(false);
+            }
+            submitButton.setText(R.string.common_no_thanks);
+        }
+
+        @OnClick(R.id.entry_image_camera_button)
+        void onCameraButtonClicked() {
+            presenter.onCameraButtonClicked();
+        }
+
+        @OnClick(R.id.entry_image_gallery_button)
+        void onGalleryButtonClicked() {
+            presenter.onGalleryButtonClicked();
+        }
+    }
+
+    class PreviewImageView {
+        @BindView(R.id.entry_preview_label_text_view)
+        TextView previewLabelTextView;
+        @BindView(R.id.removable_image_image_view)
+        ImageView previewImageView;
+
+        PreviewImageView(String entryName, Uri croppedUri) {
+            TransitionManager.go(getScenePreviewImage());
+            ButterKnife.bind(this, EntryImageActivity.this);
+
+            previewLabelTextView.setText(getResources()
+                                                 .getString(R.string.entry_image_preview_caption, entryName));
+            previewImageView.setImageURI(croppedUri);
+            submitButton.setText(R.string.common_submit);
+        }
+
+        @OnClick(R.id.removable_image_button)
+        void onRemoveImageButtonClicked() {
+            presenter.onBitmapRemoved();
         }
     }
 }

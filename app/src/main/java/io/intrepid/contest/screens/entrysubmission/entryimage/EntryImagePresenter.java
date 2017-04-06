@@ -34,21 +34,20 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     public void onViewCreated() {
         super.onViewCreated();
         entryName = view.getEntryName();
-        view.showEntryName(entryName);
-        view.displayChooseImageLayout();
+        view.displayChooseImageLayout(entryName);
     }
 
     @Override
     protected void onViewBound() {
         super.onViewBound();
         if (croppedUri != null) {
-            view.displayPreviewImageLayout(croppedUri);
+            view.displayPreviewImageLayout(entryName, croppedUri);
         } else if (imageUri != null) {
             view.checkStoragePermissions();
             view.startCropImage(entryName, imageUri);
             Timber.d("Starting crop");
         } else {
-            view.displayChooseImageLayout();
+            view.displayChooseImageLayout(entryName);
         }
     }
 
@@ -96,7 +95,7 @@ class EntryImagePresenter extends BasePresenter<EntryImageContract.View> impleme
     public void onBitmapRemoved() {
         imageUri = null;
         croppedUri = null;
-        view.displayChooseImageLayout();
+        view.displayChooseImageLayout(entryName);
     }
 
     @Override

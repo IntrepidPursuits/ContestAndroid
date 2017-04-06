@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.percent.PercentRelativeLayout
+        android:id="@+id/entry_choose_image_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/entry_submit_image_padding_bottom"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        >
+
+        <TextView
+            android:id="@+id/entry_image_question_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@style/AvenirNext_Medium"
+            android:text="@string/entry_image_question"
+            android:textColor="@color/colorEntrySubmitImageTitle"
+            android:textSize="@dimen/entry_submit_image_title_textsize"
+            />
+
+        <TextView
+            android:id="@+id/entry_image_description_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/entry_image_question_text_view"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/entry_image_description"
+            android:textColor="@color/colorEntrySubmitImageDescription"
+            android:textSize="@dimen/entry_submit_image_description_textsize"
+            />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/entry_image_camera_button_card_view"
+            style="@style/AppTheme.IconButtonCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:layout_widthPercent="48%"
+            >
+
+            <Button
+                android:id="@+id/entry_image_camera_button"
+                style="@style/AppTheme.IconButton"
+                android:drawableTop="@drawable/camera_icon"
+                android:text="@string/upload_image_camera"
+                />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/entry_image_gallery_button_card_view"
+            style="@style/AppTheme.IconButtonCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            app:layout_widthPercent="48%"
+            >
+
+            <Button
+                android:id="@+id/entry_image_gallery_button"
+                style="@style/AppTheme.IconButton"
+                android:drawableTop="@drawable/gallery_icon"
+                android:text="@string/upload_image_library"
+                />
+
+        </android.support.v7.widget.CardView>
+
+    </android.support.percent.PercentRelativeLayout>
+</merge>

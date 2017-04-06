@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.UUID;
@@ -35,47 +34,49 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
     @Mock
     Uri mockUri;
     private Throwable throwable;
+    private String entryName;
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        entryName = "Entry Name";
+        when(mockView.getEntryName()).thenReturn(entryName);
+
         throwable = new Throwable();
         presenter = new EntryImagePresenter(mockView, testConfiguration);
     }
 
     @Test
-    public void onViewCreatedPreviewLabelShouldShowEntryName() {
-        presenter.onViewCreated();
-        verify(mockView).showEntryName(any());
-    }
-
-    @Test
     public void onBitmapRemovedShouldDisplayChooseImageLayout() {
+        presenter.onViewCreated();
+        reset(mockView);
+
         presenter.onBitmapRemoved();
-        verify(mockView).displayChooseImageLayout();
+
+        verify(mockView).displayChooseImageLayout(entryName);
     }
 
     @Test
     public void onViewCreatedShouldDisplayChooseImageLayoutWhenBitmapsHaveNeverBeenReceived() {
         presenter.onViewCreated();
-        verify(mockView).displayChooseImageLayout();
+        verify(mockView).displayChooseImageLayout(entryName);
     }
 
     @Test
     public void bindingViewShouldStartCropImageLayoutWhenBitmapWasReceived() {
         presenter.onImageReceived(mockUri);
-        presenter.bindView(mockView);
-
+        presenter.onViewBound();
         verify(mockView).startCropImage(any(), eq(mockUri));
     }
 
     @Test
     public void bindingViewShouldDisplayChooseImageLayoutWhenBitmapWasRemoved() {
+        presenter.onViewCreated();
         presenter.onBitmapRemoved();
         reset(mockView);
-        presenter.bindView(mockView);
 
-        verify(mockView).displayChooseImageLayout();
+        presenter.onViewBound();
+
+        verify(mockView).displayChooseImageLayout(entryName);
     }
 
     @Test
@@ -146,9 +147,12 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
 
     @Test
     public void onImageCroppedShouldCauseViewToPreviewCroppedImageAfterNextViewBind() {
+        presenter.onViewCreated();
         presenter.onImageCropped(mockUri);
+
         presenter.onViewBound();
-        verify(mockView).displayPreviewImageLayout(mockUri);
+
+        verify(mockView).displayPreviewImageLayout(entryName, mockUri);
     }
 
     @Test
@@ -156,5 +160,4 @@ public class EntryImagePresenterTest extends BasePresenterTest<EntryImagePresent
         presenter.onImageCropped(null);
         verify(mockView).showMessage(anyInt());
     }
-
 }

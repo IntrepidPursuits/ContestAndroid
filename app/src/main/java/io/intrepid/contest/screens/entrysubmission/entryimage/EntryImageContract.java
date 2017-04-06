@@ -9,9 +9,7 @@ class EntryImageContract {
     interface View extends BaseContract.View {
         String getEntryName();
 
-        void showEntryName(String entryName);
-
-        void displayChooseImageLayout();
+        void displayChooseImageLayout(String entryName);
 
         void startCropImage(String entryName, Uri uri);
 
@@ -27,7 +25,7 @@ class EntryImageContract {
 
         void requestStoragePermissions();
 
-        void displayPreviewImageLayout(Uri croppedUri);
+        void displayPreviewImageLayout(String entryName, Uri croppedUri);
 
         Bitmap makeBitmap(Uri croppedUri);
     }
