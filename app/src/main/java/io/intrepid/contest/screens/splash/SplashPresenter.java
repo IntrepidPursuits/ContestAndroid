@@ -70,7 +70,9 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
     @Override
     public void onContestClicked(Contest contest) {
         persistentSettings.setCurrentContestId(contest.getId());
-        persistentSettings.setCurrentParticipationType(contest.getParticipationType());
+        ParticipationType participationType = contest.getParticipationType();
+        persistentSettings.setCurrentParticipationType(
+                participationType == null ? ParticipationType.CREATOR : participationType);
         view.resumeContest(contest);
     }
 }
