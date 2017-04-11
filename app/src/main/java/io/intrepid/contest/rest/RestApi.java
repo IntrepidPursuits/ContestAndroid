@@ -46,6 +46,6 @@ public interface RestApi {
     Observable<Response<Void>> adjudicate(@Path("contestId") String contestId,
                                           @Body AdjudicateRequest adjudicateRequest);
 
-    @GET("/api/{currentUser}/contests")
-    Observable<ActiveContestListResponse> getActiveContests(@Path("currentUser") String currentUser);
+    @GET("/api/current_user/contests")
+    Observable<ActiveContestListResponse> getActiveContests();
 }

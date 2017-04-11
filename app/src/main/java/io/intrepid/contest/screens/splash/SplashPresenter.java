@@ -29,7 +29,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
 
     private void authenticateUser() {
         if (persistentSettings.isAuthenticated()) {
-            discoverOngoingContests(persistentSettings.getAuthenticationToken());
+            discoverOngoingContests();
             view.showUserButtons();
         } else {
             Disposable disposable = restApi.createUser()
@@ -37,7 +37,7 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
                     .subscribe(response -> {
                         String userId = response.user.getId().toString();
                         persistentSettings.setAuthenticationToken(userId);
-                        discoverOngoingContests(userId);
+                        discoverOngoingContests();
                         view.showUserButtons();
                     }, throwable -> {
                         Timber.d("API error creating user: " + throwable.getMessage());
@@ -47,8 +47,8 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
         }
     }
 
-    private void discoverOngoingContests(String userId) {
-        Disposable disposable = restApi.getActiveContests(userId)
+    private void discoverOngoingContests() {
+        Disposable disposable = restApi.getActiveContests()
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     List<Contest> contests = response.getContests();
