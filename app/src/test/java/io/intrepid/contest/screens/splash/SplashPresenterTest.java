@@ -53,7 +53,7 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
 
     @Test
     public void onViewCreatedShouldShowUserButtonsWhenUserCreationIsSuccessful() {
-        when(mockRestApi.getActiveContests(any())).thenReturn(Observable.just(mockActiveContestListResponse));
+        when(mockRestApi.getActiveContests()).thenReturn(Observable.just(mockActiveContestListResponse));
         setupSuccessfulUserCreation();
 
         presenter.onViewCreated();
@@ -64,7 +64,7 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
 
     @Test
     public void onViewCreatedShouldShowUserButtonsWhenUserIsRetrievedFromPersistentSettings() {
-        when(mockRestApi.getActiveContests(any())).thenReturn(Observable.just(mockActiveContestListResponse));
+        when(mockRestApi.getActiveContests()).thenReturn(Observable.just(mockActiveContestListResponse));
         when(mockPersistentSettings.isAuthenticated()).thenReturn(true);
 
         presenter.onViewCreated();
@@ -97,7 +97,7 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     @Test
     public void onViewCreatedShouldCauseViewToShowOngoingContestsWhenUserIsAuthenticated() {
         when(mockPersistentSettings.isAuthenticated()).thenReturn(true);
-        when(mockRestApi.getActiveContests(any())).thenReturn(Observable.just(mockActiveContestListResponse));
+        when(mockRestApi.getActiveContests()).thenReturn(Observable.just(mockActiveContestListResponse));
 
         presenter.onViewCreated();
         testConfiguration.triggerRxSchedulers();
@@ -109,7 +109,7 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
         Observable<ActiveContestListResponse> response = successfulActiveContestCall ?
                 Observable.just(mockActiveContestListResponse) :
                 error(new Throwable());
-        when(mockRestApi.getActiveContests(any())).thenReturn(response);
+        when(mockRestApi.getActiveContests()).thenReturn(response);
         setupSuccessfulUserCreation();
 
         presenter.onViewCreated();

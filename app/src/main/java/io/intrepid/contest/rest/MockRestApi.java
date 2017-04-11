@@ -293,7 +293,7 @@ class MockRestApi implements RestApi {
     }
 
     @Override
-    public Observable<ActiveContestListResponse> getActiveContests(@Path("currentUser") String currentUser) {
+    public Observable<ActiveContestListResponse> getActiveContests() {
         List<Contest> contests = new ArrayList<>();
         contests.addAll(ongoingContestMap.values());
         return Observable.just(new ActiveContestListResponse(contests));
