@@ -6,6 +6,8 @@ import io.reactivex.functions.Consumer;
 
 class ContestStatusContract {
     interface View extends BaseContract.View {
+        void returnToSplashScreen();
+
         void showStatusWaitingFragment();
 
         void showResultsAvailableFragment();
@@ -16,6 +18,8 @@ class ContestStatusContract {
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
+        void onBackPressed();
+
         void requestContestDetails(Consumer<ContestWrapper> responseCallback, Consumer<Throwable> throwableCallback);
     }
 }

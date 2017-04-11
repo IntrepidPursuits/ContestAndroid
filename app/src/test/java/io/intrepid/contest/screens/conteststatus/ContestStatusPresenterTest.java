@@ -196,6 +196,12 @@ public class ContestStatusPresenterTest extends BasePresenterTest<ContestStatusP
     }
 
     @Test
+    public void onBackPressedShouldCauseViewToReturnToSplashScreen() {
+        presenter.onBackPressed();
+        verify(mockView).returnToSplashScreen();
+    }
+
+    @Test
     public void onRequestContestDetailsShouldCallResponseConsumerWhenApiCallDoesNotThrowError() throws Exception {
         Consumer<ContestWrapper> responseConsumer = mock(Consumer.class);
         Consumer<Throwable> throwableConsumer = mock(Consumer.class);

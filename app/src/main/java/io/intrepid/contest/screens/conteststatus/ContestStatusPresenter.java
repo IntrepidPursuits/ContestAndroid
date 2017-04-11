@@ -81,6 +81,11 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     }
 
     @Override
+    public void onBackPressed() {
+        view.returnToSplashScreen();
+    }
+
+    @Override
     public void requestContestDetails(Consumer<ContestWrapper> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
         String contestId = persistentSettings.getCurrentContestId().toString();
