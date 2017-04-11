@@ -14,6 +14,7 @@ import java.util.UUID;
 import io.intrepid.contest.R;
 import io.intrepid.contest.models.ActiveContestListResponse;
 import io.intrepid.contest.models.Contest;
+import io.intrepid.contest.models.ParticipationType;
 import io.intrepid.contest.models.User;
 import io.intrepid.contest.rest.UserCreationResponse;
 import io.intrepid.contest.testutils.BasePresenterTest;
@@ -135,5 +136,35 @@ public class SplashPresenterTest extends BasePresenterTest<SplashPresenter> {
     public void onContestClickedShouldCauseViewToResumeContest() {
         presenter.onContestClicked(mockContest);
         verify(mockView).resumeContest(mockContest);
+    }
+
+    @Test
+    public void onContestClickedShouldSaveParticipationTypeAsCreatorWhenApiParticipationIsNull() {
+        when(mockContest.getId()).thenReturn(UUID.randomUUID());
+        when(mockContest.getParticipationType()).thenReturn(null);
+
+        presenter.onContestClicked(mockContest);
+
+        verify(mockPersistentSettings).setCurrentParticipationType(ParticipationType.CREATOR);
+    }
+
+    @Test
+    public void onContestClickedShouldSaveParticipationTypeAsContestantWhenApiParticipationIsContestant() {
+        when(mockContest.getId()).thenReturn(UUID.randomUUID());
+        when(mockContest.getParticipationType()).thenReturn(ParticipationType.CONTESTANT);
+
+        presenter.onContestClicked(mockContest);
+
+        verify(mockPersistentSettings).setCurrentParticipationType(ParticipationType.CONTESTANT);
+    }
+
+    @Test
+    public void onContestClickedShouldSaveParticipationTypeAsJudgeWhenApiParticipationIsJudge() {
+        when(mockContest.getId()).thenReturn(UUID.randomUUID());
+        when(mockContest.getParticipationType()).thenReturn(ParticipationType.JUDGE);
+
+        presenter.onContestClicked(mockContest);
+
+        verify(mockPersistentSettings).setCurrentParticipationType(ParticipationType.JUDGE);
     }
 }
