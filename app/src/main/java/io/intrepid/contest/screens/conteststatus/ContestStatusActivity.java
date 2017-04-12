@@ -41,6 +41,16 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
         return R.layout.activity_contest_status;
     }
 
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+    }
+
+    @Override
+    public void returnToSplashScreen() {
+        startActivity(SplashActivity.makeIntent(this));
+    }
+
     private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
