@@ -2,6 +2,9 @@ package io.intrepid.contest.screens.join;
 
 import android.support.annotation.NonNull;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
+import java.net.HttpURLConnection;
 import java.util.regex.Pattern;
 
 import io.intrepid.contest.R;
@@ -55,6 +58,11 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(this::showResult, throwable -> {
                     Timber.d("API error redeeming invitation code: " + throwable.getMessage());
+                    if (throwable instanceof HttpException &&
+                            ((HttpException) throwable).code() == HttpURLConnection.HTTP_NOT_FOUND) {
+                        view.showInvalidCodeErrorMessage();
+                        return;
+                    }
                     view.showMessage(R.string.error_api);
                 });
         disposables.add(disposable);

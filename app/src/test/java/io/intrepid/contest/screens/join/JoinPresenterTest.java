@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.net.HttpURLConnection;
 import java.util.UUID;
 
 import io.intrepid.contest.models.Participant;
@@ -17,6 +18,9 @@ import io.intrepid.contest.rest.RedeemInvitationResponse;
 import io.intrepid.contest.screens.join.JoinContract.View;
 import io.intrepid.contest.testutils.BasePresenterTest;
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 import static io.reactivex.Observable.error;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,6 +31,11 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
+    private static final String CODE = "CODE";
+    private static final String JUDGE_CODE = "judge";
+    private static final String VALID_POTENTIAL_CODE = "KbUEcko";
+    private static final String INVALID_POTENTIAL_CODE = "kbuecko";
+
     @Mock
     View mockView;
 
@@ -68,7 +77,7 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
         redeemInvitationResponse.participant.setParticipationType(ParticipationType.CONTESTANT);
         when(mockRestApi.redeemInvitationCode(any(), any())).thenReturn(Observable.just(redeemInvitationResponse));
 
-        presenter.onSubmitButtonClicked("CODE");
+        presenter.onSubmitButtonClicked(CODE);
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showEntryNameScreen();
@@ -82,7 +91,7 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
         redeemInvitationResponse.participant.setParticipationType(ParticipationType.JUDGE);
         when(mockRestApi.redeemInvitationCode(any(), any())).thenReturn(Observable.just(redeemInvitationResponse));
 
-        presenter.onSubmitButtonClicked("judge");
+        presenter.onSubmitButtonClicked(JUDGE_CODE);
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showContestStatusScreen();
@@ -93,17 +102,31 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
         RedeemInvitationResponse mockRedeemInvitationResponse = mock(RedeemInvitationResponse.class);
         when(mockRestApi.redeemInvitationCode(any(), any())).thenReturn(Observable.just(mockRedeemInvitationResponse));
 
-        presenter.onSubmitButtonClicked("CODE");
+        presenter.onSubmitButtonClicked(CODE);
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showInvalidCodeErrorMessage();
     }
 
     @Test
-    public void onSubmitButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsError() throws HttpException {
+    public void onSubmitButtonClickedShouldShowInvalidCodeErrorMessageWhenApiCallThrowsNotFoundError() {
+        HttpException notFoundException = new HttpException(Response.error(
+                HttpURLConnection.HTTP_NOT_FOUND,
+                ResponseBody.create(MediaType.parse("application/json"),
+                                    "{\"errors\":[\"Couldn't find Invitation\"]}")));
+        when(mockRestApi.redeemInvitationCode(any(), any())).thenReturn(error(notFoundException));
+
+        presenter.onSubmitButtonClicked(CODE);
+        testConfiguration.triggerRxSchedulers();
+
+        verify(mockView).showInvalidCodeErrorMessage();
+    }
+
+    @Test
+    public void onSubmitButtonClickedShouldShowApiErrorMessageWhenApiCallThrowsUntreatedErrors() throws HttpException {
         when(mockRestApi.redeemInvitationCode(any(), any())).thenReturn(error(throwable));
 
-        presenter.onSubmitButtonClicked("CODE");
+        presenter.onSubmitButtonClicked(CODE);
         testConfiguration.triggerRxSchedulers();
 
         verify(mockView).showMessage(any(int.class));
@@ -117,7 +140,6 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
 
     @Test
     public void onViewBoundShouldCauseViewToShowClipboardDataWhenClipboardDataIsValid() {
-        String VALID_POTENTIAL_CODE = "KbUEcko";
         when(mockView.getLastCopiedText()).thenReturn(VALID_POTENTIAL_CODE);
 
         presenter.onViewBound();
@@ -127,7 +149,6 @@ public class JoinPresenterTest extends BasePresenterTest<JoinPresenter> {
 
     @Test
     public void onViewBoundShouldCauseViewToDoNothingWhenClipboardDataIsInvalid() {
-        String INVALID_POTENTIAL_CODE = "kbuecko";
         when(mockView.getLastCopiedText()).thenReturn(INVALID_POTENTIAL_CODE);
 
         presenter.onViewBound();
