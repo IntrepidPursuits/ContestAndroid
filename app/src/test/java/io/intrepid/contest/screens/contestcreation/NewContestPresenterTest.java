@@ -1,6 +1,5 @@
 package io.intrepid.contest.screens.contestcreation;
 
-
 import android.support.annotation.StringRes;
 
 import org.junit.Before;
@@ -14,6 +13,7 @@ import io.intrepid.contest.R;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.rest.ContestWrapper;
+import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFragment;
 import io.intrepid.contest.testutils.BasePresenterTest;
 import io.reactivex.Observable;
 
@@ -33,9 +33,11 @@ public class NewContestPresenterTest extends BasePresenterTest<NewContestPresent
     @Mock
     ValidatableContestCreationFragment mockValidatableContestCreationFragment;
     @Mock
+    ReviewContestFragment mockReviewContestFragment;
+    @Mock
     Contest.Builder mockContestBuilder;
-    private List<Category> categories;
 
+    private List<Category> categories;
 
     @Before
     public void setup() {
@@ -125,24 +127,16 @@ public class NewContestPresenterTest extends BasePresenterTest<NewContestPresent
     }
 
     @Test
-    public void onPageScrolledShouldCauseViewToShowCorrectPage() {
-        when(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildFragment);
-        presenter.onPageScrolled(0, 0, 0);
-        verify(mockView).setPageTitle(R.string.new_contest);
-    }
-
-    @Test
-    public void onPageScrollStateChangedShouldCauseViewToShowCorrectPageTitle() {
-        when(mockView.getCurrentIndex()).thenReturn(2);
-        presenter.onPageScrollStateChanged(1);
-        verify(mockView).setPageTitle(R.string.scoring_categories);
-    }
-
-    @Test
     public void onPageChangedToValidatableViewShouldTriggerViewToDoOnFocus() {
         when(mockView.getChildEditFragment(anyInt())).thenReturn(mockValidatableContestCreationFragment);
         presenter.onPageSelected(2);
         verify(mockValidatableContestCreationFragment).onFocus();
+    }
+    @Test
+    public void onPageChangedToReviewContestViewShouldTriggerViewToDoOnFocus() {
+        when(mockView.getChildEditFragment(anyInt())).thenReturn(mockReviewContestFragment);
+        presenter.onPageSelected(anyInt());
+        verify(mockReviewContestFragment).onPageSelected();
     }
 
     @Test

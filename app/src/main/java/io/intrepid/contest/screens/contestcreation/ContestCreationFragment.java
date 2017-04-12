@@ -1,6 +1,5 @@
 package io.intrepid.contest.screens.contestcreation;
 
-public interface ContestCreationFragment{
-
+public interface ContestCreationFragment {
     void onNextClicked();
 }

@@ -6,6 +6,7 @@ class DescribeContestContract {
 
     public interface View extends BaseContract.View {
         void setNextEnabled(boolean enabled);
+
         void showNextScreen();
     }
 

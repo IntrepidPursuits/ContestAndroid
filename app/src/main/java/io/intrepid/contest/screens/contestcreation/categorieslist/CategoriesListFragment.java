@@ -56,7 +56,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
 
     @Override
     public void onNextClicked() {
-        presenter.onNextClicked(categoryAdapter.getCategories());
+        presenter.onNextClicked();
     }
 
     @Override

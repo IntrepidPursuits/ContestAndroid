@@ -98,12 +98,12 @@ public class Contest {
         this.submissionsClosedAt = submissionsClosedAt;
     }
 
-    public void setParticipationType(ParticipationType participationType) {
-        this.participationType = participationType;
-    }
-
     public ParticipationType getParticipationType() {
         return participationType;
+    }
+
+    public void setParticipationType(ParticipationType participationType) {
+        this.participationType = participationType;
     }
 
     public static class Builder {
@@ -164,11 +164,6 @@ public class Contest {
 
         public List<Category> getCategories() {
             return categories;
-        }
-
-        public Builder setCategories(List<Category> categories) {
-            this.categories = categories;
-            return this;
         }
     }
 }
