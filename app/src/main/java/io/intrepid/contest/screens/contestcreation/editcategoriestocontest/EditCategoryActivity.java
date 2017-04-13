@@ -3,13 +3,9 @@ package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import java.util.List;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragmentActivity;

@@ -20,7 +20,6 @@ import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.Score;
 import io.intrepid.contest.screens.contestjudging.expandablerecycler.CategoryScoreListener;
 import io.intrepid.contest.screens.contestjudging.expandablerecycler.ScoreAdapter;
-import io.intrepid.contest.utils.dragdrop.ItemTouchHelperViewHolder;
 
 class EntryPageViewHolder extends RecyclerView.ViewHolder {
     private final List<Category> categories;
