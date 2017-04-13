@@ -9,7 +9,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Entry;
 import io.intrepid.contest.models.EntryBallot;
 
-class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> implements EntryDetailContract.Presenter {
+public class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> implements EntryDetailContract.Presenter {
     private Entry entryBeingRated;
     private List<Entry> entries;
 

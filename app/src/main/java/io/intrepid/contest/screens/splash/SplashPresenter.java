@@ -12,7 +12,7 @@ import io.intrepid.contest.models.ParticipationType;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
+public class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
 
     SplashPresenter(@NonNull SplashContract.View view,
                     @NonNull PresenterConfiguration configuration) {

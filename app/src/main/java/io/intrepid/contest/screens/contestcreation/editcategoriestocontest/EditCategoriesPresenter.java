@@ -9,7 +9,7 @@ import timber.log.Timber;
 
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoriesContract.View;
 
-class EditCategoriesPresenter extends BasePresenter<EditCategoriesContract.View> implements EditCategoriesContract.Presenter {
+public class EditCategoriesPresenter extends BasePresenter<EditCategoriesContract.View> implements EditCategoriesContract.Presenter {
     private final int index;
     private final Category category;
     private boolean editMode = false;

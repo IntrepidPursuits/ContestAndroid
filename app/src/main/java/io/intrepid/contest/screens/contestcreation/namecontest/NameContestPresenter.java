@@ -7,7 +7,7 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contest;
 
-class NameContestPresenter extends BasePresenter<NameContestContract.View> implements NameContestContract.Presenter {
+public class NameContestPresenter extends BasePresenter<NameContestContract.View> implements NameContestContract.Presenter {
 
     private final Contest.Builder contestBuilder;
 

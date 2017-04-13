@@ -12,7 +12,7 @@ import io.intrepid.contest.rest.EntryResponse;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class EntryImagePresenter extends BasePresenter<EntryImageContract.View> implements EntryImageContract.Presenter {
+public class EntryImagePresenter extends BasePresenter<EntryImageContract.View> implements EntryImageContract.Presenter {
     /**
      * Quality ranges from 0-100: 0 meaning compress for small size, 100 meaning compress for max quality.
      * Lossless formats like PGN will ignore this setting.

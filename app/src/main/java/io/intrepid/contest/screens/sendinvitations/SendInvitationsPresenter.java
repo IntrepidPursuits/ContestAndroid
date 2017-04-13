@@ -17,7 +17,7 @@ import io.intrepid.contest.rest.InvitationResponse;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.View>
+public class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.View>
         implements SendInvitationsContract.Presenter {
 
     private final List<Contact> fullContactList = new ArrayList<>();
