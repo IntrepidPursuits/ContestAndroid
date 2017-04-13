@@ -11,6 +11,7 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.testutils.BasePresenterTest;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -36,7 +37,7 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
     private List<Category> makeCategories() {
         List<Category> categories = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            categories.add(new Category("Test", "Tester"));
+            categories.add(new Category("Category " + i, "Category description " + i));
         }
         return categories;
     }
@@ -106,24 +107,20 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
 
     @Test
     public void displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
-        presenter.displayCategories();
-        verify(mockView).showCategories(any());
-    }
-
-    @Test
-    public void displayCategoriesShouldShowCategories() {
-        presenter.displayCategories();
-        verify(mockView).showCategories(any());
-    }
-
-    @Test
-    public void displayCategoriesShouldShowCategoriesContestshasCategories() {
-        List<Category> categories = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            categories.add(new Category(" ", " "));
-        }
-
+        ArrayList<Category> categories = new ArrayList<>();
+        categories.add(new Category("Default name", "Default description"));
         when(mockContestBuilder.getCategories()).thenReturn(categories);
+
+        presenter.displayCategories();
+
+        verify(mockView).showCategories(argThat(argument -> argument.equals(categories)));
+    }
+
+    @Test
+    public void displayCategoriesShouldShowCategoriesWhenThereAreCategories() {
+        List<Category> categories = makeCategories();
+        when(mockContestBuilder.getCategories()).thenReturn(categories);
+
         presenter.displayCategories();
 
         verify(mockView).showCategories(categories);
@@ -137,16 +134,19 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
 
     @Test
     public void onNextClickedShouldTriggerViewToShowNextScreen() {
-        List<Category> categoryList = new ArrayList<>();
-        presenter.onNextClicked(categoryList);
+        presenter.onNextClicked();
         verify(mockView).showNextScreen();
     }
 
     @Test
     public void onCategoryClickedShouldTriggerViewToShowEditPage() {
-        Category category = new Category("Test", "Tester");
-        presenter.onCategoryClicked(category);
-        verify(mockView).showEditCategoryPage(category, 0);
+        List<Category> categories = new ArrayList<>();
+        categories.add(new Category("Test", "Tester"));
+        when(mockContestBuilder.getCategories()).thenReturn(categories);
+
+        presenter.onCategoryClicked(categories.get(0));
+
+        verify(mockView).showEditCategoryPage(categories.get(0), 0);
     }
 
     @Test
@@ -154,5 +154,27 @@ public class CategoriesListPresenterTest extends BasePresenterTest<CategoriesLis
         int initialSize = mockContestBuilder.getCategories().size();
         presenter.onDeleteClicked(mockContestBuilder.getCategories().get(0));
         verify(mockView).showCategories(argThat(argument -> argument.size() == initialSize - 1));
+    }
+
+    @Test
+    public void onCategoryMovedShouldUpdateCategoriesListWhenItemMovedUp() {
+        List<Category> categories = makeCategories();
+        when(mockContestBuilder.getCategories()).thenReturn(categories);
+
+        presenter.onCategoryMoved(1, 4);
+
+        assertTrue(categories.get(4).getName().equals("Category 1"));
+        assertTrue(categories.get(1).getName().equals("Category 2"));
+    }
+
+    @Test
+    public void onCategoryMovedShouldUpdateCategoriesListWhenItemMovedDown() {
+        List<Category> categories = makeCategories();
+        when(mockContestBuilder.getCategories()).thenReturn(categories);
+
+        presenter.onCategoryMoved(4, 1);
+
+        assertTrue(categories.get(1).getName().equals("Category 4"));
+        assertTrue(categories.get(4).getName().equals("Category 3"));
     }
 }

@@ -6,4 +6,6 @@ interface CategoryClickListener{
     void onCategoryClicked(Category category);
 
     void onDeleteClicked(Category category);
+
+    void onCategoryMoved(int fromPosition, int toPosition);
 }

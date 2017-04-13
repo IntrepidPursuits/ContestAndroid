@@ -25,7 +25,7 @@ interface CategoriesListContract {
     interface Presenter extends BaseContract.Presenter<ContestCreationFragment>, CategoryClickListener {
         void displayCategories();
 
-        void onNextClicked(List<Category> categories);
+        void onNextClicked();
 
         void onAddCategoryClicked();
     }

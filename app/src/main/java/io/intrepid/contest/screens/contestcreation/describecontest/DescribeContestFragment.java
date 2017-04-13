@@ -1,8 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.describecontest;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import butterknife.BindView;
 import io.intrepid.contest.R;
@@ -27,12 +25,6 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
     public DescribeContestPresenter createPresenter(PresenterConfiguration configuration) {
         Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
         return new DescribeContestPresenter(this, configuration, contestBuilder);
-    }
-
-    @Override
-    protected void onViewCreated(@Nullable Bundle savedInstanceState) {
-        super.onViewCreated(savedInstanceState);
-        setActionBarTitle(R.string.description);
     }
 
     @Override

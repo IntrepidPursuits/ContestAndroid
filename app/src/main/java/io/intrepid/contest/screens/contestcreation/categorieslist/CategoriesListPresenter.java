@@ -3,6 +3,7 @@ package io.intrepid.contest.screens.contestcreation.categorieslist;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.intrepid.contest.R;
@@ -13,21 +14,19 @@ import io.intrepid.contest.models.Contest;
 
 class CategoriesListPresenter extends BasePresenter<CategoriesListContract.ContestCreationFragment> implements CategoriesListContract.Presenter {
     private final Contest.Builder contestBuilder;
-    private List<Category> categories;
 
     CategoriesListPresenter(@NonNull CategoriesListContract.ContestCreationFragment view,
                             @NonNull PresenterConfiguration configuration,
                             Contest.Builder contestBuilder) {
         super(view, configuration);
         this.contestBuilder = contestBuilder;
-        categories = this.contestBuilder.getCategories();
+        List<Category> categories = this.contestBuilder.getCategories();
         categories = categories == null ? new ArrayList<>() : categories;
 
         if (categories.isEmpty()) {
             Category defaultCategory = view.getDefaultCategory(R.string.default_category_name,
                                                                R.string.default_category_description);
             categories.add(defaultCategory);
-            this.contestBuilder.setCategories(categories);
         }
     }
 
@@ -49,8 +48,7 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.Conte
     }
 
     @Override
-    public void onNextClicked(List<Category> categories) {
-        contestBuilder.setCategories(categories);
+    public void onNextClicked() {
         view.showNextScreen();
     }
 
@@ -61,7 +59,7 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.Conte
 
     @Override
     public void onCategoryClicked(Category category) {
-        view.showEditCategoryPage(category, categories.indexOf(category));
+        view.showEditCategoryPage(category, contestBuilder.getCategories().indexOf(category));
     }
 
     @Override
@@ -74,5 +72,19 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.Conte
     private void determineNextIconVisibility() {
         boolean nextEnabled = !contestBuilder.getCategories().isEmpty();
         view.setNextEnabled(nextEnabled);
+    }
+
+    @Override
+    public void onCategoryMoved(int fromPosition, int toPosition) {
+        List<Category> categories = contestBuilder.getCategories();
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(categories, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(categories, i, i - 1);
+            }
+        }
     }
 }

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import io.intrepid.contest.models.Category;
@@ -49,15 +48,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryViewHolder> im
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(categories, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(categories, i, i - 1);
-            }
-        }
+        listener.onCategoryMoved(fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
     }
 }

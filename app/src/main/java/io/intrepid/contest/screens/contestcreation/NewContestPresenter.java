@@ -11,6 +11,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.rest.ContestWrapper;
+import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFragment;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -106,14 +107,14 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        onPageSelected(position);
+        // Do nothing
     }
 
     @Override
     public void onPageSelected(int position) {
-        if (view.getChildEditFragment(position) instanceof ValidatableContestCreationFragment) {
-            ValidatableContestCreationFragment fragment = (ValidatableContestCreationFragment) view.getChildEditFragment(
-                    position);
+        ContestCreationFragment childEditFragment = view.getChildEditFragment(position);
+        if (childEditFragment instanceof ValidatableContestCreationFragment) {
+            ValidatableContestCreationFragment fragment = (ValidatableContestCreationFragment) childEditFragment;
             fragment.onFocus();
         }
 
@@ -132,11 +133,14 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
                 pageTitle = R.string.new_contest;
         }
         view.setPageTitle(pageTitle);
+
+        if (childEditFragment instanceof ReviewContestFragment) {
+            ((ReviewContestFragment) childEditFragment).onPageSelected();
+        }
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        int position = view.getCurrentIndex();
-        onPageSelected(position);
+        // Do nothing
     }
 }

@@ -53,7 +53,7 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
     }
 
     @Override
-    public void showReviewPage(Contest.Builder contestBuilder) {
+    public void displayReviewPageContent(Contest.Builder contestBuilder) {
         titleButton.setText(contestBuilder.title);
         descriptionButton.setText(contestBuilder.description);
         categoryAdapter.setCategories(contestBuilder.getCategories());
@@ -82,6 +82,12 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
     @Override
     public void onNextClicked() {
         ((EditContestContract) getActivity()).showNextScreen();
-        //todo - submit contest
+    }
+
+    public void onPageSelected() {
+        // The presenter can be null if the view pager was reset and did not load this fragment in advance.
+        if (presenter != null) {
+            presenter.onPageSelected();
+        }
     }
 }

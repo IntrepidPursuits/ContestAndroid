@@ -6,7 +6,7 @@ import io.intrepid.contest.models.Contest;
 interface ReviewContestContract {
 
     interface View extends BaseContract.View {
-        void showReviewPage(Contest.Builder contest);
+        void displayReviewPageContent(Contest.Builder contest);
 
         void showEditTitlePage(Contest.Builder contestBuilder);
 
@@ -17,5 +17,7 @@ interface ReviewContestContract {
         void onContestTitleSelected();
 
         void onContestDescriptionSelected();
+
+        void onPageSelected();
     }
 }
