@@ -86,6 +86,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    lintOptions {
+        abortOnError false
+        lintConfig file('lintConfig.xml')
+    }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
