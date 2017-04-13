@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'spoon'
 apply from: 'version.gradle'
@@ -100,7 +101,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support libraries
-    def supportVersion = "25.1.0";
+    def supportVersion = "25.3.1";
     compile "com.android.support:support-v4:$supportVersion"
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
@@ -109,7 +110,7 @@ dependencies {
     compile "com.android.support:cardview-v7:$supportVersion"
 
     // Google play services
-    def googlePlayVersion = "10.0.1";
+    def googlePlayVersion = "10.2.1";
     compile "com.google.android.gms:play-services-base:$googlePlayVersion"
 
     // Jake Wharton/Square
@@ -165,6 +166,7 @@ dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestCompile "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
     androidTestCompile "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 
 spoon {
@@ -180,4 +182,7 @@ spoon {
     }
 
     grantAllPermissions = true
+}
+repositories {
+    mavenCentral()
 }

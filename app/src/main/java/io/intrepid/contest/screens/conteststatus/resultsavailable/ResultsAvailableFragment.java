@@ -14,7 +14,6 @@ import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.contestresults.ContestResultsActivity;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivityContract;
 import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContract.Presenter>
         implements ResultsAvailableContract.View {

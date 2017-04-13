@@ -7,7 +7,6 @@ import java.util.List;
 
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Contact;
-import io.intrepid.contest.models.ParticipationType;
 
 class SelectContactsContract {
     interface View extends BaseContract.View {
