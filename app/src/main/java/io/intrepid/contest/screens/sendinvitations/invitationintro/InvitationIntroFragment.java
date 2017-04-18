@@ -26,7 +26,7 @@ import io.intrepid.contest.screens.sendinvitations.SendInvitationsActivityContra
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class InvitationIntroFragment extends BaseFragment<InvitationIntroContract.Presenter>
+public class InvitationIntroFragment extends BaseFragment<InvitationIntroContract.Presenter, InvitationIntroContract.View>
         implements InvitationIntroContract.View {
 
     private static final String PACKAGE_KEY = "package";

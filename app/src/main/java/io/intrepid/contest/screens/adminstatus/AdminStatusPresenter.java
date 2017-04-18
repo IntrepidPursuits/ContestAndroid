@@ -28,33 +28,33 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
         super.onViewCreated();
         fetchSubmittedEntries();
         fetchContestStatus();
-        view.showAwaitSubmissionsIndicator(awaitingSubmissions);
+        getView().showAwaitSubmissionsIndicator(awaitingSubmissions);
     }
 
     @Override
     public void onBackPressed() {
-        view.exitStatusScreen();
+        getView().exitStatusScreen();
     }
 
     private void fetchSubmittedEntries() {
-        String contestId = String.valueOf(persistentSettings.getCurrentContestId());
-        Disposable disposable = restApi.getContestDetails(contestId)
+        String contestId = String.valueOf(getPersistentSettings().getCurrentContestId());
+        Disposable disposable = getRestApi().getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     Timber.d("Received response " + response.contest.getTitle());
                     List<Entry> entries = response.contest.getEntries();
-                    view.showSubmittedEntries(entries);
+                    getView().showSubmittedEntries(entries);
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(disposable);
+        getDisposables().add(disposable);
     }
 
     private void fetchContestStatus() {
-        String contestId = String.valueOf(persistentSettings.getCurrentContestId());
+        String contestId = String.valueOf(getPersistentSettings().getCurrentContestId());
 
-        Disposable disposable = restApi.getContestStatus(contestId)
+        Disposable disposable = getRestApi().getContestStatus(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     Timber.d("Received response " + response.contestStatus);
@@ -62,9 +62,9 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
                     numJudgeRatingsMissing = response.contestStatus.getNumScoresMissing();
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(disposable);
+        getDisposables().add(disposable);
     }
 
     @Override
@@ -74,7 +74,7 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
             return;
         }
         if (numEntriesMissing > 0) {
-            view.showConfirmStartContestDialog();
+            getView().showConfirmStartContestDialog();
         } else {
             closeSubmissions();
         }
@@ -82,14 +82,14 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
 
     private void onEndContestClicked() {
         if (numJudgeRatingsMissing > 0) {
-            view.showConfirmEndContestDialog();
+            getView().showConfirmEndContestDialog();
         } else {
             endContest();
         }
     }
 
     private void endContest() {
-        Disposable endContestDisposable = restApi.endContest(persistentSettings.getCurrentContestId().toString())
+        Disposable endContestDisposable = getRestApi().endContest(getPersistentSettings().getCurrentContestId().toString())
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                                Timber.d(" End contest response " + response.contest.toString());
@@ -97,33 +97,33 @@ class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> imple
                            },
                            throwable -> {
                                Timber.d(throwable.getMessage());
-                               view.showMessage(R.string.error_api);
+                               getView().showMessage(R.string.error_api);
                            });
-        disposables.add(endContestDisposable);
+        getDisposables().add(endContestDisposable);
     }
 
     private void closeSubmissions() {
-        Disposable closeSubmissionsDisposable = restApi.closeSubmissions(persistentSettings.getCurrentContestId().toString()) .compose(subscribeOnIoObserveOnUi())
+        Disposable closeSubmissionsDisposable = getRestApi().closeSubmissions(getPersistentSettings().getCurrentContestId().toString()) .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                                Timber.d("Contest submission closed at " + response.contest.getSubmissionsClosedAt());
                                 advanceToJudgingIndicator();
                            },
                            throwable -> {
                                Timber.d(throwable.getMessage());
-                               view.showMessage(R.string.error_api);
+                               getView().showMessage(R.string.error_api);
                            });
-        disposables.add(closeSubmissionsDisposable);
+        getDisposables().add(closeSubmissionsDisposable);
     }
 
     private void advanceToJudgingIndicator() {
         contestStarted = true;
-        view.advanceToJudgingIndicator();
+        getView().advanceToJudgingIndicator();
     }
 
     private void advanceToEndOfContestIndicator() {
         contestStarted = false;
-        view.showJudgingStatusIndicator(false);
-        view.showEndOfContestIndicator(true);
+        getView().showJudgingStatusIndicator(false);
+        getView().showEndOfContestIndicator(true);
     }
 
     @Override

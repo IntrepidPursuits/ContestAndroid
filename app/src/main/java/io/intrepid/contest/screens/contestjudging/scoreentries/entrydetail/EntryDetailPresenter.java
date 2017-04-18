@@ -22,36 +22,36 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
     public void onViewCreated() {
         super.onViewCreated();
         updateViewWithBallot();
-        view.setNextEnabled(determineNextVisibility());
+        getView().setNextEnabled(determineNextVisibility());
     }
 
     private boolean determineNextVisibility() {
-        return view.getEntryToRate().isCompletelyScored();
+        return getView().getEntryToRate().isCompletelyScored();
     }
 
     private void updateViewWithBallot() {
-        entries = view.getAllEntries();
-        view.showEntries(entries);
+        entries = getView().getAllEntries();
+        getView().showEntries(entries);
 
-        entryBeingRated = view.getEntryToRate();
-        Entry detailEntry = view.getEntryToRate();
-        view.scrollToEntry(entries.indexOf(detailEntry));
+        entryBeingRated = getView().getEntryToRate();
+        Entry detailEntry = getView().getEntryToRate();
+        getView().scrollToEntry(entries.indexOf(detailEntry));
     }
 
     @Override
     public void onScoreChanged(int position, int newRating) {
-        view.getEntryBallot().setScore(position, newRating);
-        entryBeingRated = view.getEntryToRate();
+        getView().getEntryBallot().setScore(position, newRating);
+        entryBeingRated = getView().getEntryToRate();
         entryBeingRated.acceptScore(position, newRating);
-        view.scrollToEntry(entries.indexOf(entryBeingRated));
+        getView().scrollToEntry(entries.indexOf(entryBeingRated));
         if (entries.indexOf(entryBeingRated) == entries.size() - 1) {
-            view.setReviewRatingsButtonVisibility(allBallotsScored());
+            getView().setReviewRatingsButtonVisibility(allBallotsScored());
         }
-        view.setNextEnabled(determineNextVisibility());
+        getView().setNextEnabled(determineNextVisibility());
     }
 
     private boolean allBallotsScored() {
-        for (EntryBallot ballot : view.getAllBallots()) {
+        for (EntryBallot ballot : getView().getAllBallots()) {
             if (!ballot.isCompletelyScored()) {
                 return false;
             }
@@ -61,19 +61,19 @@ class EntryDetailPresenter extends BasePresenter<EntryDetailContract.View> imple
 
     @Override
     public void onEntryScoreReviewClicked() {
-        view.returnToEntriesListPage(true);
+        getView().returnToEntriesListPage(true);
     }
 
     @Override
     public void onPageScrolled() {
-        view.setNextEnabled(determineNextVisibility());
+        getView().setNextEnabled(determineNextVisibility());
     }
 
     @Override
     public void onSnapViewSwiped(int newIndex) {
         entryBeingRated = entries.get(newIndex);
-        if (view != null) {
-            view.onPageSwipedTo(newIndex);
+        if (getView() != null) {
+            getView().onPageSwipedTo(newIndex);
         }
     }
 }

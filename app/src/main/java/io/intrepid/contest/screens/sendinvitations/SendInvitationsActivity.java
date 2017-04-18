@@ -30,8 +30,8 @@ import io.intrepid.contest.screens.splash.SplashActivity;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsContract.Presenter>
-        implements SendInvitationsContract.View, SendInvitationsActivityContract {
+public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsContract.Presenter,
+        SendInvitationsContract.View> implements SendInvitationsContract.View, SendInvitationsActivityContract {
 
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
@@ -57,12 +57,12 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
 
     @Override
     public ParticipationType getParticipationType() {
-        return presenter.getInvitationParticipantType();
+        return getPresenter().getInvitationParticipantType();
     }
 
     @Override
     public void onBackPressed() {
-        presenter.onBackButtonClicked();
+        getPresenter().onBackButtonClicked();
     }
 
     @Override
@@ -80,13 +80,13 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_send_invitations, menu);
         this.menu = menu;
-        presenter.onCreateOptionsMenu();
+        getPresenter().onCreateOptionsMenu();
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        presenter.onOptionsItemSelected(item.getItemId());
+        getPresenter().onOptionsItemSelected(item.getItemId());
         return true;
     }
 
@@ -129,13 +129,13 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            presenter.onContactsPermissionsResult();
+            getPresenter().onContactsPermissionsResult();
         }
     }
 
     @OnClick(R.id.select_contacts_fab_button)
     public void onSelectContactsButtonClicked() {
-        presenter.onSelectContactsButtonClicked();
+        getPresenter().onSelectContactsButtonClicked();
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -182,21 +182,21 @@ public class SendInvitationsActivity extends BaseMvpActivity<SendInvitationsCont
 
     @Override
     public boolean hasContactPermissions() {
-        return presenter.hasContactPermissions();
+        return getPresenter().hasContactPermissions();
     }
 
     @Override
     public boolean isContactSelectionEnabled() {
-        return presenter.isContactSelectionEnabled();
+        return getPresenter().isContactSelectionEnabled();
     }
 
     @Override
     public List<Contact> getContactList() {
-        return presenter.getContactList();
+        return getPresenter().getContactList();
     }
 
     @Override
     public void onAddContestantsButtonClicked(List<Contact> selectedContactList) {
-        presenter.onAddContestantsButtonClicked(selectedContactList);
+        getPresenter().onAddContestantsButtonClicked(selectedContactList);
     }
 }

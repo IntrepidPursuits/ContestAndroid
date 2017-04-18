@@ -24,27 +24,27 @@ class CropImagePresenter extends BasePresenter<CropImageContract.View> implement
     @Override
     protected void onViewBound() {
         super.onViewBound();
-        view.showCropTitle(entryName);
+        getView().showCropTitle(entryName);
     }
 
     @Override
     public void onCancelCropClicked() {
-        view.cancelCrop();
+        getView().cancelCrop();
     }
 
     @Override
     public void onCropOkButtonClicked() {
         Timber.d("Crop ok clicked");
-        view.performCrop();
+        getView().performCrop();
     }
 
     @Override
     public void onBitmapCropped(@NonNull Uri resultUri, int imageWidth, int imageHeight) {
-        view.dispatchCroppedImage(resultUri);
+        getView().dispatchCroppedImage(resultUri);
     }
 
     @Override
     public void onCropFailure(@NonNull Throwable t) {
-        view.showMessage(R.string.crop_error_message);
+        getView().showMessage(R.string.crop_error_message);
     }
 }

@@ -24,14 +24,14 @@ public class ContestResultsPresenter extends BasePresenter<ContestResultsContrac
     public void onViewCreated() {
         super.onViewCreated();
 
-        String contestId = persistentSettings.getCurrentContestId().toString();
-        Disposable apiCallDisposable = restApi.getContestResults(contestId)
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
+        Disposable apiCallDisposable = getRestApi().getContestResults(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(contestResultResponse -> showResults(contestResultResponse), throwable -> {
                     Timber.d("API error retrieving contest results: " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(apiCallDisposable);
+        getDisposables().add(apiCallDisposable);
     }
 
     private void showResults(ContestResultResponse contestResultResponse) {
@@ -42,8 +42,8 @@ public class ContestResultsPresenter extends BasePresenter<ContestResultsContrac
         List<RankedEntryResult> entryResults = contestResultResponse.contestResults.rankedScoredEntries;
 
         if (!entryResults.isEmpty()) {
-            view.hideNoEntriesMessage();
-            view.showResults(entryResults);
+            getView().hideNoEntriesMessage();
+            getView().showResults(entryResults);
         }
     }
 }

@@ -51,7 +51,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
 
     @Override
     public boolean hasContactPermissions() {
-        return view.checkContactsPermissions();
+        return getView().checkContactsPermissions();
     }
 
     public ParticipationType getInvitationParticipantType() {
@@ -70,7 +70,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
         super.onViewBound();
 
         if (!hasContactPermissions()) {
-            view.requestContactsPermissions();
+            getView().requestContactsPermissions();
         }
 
         // Restore content
@@ -90,9 +90,9 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
         lastShowed = SendInvitationsContent.SELECT_CONTACTS;
 
         displayMenuItemsAndActionBar = false;
-        view.showSelectContactsButton(false);
+        getView().showSelectContactsButton(false);
         setContactSelectionEnabled(true);
-        view.showSelectContactsFragment();
+        getView().showSelectContactsFragment();
     }
 
     @Override
@@ -113,15 +113,15 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
     private void showPreviewContent() {
         displayMenuItemsAndActionBar = true;
         boolean hasPermissions = hasContactPermissions();
-        view.showSelectContactsButton(hasPermissions);
+        getView().showSelectContactsButton(hasPermissions);
 
         if (!hasPermissions || selectedContactList.isEmpty()) {
             lastShowed = SendInvitationsContent.PREVIEW_INTRO;
-            view.showInvitationIntroFragment();
+            getView().showInvitationIntroFragment();
         } else {
             lastShowed = SendInvitationsContent.PREVIEW_CONTACTS;
             setContactSelectionEnabled(false);
-            view.showSelectContactsFragment();
+            getView().showSelectContactsFragment();
         }
     }
 
@@ -160,7 +160,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
                 updateMenuItemsAndActionBar();
                 break;
             case JUDGE:
-                view.showContestStatusScreen();
+                getView().showContestStatusScreen();
         }
     }
 
@@ -168,26 +168,26 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
         Timber.d("Batch invitation API call.");
 
         if (selectedContactList.isEmpty()) {
-            view.showMessage(R.string.no_contacts_selected);
+            getView().showMessage(R.string.no_contacts_selected);
             return;
         }
 
-        String contestId = persistentSettings.getCurrentContestId().toString();
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
         BatchInviteRequest batchInviteRequest = new BatchInviteRequest();
         batchInviteRequest.invitations = new InvitationRequest(contestId,
                                                                invitationParticipantType, selectedContactList);
 
-        Disposable disposable = restApi.batchInvite(contestId, batchInviteRequest)
+        Disposable disposable = getRestApi().batchInvite(contestId, batchInviteRequest)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> showResult(response), throwable -> {
                     Timber.d("API error sending batch invitations: " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(disposable);
+        getDisposables().add(disposable);
     }
 
     private void showResult(BatchInviteResponse response) {
-        view.showMessage("Invitations sent!");
+        getView().showMessage("Invitations sent!");
         for (InvitationResponse invitationResponse : response.invitationResponses) {
             Timber.d("Code: " + invitationResponse.code);
         }
@@ -203,14 +203,14 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
 
     private void updateMenuItemsAndActionBar() {
         if (displayMenuItemsAndActionBar) {
-            view.setActionBarTitle(invitationParticipantType.equals(ParticipationType.CONTESTANT) ?
+            getView().setActionBarTitle(invitationParticipantType.equals(ParticipationType.CONTESTANT) ?
                                            R.string.invite_contestants_bar_title : R.string.invite_judges_bar_title);
-            view.setActionBarDisplayHomeAsUpEnabled(false);
-            view.showSendInvitationsMenuItem(!selectedContactList.isEmpty());
-            view.showSendInvitationsSkipMenuItem(selectedContactList.isEmpty());
+            getView().setActionBarDisplayHomeAsUpEnabled(false);
+            getView().showSendInvitationsMenuItem(!selectedContactList.isEmpty());
+            getView().showSendInvitationsSkipMenuItem(selectedContactList.isEmpty());
         } else {
-            view.showSendInvitationsMenuItem(false);
-            view.showSendInvitationsSkipMenuItem(false);
+            getView().showSendInvitationsMenuItem(false);
+            getView().showSendInvitationsSkipMenuItem(false);
         }
     }
 
@@ -219,7 +219,7 @@ class SendInvitationsPresenter extends BasePresenter<SendInvitationsContract.Vie
         if (contactSelectionEnabled) {
             showPreviewContent();
         } else {
-            view.cancelSelection();
+            getView().cancelSelection();
         }
     }
 

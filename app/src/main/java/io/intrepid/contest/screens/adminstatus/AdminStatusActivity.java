@@ -25,7 +25,9 @@ import static android.view.View.VISIBLE;
 import static io.intrepid.contest.screens.adminstatus.ConfirmStartContestDialog.AdminActionType.END_CONTEST;
 import static io.intrepid.contest.screens.adminstatus.ConfirmStartContestDialog.AdminActionType.START_CONTEST;
 
-public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter> implements AdminStatusContract.View {
+public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter, AdminStatusContract.View>
+        implements AdminStatusContract.View {
+
     @BindView(R.id.entry_review_recycler_view)
     RecyclerView entriesRecyclerView;
     @BindView(R.id.awaiting_submission_text_indicator)
@@ -65,12 +67,12 @@ public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter> i
 
     @OnClick(R.id.bottom_navigation_button)
     public void onBottomNavigationButtonClicked() {
-        presenter.onBottomNavigationButtonClicked();
+        getPresenter().onBottomNavigationButtonClicked();
     }
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        getPresenter().onBackPressed();
     }
 
     @Override
@@ -109,12 +111,12 @@ public class AdminStatusActivity extends BaseMvpActivity<AdminStatusPresenter> i
 
     @Override
     public void showConfirmStartContestDialog() {
-        ConfirmStartContestDialog.newInstance(START_CONTEST, presenter).show(getSupportFragmentManager());
+        ConfirmStartContestDialog.newInstance(START_CONTEST, getPresenter()).show(getSupportFragmentManager());
     }
 
     @Override
     public void showConfirmEndContestDialog() {
-        ConfirmStartContestDialog.newInstance(END_CONTEST, presenter).show(getSupportFragmentManager());
+        ConfirmStartContestDialog.newInstance(END_CONTEST, getPresenter()).show(getSupportFragmentManager());
     }
 
     @Override

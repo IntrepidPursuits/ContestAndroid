@@ -20,14 +20,14 @@ class EntriesListPresenter extends BasePresenter<EntriesListContract.View> imple
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.setNextVisible(false);
-        view.showSubmitButton(hasCompletedScores());
+        getView().setNextVisible(false);
+        getView().showSubmitButton(hasCompletedScores());
         boolean reviewMode = hasCompletedScores();
-        view.showEntriesList(reviewMode);
+        getView().showEntriesList(reviewMode);
     }
 
     private boolean hasCompletedScores() {
-        for (Entry entry : view.getEntries()) {
+        for (Entry entry : getView().getEntries()) {
             if (!entry.isCompletelyScored()) {
                 return false;
             }
@@ -37,24 +37,24 @@ class EntriesListPresenter extends BasePresenter<EntriesListContract.View> imple
 
     @Override
     public void onSubmitButtonClicked() {
-        String contestId = persistentSettings.getCurrentContestId().toString();
-        AdjudicateRequest adjudicateRequest = new AdjudicateRequest(view.getEntryBallots());
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
+        AdjudicateRequest adjudicateRequest = new AdjudicateRequest(getView().getEntryBallots());
 
-        Disposable disposable = restApi.adjudicate(contestId, adjudicateRequest)
+        Disposable disposable = getRestApi().adjudicate(contestId, adjudicateRequest)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                                if (response.isSuccessful()) {
-                                   view.showContestStatusScreen();
+                                   getView().showContestStatusScreen();
                                    return;
                                }
 
                                Timber.d("API error adjudicating: " + response.message());
-                               view.showMessage(R.string.error_api);
+                               getView().showMessage(R.string.error_api);
                            },
                            throwable -> {
                                Timber.d("Retrofit error adjudicating");
-                               view.showMessage(R.string.error_api);
+                               getView().showMessage(R.string.error_api);
                            });
-        disposables.add(disposable);
+        getDisposables().add(disposable);
     }
 }

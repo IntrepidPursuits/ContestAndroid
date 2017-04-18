@@ -33,7 +33,8 @@ import static io.intrepid.contest.screens.contestcreation.editcategoriestocontes
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_NEW_CATEGORY;
 
-public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> implements NewContestMvpContract.View, EditContestContract {
+public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, NewContestMvpContract.View>
+        implements NewContestMvpContract.View, EditContestContract {
     @BindView(R.id.fragment_container)
     ViewPager viewPager;
     private SlidingTabAdapter tabAdapter;
@@ -61,21 +62,17 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
             actionBar.setDisplayHomeAsUpEnabled(true);
             setActionBarTitle(R.string.new_contest);
         }
-        viewPager.addOnPageChangeListener(presenter);
+        viewPager.addOnPageChangeListener(getPresenter());
     }
 
     @Override
     public void onBackPressed() {
-        presenter.onBackButtonClicked();
+        getPresenter().onBackButtonClicked();
     }
 
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_viewpager_container;
-    }
-
-    public NewContestMvpContract.Presenter getPresenter() {
-        return presenter;
     }
 
     private void setupViewPager() {
@@ -107,7 +104,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
                 onBackPressed();
                 break;
             case R.id.action_next:
-                presenter.onNextButtonClicked();
+                getPresenter().onNextButtonClicked();
                 break;
         }
         return true;
@@ -121,7 +118,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
                 if (resultCode == RESULT_OK && data != null) {
                     String categoryName = data.getStringExtra(CATEGORY_NAME);
                     String categoryDescription = data.getStringExtra(CATEGORY_DESCRIPTION);
-                    presenter.onNewCategoryAdded(categoryName, categoryDescription);
+                    getPresenter().onNewCategoryAdded(categoryName, categoryDescription);
                 }
                 break;
             case NOTIFY_EDIT_EXISTING_CATEGORY:
@@ -129,7 +126,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
                     int index = data.getIntExtra(CATEGORY_INDEX, -1);
                     String newName = data.getStringExtra(CATEGORY_NAME);
                     String newDescription = data.getStringExtra(CATEGORY_DESCRIPTION);
-                    presenter.onContestEditEntered(index, newName, newDescription);
+                    getPresenter().onContestEditEntered(index, newName, newDescription);
                 }
         }
     }
@@ -175,7 +172,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
 
     @Override
     public void showAddCategoryScreen() {
-        presenter.showAddCategoryScreen();
+        getPresenter().showAddCategoryScreen();
     }
 
     @Override
@@ -200,16 +197,16 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter> imp
 
     @Override
     public Contest.Builder getContestBuilder() {
-        return presenter.getContest();
+        return getPresenter().getContest();
     }
 
     @Override
     public void showNextScreen() {
-        presenter.showNextScreen();
+        getPresenter().showNextScreen();
     }
 
     @Override
     public void setNextEnabled(boolean enabled) {
-        presenter.onNextStatusChanged(enabled);
+        getPresenter().onNextStatusChanged(enabled);
     }
 }

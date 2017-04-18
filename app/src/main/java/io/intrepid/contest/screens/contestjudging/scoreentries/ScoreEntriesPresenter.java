@@ -35,12 +35,12 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
 
     private void showEntriesList() {
         currentEntry = null;
-        view.showEntriesList();
+        getView().showEntriesList();
     }
 
     private void fetchEntriesForContest() {
-        String contestId = persistentSettings.getCurrentContestId().toString();
-        Disposable apiCallDisposable = restApi.getContestDetails(contestId)
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
+        Disposable apiCallDisposable = getRestApi().getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     Timber.d("Received response " + response.contest.getTitle());
@@ -56,12 +56,12 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
                         entryBallots.add(ballot);
                     }
                     Timber.d("Entry Ballots size " + entryBallots.size());
-                    view.showEntriesList();
+                    getView().showEntriesList();
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(apiCallDisposable);
+        getDisposables().add(apiCallDisposable);
     }
 
     @Override
@@ -102,7 +102,7 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
             index++;
             currentEntry = entries.get(index);
             currentEntryBallot = entryBallots.get(index);
-            view.showEntryDetail(index);
+            getView().showEntryDetail(index);
         }
     }
 
@@ -111,7 +111,7 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
         if (currentEntry != null) {
             showEntriesList();
         } else {
-            view.cancelScoringEntries();
+            getView().cancelScoringEntries();
         }
     }
 
@@ -119,6 +119,6 @@ class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> im
     public void onEntrySelected(Entry entry) {
         currentEntry = entry;
         currentEntryBallot = entryBallots.get(entries.indexOf(entry));
-        view.showEntryDetail(entries.indexOf(entry));
+        getView().showEntryDetail(entries.indexOf(entry));
     }
 }

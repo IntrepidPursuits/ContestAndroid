@@ -19,7 +19,7 @@ import io.intrepid.contest.screens.splash.SplashActivity;
 
 import static android.view.View.GONE;
 
-public class ContestResultsActivity extends BaseMvpActivity<ContestResultsContract.Presenter>
+public class ContestResultsActivity extends BaseMvpActivity<ContestResultsContract.Presenter, ContestResultsContract.View>
         implements ContestResultsContract.View {
 
     @BindView(R.id.generic_recycler_view)

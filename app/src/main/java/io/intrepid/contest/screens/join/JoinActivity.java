@@ -23,7 +23,8 @@ import io.intrepid.contest.screens.splash.SplashActivity;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implements JoinContract.View {
+public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter, JoinContract.View>
+        implements JoinContract.View {
 
     @BindView(R.id.enter_code_submit_button)
     Button enterCodeSubmitButton;
@@ -42,7 +43,7 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        getPresenter().onBackPressed();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                presenter.onBackPressed();
+                getPresenter().onBackPressed();
                 break;
         }
         return true;
@@ -70,12 +71,12 @@ public class JoinActivity extends BaseMvpActivity<JoinContract.Presenter> implem
 
     @OnTextChanged(R.id.hint_label_edit_text)
     public void onEntryCodeTextChanged(CharSequence newCode) {
-        presenter.onEntryCodeTextChanged(newCode.toString());
+        getPresenter().onEntryCodeTextChanged(newCode.toString());
     }
 
     @OnClick(R.id.enter_code_submit_button)
     protected void onSubmitButtonClicked() {
-        presenter.onSubmitButtonClicked(enterCodeEditView.getText());
+        getPresenter().onSubmitButtonClicked(enterCodeEditView.getText());
     }
 
     @Override

@@ -8,7 +8,7 @@ import io.intrepid.contest.screens.contestcreation.ValidatableContestCreationFra
 
 interface CategoriesListContract {
 
-    interface ContestCreationFragment extends BaseContract.View, ValidatableContestCreationFragment {
+    interface View extends BaseContract.View, ValidatableContestCreationFragment {
         void showCategories(List<Category> categories);
 
         void showAddCategoryScreen();
@@ -22,7 +22,7 @@ interface CategoriesListContract {
         void setNextEnabled(boolean enabled);
     }
 
-    interface Presenter extends BaseContract.Presenter<ContestCreationFragment>, CategoryClickListener {
+    interface Presenter extends BaseContract.Presenter<View>, CategoryClickListener {
         void displayCategories();
 
         void onNextClicked();

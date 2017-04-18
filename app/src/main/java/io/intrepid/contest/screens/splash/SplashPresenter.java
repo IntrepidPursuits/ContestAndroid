@@ -23,56 +23,56 @@ class SplashPresenter extends BasePresenter<SplashContract.View> implements Spla
     public void onViewCreated() {
         super.onViewCreated();
 
-        persistentSettings.setCurrentParticipationType(ParticipationType.CREATOR);
+        getPersistentSettings().setCurrentParticipationType(ParticipationType.CREATOR);
         authenticateUser();
     }
 
     private void authenticateUser() {
-        if (persistentSettings.isAuthenticated()) {
+        if (getPersistentSettings().isAuthenticated()) {
             discoverOngoingContests();
-            view.showUserButtons();
+            getView().showUserButtons();
         } else {
-            Disposable disposable = restApi.createUser()
+            Disposable disposable = getRestApi().createUser()
                     .compose(subscribeOnIoObserveOnUi())
                     .subscribe(response -> {
                         String userId = response.user.getId().toString();
-                        persistentSettings.setAuthenticationToken(userId);
+                        getPersistentSettings().setAuthenticationToken(userId);
                         discoverOngoingContests();
-                        view.showUserButtons();
+                        getView().showUserButtons();
                     }, throwable -> {
                         Timber.d("API error creating user: " + throwable.getMessage());
-                        view.showMessage(R.string.error_api);
+                        getView().showMessage(R.string.error_api);
                     });
-            disposables.add(disposable);
+            getDisposables().add(disposable);
         }
     }
 
     private void discoverOngoingContests() {
-        Disposable disposable = restApi.getActiveContests()
+        Disposable disposable = getRestApi().getActiveContests()
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     List<Contest> contests = response.getContests();
-                    view.showOngoingContests(contests);
-                }, throwable -> view.showMessage(R.string.error_api));
-        disposables.add(disposable);
+                    getView().showOngoingContests(contests);
+                }, throwable -> getView().showMessage(R.string.error_api));
+        getDisposables().add(disposable);
     }
 
     @Override
     public void onCreateContestClicked() {
-        view.showCreateContestScreen();
+        getView().showCreateContestScreen();
     }
 
     @Override
     public void onJoinContestClicked() {
-        view.showJoinContestScreen();
+        getView().showJoinContestScreen();
     }
 
     @Override
     public void onContestClicked(Contest contest) {
-        persistentSettings.setCurrentContestId(contest.getId());
+        getPersistentSettings().setCurrentContestId(contest.getId());
         ParticipationType participationType = contest.getParticipationType();
-        persistentSettings.setCurrentParticipationType(
+        getPersistentSettings().setCurrentParticipationType(
                 participationType == null ? ParticipationType.CREATOR : participationType);
-        view.resumeContest(contest);
+        getView().resumeContest(contest);
     }
 }

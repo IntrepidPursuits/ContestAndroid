@@ -40,58 +40,58 @@ class ContestStatusPresenter extends BasePresenter<ContestStatusContract.View> i
     private void checkContestStatusPeriodically() {
         Timber.d("Check contest status");
 
-        String contestId = persistentSettings.getCurrentContestId().toString();
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
 
         Disposable timerDisposable = Observable
-                .interval(API_CALL_INITIAL_DELAY, API_CALL_INTERVAL, API_CALL_INTERVAL_UNIT, ioScheduler)
+                .interval(API_CALL_INITIAL_DELAY, API_CALL_INTERVAL, API_CALL_INTERVAL_UNIT, getIoScheduler())
                 .subscribe(success -> {
                     Timber.d("Contest status API call");
-                    Disposable apiCallDisposable = restApi.getContestStatus(contestId)
+                    Disposable apiCallDisposable = getRestApi().getContestStatus(contestId)
                             .compose(subscribeOnIoObserveOnUi())
                             .subscribe(this::showContestStatusScreen, throwable -> {
                                 Timber.d("API error retrieving contest status: " + throwable.getMessage());
-                                view.showMessage(R.string.error_api);
+                                getView().showMessage(R.string.error_api);
                             });
-                    disposables.add(apiCallDisposable);
+                    getDisposables().add(apiCallDisposable);
                 });
-        disposables.add(timerDisposable);
+        getDisposables().add(timerDisposable);
     }
 
     private void showContestStatusScreen(ContestStatusResponse response) {
         if (response.contestStatus.hasContestEnded()) {
-            view.showResultsAvailableFragment();
-            disposables.clear();
+            getView().showResultsAvailableFragment();
+            getDisposables().clear();
             return;
         }
-        switch (persistentSettings.getCurrentParticipationType()) {
+        switch (getPersistentSettings().getCurrentParticipationType()) {
             case JUDGE:
                 if (showWaitingScreen) {
-                    view.showStatusWaitingFragment();
+                    getView().showStatusWaitingFragment();
                 } else {
-                    view.showContestOverviewPage();
+                    getView().showContestOverviewPage();
                 }
                 break;
             case CREATOR:
-                view.showAdminStatusPage();
+                getView().showAdminStatusPage();
                 break;
             default:
-                view.showStatusWaitingFragment();
+                getView().showStatusWaitingFragment();
 
         }
     }
 
     @Override
     public void onBackPressed() {
-        view.returnToSplashScreen();
+        getView().returnToSplashScreen();
     }
 
     @Override
     public void requestContestDetails(Consumer<ContestWrapper> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
-        String contestId = persistentSettings.getCurrentContestId().toString();
-        Disposable apiCallDisposable = restApi.getContestDetails(contestId)
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
+        Disposable apiCallDisposable = getRestApi().getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(responseCallback, throwableCallback);
-        disposables.add(apiCallDisposable);
+        getDisposables().add(apiCallDisposable);
     }
 }

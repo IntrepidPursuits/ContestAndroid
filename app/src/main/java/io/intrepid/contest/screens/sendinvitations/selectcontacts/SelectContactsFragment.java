@@ -33,7 +33,7 @@ import static android.provider.ContactsContract.Data;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class SelectContactsFragment extends BaseFragment<SelectContactsContract.Presenter>
+public class SelectContactsFragment extends BaseFragment<SelectContactsContract.Presenter, SelectContactsContract.View>
         implements SelectContactsContract.View, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String ACTION_BAR_TITLE = "";
@@ -120,7 +120,7 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         this.menu = menu;
-        presenter.onCreateOptionsMenu();
+        getPresenter().onCreateOptionsMenu();
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -131,13 +131,13 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
         searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         SearchView searchView = new SearchView(getActivity());
-        searchView.setOnQueryTextListener(presenter);
+        searchView.setOnQueryTextListener(getPresenter());
         searchItem.setActionView(searchView);
     }
 
     @Override
     public void setupAdapter(boolean displayContactSelection) {
-        selectContactsAdapter = new SelectContactsAdapter(presenter, displayContactSelection);
+        selectContactsAdapter = new SelectContactsAdapter(getPresenter(), displayContactSelection);
         selectContactsRecyclerView.setAdapter(selectContactsAdapter);
     }
 
@@ -208,7 +208,7 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
             contacts.add(contact);
         }
 
-        presenter.onContactListUpdated(contacts);
+        getPresenter().onContactListUpdated(contacts);
     }
 
     @Override
@@ -237,7 +237,7 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
         String contactsQuantifiedString = getResources()
                 .getQuantityString(plural, numContacts, numContacts);
         addContactsButton.setText(getString(R.string.add_contacts_quantified_action,
-                                                           contactsQuantifiedString));
+                                            contactsQuantifiedString));
         addContactsButton.setVisibility(VISIBLE);
     }
 
@@ -248,7 +248,7 @@ public class SelectContactsFragment extends BaseFragment<SelectContactsContract.
 
     @OnClick(R.id.add_contacts_button)
     public void onAddContactsButtonClicked() {
-        presenter.onAddContactsButtonClicked();
+        getPresenter().onAddContactsButtonClicked();
     }
 
     @Override

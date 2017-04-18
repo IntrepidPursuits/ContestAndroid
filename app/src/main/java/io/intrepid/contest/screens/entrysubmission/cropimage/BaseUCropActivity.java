@@ -57,7 +57,7 @@ import timber.log.Timber;
 /* Modified from UCrop Library - UCropActivity */
 
 @SuppressWarnings("ALL")
-public abstract class BaseUCropActivity<T extends BaseContract.Presenter> extends BaseMvpActivity<T> {
+public abstract class BaseUCropActivity<T extends BaseContract.Presenter<V>, V extends BaseContract.View> extends BaseMvpActivity<T, V> {
     private static final int DEFAULT_COMPRESS_QUALITY = 90;
     private static final Bitmap.CompressFormat DEFAULT_COMPRESS_FORMAT = Bitmap.CompressFormat.JPEG;
     private static final int NONE = 0;

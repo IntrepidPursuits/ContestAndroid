@@ -14,9 +14,8 @@ import io.intrepid.contest.rest.ContestWrapper;
 import io.intrepid.contest.screens.contestresults.ContestResultsActivity;
 import io.intrepid.contest.screens.conteststatus.ContestStatusActivityContract;
 import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
-public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContract.Presenter>
+public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContract.Presenter, ResultsAvailableContract.View>
         implements ResultsAvailableContract.View {
 
     ContestStatusActivityContract contestStatusActivity;
@@ -47,7 +46,7 @@ public class ResultsAvailableFragment extends BaseFragment<ResultsAvailableContr
 
     @OnClick(R.id.results_available_button)
     public void onViewResultsButtonClicked() {
-        presenter.onViewResultsButtonClicked();
+        getPresenter().onViewResultsButtonClicked();
     }
 
     @Override

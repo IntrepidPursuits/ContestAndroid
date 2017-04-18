@@ -30,23 +30,23 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.showContestSubmissionPage(0);
+        getView().showContestSubmissionPage(0);
     }
 
     @Override
     public void onNextButtonClicked() {
-        int currentIndex = view.getCurrentIndex();
-        ContestCreationFragment fragment = view.getChildEditFragment(currentIndex);
+        int currentIndex = getView().getCurrentIndex();
+        ContestCreationFragment fragment = getView().getChildEditFragment(currentIndex);
         fragment.onNextClicked();
     }
 
     @Override
     public void onBackButtonClicked() {
-        int currentIndex = view.getCurrentIndex();
+        int currentIndex = getView().getCurrentIndex();
         if (currentIndex == 0) {
-            view.cancelEdit();
+            getView().cancelEdit();
         } else {
-            view.showContestSubmissionPage(currentIndex - 1);
+            getView().showContestSubmissionPage(currentIndex - 1);
         }
     }
 
@@ -55,27 +55,27 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
     }
 
     public void showNextScreen() {
-        int currentIndex = view.getCurrentIndex();
+        int currentIndex = getView().getCurrentIndex();
         if (currentIndex == LAST_PAGE_INDEX) {
             submitContest();
         }
-        view.showContestSubmissionPage(currentIndex + 1);
+        getView().showContestSubmissionPage(currentIndex + 1);
     }
 
     @Override
     public void onNextStatusChanged(boolean nextEnabled) {
-        view.setNextVisible(nextEnabled);
+        getView().setNextVisible(nextEnabled);
     }
 
     @Override
     public void onNewCategoryAdded(String categoryName, String categoryDescription) {
         contest.getCategories().add(new Category(categoryName, categoryDescription));
-        view.showUpdatedCategories();
+        getView().showUpdatedCategories();
     }
 
     @Override
     public void showAddCategoryScreen() {
-        view.navigateToAddCategoryPage(contest);
+        getView().navigateToAddCategoryPage(contest);
     }
 
     @Override
@@ -84,25 +84,25 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
         if (category != null) {
             category.setName(newName);
             category.setDescription(newDescription);
-            view.showUpdatedCategories();
+            getView().showUpdatedCategories();
         }
     }
 
     private void submitContest() {
-        view.showMessage(R.string.submitting_contest);
-        Disposable submitCall = restApi.submitContest(new ContestWrapper(contest.build()))
+        getView().showMessage(R.string.submitting_contest);
+        Disposable submitCall = getRestApi().submitContest(new ContestWrapper(contest.build()))
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe((this::onApiResult), throwable -> {
                     Timber.d("API error creating contest " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(submitCall);
+        getDisposables().add(submitCall);
     }
 
     private void onApiResult(ContestWrapper response) {
         Timber.d("Contest id " + response.contest.getId());
-        persistentSettings.setCurrentContestId(response.contest.getId());
-        view.navigateToSendInvitationsScreen();
+        getPersistentSettings().setCurrentContestId(response.contest.getId());
+        getView().navigateToSendInvitationsScreen();
     }
 
     @Override
@@ -112,7 +112,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
 
     @Override
     public void onPageSelected(int position) {
-        ContestCreationFragment childEditFragment = view.getChildEditFragment(position);
+        ContestCreationFragment childEditFragment = getView().getChildEditFragment(position);
         if (childEditFragment instanceof ValidatableContestCreationFragment) {
             ValidatableContestCreationFragment fragment = (ValidatableContestCreationFragment) childEditFragment;
             fragment.onFocus();
@@ -132,7 +132,7 @@ class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> impl
             default:
                 pageTitle = R.string.new_contest;
         }
-        view.setPageTitle(pageTitle);
+        getView().setPageTitle(pageTitle);
 
         if (childEditFragment instanceof ReviewContestFragment) {
             ((ReviewContestFragment) childEditFragment).onPageSelected();

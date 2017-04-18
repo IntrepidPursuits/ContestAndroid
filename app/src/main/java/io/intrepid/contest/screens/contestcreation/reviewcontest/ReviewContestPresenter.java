@@ -20,22 +20,22 @@ class ReviewContestPresenter extends BasePresenter<ReviewContestContract.View> i
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.displayReviewPageContent(contestBuilder);
+        getView().displayReviewPageContent(contestBuilder);
     }
 
     @Override
     public void onContestTitleSelected() {
-        view.showEditTitlePage(contestBuilder);
+        getView().showEditTitlePage(contestBuilder);
     }
 
     @Override
     public void onContestDescriptionSelected() {
-        view.showEditDescriptionPage(contestBuilder);
+        getView().showEditDescriptionPage(contestBuilder);
     }
 
     @Override
     public void onPageSelected() {
         // Update content when the page is selected to appear
-        view.displayReviewPageContent(contestBuilder);
+        getView().displayReviewPageContent(contestBuilder);
     }
 }
