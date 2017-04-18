@@ -1,27 +1,22 @@
 package io.intrepid.contest.screens.contestresults
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
-
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-
-import java.util.ArrayList
-import java.util.UUID
-
 import io.intrepid.contest.models.RankedEntryResult
 import io.intrepid.contest.rest.ContestResultResponse
 import io.intrepid.contest.screens.contestresults.ContestResultsContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
 import io.reactivex.Observable
-
 import io.reactivex.Observable.error
+import org.junit.Before
+import org.junit.Test
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyList
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import java.util.*
 
 class ContestResultsPresenterTest : BasePresenterTest<ContestResultsPresenter>() {
     @Mock
@@ -96,10 +91,6 @@ class ContestResultsPresenterTest : BasePresenterTest<ContestResultsPresenter>()
 
     private val validContestResultResponse: ContestResultResponse
         get() {
-            val rankedScoredEntries = ArrayList<RankedEntryResult>()
-            rankedScoredEntries.add(RankedEntryResult())
-            rankedScoredEntries.add(RankedEntryResult())
-            rankedScoredEntries.add(RankedEntryResult())
-            return ContestResultResponse(rankedScoredEntries)
+            return ContestResultResponse(listOf(RankedEntryResult(), RankedEntryResult(), RankedEntryResult()))
         }
 }

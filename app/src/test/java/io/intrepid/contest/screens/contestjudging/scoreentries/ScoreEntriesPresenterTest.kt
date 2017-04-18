@@ -37,9 +37,10 @@ class ScoreEntriesPresenterTest : BasePresenterTest<ScoreEntriesPresenter>() {
     private fun makeListOfEntries(): List<Entry> {
         val entries = ArrayList<Entry>()
         for (i in 0..2) {
-            val entry = Entry()
-            entry.title = "Test Entry " + i
-            entry.photoUrl = TEST_ENTRY_IMAGE
+            val entry = Entry().apply {
+                title = "Test Entry " + i
+                photoUrl = TEST_ENTRY_IMAGE
+            }
             entries.add(entry)
         }
         return entries
@@ -54,10 +55,11 @@ class ScoreEntriesPresenterTest : BasePresenterTest<ScoreEntriesPresenter>() {
     }
 
     private fun setupSuccessfulContestDetailsCall() {
-        val contest = Contest()
-        contest.title = "Contest title"
-        contest.entries = entriesList
-        contest.categories = categoriesList
+        val contest = Contest().apply {
+            title = "Contest title"
+            entries = entriesList
+            categories = categoriesList
+        }
 
         val response = ContestWrapper(contest)
         `when`(mockRestApi.getContestDetails(any<String>())).thenReturn(Observable.just(response))
@@ -134,7 +136,6 @@ class ScoreEntriesPresenterTest : BasePresenterTest<ScoreEntriesPresenter>() {
     fun getCurrentEntryShouldReturnCorrectEntryWhenViewingIt() {
         setupSuccessfulContestDetailsCall()
         presenter.onEntrySelected(entriesList[0])
-
         assertEquals(entriesList[0], presenter.currentEntry)
     }
 
@@ -147,9 +148,10 @@ class ScoreEntriesPresenterTest : BasePresenterTest<ScoreEntriesPresenter>() {
     @Test
     fun getCurrentEntryBallotShouldReturnCorrectBallotWhenViewingEntry() {
         setupSuccessfulContestDetailsCall()
-        presenter.onEntrySelected(entriesList[0])
-        val entryBallotList = presenter.entryBallotsList
 
+        presenter.onEntrySelected(entriesList[0])
+
+        val entryBallotList = presenter.entryBallotsList
         assertEquals(entryBallotList[0], presenter.currentEntryBallot)
     }
 

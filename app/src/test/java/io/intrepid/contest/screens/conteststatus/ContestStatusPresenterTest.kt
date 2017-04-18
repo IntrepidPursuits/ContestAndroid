@@ -43,26 +43,29 @@ class ContestStatusPresenterTest : BasePresenterTest<ContestStatusPresenter>() {
     }
 
     private fun getContestStatusResponseWaitingForSubmissions() {
-        val response = ContestStatusResponse()
-        response.contestStatus = ContestStatus()
-        response.contestStatus.setSubmissionData(false, 0, 5)
-        response.contestStatus.setJudgeData(false, 0, 1)
+        val response = ContestStatusResponse().apply {
+            contestStatus = ContestStatus()
+            contestStatus.setSubmissionData(false, 0, 5)
+            contestStatus.setJudgeData(false, 0, 1)
+        }
         `when`(mockRestApi.getContestStatus(any<String>())).thenReturn(Observable.just(response))
     }
 
     private fun getContestStatusResponseWaitingForScores() {
-        val response = ContestStatusResponse()
-        response.contestStatus = ContestStatus()
-        response.contestStatus.setSubmissionData(false, 5, 5)
-        response.contestStatus.setJudgeData(false, 0, 1)
+        val response = ContestStatusResponse().apply {
+            contestStatus = ContestStatus()
+            contestStatus.setSubmissionData(false, 5, 5)
+            contestStatus.setJudgeData(false, 0, 1)
+        }
         `when`(mockRestApi.getContestStatus(any<String>())).thenReturn(Observable.just(response))
     }
 
     private fun getContestStatusResponseResultsAvailable() {
-        val response = ContestStatusResponse()
-        response.contestStatus = ContestStatus()
-        response.contestStatus.setSubmissionData(true, 5, 5)
-        response.contestStatus.setJudgeData(true, 1, 1)
+        val response = ContestStatusResponse().apply {
+            contestStatus = ContestStatus()
+            contestStatus.setSubmissionData(true, 5, 5)
+            contestStatus.setJudgeData(true, 1, 1)
+        }
         `when`(mockRestApi.getContestStatus(any<String>())).thenReturn(Observable.just(response))
     }
 
@@ -117,7 +120,6 @@ class ContestStatusPresenterTest : BasePresenterTest<ContestStatusPresenter>() {
     @Test
     fun onViewCreatedShouldShowStatusWaitingFragmentWhenWaitingForScoresAndParticipantIsContestant() {
         getContestStatusResponseWaitingForScores()
-
         `when`(mockPersistentSettings.currentParticipationType).thenReturn(ParticipationType.CONTESTANT)
 
         presenter.onViewCreated()
