@@ -15,7 +15,7 @@ import io.intrepid.contest.models.Score;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> implements ScoresEntriesContract.Presenter {
+public class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.View> implements ScoresEntriesContract.Presenter {
     private final List<EntryBallot> entryBallots = new ArrayList<>();
     private List<Entry> entries;
     private List<Category> categories;

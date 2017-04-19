@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 
-class EntryNamePresenter extends BasePresenter<EntryNameContract.View> implements EntryNameContract.Presenter {
+public class EntryNamePresenter extends BasePresenter<EntryNameContract.View> implements EntryNameContract.Presenter {
 
     EntryNamePresenter(@NonNull EntryNameContract.View view,
                        @NonNull PresenterConfiguration configuration) {

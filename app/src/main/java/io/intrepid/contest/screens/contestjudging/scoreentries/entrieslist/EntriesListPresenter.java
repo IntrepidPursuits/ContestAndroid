@@ -10,7 +10,7 @@ import io.intrepid.contest.rest.AdjudicateRequest;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class EntriesListPresenter extends BasePresenter<EntriesListContract.View> implements EntriesListContract.Presenter {
+public class EntriesListPresenter extends BasePresenter<EntriesListContract.View> implements EntriesListContract.Presenter {
 
     EntriesListPresenter(@NonNull EntriesListContract.View view,
                          @NonNull PresenterConfiguration configuration) {

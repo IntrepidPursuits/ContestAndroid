@@ -9,7 +9,7 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import timber.log.Timber;
 
-class CropImagePresenter extends BasePresenter<CropImageContract.View> implements CropImageContract.Presenter {
+public class CropImagePresenter extends BasePresenter<CropImageContract.View> implements CropImageContract.Presenter {
 
     private final String entryName;
 

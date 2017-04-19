@@ -12,7 +12,7 @@ import io.intrepid.contest.models.ParticipationType;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> implements AdminStatusContract.Presenter, ConfirmStartContestDialog.DialogInteractionListener {
+public class AdminStatusPresenter extends BasePresenter<AdminStatusContract.View> implements AdminStatusContract.Presenter, ConfirmStartContestDialog.DialogInteractionListener {
     private int numEntriesMissing = 0;
     private int numJudgeRatingsMissing;
     private boolean contestStarted = false;

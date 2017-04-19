@@ -14,7 +14,7 @@ import io.intrepid.contest.models.ScoreWeight;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.View>
+public class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.View>
         implements ContestOverviewContract.Presenter {
 
     private static final List<ScoreWeight> scoreWeights = Arrays.asList(new ScoreWeight(1, R.string.poor),

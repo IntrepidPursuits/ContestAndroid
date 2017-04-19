@@ -7,7 +7,7 @@ import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.ParticipationType;
 
-class InvitationIntroPresenter extends BasePresenter<InvitationIntroContract.View>
+public class InvitationIntroPresenter extends BasePresenter<InvitationIntroContract.View>
         implements InvitationIntroContract.Presenter {
 
     private final ParticipationType participationType;

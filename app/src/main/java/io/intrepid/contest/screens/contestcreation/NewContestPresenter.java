@@ -15,7 +15,7 @@ import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFr
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter, ViewPager.OnPageChangeListener {
+public class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter, ViewPager.OnPageChangeListener {
     @VisibleForTesting
     static final int LAST_PAGE_INDEX = 3;
     @VisibleForTesting

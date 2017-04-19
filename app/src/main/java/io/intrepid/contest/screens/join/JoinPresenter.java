@@ -16,7 +16,7 @@ import io.intrepid.contest.rest.RedeemInvitationResponse;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinContract.Presenter {
+public class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinContract.Presenter {
 
     JoinPresenter(@NonNull JoinContract.View view, @NonNull PresenterConfiguration configuration) {
         super(view, configuration);
