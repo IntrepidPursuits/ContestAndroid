@@ -266,35 +266,32 @@ class SelectContactsPresenterTest : BasePresenterTest<SelectContactsPresenter>()
         val EMPTY = ""
         val TEST_PHONE = "555-555-5555"
         val TEST_EMAIL = "email@test.com"
-        val contactList = ArrayList<Contact>()
 
-        val onlyPhone = Contact()
-        onlyPhone.id = 1
-        onlyPhone.phone = TEST_PHONE
-        onlyPhone.email = EMPTY
-        contactList.add(onlyPhone)
-        if (selectOneValidContact) {
-            onlyPhone.isSelected = true
+        val onlyPhone = Contact().apply {
+            id = 1
+            phone = TEST_PHONE
+            email = EMPTY
+            isSelected = selectOneValidContact
         }
 
-        val onlyEmail = Contact()
-        onlyEmail.id = 2
-        onlyEmail.phone = EMPTY
-        onlyEmail.email = TEST_EMAIL
-        contactList.add(onlyEmail)
+        val onlyEmail = Contact().apply {
+            id = 2
+            phone = EMPTY
+            email = TEST_EMAIL
+        }
 
-        val phoneAndEmail = Contact()
-        phoneAndEmail.id = 3
-        phoneAndEmail.phone = TEST_PHONE
-        phoneAndEmail.email = TEST_EMAIL
-        contactList.add(phoneAndEmail)
+        val phoneAndEmail = Contact().apply {
+            id = 3
+            phone = TEST_PHONE
+            email = TEST_EMAIL
+        }
 
-        val noPhoneOrEmail = Contact()
-        noPhoneOrEmail.id = 4
-        noPhoneOrEmail.phone = EMPTY
-        noPhoneOrEmail.email = EMPTY
-        contactList.add(noPhoneOrEmail)
+        val noPhoneOrEmail = Contact().apply {
+            id = 4
+            phone = EMPTY
+            email = EMPTY
+        }
 
-        return contactList
+        return listOf(onlyPhone, onlyEmail, phoneAndEmail, noPhoneOrEmail)
     }
 }

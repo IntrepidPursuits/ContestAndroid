@@ -102,10 +102,12 @@ class EntryImagePresenterTest : BasePresenterTest<EntryImagePresenter>() {
     @Test
     fun onEntrySubmittedShouldNotShowErrorMessageWhenApiResponseIsValid() {
         `when`(mockPersistentSettings.currentContestId).thenReturn(UUID.randomUUID())
-        val entry = Entry()
-        entry.id = UUID.randomUUID()
-        val entryResponse = EntryResponse()
-        entryResponse.entry = entry
+        val validEntry = Entry().apply {
+            id = UUID.randomUUID()
+        }
+        val entryResponse = EntryResponse().apply {
+            entry = validEntry
+        }
         `when`(mockRestApi.createEntry(any<String>(), any<EntryRequest>())).thenReturn(Observable.just(entryResponse))
 
         presenter.onEntrySubmitted()

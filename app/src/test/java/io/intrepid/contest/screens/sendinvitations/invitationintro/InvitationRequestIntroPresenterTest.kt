@@ -14,10 +14,7 @@ class InvitationRequestIntroPresenterTest : BasePresenterTest<InvitationIntroPre
     private lateinit var mockView: View
 
     private fun setup(hasContactPermissions: Boolean, participationType: ParticipationType) {
-        presenter = InvitationIntroPresenter(mockView,
-                testConfiguration,
-                hasContactPermissions,
-                participationType)
+        presenter = InvitationIntroPresenter(mockView, testConfiguration, hasContactPermissions, participationType)
     }
 
     @Test

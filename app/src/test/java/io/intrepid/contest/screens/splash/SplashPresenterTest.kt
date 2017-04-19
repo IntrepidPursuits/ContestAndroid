@@ -38,9 +38,10 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
     }
 
     private fun setupSuccessfulUserCreation() {
-        val UserCreationResponse = UserCreationResponse()
-        UserCreationResponse.user = User()
-        UserCreationResponse.user.id = UUID.randomUUID()
+        val UserCreationResponse = UserCreationResponse().apply {
+            user = User()
+            user.id = UUID.randomUUID()
+        }
         `when`(mockRestApi.createUser()).thenReturn(Observable.just(UserCreationResponse))
     }
 
@@ -115,7 +116,6 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
         //Called twice to trigger second api call.
         testConfiguration.triggerRxSchedulers()
         testConfiguration.triggerRxSchedulers()
-
     }
 
     @Test

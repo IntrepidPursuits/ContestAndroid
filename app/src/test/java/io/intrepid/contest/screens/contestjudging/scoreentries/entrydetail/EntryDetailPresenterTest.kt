@@ -48,22 +48,18 @@ class EntryDetailPresenterTest : BasePresenterTest<EntryDetailPresenter>() {
     }
 
     private fun makeIncompleteBallots() {
-        val incompleteBallots = ArrayList<EntryBallot>()
-        val incompleteBallot = EntryBallot(UUID.randomUUID())
-        incompleteBallot.addScore(Score(Category("TEST", "TEST"), 0))
-        incompleteBallot.addScore(Score(Category("TESTER", "TEST"), 0))
-        incompleteBallots.add(incompleteBallot)
+        val incompleteBallot = EntryBallot(UUID.randomUUID()).apply {
+            addScore(Score(Category("TEST", "TEST"), 0))
+            addScore(Score(Category("TESTER", "TEST"), 0))
+        }
 
         `when`(mockView.entryBallot).thenReturn(incompleteBallot)
-        `when`(mockView.allBallots).thenReturn(incompleteBallots)
+        `when`(mockView.allBallots).thenReturn(listOf(incompleteBallot))
     }
 
     @Test
     fun onPageSwipedShouldCauseViewToUpdateToolbarTitle() {
-        val entries = ArrayList<Entry>()
-        entries.add(Entry())
-        entries.add(Entry())
-        `when`(mockView.allEntries).thenReturn(entries)
+        `when`(mockView.allEntries).thenReturn(listOf(Entry(), Entry()))
         presenter.onViewCreated()
 
         presenter.onSnapViewSwiped(1)

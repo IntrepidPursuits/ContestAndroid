@@ -63,10 +63,11 @@ class JoinPresenterTest : BasePresenterTest<JoinPresenter>() {
 
     @Test
     fun onSubmitButtonClickedShouldShowEntryNameScreenWhenCodeIsValidForContestant() {
-        val redeemInvitationResponse = RedeemInvitationResponse()
-        redeemInvitationResponse.participant = Participant()
-        redeemInvitationResponse.participant.contestId = UUID.randomUUID()
-        redeemInvitationResponse.participant.participationType = ParticipationType.CONTESTANT
+        val redeemInvitationResponse = RedeemInvitationResponse().apply {
+            participant = Participant()
+            participant.contestId = UUID.randomUUID()
+            participant.participationType = ParticipationType.CONTESTANT
+        }
         `when`(mockRestApi.redeemInvitationCode(any<String>(), any<RedeemInvitationRequest>()))
                 .thenReturn(Observable.just(redeemInvitationResponse))
 
@@ -78,10 +79,11 @@ class JoinPresenterTest : BasePresenterTest<JoinPresenter>() {
 
     @Test
     fun onSubmitButtonClickedShouldShowContestStatusScreenWhenCodeIsValidForJudge() {
-        val redeemInvitationResponse = RedeemInvitationResponse()
-        redeemInvitationResponse.participant = Participant()
-        redeemInvitationResponse.participant.contestId = UUID.randomUUID()
-        redeemInvitationResponse.participant.participationType = ParticipationType.JUDGE
+        val redeemInvitationResponse = RedeemInvitationResponse().apply {
+            participant = Participant()
+            participant.contestId = UUID.randomUUID()
+            participant.participationType = ParticipationType.JUDGE
+        }
         `when`(mockRestApi.redeemInvitationCode(any<String>(), any<RedeemInvitationRequest>()))
                 .thenReturn(Observable.just(redeemInvitationResponse))
 
@@ -139,18 +141,14 @@ class JoinPresenterTest : BasePresenterTest<JoinPresenter>() {
     @Test
     fun onViewBoundShouldCauseViewToShowClipboardDataWhenClipboardDataIsValid() {
         `when`(mockView.lastCopiedText).thenReturn(VALID_POTENTIAL_CODE)
-
         presenter.onViewBound()
-
         verify<View>(mockView).showClipboardData(VALID_POTENTIAL_CODE)
     }
 
     @Test
     fun onViewBoundShouldCauseViewToDoNothingWhenClipboardDataIsInvalid() {
         `when`(mockView.lastCopiedText).thenReturn(INVALID_POTENTIAL_CODE)
-
         presenter.onViewBound()
-
         verify<View>(mockView, never()).showClipboardData(INVALID_POTENTIAL_CODE)
     }
 }

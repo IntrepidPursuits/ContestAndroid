@@ -71,10 +71,8 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onDeleteClickedShouldDisableNextWhenCategoriesIsEmpty() {
-        val singleCategoryList = ArrayList<Category>()
-        val singleCategory = Category("Single Category", "TEST")
-        singleCategoryList.add(singleCategory)
         `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
+        val singleCategory = Category("Single Category", "TEST")
 
         presenter.onDeleteClicked(singleCategory)
 
@@ -103,8 +101,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
-        val categories = ArrayList<Category>()
-        categories.add(Category("Default name", "Default description"))
+        val categories = listOf(Category("Default name", "Default description"))
         `when`(mockContestBuilder.getCategories()).thenReturn(categories)
 
         presenter.displayCategories()
@@ -136,8 +133,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onCategoryClickedShouldTriggerViewToShowEditPage() {
-        val categories = ArrayList<Category>()
-        categories.add(Category("Test", "Tester"))
+        val categories = listOf(Category("Test", "Tester"))
         `when`(mockContestBuilder.getCategories()).thenReturn(categories)
 
         presenter.onCategoryClicked(categories[0])
