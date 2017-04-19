@@ -124,7 +124,7 @@ abstract class BaseFragment<P : BaseContract.Presenter<V>, in V : BaseContract.V
     }
 
     protected fun setActionBarTitle(title: String) {
-            actionBar?.title = title
+        actionBar?.title = title
     }
 
     protected fun setActionBarTitle(@StringRes titleResource: Int) {
@@ -132,7 +132,7 @@ abstract class BaseFragment<P : BaseContract.Presenter<V>, in V : BaseContract.V
     }
 
     protected fun setActionBarDisplayHomeAsUpEnabled(enabled: Boolean) {
-            actionBar?.setDisplayHomeAsUpEnabled(enabled)
+        actionBar?.setDisplayHomeAsUpEnabled(enabled)
     }
 
     override fun showMessage(message: String) {
