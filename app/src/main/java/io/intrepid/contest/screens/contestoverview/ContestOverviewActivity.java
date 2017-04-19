@@ -25,7 +25,7 @@ import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActiv
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.intrepid.contest.utils.SpannableUtil;
 
-public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter>
+public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewContract.Presenter, ContestOverviewContract.View>
         implements ContestOverviewContract.View {
     @BindView(R.id.contest_overview_intro_text_view)
     TextView introTextView;
@@ -60,20 +60,21 @@ public class ContestOverviewActivity extends BaseMvpActivity<ContestOverviewCont
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home: presenter.onBackPressed();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                getPresenter().onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        getPresenter().onBackPressed();
     }
 
     @OnClick(R.id.contest_overview_submit_button)
     public void onOverviewSubmitButtonClicked() {
-        presenter.onOverViewSubmitButtonClicked();
+        getPresenter().onOverViewSubmitButtonClicked();
     }
 
     private void setupCategoriesRecyclerView() {

@@ -7,14 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ImageView;
 
 import butterknife.BindView;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragment;
 import io.intrepid.contest.base.PresenterConfiguration;
 
-public class StatusWaitingFragment extends BaseFragment<StatusWaitingContract.Presenter>
+public class StatusWaitingFragment extends BaseFragment<StatusWaitingContract.Presenter, StatusWaitingContract.View>
         implements StatusWaitingContract.View {
     private static final long ANIM_DURATION = 800;
     @BindView(R.id.ballot_icon_imageview)

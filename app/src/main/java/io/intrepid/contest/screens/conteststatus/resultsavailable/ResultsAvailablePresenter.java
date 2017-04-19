@@ -21,24 +21,24 @@ public class ResultsAvailablePresenter extends BasePresenter<ResultsAvailableCon
     public void onViewCreated() {
         super.onViewCreated();
 
-        view.requestContestDetails(onContestDetailsRetrieved(), onContestDetailsError());
+        getView().requestContestDetails(onContestDetailsRetrieved(), onContestDetailsError());
     }
 
     @NonNull
     private Consumer<ContestWrapper> onContestDetailsRetrieved() {
-        return response -> view.showContestName(response.contest.getTitle());
+        return response -> getView().showContestName(response.contest.getTitle());
     }
 
     @NonNull
     private Consumer<Throwable> onContestDetailsError() {
         return throwable -> {
             Timber.d("API error retrieving contest details: " + throwable.getMessage());
-            view.showMessage(R.string.error_api);
+            getView().showMessage(R.string.error_api);
         };
     }
 
     @Override
     public void onViewResultsButtonClicked() {
-        view.showResultsPage();
+        getView().showResultsPage();
     }
 }

@@ -19,7 +19,7 @@ import io.intrepid.contest.models.EntryBallot;
 import io.intrepid.contest.screens.contestjudging.scoreentries.entrieslist.EntriesListFragment;
 import io.intrepid.contest.screens.contestjudging.scoreentries.entrydetail.EntryDetailFragment;
 
-public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
+public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter, ScoresEntriesContract.View>
         implements ScoresEntriesContract.View, ScoreEntriesActivityContract {
 
     private boolean nextVisible = false;
@@ -73,7 +73,7 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
                 onBackPressed();
                 break;
             case R.id.action_next:
-                presenter.onNextClicked();
+                getPresenter().onNextClicked();
                 break;
         }
         return true;
@@ -81,7 +81,7 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        getPresenter().onBackPressed();
     }
 
     @Override
@@ -119,36 +119,36 @@ public class ScoreEntriesActivity extends BaseMvpActivity<ScoreEntriesPresenter>
 
     @Override
     public void onEntryClicked(Entry entry) {
-        presenter.onEntrySelected(entry);
+        getPresenter().onEntrySelected(entry);
     }
 
     @Override
     public List<Category> getCategories() {
-        return presenter.getCategories();
+        return getPresenter().getCategories();
     }
 
     @Override
     public Entry getCurrentEntry() {
-        return presenter.getCurrentEntry();
+        return getPresenter().getCurrentEntry();
     }
 
     @Override
     public EntryBallot getCurrentEntryBallot() {
-        return presenter.getCurrentEntryBallot();
+        return getPresenter().getCurrentEntryBallot();
     }
 
     @Override
     public List<Entry> getEntriesList() {
-        return presenter.getEntries();
+        return getPresenter().getEntries();
     }
 
     @Override
     public List<EntryBallot> getEntryBallotsList() {
-        return presenter.getEntryBallotsList();
+        return getPresenter().getEntryBallotsList();
     }
 
     @Override
     public void onEntryDetailFragmentPageChanged(int newPage) {
-        presenter.onEntrySelected(getEntriesList().get(newPage));
+        getPresenter().onEntrySelected(getEntriesList().get(newPage));
     }
 }

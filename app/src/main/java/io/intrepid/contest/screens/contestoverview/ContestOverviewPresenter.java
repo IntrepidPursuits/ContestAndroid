@@ -35,38 +35,38 @@ class ContestOverviewPresenter extends BasePresenter<ContestOverviewContract.Vie
     }
 
     private void requestContestDetails() {
-        String contestId = persistentSettings.getCurrentContestId().toString();
-        Disposable apiCallDisposable = restApi.getContestDetails(contestId)
+        String contestId = getPersistentSettings().getCurrentContestId().toString();
+        Disposable apiCallDisposable = getRestApi().getContestDetails(contestId)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(response -> {
                     Contest contest = response.contest;
                     updateViewWithContest(contest);
                 }, throwable -> {
                     Timber.d("API error retrieving contest details: " + throwable.getMessage());
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(apiCallDisposable);
+        getDisposables().add(apiCallDisposable);
     }
 
     private void updateViewWithContest(Contest contest) {
-        view.showContestDescription(contest.getDescription());
+        getView().showContestDescription(contest.getDescription());
         showCategoriesForContest(contest);
-        view.showSubmissionCountMessage(contest.getEntries().size(), R.plurals.numberOfSubmissions);
-        view.showTitle(R.string.welcome_to_contest_text, contest.getTitle());
+        getView().showSubmissionCountMessage(contest.getEntries().size(), R.plurals.numberOfSubmissions);
+        getView().showTitle(R.string.welcome_to_contest_text, contest.getTitle());
     }
 
     private void showCategoriesForContest(Contest contest) {
         List<Category> categories = contest.getCategories();
-        view.showCategoriesAndWeights(categories, scoreWeights);
+        getView().showCategoriesAndWeights(categories, scoreWeights);
     }
 
     @Override
     public void onOverViewSubmitButtonClicked() {
-        view.advanceToJudgingScreen();
+        getView().advanceToJudgingScreen();
     }
 
     @Override
     public void onBackPressed() {
-        view.returnToSplashScreen();
+        getView().returnToSplashScreen();
     }
 }

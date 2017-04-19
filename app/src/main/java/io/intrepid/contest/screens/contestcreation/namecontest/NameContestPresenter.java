@@ -21,33 +21,33 @@ class NameContestPresenter extends BasePresenter<NameContestContract.View> imple
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.setNextEnabled(false);
+        getView().setNextEnabled(false);
     }
 
     @Override
     public void onContestTitleUpdated(String contestName) {
         contestBuilder.setTitle(contestName);
-        view.showNextScreen();
+        getView().showNextScreen();
     }
 
     @Override
     public void onNextInvalidated() {
-        view.setNextEnabled(false);
+        getView().setNextEnabled(false);
     }
 
     @Override
     public void onNextValidated() {
-        if (view != null) {
-            view.setNextEnabled(true);
+        if (getView() != null) {
+            getView().setNextEnabled(true);
         }
     }
 
     @Override
     public void onTextChanged(CharSequence newName) {
         if (TextUtils.isEmpty(newName)) {
-            view.setNextEnabled(false);
+            getView().setNextEnabled(false);
         } else {
-            view.setNextEnabled(true);
+            getView().setNextEnabled(true);
         }
     }
 }

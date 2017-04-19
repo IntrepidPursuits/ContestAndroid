@@ -11,7 +11,8 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
-public class DescribeContestFragment extends BaseFragment<DescribeContestPresenter> implements DescribeContestContract.View, ContestCreationFragment {
+public class DescribeContestFragment extends BaseFragment<DescribeContestPresenter, DescribeContestContract.View>
+        implements DescribeContestContract.View, ContestCreationFragment {
     @BindView(R.id.contest_description_edittext)
     HintLabelEditText descriptionField;
 
@@ -29,7 +30,7 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
 
     @Override
     public void onNextClicked() {
-        presenter.onNextClicked(descriptionField.getText());
+        getPresenter().onNextClicked(descriptionField.getText());
     }
 
     @Override

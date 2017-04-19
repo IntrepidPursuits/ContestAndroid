@@ -28,11 +28,11 @@ class InvitationIntroPresenter extends BasePresenter<InvitationIntroContract.Vie
         super.onViewBound();
 
         if (hasContactPermissions) {
-            view.showSelectContactsMessage(participationType.equals(ParticipationType.CONTESTANT) ?
+            getView().showSelectContactsMessage(participationType.equals(ParticipationType.CONTESTANT) ?
                                                    R.string.invite_contestants_intro :
                                                    R.string.invite_judges_intro);
         } else {
-            view.showPermissionDeniedMessage(R.string.no_contacts_permissions, R.string.no_contacts_permissions_link);
+            getView().showPermissionDeniedMessage(R.string.no_contacts_permissions, R.string.no_contacts_permissions_link);
         }
     }
 }

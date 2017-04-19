@@ -7,12 +7,14 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import io.intrepid.contest.R;
+import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity;
 
 import static com.yalantis.ucrop.UCrop.Options.EXTRA_UCROP_TITLE_TEXT_TOOLBAR;
 
-public class CropImageActivity extends BaseUCropActivity<CropImageContract.Presenter> implements CropImageContract.View {
+public class CropImageActivity extends BaseUCropActivity<CropImageContract.Presenter, CropImageContract.View>
+        implements CropImageContract.View {
     private String entryName;
 
     @NonNull
@@ -26,10 +28,10 @@ public class CropImageActivity extends BaseUCropActivity<CropImageContract.Prese
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_crop:
-                presenter.onCropOkButtonClicked();
+                getPresenter().onCropOkButtonClicked();
                 break;
             case android.R.id.home:
-                presenter.onCancelCropClicked();
+                getPresenter().onCancelCropClicked();
         }
         return true;
     }
@@ -54,7 +56,7 @@ public class CropImageActivity extends BaseUCropActivity<CropImageContract.Prese
         blockingView.setClickable(true);
         showLoader = true;
         supportInvalidateOptionsMenu();
-        gestureCropImageView.cropAndSaveImage(compressFormat, compressQuality, presenter);
+        gestureCropImageView.cropAndSaveImage(compressFormat, compressQuality, getPresenter());
     }
 
     @Override

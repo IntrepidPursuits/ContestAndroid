@@ -19,7 +19,8 @@ import io.intrepid.contest.screens.contestcreation.ValidatableContestCreationFra
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class NameContestFragment extends BaseFragment<NameContestPresenter> implements NameContestContract.View, ContestCreationFragment, ValidatableContestCreationFragment {
+public class NameContestFragment extends BaseFragment<NameContestPresenter, NameContestContract.View>
+        implements NameContestContract.View, ContestCreationFragment, ValidatableContestCreationFragment {
     @BindView(R.id.contest_name_edittext)
     HintLabelEditText contestNameField;
     @BindView(R.id.trophy_icon)
@@ -44,12 +45,12 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
 
     @OnTextChanged(R.id.hint_label_edit_text)
     public final void onTextChanged(CharSequence newName) {
-        presenter.onTextChanged(newName);
+        getPresenter().onTextChanged(newName);
     }
 
     @Override
     public void onFocus() {
-        presenter.onTextChanged(contestNameField.getText());
+        getPresenter().onTextChanged(contestNameField.getText());
     }
 
     @Override
@@ -66,6 +67,6 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter> impl
 
     @Override
     public void onNextClicked() {
-        presenter.onContestTitleUpdated(contestNameField.getText());
+        getPresenter().onContestTitleUpdated(contestNameField.getText());
     }
 }

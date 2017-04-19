@@ -23,7 +23,8 @@ import timber.log.Timber;
 
 import static android.view.View.VISIBLE;
 
-public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> implements SplashContract.View {
+public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter, SplashContract.View>
+        implements SplashContract.View {
     @BindView(R.id.splash_screen_actions_layout)
     RelativeLayout splashScreenActionsLayout;
     @BindView(R.id.ongoing_contests_recycler_view)
@@ -48,19 +49,19 @@ public class SplashActivity extends BaseMvpActivity<SplashContract.Presenter> im
     @Override
     protected void onViewCreated(Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        contestAdapter = new ContestAdapter(presenter);
+        contestAdapter = new ContestAdapter(getPresenter());
         activeContestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         activeContestsRecyclerView.setAdapter(contestAdapter);
     }
 
     @OnClick(R.id.create_contest_button)
     public void onCreateButtonClicked() {
-        presenter.onCreateContestClicked();
+        getPresenter().onCreateContestClicked();
     }
 
     @OnClick(R.id.join_contest_button)
     public void onJoinContestClicked() {
-        presenter.onJoinContestClicked();
+        getPresenter().onJoinContestClicked();
     }
 
     @Override

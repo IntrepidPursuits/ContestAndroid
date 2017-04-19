@@ -26,7 +26,7 @@ import timber.log.Timber;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 
 
-public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter> implements CategoriesListContract.ContestCreationFragment, io.intrepid.contest.screens.contestcreation.ContestCreationFragment {
+public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter, CategoriesListContract.View> implements CategoriesListContract.View, io.intrepid.contest.screens.contestcreation.ContestCreationFragment {
     @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
     private CategoryAdapter categoryAdapter;
@@ -34,7 +34,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryAdapter = new CategoryAdapter(R.layout.category_card_row_item, presenter);
+        categoryAdapter = new CategoryAdapter(R.layout.category_card_row_item, getPresenter());
     }
 
     @Override
@@ -46,17 +46,17 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(categoriesRecyclerView);
-        presenter.displayCategories();
+        getPresenter().displayCategories();
     }
 
     @OnClick(R.id.add_new_category_fab)
     public void onAddCategoryClicked() {
-        presenter.onAddCategoryClicked();
+        getPresenter().onAddCategoryClicked();
     }
 
     @Override
     public void onNextClicked() {
-        presenter.onNextClicked();
+        getPresenter().onNextClicked();
     }
 
     @Override
@@ -114,12 +114,12 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void onFocus() {
         hideKeyboard();
-        if (presenter != null) {
+        if (getPresenter() != null) {
             /* The presenter may not have been created yet, though onFocus was forcefully called.
               If presenter is null, the onViewBound method will still be called when
                the fragment is instantiated
              */
-            presenter.onViewBound();
+            getPresenter().onViewBound();
         }
     }
 }

@@ -23,7 +23,7 @@ import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActiv
 import io.intrepid.contest.screens.contestjudging.scoreentries.ScoreEntriesActivityContract;
 import io.intrepid.contest.utils.CustomSnapHelper;
 
-public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presenter>
+public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presenter, EntryDetailContract.View>
         implements EntryDetailContract.View {
     @BindView(R.id.entry_score_review_button)
     Button reviewButton;
@@ -38,7 +38,7 @@ public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presen
 
     @OnClick(R.id.entry_score_review_button)
     public void onEntryScoreReviewClicked() {
-        presenter.onEntryScoreReviewClicked();
+        getPresenter().onEntryScoreReviewClicked();
     }
 
     @NonNull
@@ -50,12 +50,12 @@ public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presen
     @Override
     protected void onViewCreated(@Nullable Bundle savedInstanceState) {
         super.onViewCreated(savedInstanceState);
-        allEntriesAdapter = new EntryPageAdapter(presenter, getCategories());
+        allEntriesAdapter = new EntryPageAdapter(getPresenter(), getCategories());
         entriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
                                                                      LinearLayoutManager.HORIZONTAL,
                                                                      false));
         entriesRecyclerView.setAdapter(allEntriesAdapter);
-        SnapHelper snapHelper = new CustomSnapHelper(presenter);
+        SnapHelper snapHelper = new CustomSnapHelper(getPresenter());
         snapHelper.attachToRecyclerView(entriesRecyclerView);
 
     }
@@ -63,7 +63,7 @@ public class EntryDetailFragment extends BaseFragment<EntryDetailContract.Presen
     @Override
     public void scrollToEntry(int index) {
         entriesRecyclerView.scrollToPosition(index);
-        presenter.onPageScrolled();
+        getPresenter().onPageScrolled();
     }
 
     @Override

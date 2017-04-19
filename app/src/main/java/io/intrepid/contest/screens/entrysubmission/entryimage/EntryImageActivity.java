@@ -26,7 +26,6 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseMvpActivity;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -40,7 +39,8 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.content.pm.PackageManager.FEATURE_CAMERA;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
-public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Presenter> implements EntryImageContract.View {
+public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Presenter, EntryImageContract.View>
+        implements EntryImageContract.View {
 
     private static final String EXTRAS_DATA_KEY = "data";
     private static final String PICK_IMAGE_TYPE = "image/*";
@@ -158,7 +158,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         }
         if (requestCode == RequestType.REQUEST_CROP_IMAGE.getValue()) {
             Uri resultUri = UCrop.getOutput(data);
-            presenter.onImageCropped(resultUri);
+            getPresenter().onImageCropped(resultUri);
             return;
         }
 
@@ -170,12 +170,12 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         } else {
             uri = data.getData();
         }
-        presenter.onImageReceived(uri);
+        getPresenter().onImageReceived(uri);
     }
 
     @OnClick(R.id.entry_image_submit_button)
     protected void onSubmitButtonClicked() {
-        presenter.onEntrySubmitted();
+        getPresenter().onEntrySubmitted();
     }
 
     @Override
@@ -199,7 +199,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         boolean hasPermissions = (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
                 || checkSelfPermission(READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED;
         Timber.d("Permissions needed " + hasPermissions);
-        presenter.onStoragePermissionCheck(hasPermissions);
+        getPresenter().onStoragePermissionCheck(hasPermissions);
     }
 
     @SuppressLint("NewApi")
@@ -243,12 +243,12 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
         @OnClick(R.id.entry_image_camera_button)
         void onCameraButtonClicked() {
-            presenter.onCameraButtonClicked();
+            getPresenter().onCameraButtonClicked();
         }
 
         @OnClick(R.id.entry_image_gallery_button)
         void onGalleryButtonClicked() {
-            presenter.onGalleryButtonClicked();
+            getPresenter().onGalleryButtonClicked();
         }
     }
 
@@ -270,7 +270,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
 
         @OnClick(R.id.removable_image_button)
         void onRemoveImageButtonClicked() {
-            presenter.onBitmapRemoved();
+            getPresenter().onBitmapRemoved();
         }
     }
 }

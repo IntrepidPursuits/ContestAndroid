@@ -18,7 +18,8 @@ import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoryAdapter;
 
-public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> implements ReviewContestContract.View, ContestCreationFragment {
+public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter, ReviewContestContract.View>
+        implements ReviewContestContract.View, ContestCreationFragment {
     @BindView(R.id.contest_title_button)
     TextView titleButton;
     @BindView(R.id.contest_description_button)
@@ -71,12 +72,12 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
 
     @OnClick(R.id.contest_title_button)
     public void onContestTitleSelected() {
-        presenter.onContestTitleSelected();
+        getPresenter().onContestTitleSelected();
     }
 
     @OnClick(R.id.contest_description_button)
     public void onContestDescriptionSelected() {
-        presenter.onContestDescriptionSelected();
+        getPresenter().onContestDescriptionSelected();
     }
 
     @Override
@@ -86,8 +87,8 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter> 
 
     public void onPageSelected() {
         // The presenter can be null if the view pager was reset and did not load this fragment in advance.
-        if (presenter != null) {
-            presenter.onPageSelected();
+        if (getPresenter() != null) {
+            getPresenter().onPageSelected();
         }
     }
 }

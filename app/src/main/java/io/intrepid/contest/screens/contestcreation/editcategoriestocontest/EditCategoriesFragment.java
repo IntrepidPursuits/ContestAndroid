@@ -19,7 +19,8 @@ import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_INDEX;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_KEY;
 
-public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter> implements EditCategoriesContract.View, ContestCreationFragment {
+public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter, EditCategoriesContract.View>
+        implements EditCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
     EditText categoryNameField;
     @BindView(R.id.category_description_edittext)
@@ -50,7 +51,7 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
             case R.id.action_next:
                 String name = categoryNameField.getText().toString();
                 String description = categoryDescriptionField.getText().toString();
-                presenter.onNextClicked(name, description);
+                getPresenter().onNextClicked(name, description);
                 break;
         }
         return true;
@@ -58,7 +59,7 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
 
     @OnTextChanged(R.id.category_name_edittext)
     public void onCategoryNameChanged(CharSequence newName) {
-        presenter.onCategoryNameChanged(newName);
+        getPresenter().onCategoryNameChanged(newName);
     }
 
     @Override
@@ -77,8 +78,8 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
 
     @Override
     public void onNextClicked() {
-        presenter.onNextClicked(categoryNameField.getText().toString(),
-                                categoryDescriptionField.getText().toString());
+        getPresenter().onNextClicked(categoryNameField.getText().toString(),
+                                     categoryDescriptionField.getText().toString());
     }
 
     @Override

@@ -42,21 +42,21 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
     public void onViewCreated() {
         super.onViewCreated();
 
-        view.setupAdapter(contactSelectionEnabled);
+        getView().setupAdapter(contactSelectionEnabled);
 
         if (contactList.isEmpty()) {
-            view.showProgressBar(true);
-            view.displayPhoneContactList();
+            getView().showProgressBar(true);
+            getView().displayPhoneContactList();
         } else {
-            view.showProgressBar(false);
-            view.updateAdapterContactList(contactList);
+            getView().showProgressBar(false);
+            getView().updateAdapterContactList(contactList);
         }
     }
 
     @Override
     public void onCreateOptionsMenu() {
         if (contactSelectionEnabled) {
-            view.createMenuSearchItem();
+            getView().createMenuSearchItem();
         }
     }
 
@@ -88,8 +88,8 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
             }
         }
 
-        view.updateAdapterContactList(filteredContacts);
-        view.showProgressBar(false);
+        getView().updateAdapterContactList(filteredContacts);
+        getView().showProgressBar(false);
     }
 
     @Override
@@ -101,14 +101,14 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
     @Override
     public boolean onQueryTextChange(String newText) {
         if (newText.isEmpty()) {
-            view.showProgressBar(false);
-            view.updateContactSearchFilter(newText);
+            getView().showProgressBar(false);
+            getView().updateContactSearchFilter(newText);
             return true;
         }
 
-        view.showProgressBar(true);
+        getView().showProgressBar(true);
         if (newText.length() >= SEARCH_MIN_NUM_CHARACTERS) {
-            view.updateContactSearchFilter(newText);
+            getView().updateContactSearchFilter(newText);
         }
         return true;
     }
@@ -122,22 +122,22 @@ public class SelectContactsPresenter extends BasePresenter<SelectContactsContrac
         boolean select = !contact.isSelected();
 
         contact.setSelected(select);
-        view.onContactSelected();
+        getView().onContactSelected();
 
         numSelectedContacts = select ? (numSelectedContacts + 1) : (numSelectedContacts - 1);
 
         if (numSelectedContacts == 0) {
-            view.hideAddContactsButton();
+            getView().hideAddContactsButton();
         } else {
             int pluralResource = participationType.equals(ParticipationType.CONTESTANT) ?
                     R.plurals.numberOfContestants : R.plurals.numberOfJudges;
-            view.showAddContactsButton(numSelectedContacts,
-                                       pluralResource);
+            getView().showAddContactsButton(numSelectedContacts,
+                                            pluralResource);
         }
     }
 
     @Override
     public void onAddContactsButtonClicked() {
-        view.showSendInvitationsScreen(contactList);
+        getView().showSendInvitationsScreen(contactList);
     }
 }

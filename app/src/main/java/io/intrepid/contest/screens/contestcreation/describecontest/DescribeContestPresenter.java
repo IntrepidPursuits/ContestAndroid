@@ -20,12 +20,12 @@ class DescribeContestPresenter extends BasePresenter<DescribeContestContract.Vie
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        view.setNextEnabled(true);
+        getView().setNextEnabled(true);
     }
 
     @Override
     public void onNextClicked(String description) {
         contestBuilder.setDescription(description);
-        view.showNextScreen();
+        getView().showNextScreen();
     }
 }

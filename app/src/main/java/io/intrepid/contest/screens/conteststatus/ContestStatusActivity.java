@@ -16,7 +16,7 @@ import io.intrepid.contest.screens.conteststatus.statuswaiting.StatusWaitingFrag
 import io.intrepid.contest.screens.splash.SplashActivity;
 import io.reactivex.functions.Consumer;
 
-public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract.Presenter>
+public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract.Presenter, ContestStatusContract.View>
         implements ContestStatusContract.View, ContestStatusActivityContract {
 
     private static final String JUDGE_JUST_SUBMITTED_KEY = "judge_submitted_key";
@@ -43,7 +43,7 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
 
     @Override
     public void onBackPressed() {
-        presenter.onBackPressed();
+        getPresenter().onBackPressed();
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ContestStatusActivity extends BaseMvpActivity<ContestStatusContract
     @Override
     public void requestContestDetails(Consumer<ContestWrapper> responseCallback,
                                       Consumer<Throwable> throwableCallback) {
-        presenter.requestContestDetails(responseCallback, throwableCallback);
+        getPresenter().requestContestDetails(responseCallback, throwableCallback);
     }
 
     @Override

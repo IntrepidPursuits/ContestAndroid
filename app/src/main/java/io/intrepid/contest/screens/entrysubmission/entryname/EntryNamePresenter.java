@@ -15,16 +15,16 @@ class EntryNamePresenter extends BasePresenter<EntryNameContract.View> implement
     @Override
     public void onEntryNameTextChanged(String newText) {
         if (newText.isEmpty()) {
-            view.hideEntryNameButton();
-            view.showEntryNameIcon();
+            getView().hideEntryNameButton();
+            getView().showEntryNameIcon();
         } else {
-            view.showEntryNameButton();
-            view.hideEntryNameIcon();
+            getView().showEntryNameButton();
+            getView().hideEntryNameIcon();
         }
     }
 
     @Override
     public void onEntryNameSubmitted(String entryName) {
-        view.showEntryImageScreen(entryName);
+        getView().showEntryImageScreen(entryName);
     }
 }

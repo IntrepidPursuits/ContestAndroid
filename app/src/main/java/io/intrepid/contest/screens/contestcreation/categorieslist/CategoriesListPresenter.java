@@ -12,10 +12,10 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Category;
 import io.intrepid.contest.models.Contest;
 
-class CategoriesListPresenter extends BasePresenter<CategoriesListContract.ContestCreationFragment> implements CategoriesListContract.Presenter {
+class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View> implements CategoriesListContract.Presenter {
     private final Contest.Builder contestBuilder;
 
-    CategoriesListPresenter(@NonNull CategoriesListContract.ContestCreationFragment view,
+    CategoriesListPresenter(@NonNull CategoriesListContract.View view,
                             @NonNull PresenterConfiguration configuration,
                             Contest.Builder contestBuilder) {
         super(view, configuration);
@@ -44,34 +44,34 @@ class CategoriesListPresenter extends BasePresenter<CategoriesListContract.Conte
 
     @Override
     public void displayCategories() {
-        view.showCategories(contestBuilder.getCategories());
+        getView().showCategories(contestBuilder.getCategories());
     }
 
     @Override
     public void onNextClicked() {
-        view.showNextScreen();
+        getView().showNextScreen();
     }
 
     @Override
     public void onAddCategoryClicked() {
-        view.showAddCategoryScreen();
+        getView().showAddCategoryScreen();
     }
 
     @Override
     public void onCategoryClicked(Category category) {
-        view.showEditCategoryPage(category, contestBuilder.getCategories().indexOf(category));
+        getView().showEditCategoryPage(category, contestBuilder.getCategories().indexOf(category));
     }
 
     @Override
     public void onDeleteClicked(Category category) {
         contestBuilder.getCategories().remove(category);
-        view.showCategories(contestBuilder.getCategories());
+        getView().showCategories(contestBuilder.getCategories());
         determineNextIconVisibility();
     }
 
     private void determineNextIconVisibility() {
         boolean nextEnabled = !contestBuilder.getCategories().isEmpty();
-        view.setNextEnabled(nextEnabled);
+        getView().setNextEnabled(nextEnabled);
     }
 
     @Override

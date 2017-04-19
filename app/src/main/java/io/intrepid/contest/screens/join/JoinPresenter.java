@@ -25,9 +25,9 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
     @Override
     protected void onViewBound() {
         super.onViewBound();
-        String clipboardData = view.getLastCopiedText();
+        String clipboardData = getView().getLastCopiedText();
         if (clipboardData != null && isPotentialValidCode(clipboardData)) {
-            view.showClipboardData(clipboardData);
+            getView().showClipboardData(clipboardData);
         }
     }
 
@@ -44,9 +44,9 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
     @Override
     public void onEntryCodeTextChanged(String newCode) {
         if (newCode.isEmpty()) {
-            view.hideSubmitButton();
+            getView().hideSubmitButton();
         } else {
-            view.showSubmitButton();
+            getView().showSubmitButton();
         }
     }
 
@@ -54,38 +54,38 @@ class JoinPresenter extends BasePresenter<JoinContract.View> implements JoinCont
     public void onSubmitButtonClicked(String code) {
         RedeemInvitationRequest redeemInvitationRequest = new RedeemInvitationRequest(code);
 
-        Disposable disposable = restApi.redeemInvitationCode(code, redeemInvitationRequest)
+        Disposable disposable = getRestApi().redeemInvitationCode(code, redeemInvitationRequest)
                 .compose(subscribeOnIoObserveOnUi())
                 .subscribe(this::showResult, throwable -> {
                     Timber.d("API error redeeming invitation code: " + throwable.getMessage());
                     if (throwable instanceof HttpException &&
                             ((HttpException) throwable).code() == HttpURLConnection.HTTP_NOT_FOUND) {
-                        view.showInvalidCodeErrorMessage();
+                        getView().showInvalidCodeErrorMessage();
                         return;
                     }
-                    view.showMessage(R.string.error_api);
+                    getView().showMessage(R.string.error_api);
                 });
-        disposables.add(disposable);
+        getDisposables().add(disposable);
     }
 
     @Override
     public void onBackPressed() {
-        view.cancelJoinContest();
+        getView().cancelJoinContest();
     }
 
     private void showResult(RedeemInvitationResponse response) {
         if (response.participant == null) {
-            view.showInvalidCodeErrorMessage();
+            getView().showInvalidCodeErrorMessage();
             return;
         }
 
-        persistentSettings.setCurrentContestId(response.participant.getContestId());
-        persistentSettings.setCurrentParticipationType(response.participant.getParticipationType());
+        getPersistentSettings().setCurrentContestId(response.participant.getContestId());
+        getPersistentSettings().setCurrentParticipationType(response.participant.getParticipationType());
 
         if (response.participant.getParticipationType() == ParticipationType.CONTESTANT) {
-            view.showEntryNameScreen();
+            getView().showEntryNameScreen();
         } else {
-            view.showContestStatusScreen();
+            getView().showContestStatusScreen();
         }
     }
 }

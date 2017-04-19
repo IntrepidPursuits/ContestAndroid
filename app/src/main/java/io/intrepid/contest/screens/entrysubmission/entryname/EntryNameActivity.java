@@ -19,7 +19,8 @@ import io.intrepid.contest.screens.entrysubmission.entryimage.EntryImageActivity
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class EntryNameActivity extends BaseMvpActivity<EntryNameContract.Presenter> implements EntryNameContract.View {
+public class EntryNameActivity extends BaseMvpActivity<EntryNameContract.Presenter, EntryNameContract.View>
+        implements EntryNameContract.View {
 
     @BindView(R.id.entry_name_icon)
     ImageView entryNameIcon;
@@ -53,12 +54,12 @@ public class EntryNameActivity extends BaseMvpActivity<EntryNameContract.Present
 
     @OnTextChanged(R.id.hint_label_edit_text)
     public void onEntryNameTextChanged(CharSequence newText) {
-        presenter.onEntryNameTextChanged(newText.toString());
+        getPresenter().onEntryNameTextChanged(newText.toString());
     }
 
     @OnClick(R.id.entry_name_next_button)
     public void onEntryNameSubmitted() {
-        presenter.onEntryNameSubmitted(entryNameEditText.getText().toString());
+        getPresenter().onEntryNameSubmitted(entryNameEditText.getText().toString());
     }
 
     @Override
