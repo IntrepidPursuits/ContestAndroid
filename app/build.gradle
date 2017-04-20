@@ -4,6 +4,7 @@ apply plugin: 'spoon'
 apply from: 'version.gradle'
 apply from: 'coverage.gradle'
 apply plugin: 'kotlin-android'
+apply plugin: 'io.intrepid.static-analysis'
 // Uncomment the following line after adding fabric.properties file
 //apply plugin: 'io.fabric'
 
@@ -85,11 +86,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lintOptions {
-        abortOnError false
-        lintConfig file('lintConfig.xml')
     }
 
     packagingOptions {
