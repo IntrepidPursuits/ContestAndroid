@@ -1,13 +1,6 @@
 package io.intrepid.contest.screens.contestcreation
 
 import android.support.annotation.StringRes
-
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-
-import java.util.ArrayList
-
 import io.intrepid.contest.R
 import io.intrepid.contest.models.Category
 import io.intrepid.contest.models.Contest
@@ -16,13 +9,14 @@ import io.intrepid.contest.screens.contestcreation.NewContestMvpContract.View
 import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFragment
 import io.intrepid.contest.testutils.BasePresenterTest
 import io.reactivex.Observable
-
 import junit.framework.Assert.assertTrue
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.verify
+import org.junit.Before
+import org.junit.Test
+import org.mockito.ArgumentMatchers.*
+import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
+import java.util.*
 
 class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
 
@@ -30,8 +24,6 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
     private lateinit var mockView: View
     @Mock
     private lateinit var mockChildFragment: ContestCreationFragment
-    @Mock
-    private lateinit var mockValidatableContestCreationFragment: ValidatableContestCreationFragment
     @Mock
     private lateinit var mockReviewContestFragment: ReviewContestFragment
     @Mock
@@ -123,13 +115,6 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
         testOnPageScrolledWithExpectedPageTitleStringResource(1, R.string.description)
         testOnPageScrolledWithExpectedPageTitleStringResource(2, R.string.scoring_categories)
         testOnPageScrolledWithExpectedPageTitleStringResource(3, R.string.review_contest)
-    }
-
-    @Test
-    fun onPageChangedToValidatableViewShouldTriggerViewToDoOnFocus() {
-        `when`(mockView.getChildEditFragment(anyInt())).thenReturn(mockValidatableContestCreationFragment)
-        presenter.onPageSelected(2)
-        verify<ValidatableContestCreationFragment>(mockValidatableContestCreationFragment).onFocus()
     }
 
     @Test

@@ -113,10 +113,6 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
     @Override
     public void onPageSelected(int position) {
         ContestCreationFragment childEditFragment = getView().getChildEditFragment(position);
-        if (childEditFragment instanceof ValidatableContestCreationFragment) {
-            ValidatableContestCreationFragment fragment = (ValidatableContestCreationFragment) childEditFragment;
-            fragment.onFocus();
-        }
 
         @StringRes int pageTitle;
         switch (position) {

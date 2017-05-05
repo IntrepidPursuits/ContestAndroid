@@ -105,21 +105,14 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         ((EditContestContract) getActivity()).setNextEnabled(enabled);
     }
 
-    private void hideKeyboard() {
-        if (isAdded()) {
-            ((NewContestActivity) getActivity()).hideKeyboard();
-        }
-    }
-
     @Override
     public void onFocus() {
         hideKeyboard();
-        if (getPresenter() != null) {
-            /* The presenter may not have been created yet, though onFocus was forcefully called.
-              If presenter is null, the onViewBound method will still be called when
-               the fragment is instantiated
-             */
-            getPresenter().onViewBound();
+    }
+
+    private void hideKeyboard() {
+        if (isAdded()) {
+            ((NewContestActivity) getActivity()).hideKeyboard();
         }
     }
 }

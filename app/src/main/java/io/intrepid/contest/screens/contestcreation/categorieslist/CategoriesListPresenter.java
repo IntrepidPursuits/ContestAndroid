@@ -40,6 +40,7 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
     protected void onViewBound() {
         super.onViewBound();
         determineNextIconVisibility();
+        getView().onFocus();
     }
 
     @Override

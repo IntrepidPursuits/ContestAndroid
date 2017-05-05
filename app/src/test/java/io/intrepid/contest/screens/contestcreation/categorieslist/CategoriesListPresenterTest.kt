@@ -100,6 +100,12 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     }
 
     @Test
+    fun onViewBoundShouldTriggerViewToFocus() {
+        presenter.onViewBound()
+        verify<View>(mockView).onFocus()
+    }
+
+    @Test
     fun displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
         val categories = listOf(Category("Default name", "Default description"))
         `when`(mockContestBuilder.getCategories()).thenReturn(categories)
