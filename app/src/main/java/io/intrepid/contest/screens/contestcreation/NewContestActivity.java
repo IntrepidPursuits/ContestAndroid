@@ -41,7 +41,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
 
     /*Boolean flag to modify the menuItem's visibility
     without restarting the activity*/
-    private boolean nextVisible = true;
+    private boolean nextPageButtonVisible = true;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, NewContestActivity.class);
@@ -93,7 +93,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
         menu.clear();
         getMenuInflater().inflate(R.menu.menu_new_contest, menu);
         MenuItem nextItem = menu.findItem(R.id.action_next);
-        nextItem.setVisible(nextVisible);
+        nextItem.setVisible(nextPageButtonVisible);
         return true;
     }
 
@@ -104,7 +104,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
                 onBackPressed();
                 break;
             case R.id.action_next:
-                getPresenter().onNextButtonClicked();
+                getPresenter().onNextPageButtonClicked();
                 break;
         }
         return true;
@@ -148,8 +148,8 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
     }
 
     @Override
-    public void setNextVisible(boolean visible) {
-        nextVisible = visible;
+    public void setNextPageButtonVisible(boolean visible) {
+        nextPageButtonVisible = visible;
         invalidateOptionsMenu();
     }
 
@@ -206,7 +206,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
     }
 
     @Override
-    public void setNextEnabled(boolean enabled) {
-        getPresenter().onNextStatusChanged(enabled);
+    public void onNextPageEnabledChanged(boolean enabled) {
+        getPresenter().onNextPageEnabledChanged(enabled);
     }
 }

@@ -15,7 +15,7 @@ class NewContestMvpContract {
 
         ContestCreationFragment getChildEditFragment(int pageIndex);
 
-        void setNextVisible(boolean visible);
+        void setNextPageButtonVisible(boolean visible);
 
         int getCurrentIndex();
 
@@ -32,11 +32,11 @@ class NewContestMvpContract {
 
     public interface Presenter extends BaseContract.Presenter<View> {
 
-        void onNextButtonClicked();
+        void onNextPageButtonClicked();
 
         void onBackButtonClicked();
 
-        void onNextStatusChanged(boolean nextEnabled);
+        void onNextPageEnabledChanged(boolean nextEnabled);
 
         void onNewCategoryAdded(String name, String description);
 

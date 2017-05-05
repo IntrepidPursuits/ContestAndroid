@@ -18,7 +18,7 @@ class EditCategoriesContract {
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
-        void onNextClicked(String newName, String newDescription);
+        void onNextPageButtonClicked(String newName, String newDescription);
 
         void onCategoryNameChanged(CharSequence newName);
     }

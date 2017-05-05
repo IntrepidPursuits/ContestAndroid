@@ -4,7 +4,7 @@ import io.intrepid.contest.models.Contest;
 
 public interface EditContestContract {
 
-    void setNextEnabled(boolean enabled);
+    void onNextPageEnabledChanged(boolean enabled);
 
     void showAddCategoryScreen();
 

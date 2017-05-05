@@ -74,21 +74,21 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
         `when`(mockView.getChildEditFragment(0)).thenReturn(mockChildFragment)
         mockView.showContestSubmissionPage(0)
 
-        presenter.onNextButtonClicked()
+        presenter.onNextPageButtonClicked()
 
-        verify<ContestCreationFragment>(mockChildFragment).onNextClicked()
+        verify<ContestCreationFragment>(mockChildFragment).onNextPageButtonClicked()
     }
 
     @Test
     fun onNextDisabledShouldCauseViewToHideNextButton() {
-        presenter.onNextStatusChanged(false)
-        verify<View>(mockView).setNextVisible(false)
+        presenter.onNextPageEnabledChanged(false)
+        verify<View>(mockView).setNextPageButtonVisible(false)
     }
 
     @Test
     fun onNextEnabledShouldCauseViewToShowNextButton() {
-        presenter.onNextStatusChanged(true)
-        verify<View>(mockView).setNextVisible(true)
+        presenter.onNextPageEnabledChanged(true)
+        verify<View>(mockView).setNextPageButtonVisible(true)
     }
 
     @Test

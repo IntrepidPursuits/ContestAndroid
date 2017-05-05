@@ -19,7 +19,7 @@ import io.intrepid.contest.screens.contestcreation.ValidatableContestCreationFra
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class NameContestFragment extends BaseFragment<NameContestPresenter, NameContestContract.View>
+public class NameContestFragment extends BaseFragment<NameContestContract.Presenter, NameContestContract.View>
         implements NameContestContract.View, ContestCreationFragment, ValidatableContestCreationFragment {
     @BindView(R.id.contest_name_edittext)
     HintLabelEditText contestNameField;
@@ -33,7 +33,7 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter, Name
 
     @NonNull
     @Override
-    public NameContestPresenter createPresenter(PresenterConfiguration configuration) {
+    public NameContestContract.Presenter createPresenter(PresenterConfiguration configuration) {
         Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
         return new NameContestPresenter(this, configuration, contestBuilder);
     }
@@ -55,7 +55,7 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter, Name
 
     @Override
     public void setNextEnabled(boolean enabled) {
-        ((EditContestContract) getActivity()).setNextEnabled(enabled);
+        ((EditContestContract) getActivity()).onNextPageEnabledChanged(enabled);
         int trophyVisibility = enabled ? GONE : VISIBLE;
         trophyIcon.setVisibility(trophyVisibility);
     }
@@ -66,7 +66,13 @@ public class NameContestFragment extends BaseFragment<NameContestPresenter, Name
     }
 
     @Override
-    public void onNextClicked() {
+    public boolean isNextPageButtonEnabled() {
+        // todo GABI
+        return false;
+    }
+
+    @Override
+    public void onNextPageButtonClicked() {
         getPresenter().onContestTitleUpdated(contestNameField.getText());
     }
 }

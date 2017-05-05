@@ -31,7 +31,7 @@ class DescribeContestPresenterTest : BasePresenterTest<DescribeContestPresenter>
     @Test
     fun onNextClickShouldTriggerViewToShowNextScreen() {
         val VALID_TEXT = "Valid Contest Name"
-        presenter.onNextClicked(VALID_TEXT)
+        presenter.onNextPageButtonClicked(VALID_TEXT)
         verify<View>(mockView).showNextScreen()
     }
 }

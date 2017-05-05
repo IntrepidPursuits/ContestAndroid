@@ -11,7 +11,7 @@ import io.intrepid.contest.models.Contest;
 import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 
-public class DescribeContestFragment extends BaseFragment<DescribeContestPresenter, DescribeContestContract.View>
+public class DescribeContestFragment extends BaseFragment<DescribeContestContract.Presenter, DescribeContestContract.View>
         implements DescribeContestContract.View, ContestCreationFragment {
     @BindView(R.id.contest_description_edittext)
     HintLabelEditText descriptionField;
@@ -23,19 +23,25 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestPresent
 
     @NonNull
     @Override
-    public DescribeContestPresenter createPresenter(PresenterConfiguration configuration) {
+    public DescribeContestContract.Presenter createPresenter(PresenterConfiguration configuration) {
         Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
         return new DescribeContestPresenter(this, configuration, contestBuilder);
     }
 
     @Override
-    public void onNextClicked() {
-        getPresenter().onNextClicked(descriptionField.getText());
+    public boolean isNextPageButtonEnabled() {
+        // todo GABI
+        return false;
+    }
+
+    @Override
+    public void onNextPageButtonClicked() {
+        getPresenter().onNextPageButtonClicked(descriptionField.getText());
     }
 
     @Override
     public void setNextEnabled(boolean enabled) {
-        ((EditContestContract) getActivity()).setNextEnabled(enabled);
+        ((EditContestContract) getActivity()).onNextPageEnabledChanged(enabled);
     }
 
     @Override

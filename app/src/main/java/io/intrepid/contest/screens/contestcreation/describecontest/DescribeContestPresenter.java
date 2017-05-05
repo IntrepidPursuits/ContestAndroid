@@ -24,7 +24,7 @@ public class DescribeContestPresenter extends BasePresenter<DescribeContestContr
     }
 
     @Override
-    public void onNextClicked(String description) {
+    public void onNextPageButtonClicked(String description) {
         contestBuilder.setDescription(description);
         getView().showNextScreen();
     }

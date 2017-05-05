@@ -34,10 +34,20 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
     }
 
     @Override
-    public void onNextButtonClicked() {
+    protected void onViewBound() {
+        super.onViewBound();
+    }
+
+    @Override
+    public void onViewDestroyed() {
+        super.onViewDestroyed();
+    }
+
+    @Override
+    public void onNextPageButtonClicked() {
         int currentIndex = getView().getCurrentIndex();
         ContestCreationFragment fragment = getView().getChildEditFragment(currentIndex);
-        fragment.onNextClicked();
+        fragment.onNextPageButtonClicked();
     }
 
     @Override
@@ -63,8 +73,8 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
     }
 
     @Override
-    public void onNextStatusChanged(boolean nextEnabled) {
-        getView().setNextVisible(nextEnabled);
+    public void onNextPageEnabledChanged(boolean nextEnabled) {
+        getView().setNextPageButtonVisible(nextEnabled);
     }
 
     @Override

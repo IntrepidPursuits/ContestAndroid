@@ -16,6 +16,7 @@ import io.intrepid.contest.base.PresenterConfiguration;
 public class StatusWaitingFragment extends BaseFragment<StatusWaitingContract.Presenter, StatusWaitingContract.View>
         implements StatusWaitingContract.View {
     private static final long ANIM_DURATION = 800;
+
     @BindView(R.id.ballot_icon_imageview)
     ImageView ballotIcon;
     @BindView(R.id.ballot_box_icon_imageview)
@@ -23,7 +24,7 @@ public class StatusWaitingFragment extends BaseFragment<StatusWaitingContract.Pr
 
     @NonNull
     @Override
-    public StatusWaitingPresenter createPresenter(PresenterConfiguration configuration) {
+    public StatusWaitingContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new StatusWaitingPresenter(this, configuration);
     }
 

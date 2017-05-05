@@ -42,7 +42,7 @@ public class EditCategoriesPresenter extends BasePresenter<EditCategoriesContrac
     }
 
     @Override
-    public void onNextClicked(String name, String description) {
+    public void onNextPageButtonClicked(String name, String description) {
         Timber.d("Adding new category " + name + " " + description);
         if (editMode) {
             getView().editCategory(index, name, description);

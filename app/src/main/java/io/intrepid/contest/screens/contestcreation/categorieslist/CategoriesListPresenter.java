@@ -14,6 +14,7 @@ import io.intrepid.contest.models.Contest;
 
 public class CategoriesListPresenter extends BasePresenter<CategoriesListContract.View> implements CategoriesListContract.Presenter {
     private final Contest.Builder contestBuilder;
+    private boolean nextPageButtonEnabled = false;
 
     CategoriesListPresenter(@NonNull CategoriesListContract.View view,
                             @NonNull PresenterConfiguration configuration,
@@ -39,22 +40,17 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
     @Override
     protected void onViewBound() {
         super.onViewBound();
-        determineNextIconVisibility();
     }
 
     @Override
-    public void displayCategories() {
-        getView().showCategories(contestBuilder.getCategories());
-    }
-
-    @Override
-    public void onNextClicked() {
+    public void onNextPageButtonClicked() {
         getView().showNextScreen();
     }
 
     @Override
     public void onAddCategoryClicked() {
         getView().showAddCategoryScreen();
+        updateNextPageEnabled();
     }
 
     @Override
@@ -66,12 +62,7 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
     public void onDeleteClicked(Category category) {
         contestBuilder.getCategories().remove(category);
         getView().showCategories(contestBuilder.getCategories());
-        determineNextIconVisibility();
-    }
-
-    private void determineNextIconVisibility() {
-        boolean nextEnabled = !contestBuilder.getCategories().isEmpty();
-        getView().setNextEnabled(nextEnabled);
+        updateNextPageEnabled();
     }
 
     @Override
@@ -85,6 +76,23 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
             for (int i = fromPosition; i > toPosition; i--) {
                 Collections.swap(categories, i, i - 1);
             }
+        }
+    }
+
+    @Override
+    public boolean isNextPageButtonEnabled() {
+        return nextPageButtonEnabled;
+    }
+
+    private void displayCategories() {
+        getView().showCategories(contestBuilder.getCategories());
+    }
+
+    private void updateNextPageEnabled() {
+        boolean nextEnabled = !contestBuilder.getCategories().isEmpty();
+        if (nextEnabled != isNextPageButtonEnabled()) {
+            nextPageButtonEnabled = nextEnabled;
+            getView().onNextPageEnabledChanged(nextEnabled);
         }
     }
 }

@@ -47,14 +47,14 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     @Test
     fun onViewBoundShouldEnableNextWhenCategoriesIsNotEmpty() {
         presenter.onViewBound()
-        verify<View>(mockView).setNextEnabled(true)
+        verify<View>(mockView).onNextPageEnabledChanged(true)
     }
 
     @Test
     fun onViewBoundShouldDisableNextWhenCategoriesIsEmpty() {
         `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
         presenter.onViewBound()
-        verify<View>(mockView).setNextEnabled(false)
+        verify<View>(mockView).onNextPageEnabledChanged(false)
     }
 
     @Test
@@ -65,8 +65,8 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
             presenter.onDeleteClicked(categories[i++])
         }
 
-        verify<View>(mockView, never()).setNextEnabled(false)
-        verify<View>(mockView, times(categories.size - 1)).setNextEnabled(true)
+        verify<View>(mockView, never()).onNextPageEnabledChanged(false)
+        verify<View>(mockView, times(categories.size - 1)).onNextPageEnabledChanged(true)
     }
 
     @Test
@@ -76,8 +76,8 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
         presenter.onDeleteClicked(singleCategory)
 
-        verify<View>(mockView).setNextEnabled(false)
-        verify<View>(mockView, never()).setNextEnabled(true)
+        verify<View>(mockView).onNextPageEnabledChanged(false)
+        verify<View>(mockView, never()).onNextPageEnabledChanged(true)
     }
 
     @Test
@@ -89,14 +89,14 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     @Test
     fun onViewBoundShouldTriggerViewToSetNextEnabled() {
         presenter.onViewBound()
-        verify<View>(mockView).setNextEnabled(true)
+        verify<View>(mockView).onNextPageEnabledChanged(true)
     }
 
     @Test
     fun onViewBoundShouldTriggerViewToDisableNextWhenCategoriesIsEmpty() {
         `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
         presenter.onViewBound()
-        verify<View>(mockView).setNextEnabled(false)
+        verify<View>(mockView).onNextPageEnabledChanged(false)
     }
 
     @Test
@@ -127,7 +127,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onNextClickedShouldTriggerViewToShowNextScreen() {
-        presenter.onNextClicked()
+        presenter.onNextPageButtonClicked()
         verify<View>(mockView).showNextScreen()
     }
 

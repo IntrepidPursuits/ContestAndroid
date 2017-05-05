@@ -10,7 +10,7 @@ class DescribeContestContract {
         void showNextScreen();
     }
 
-    public interface Presenter<View> {
-        void onNextClicked(String description);
+    public interface Presenter extends BaseContract.Presenter<View> {
+        void onNextPageButtonClicked(String description);
     }
 }

@@ -19,7 +19,7 @@ import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_INDEX;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.CATEGORY_KEY;
 
-public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter, EditCategoriesContract.View>
+public class EditCategoriesFragment extends BaseFragment<EditCategoriesContract.Presenter, EditCategoriesContract.View>
         implements EditCategoriesContract.View, ContestCreationFragment {
     @BindView(R.id.category_name_edittext)
     EditText categoryNameField;
@@ -51,7 +51,7 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
             case R.id.action_next:
                 String name = categoryNameField.getText().toString();
                 String description = categoryDescriptionField.getText().toString();
-                getPresenter().onNextClicked(name, description);
+                getPresenter().onNextPageButtonClicked(name, description);
                 break;
         }
         return true;
@@ -69,7 +69,7 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
 
     @NonNull
     @Override
-    public EditCategoriesPresenter createPresenter(PresenterConfiguration configuration) {
+    public EditCategoriesContract.Presenter createPresenter(PresenterConfiguration configuration) {
         Bundle args = getArguments();
         Category categoryToEdit = args.getParcelable(CATEGORY_KEY);
         int index = args.getInt(CATEGORY_INDEX);
@@ -77,9 +77,15 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesPresenter
     }
 
     @Override
-    public void onNextClicked() {
-        getPresenter().onNextClicked(categoryNameField.getText().toString(),
-                                     categoryDescriptionField.getText().toString());
+    public boolean isNextPageButtonEnabled() {
+        // todo GABI
+        return false;
+    }
+
+    @Override
+    public void onNextPageButtonClicked() {
+        getPresenter().onNextPageButtonClicked(categoryNameField.getText().toString(),
+                                               categoryDescriptionField.getText().toString());
     }
 
     @Override

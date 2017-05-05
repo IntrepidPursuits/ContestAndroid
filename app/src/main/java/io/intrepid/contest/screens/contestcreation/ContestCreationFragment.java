@@ -1,5 +1,7 @@
 package io.intrepid.contest.screens.contestcreation;
 
 public interface ContestCreationFragment {
-    void onNextClicked();
+    boolean isNextPageButtonEnabled();
+
+    void onNextPageButtonClicked();
 }

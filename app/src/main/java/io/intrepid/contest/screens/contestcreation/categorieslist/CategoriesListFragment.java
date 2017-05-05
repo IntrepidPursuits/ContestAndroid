@@ -26,10 +26,25 @@ import timber.log.Timber;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 
 
-public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter, CategoriesListContract.View> implements CategoriesListContract.View, io.intrepid.contest.screens.contestcreation.ContestCreationFragment {
+public class CategoriesListFragment extends BaseFragment<CategoriesListContract.Presenter, CategoriesListContract.View>
+        implements CategoriesListContract.View, io.intrepid.contest.screens.contestcreation.ContestCreationFragment {
+
     @BindView(R.id.generic_recycler_view)
     RecyclerView categoriesRecyclerView;
+
     private CategoryAdapter categoryAdapter;
+
+    @NonNull
+    @Override
+    public CategoriesListContract.Presenter createPresenter(PresenterConfiguration configuration) {
+        Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
+        return new CategoriesListPresenter(this, configuration, contestBuilder);
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.categories_list_fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +61,6 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(categoryAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(categoriesRecyclerView);
-        getPresenter().displayCategories();
     }
 
     @OnClick(R.id.add_new_category_fab)
@@ -55,20 +69,13 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     }
 
     @Override
-    public void onNextClicked() {
-        getPresenter().onNextClicked();
+    public boolean isNextPageButtonEnabled() {
+        return getPresenter().isNextPageButtonEnabled();
     }
 
     @Override
-    protected int getLayoutResourceId() {
-        return R.layout.categories_list_fragment;
-    }
-
-    @NonNull
-    @Override
-    public CategoriesListPresenter createPresenter(PresenterConfiguration configuration) {
-        Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
-        return new CategoriesListPresenter(this, configuration, contestBuilder);
+    public void onNextPageButtonClicked() {
+        getPresenter().onNextPageButtonClicked();
     }
 
     @Override
@@ -101,8 +108,8 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     }
 
     @Override
-    public void setNextEnabled(boolean enabled) {
-        ((EditContestContract) getActivity()).setNextEnabled(enabled);
+    public void onNextPageEnabledChanged(boolean enabled) {
+        ((EditContestContract) getActivity()).onNextPageEnabledChanged(enabled);
     }
 
     private void hideKeyboard() {
@@ -114,12 +121,10 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListPresenter
     @Override
     public void onFocus() {
         hideKeyboard();
-        if (getPresenter() != null) {
-            /* The presenter may not have been created yet, though onFocus was forcefully called.
-              If presenter is null, the onViewBound method will still be called when
-               the fragment is instantiated
-             */
-            getPresenter().onViewBound();
-        }
+        // TODO fix
+        /* The presenter may not have been created yet, though onFocus was forcefully called.
+          If presenter is null, the onViewBound method will still be called when
+           the fragment is instantiated
+         */
     }
 }

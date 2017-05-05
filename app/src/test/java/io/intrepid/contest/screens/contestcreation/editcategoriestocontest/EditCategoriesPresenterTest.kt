@@ -42,7 +42,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
         val categoryName = "NewCategory"
         val categoryDescription = "NewCategory Description"
 
-        presenter.onNextClicked(categoryName, categoryDescription)
+        presenter.onNextPageButtonClicked(categoryName, categoryDescription)
 
         verify<View>(mockView).editCategory(anyInt(), eq(categoryName), eq(categoryDescription))
     }
@@ -60,7 +60,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
         val categoryName = "NewCategory"
         val categoryDescription = "NewCategory Description"
 
-        presenter.onNextClicked(categoryName, categoryDescription)
+        presenter.onNextPageButtonClicked(categoryName, categoryDescription)
 
         verify<View>(mockView).addCategory(any<Category>())
     }

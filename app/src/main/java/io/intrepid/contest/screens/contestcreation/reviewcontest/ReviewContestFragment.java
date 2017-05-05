@@ -18,7 +18,7 @@ import io.intrepid.contest.screens.contestcreation.ContestCreationFragment;
 import io.intrepid.contest.screens.contestcreation.EditContestContract;
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoryAdapter;
 
-public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter, ReviewContestContract.View>
+public class ReviewContestFragment extends BaseFragment<ReviewContestContract.Presenter, ReviewContestContract.View>
         implements ReviewContestContract.View, ContestCreationFragment {
     @BindView(R.id.contest_title_button)
     TextView titleButton;
@@ -48,7 +48,7 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter, 
 
     @NonNull
     @Override
-    public ReviewContestPresenter createPresenter(PresenterConfiguration configuration) {
+    public ReviewContestContract.Presenter createPresenter(PresenterConfiguration configuration) {
         Contest.Builder contestBuilder = ((EditContestContract) getActivity()).getContestBuilder();
         return new ReviewContestPresenter(this, configuration, contestBuilder);
     }
@@ -81,7 +81,13 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter, 
     }
 
     @Override
-    public void onNextClicked() {
+    public boolean isNextPageButtonEnabled() {
+        // todo GABI
+        return false;
+    }
+
+    @Override
+    public void onNextPageButtonClicked() {
         ((EditContestContract) getActivity()).showNextScreen();
     }
 
