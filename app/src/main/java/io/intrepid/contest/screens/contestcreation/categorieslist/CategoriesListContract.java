@@ -4,11 +4,10 @@ import java.util.List;
 
 import io.intrepid.contest.base.BaseContract;
 import io.intrepid.contest.models.Category;
-import io.intrepid.contest.screens.contestcreation.ValidatableContestCreationFragment;
 
 interface CategoriesListContract {
 
-    interface View extends BaseContract.View, ValidatableContestCreationFragment {
+    interface View extends BaseContract.View {
         void showCategories(List<Category> categories);
 
         void showAddCategoryScreen();
@@ -20,6 +19,8 @@ interface CategoriesListContract {
         Category getDefaultCategory(int categoryName, int categoryDescription);
 
         void setNextEnabled(boolean enabled);
+
+        void onFocus();
     }
 
     interface Presenter extends BaseContract.Presenter<View>, CategoryClickListener {
