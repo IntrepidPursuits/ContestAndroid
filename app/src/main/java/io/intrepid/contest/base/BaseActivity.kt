@@ -36,13 +36,13 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     @CallSuper
-    override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent?) {
         Timber.v("Lifecycle onNewIntent: " + this)
         super.onNewIntent(intent)
     }
 
     @CallSuper
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Timber.v("Lifecycle onActivityResult: " + this)
         super.onActivityResult(requestCode, resultCode, data)
     }

@@ -38,13 +38,13 @@ abstract class BaseMvpActivity<P : BaseContract.Presenter<V>, V : BaseContract.V
     }
 
     @CallSuper
-    override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         presenter.bindView(this as V)
     }
 
     @CallSuper
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         presenter.bindView(this as V)
     }

@@ -28,5 +28,5 @@ abstract class BaseFragmentActivity : BaseActivity() {
         }
     }
 
-    protected abstract fun createFragment(intent: Intent): Fragment
+    protected abstract fun createFragment(intent: Intent?): Fragment
 }
