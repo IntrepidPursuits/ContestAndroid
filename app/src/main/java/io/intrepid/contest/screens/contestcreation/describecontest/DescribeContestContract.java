@@ -12,5 +12,7 @@ class DescribeContestContract {
 
     public interface Presenter extends BaseContract.Presenter<View> {
         void onNextPageButtonClicked(String description);
+
+        boolean isNextPageButtonEnabled();
     }
 }

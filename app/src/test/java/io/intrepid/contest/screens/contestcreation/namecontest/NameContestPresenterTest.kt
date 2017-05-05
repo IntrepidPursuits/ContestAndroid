@@ -34,19 +34,19 @@ class NameContestPresenterTest : BasePresenterTest<NameContestPresenter>() {
     @Test
     fun onViewCreatedShouldTriggerViewToHideNextButton() {
         presenter.onViewCreated()
-        verify<View>(mockView).setNextEnabled(false)
+        verify<View>(mockView).onNextPageEnabledChanged(false)
     }
 
     @Test
     fun onNextValidatedShouldCauseViewToEnableNext() {
         presenter.onNextValidated()
-        verify<View>(mockView).setNextEnabled(true)
+        verify<View>(mockView).onNextPageEnabledChanged(true)
     }
 
     @Test
     fun onNextInValidatedShouldCauseViewToDisableNext() {
         presenter.onNextInvalidated()
-        verify<View>(mockView).setNextEnabled(false)
+        verify<View>(mockView).onNextPageEnabledChanged(false)
     }
 }
 

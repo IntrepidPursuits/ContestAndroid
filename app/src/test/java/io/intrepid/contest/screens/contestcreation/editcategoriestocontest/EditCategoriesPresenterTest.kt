@@ -69,7 +69,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
     fun onCategoryNameChangedShouldTriggerViewToSetNextVisibleWhenInEditMode() {
         prepareEditCategoryPresenter()
         presenter.onCategoryNameChanged("TEST_A_NEW_NAME")
-        verify<View>(mockView).setNextVisible(true)
+        verify<View>(mockView).onNextPageEnabledChanged(true)
     }
 
     @Test
@@ -79,6 +79,6 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
 
         presenter.onCategoryNameChanged(EMPTY_TEXT)
 
-        verify<View>(mockView).setNextVisible(false)
+        verify<View>(mockView).onNextPageEnabledChanged(false)
     }
 }

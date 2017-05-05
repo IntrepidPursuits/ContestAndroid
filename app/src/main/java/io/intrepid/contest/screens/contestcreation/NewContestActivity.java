@@ -33,15 +33,13 @@ import static io.intrepid.contest.screens.contestcreation.editcategoriestocontes
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_EDIT_EXISTING_CATEGORY;
 import static io.intrepid.contest.screens.contestcreation.editcategoriestocontest.EditCategoryActivity.NOTIFY_NEW_CATEGORY;
 
-public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, NewContestMvpContract.View>
+public class NewContestActivity extends BaseMvpActivity<NewContestMvpContract.Presenter, NewContestMvpContract.View>
         implements NewContestMvpContract.View, EditContestContract {
     @BindView(R.id.fragment_container)
     ViewPager viewPager;
-    private SlidingTabAdapter tabAdapter;
 
-    /*Boolean flag to modify the menuItem's visibility
-    without restarting the activity*/
-    private boolean nextPageButtonVisible = true;
+    private SlidingTabAdapter tabAdapter;
+    private boolean nextPageButtonVisible = false;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, NewContestActivity.class);
@@ -49,8 +47,13 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
 
     @NonNull
     @Override
-    public NewContestPresenter createPresenter(PresenterConfiguration configuration) {
+    public NewContestMvpContract.Presenter createPresenter(PresenterConfiguration configuration) {
         return new NewContestPresenter(this, configuration);
+    }
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_viewpager_container;
     }
 
     @Override
@@ -68,11 +71,6 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
     @Override
     public void onBackPressed() {
         getPresenter().onBackButtonClicked();
-    }
-
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_viewpager_container;
     }
 
     private void setupViewPager() {
@@ -206,7 +204,7 @@ public class NewContestActivity extends BaseMvpActivity<NewContestPresenter, New
     }
 
     @Override
-    public void onNextPageEnabledChanged(boolean enabled) {
-        getPresenter().onNextPageEnabledChanged(enabled);
+    public void onNextPageEnabledChanged() {
+        getPresenter().onNextPageEnabledChanged();
     }
 }

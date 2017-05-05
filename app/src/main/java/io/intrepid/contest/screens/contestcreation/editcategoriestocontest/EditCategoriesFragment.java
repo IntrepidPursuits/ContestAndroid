@@ -78,8 +78,7 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesContract.
 
     @Override
     public boolean isNextPageButtonEnabled() {
-        // todo GABI
-        return false;
+        return getPresenter().isNextPageButtonEnabled();
     }
 
     @Override
@@ -110,8 +109,8 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesContract.
     }
 
     @Override
-    public void setNextVisible(boolean nextVisible) {
-        activity.setNextVisible(nextVisible);
+    public void onNextPageEnabledChanged() {
+        activity.onNextPageEnabledChanged(presenter.isNextPageButtonEnabled());
     }
 
     public interface ActivityCallback {
@@ -119,6 +118,6 @@ public class EditCategoriesFragment extends BaseFragment<EditCategoriesContract.
 
         void showCategoryList();
 
-        void setNextVisible(boolean nextVisible);
+        void onNextPageEnabledChanged(boolean isEnabled);
     }
 }

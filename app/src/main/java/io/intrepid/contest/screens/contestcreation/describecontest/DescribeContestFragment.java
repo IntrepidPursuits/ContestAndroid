@@ -30,8 +30,7 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestContrac
 
     @Override
     public boolean isNextPageButtonEnabled() {
-        // todo GABI
-        return false;
+        return getPresenter().isNextPageButtonEnabled();
     }
 
     @Override
@@ -41,7 +40,7 @@ public class DescribeContestFragment extends BaseFragment<DescribeContestContrac
 
     @Override
     public void setNextEnabled(boolean enabled) {
-        ((EditContestContract) getActivity()).onNextPageEnabledChanged(enabled);
+        ((EditContestContract) getActivity()).onNextPageEnabledChanged();
     }
 
     @Override

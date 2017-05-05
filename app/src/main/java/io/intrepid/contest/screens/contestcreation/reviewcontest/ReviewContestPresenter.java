@@ -7,7 +7,6 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contest;
 
 public class ReviewContestPresenter extends BasePresenter<ReviewContestContract.View> implements ReviewContestContract.Presenter {
-
     private final Contest.Builder contestBuilder;
 
     ReviewContestPresenter(@NonNull ReviewContestContract.View view,
@@ -37,5 +36,10 @@ public class ReviewContestPresenter extends BasePresenter<ReviewContestContract.
     public void onPageSelected() {
         // Update content when the page is selected to appear
         getView().displayReviewPageContent(contestBuilder);
+    }
+
+    @Override
+    public boolean isNextPageButtonEnabled() {
+        return true;
     }
 }

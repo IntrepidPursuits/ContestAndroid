@@ -19,5 +19,7 @@ interface ReviewContestContract {
         void onContestDescriptionSelected();
 
         void onPageSelected();
+
+        boolean isNextPageButtonEnabled();
     }
 }

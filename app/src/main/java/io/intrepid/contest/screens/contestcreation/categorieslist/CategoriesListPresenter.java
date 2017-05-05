@@ -23,12 +23,12 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
         this.contestBuilder = contestBuilder;
         List<Category> categories = this.contestBuilder.getCategories();
         categories = categories == null ? new ArrayList<>() : categories;
-
         if (categories.isEmpty()) {
             Category defaultCategory = view.getDefaultCategory(R.string.default_category_name,
                                                                R.string.default_category_description);
             categories.add(defaultCategory);
         }
+        nextPageButtonEnabled = true;
     }
 
     @Override

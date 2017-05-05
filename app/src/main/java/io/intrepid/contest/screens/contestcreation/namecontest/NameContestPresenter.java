@@ -8,20 +8,14 @@ import io.intrepid.contest.base.PresenterConfiguration;
 import io.intrepid.contest.models.Contest;
 
 public class NameContestPresenter extends BasePresenter<NameContestContract.View> implements NameContestContract.Presenter {
-
     private final Contest.Builder contestBuilder;
+    private boolean nextPageButtonEnabled = false;
 
     NameContestPresenter(@NonNull NameContestContract.View view,
                          @NonNull PresenterConfiguration configuration,
                          Contest.Builder contestBuilder) {
         super(view, configuration);
         this.contestBuilder = contestBuilder;
-    }
-
-    @Override
-    public void onViewCreated() {
-        super.onViewCreated();
-        getView().setNextEnabled(false);
     }
 
     @Override
@@ -32,22 +26,34 @@ public class NameContestPresenter extends BasePresenter<NameContestContract.View
 
     @Override
     public void onNextInvalidated() {
-        getView().setNextEnabled(false);
+        updateNextPageButtonEnabled(false);
     }
 
     @Override
     public void onNextValidated() {
         if (getView() != null) {
-            getView().setNextEnabled(true);
+            updateNextPageButtonEnabled(true);
         }
     }
 
     @Override
     public void onTextChanged(CharSequence newName) {
         if (TextUtils.isEmpty(newName)) {
-            getView().setNextEnabled(false);
+            updateNextPageButtonEnabled(false);
         } else {
-            getView().setNextEnabled(true);
+            updateNextPageButtonEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean isNextPageButtonEnabled() {
+        return nextPageButtonEnabled;
+    }
+
+    private void updateNextPageButtonEnabled(boolean isEnabled) {
+        if (isEnabled != nextPageButtonEnabled) {
+            nextPageButtonEnabled = isEnabled;
+            getView().onNextPageEnabledChanged(isEnabled);
         }
     }
 }

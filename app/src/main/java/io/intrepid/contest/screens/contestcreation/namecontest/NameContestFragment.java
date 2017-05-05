@@ -54,8 +54,8 @@ public class NameContestFragment extends BaseFragment<NameContestContract.Presen
     }
 
     @Override
-    public void setNextEnabled(boolean enabled) {
-        ((EditContestContract) getActivity()).onNextPageEnabledChanged(enabled);
+    public void onNextPageEnabledChanged(boolean enabled) {
+        ((EditContestContract) getActivity()).onNextPageEnabledChanged();
         int trophyVisibility = enabled ? GONE : VISIBLE;
         trophyIcon.setVisibility(trophyVisibility);
     }
@@ -67,8 +67,7 @@ public class NameContestFragment extends BaseFragment<NameContestContract.Presen
 
     @Override
     public boolean isNextPageButtonEnabled() {
-        // todo GABI
-        return false;
+        return getPresenter().isNextPageButtonEnabled();
     }
 
     @Override

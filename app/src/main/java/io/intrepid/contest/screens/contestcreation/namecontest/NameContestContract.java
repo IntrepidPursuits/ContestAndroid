@@ -5,7 +5,7 @@ import io.intrepid.contest.base.BaseContract;
 class NameContestContract {
 
     public interface View extends BaseContract.View {
-        void setNextEnabled(boolean enabled);
+        void onNextPageEnabledChanged(boolean enabled);
 
         void showNextScreen();
     }
@@ -18,5 +18,7 @@ class NameContestContract {
         void onNextValidated();
 
         void onTextChanged(CharSequence newName);
+
+        boolean isNextPageButtonEnabled();
     }
 }

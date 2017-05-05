@@ -13,6 +13,7 @@ public class EditCategoriesPresenter extends BasePresenter<EditCategoriesContrac
     private final int index;
     private final Category category;
     private boolean editMode = false;
+    private boolean nextPageButtonEnabled = false;
 
     EditCategoriesPresenter(@NonNull View view, @NonNull PresenterConfiguration configuration) {
         //Null params and -1 Index to Denote we are creating a new Category
@@ -36,8 +37,7 @@ public class EditCategoriesPresenter extends BasePresenter<EditCategoriesContrac
             String categoryName = category.getName();
             String categoryDescription = category.getDescription();
             getView().showEditableCategory(categoryName, categoryDescription);
-        } else {
-            getView().setNextVisible(false);
+            updateNextPageButtonEnabled(true);
         }
     }
 
@@ -54,7 +54,18 @@ public class EditCategoriesPresenter extends BasePresenter<EditCategoriesContrac
 
     @Override
     public void onCategoryNameChanged(CharSequence newName) {
-        boolean nextVisible = !newName.toString().isEmpty();
-        getView().setNextVisible(nextVisible);
+        updateNextPageButtonEnabled(!newName.toString().isEmpty());
+    }
+
+    private void updateNextPageButtonEnabled(boolean isEnabled) {
+        if (isEnabled != nextPageButtonEnabled) {
+            nextPageButtonEnabled = isEnabled;
+            getView().onNextPageEnabledChanged();
+        }
+    }
+
+    @Override
+    public boolean isNextPageButtonEnabled() {
+        return nextPageButtonEnabled;
     }
 }

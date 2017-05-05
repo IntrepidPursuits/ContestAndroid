@@ -3,13 +3,9 @@ package io.intrepid.contest.screens.contestcreation.editcategoriestocontest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import java.util.List;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BaseFragmentActivity;
@@ -23,7 +19,18 @@ public class EditCategoryActivity extends BaseFragmentActivity implements EditCa
     public static final int NOTIFY_NEW_CATEGORY = 200;
     public static final int NOTIFY_EDIT_EXISTING_CATEGORY = 400;
 
-    private boolean nextVisible;
+    private boolean nextPageButtonVisible;
+
+    public static Intent makeEditCategoryIntent(Context context, Category category, int index) {
+        return new Intent(context, EditCategoryActivity.class)
+                .putExtra(CATEGORY_KEY, category)
+                .putExtra(CATEGORY_INDEX, index)
+                .putExtra(CATEGORY_KEY, category);
+    }
+
+    public static Intent makeAddCategoryIntent(Context context) {
+        return new Intent(context, EditCategoryActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +52,8 @@ public class EditCategoryActivity extends BaseFragmentActivity implements EditCa
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_new_contest, menu);
         MenuItem nextItem = menu.findItem(R.id.action_next);
-        nextItem.setVisible(nextVisible);
+        nextItem.setVisible(nextPageButtonVisible);
         return true;
-    }
-
-    public static Intent makeEditCategoryIntent(Context context, Category category, int index) {
-        return new Intent(context, EditCategoryActivity.class)
-                 .putExtra(CATEGORY_KEY, category)
-                .putExtra(CATEGORY_INDEX, index)
-                .putExtra(CATEGORY_KEY, category);
-    }
-
-    public static Intent makeAddCategoryIntent(Context context) {
-        return new Intent(context, EditCategoryActivity.class);
     }
 
     @Override
@@ -83,8 +79,8 @@ public class EditCategoryActivity extends BaseFragmentActivity implements EditCa
     }
 
     @Override
-    public void setNextVisible(boolean nextVisible) {
-        this.nextVisible = nextVisible;
+    public void onNextPageEnabledChanged(boolean isEnabled) {
+        this.nextPageButtonVisible = isEnabled;
         invalidateOptionsMenu();
     }
 }

@@ -82,8 +82,7 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestContract.Pr
 
     @Override
     public boolean isNextPageButtonEnabled() {
-        // todo GABI
-        return false;
+        return getPresenter().isNextPageButtonEnabled();
     }
 
     @Override

@@ -14,12 +14,14 @@ class EditCategoriesContract {
 
         void editCategory(int index, String name, String description);
 
-        void setNextVisible(boolean b);
+        void onNextPageEnabledChanged();
     }
 
     public interface Presenter extends BaseContract.Presenter<View> {
         void onNextPageButtonClicked(String newName, String newDescription);
 
         void onCategoryNameChanged(CharSequence newName);
+
+        boolean isNextPageButtonEnabled();
     }
 }

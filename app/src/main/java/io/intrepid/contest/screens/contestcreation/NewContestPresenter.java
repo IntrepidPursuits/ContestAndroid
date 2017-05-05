@@ -3,7 +3,6 @@ package io.intrepid.contest.screens.contestcreation;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
-import android.support.v4.view.ViewPager;
 
 import io.intrepid.contest.R;
 import io.intrepid.contest.base.BasePresenter;
@@ -15,7 +14,8 @@ import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFr
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
-public class NewContestPresenter extends BasePresenter<NewContestMvpContract.View> implements NewContestMvpContract.Presenter, ViewPager.OnPageChangeListener {
+public class NewContestPresenter extends BasePresenter<NewContestMvpContract.View>
+        implements NewContestMvpContract.Presenter {
     @VisibleForTesting
     static final int LAST_PAGE_INDEX = 3;
     @VisibleForTesting
@@ -45,8 +45,7 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
 
     @Override
     public void onNextPageButtonClicked() {
-        int currentIndex = getView().getCurrentIndex();
-        ContestCreationFragment fragment = getView().getChildEditFragment(currentIndex);
+        ContestCreationFragment fragment = getCurrentPageFragment();
         fragment.onNextPageButtonClicked();
     }
 
@@ -60,10 +59,12 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
         }
     }
 
+    @Override
     public Contest.Builder getContest() {
         return contest;
     }
 
+    @Override
     public void showNextScreen() {
         int currentIndex = getView().getCurrentIndex();
         if (currentIndex == LAST_PAGE_INDEX) {
@@ -73,8 +74,8 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
     }
 
     @Override
-    public void onNextPageEnabledChanged(boolean nextEnabled) {
-        getView().setNextPageButtonVisible(nextEnabled);
+    public void onNextPageEnabledChanged() {
+        updateNextPageButtonVisibility();
     }
 
     @Override
@@ -147,10 +148,21 @@ public class NewContestPresenter extends BasePresenter<NewContestMvpContract.Vie
         if (childEditFragment instanceof ReviewContestFragment) {
             ((ReviewContestFragment) childEditFragment).onPageSelected();
         }
+
+        updateNextPageButtonVisibility();
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
         // Do nothing
+    }
+
+    private ContestCreationFragment getCurrentPageFragment() {
+        int currentIndex = getView().getCurrentIndex();
+        return getView().getChildEditFragment(currentIndex);
+    }
+
+    private void updateNextPageButtonVisibility() {
+        getView().setNextPageButtonVisible(getCurrentPageFragment().isNextPageButtonEnabled());
     }
 }

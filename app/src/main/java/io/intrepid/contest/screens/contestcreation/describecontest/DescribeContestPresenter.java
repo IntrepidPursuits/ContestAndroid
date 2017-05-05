@@ -18,14 +18,13 @@ public class DescribeContestPresenter extends BasePresenter<DescribeContestContr
     }
 
     @Override
-    public void onViewCreated() {
-        super.onViewCreated();
-        getView().setNextEnabled(true);
-    }
-
-    @Override
     public void onNextPageButtonClicked(String description) {
         contestBuilder.setDescription(description);
         getView().showNextScreen();
+    }
+
+    @Override
+    public boolean isNextPageButtonEnabled() {
+        return true;
     }
 }

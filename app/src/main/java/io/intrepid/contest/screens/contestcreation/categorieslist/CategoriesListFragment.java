@@ -109,7 +109,7 @@ public class CategoriesListFragment extends BaseFragment<CategoriesListContract.
 
     @Override
     public void onNextPageEnabledChanged(boolean enabled) {
-        ((EditContestContract) getActivity()).onNextPageEnabledChanged(enabled);
+        ((EditContestContract) getActivity()).onNextPageEnabledChanged();
     }
 
     private void hideKeyboard() {
