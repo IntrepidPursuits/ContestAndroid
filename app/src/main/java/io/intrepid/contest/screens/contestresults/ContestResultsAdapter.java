@@ -9,7 +9,7 @@ import java.util.List;
 
 import io.intrepid.contest.models.RankedEntryResult;
 
-class ContestResultsAdapter extends RecyclerView.Adapter<ContestResultsViewHolder> {
+public class ContestResultsAdapter extends RecyclerView.Adapter<ContestResultsViewHolder> {
     private final List<RankedEntryResult> rankedEntryResults = new ArrayList<>();
 
     @Override

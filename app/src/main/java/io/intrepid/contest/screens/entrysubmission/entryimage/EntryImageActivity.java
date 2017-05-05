@@ -166,7 +166,7 @@ public class EntryImageActivity extends BaseMvpActivity<EntryImageContract.Prese
         if (requestCode == RequestType.REQUEST_IMAGE_CAPTURE.getValue()) {
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get(EXTRAS_DATA_KEY);
-            uri = BitmapToUriUtil.convert(this, bitmap);
+            uri = BitmapToUriUtil.convertToFileUri(this, bitmap);
         } else {
             uri = data.getData();
         }
