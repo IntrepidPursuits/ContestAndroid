@@ -19,7 +19,7 @@ interface CategoriesListContract {
 
         Category getDefaultCategory(int categoryName, int categoryDescription);
 
-        void onNextPageEnabledChanged(boolean enabled);
+        void onNextPageEnabledChanged(boolean isEnabled);
     }
 
     interface Presenter extends BaseContract.Presenter<View>, CategoryClickListener {
