@@ -37,7 +37,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
     }
 
     @Test
-    fun onNextClickedShouldTriggerViewToEditCategory() {
+    fun onNextPageButtonClickedShouldTriggerViewToEditCategory() {
         prepareEditCategoryPresenter()
         val categoryName = "NewCategory"
         val categoryDescription = "NewCategory Description"
@@ -55,7 +55,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
     }
 
     @Test
-    fun onNextClickedShouldTriggerViewToAddCategoryWhenInAddMode() {
+    fun onNextPageButtonClickedShouldTriggerViewToAddCategoryWhenInAddMode() {
         prepareAddCategoryPresenter()
         val categoryName = "NewCategory"
         val categoryDescription = "NewCategory Description"
@@ -69,7 +69,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
     fun onCategoryNameChangedShouldTriggerViewToSetNextVisibleWhenInEditMode() {
         prepareEditCategoryPresenter()
         presenter.onCategoryNameChanged("TEST_A_NEW_NAME")
-        verify<View>(mockView).onNextPageEnabledChanged(true)
+        verify<View>(mockView).onNextPageEnabledChanged()
     }
 
     @Test
@@ -79,6 +79,6 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
 
         presenter.onCategoryNameChanged(EMPTY_TEXT)
 
-        verify<View>(mockView).onNextPageEnabledChanged(false)
+        verify<View>(mockView).onNextPageEnabledChanged()
     }
 }

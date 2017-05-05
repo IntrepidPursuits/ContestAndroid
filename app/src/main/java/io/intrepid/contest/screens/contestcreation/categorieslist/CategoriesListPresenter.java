@@ -34,17 +34,7 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
     @Override
     public void onViewCreated() {
         super.onViewCreated();
-        displayCategories();
-    }
-
-    @Override
-    protected void onViewBound() {
-        super.onViewBound();
-    }
-
-    @Override
-    public void onNextPageButtonClicked() {
-        getView().showNextScreen();
+        getView().showCategories(contestBuilder.getCategories());
     }
 
     @Override
@@ -80,12 +70,13 @@ public class CategoriesListPresenter extends BasePresenter<CategoriesListContrac
     }
 
     @Override
-    public boolean isNextPageButtonEnabled() {
-        return nextPageButtonEnabled;
+    public void onNextPageButtonClicked() {
+        getView().showNextScreen();
     }
 
-    private void displayCategories() {
-        getView().showCategories(contestBuilder.getCategories());
+    @Override
+    public boolean isNextPageButtonEnabled() {
+        return nextPageButtonEnabled;
     }
 
     private void updateNextPageEnabled() {

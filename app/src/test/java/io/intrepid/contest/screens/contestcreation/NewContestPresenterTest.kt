@@ -1,13 +1,6 @@
 package io.intrepid.contest.screens.contestcreation
 
 import android.support.annotation.StringRes
-
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-
-import java.util.ArrayList
-
 import io.intrepid.contest.R
 import io.intrepid.contest.models.Category
 import io.intrepid.contest.models.Contest
@@ -16,16 +9,15 @@ import io.intrepid.contest.screens.contestcreation.NewContestMvpContract.View
 import io.intrepid.contest.screens.contestcreation.reviewcontest.ReviewContestFragment
 import io.intrepid.contest.testutils.BasePresenterTest
 import io.reactivex.Observable
-
 import junit.framework.Assert.assertTrue
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.junit.Before
+import org.junit.Test
+import org.mockito.ArgumentMatchers.*
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import java.util.*
 
 class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
-
     @Mock
     private lateinit var mockView: View
     @Mock
@@ -80,14 +72,24 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
     }
 
     @Test
-    fun onNextDisabledShouldCauseViewToHideNextButton() {
-        presenter.onNextPageEnabledChanged(false)
+    fun onNextPageEnabledChangedShouldCauseViewToShowNextButtonWhenDisabled() {
+        reset(mockChildFragment)
+        `when`(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildFragment)
+        `when`(mockChildFragment.isNextPageButtonEnabled).thenReturn(false)
+
+        presenter.onNextPageEnabledChanged()
+
         verify<View>(mockView).setNextPageButtonVisible(false)
     }
 
     @Test
-    fun onNextEnabledShouldCauseViewToShowNextButton() {
-        presenter.onNextPageEnabledChanged(true)
+    fun onNextPageEnabledChangedShouldCauseViewToShowNextButtonWhenEnabled() {
+        reset(mockChildFragment)
+        `when`(mockView.getChildEditFragment(anyInt())).thenReturn(mockChildFragment)
+        `when`(mockChildFragment.isNextPageButtonEnabled).thenReturn(true)
+
+        presenter.onNextPageEnabledChanged()
+
         verify<View>(mockView).setNextPageButtonVisible(true)
     }
 

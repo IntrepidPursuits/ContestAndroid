@@ -3,6 +3,7 @@ package io.intrepid.contest.screens.contestcreation.describecontest
 import io.intrepid.contest.models.Contest
 import io.intrepid.contest.screens.contestcreation.describecontest.DescribeContestContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,15 +24,14 @@ class DescribeContestPresenterTest : BasePresenterTest<DescribeContestPresenter>
     }
 
     @Test
-    fun onViewCreatedShouldCauseViewToEnableNext() {
-        presenter.onViewCreated()
-        verify<View>(mockView).setNextEnabled(true)
-    }
-
-    @Test
-    fun onNextClickShouldTriggerViewToShowNextScreen() {
+    fun onNextPageButtonClickedShouldTriggerViewToShowNextScreen() {
         val VALID_TEXT = "Valid Contest Name"
         presenter.onNextPageButtonClicked(VALID_TEXT)
         verify<View>(mockView).showNextScreen()
+    }
+
+    @Test
+    fun isNextPageButtonEnabledShouldBeEnabled() {
+        assertTrue(presenter.isNextPageButtonEnabled())
     }
 }

@@ -7,7 +7,6 @@ import io.intrepid.contest.models.Category;
 import io.intrepid.contest.screens.contestcreation.ValidatableContestCreationFragment;
 
 interface CategoriesListContract {
-
     interface View extends BaseContract.View, ValidatableContestCreationFragment {
         void showCategories(List<Category> categories);
 
@@ -23,9 +22,9 @@ interface CategoriesListContract {
     }
 
     interface Presenter extends BaseContract.Presenter<View>, CategoryClickListener {
-        void onNextPageButtonClicked();
-
         void onAddCategoryClicked();
+
+        void onNextPageButtonClicked();
 
         boolean isNextPageButtonEnabled();
     }

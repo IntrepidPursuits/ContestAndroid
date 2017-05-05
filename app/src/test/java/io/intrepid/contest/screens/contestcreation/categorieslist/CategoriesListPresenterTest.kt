@@ -4,6 +4,7 @@ import io.intrepid.contest.models.Category
 import io.intrepid.contest.models.Contest
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -16,6 +17,7 @@ import org.mockito.Mockito.never
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>() {
     @Mock
@@ -45,28 +47,30 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     }
 
     @Test
-    fun onViewBoundShouldEnableNextWhenCategoriesIsNotEmpty() {
-        presenter.onViewBound()
-        verify<View>(mockView).onNextPageEnabledChanged(true)
-    }
+    fun onAddCategoryClickedShouldEnableNextWhenCategoriesIsNotEmpty() {
+        val categories = mockContestBuilder.getCategories()
+        deleteAllCategories(categories)
 
-    @Test
-    fun onViewBoundShouldDisableNextWhenCategoriesIsEmpty() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
-        presenter.onViewBound()
-        verify<View>(mockView).onNextPageEnabledChanged(false)
+        presenter.onAddCategoryClicked()
+
+        verify<View>(mockView).onNextPageEnabledChanged(true)
     }
 
     @Test
     fun onDeleteClickedShouldNeverDisableWhenCategoriesIsNotEmpty() {
         val categories = mockContestBuilder.getCategories()
+
+        deleteAllCategories(categories)
+
+        verify<View>(mockView, never()).onNextPageEnabledChanged(false)
+        verify<View>(mockView, times(categories.size - 1)).onNextPageEnabledChanged(true)
+    }
+
+    private fun deleteAllCategories(categories: List<Category>) {
         var i = 0
         while (i < (categories.size - 1)) {
             presenter.onDeleteClicked(categories[i++])
         }
-
-        verify<View>(mockView, never()).onNextPageEnabledChanged(false)
-        verify<View>(mockView, times(categories.size - 1)).onNextPageEnabledChanged(true)
     }
 
     @Test
@@ -87,34 +91,21 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     }
 
     @Test
-    fun onViewBoundShouldTriggerViewToSetNextEnabled() {
-        presenter.onViewBound()
-        verify<View>(mockView).onNextPageEnabledChanged(true)
-    }
-
-    @Test
-    fun onViewBoundShouldTriggerViewToDisableNextWhenCategoriesIsEmpty() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
-        presenter.onViewBound()
-        verify<View>(mockView).onNextPageEnabledChanged(false)
-    }
-
-    @Test
-    fun displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
+    fun onViewCreatedShouldShowDefaultCategoryWhenThereAreNoCategories() {
         val categories = listOf(Category("Default name", "Default description"))
         `when`(mockContestBuilder.getCategories()).thenReturn(categories)
 
-        presenter.displayCategories()
+        presenter.onViewCreated()
 
         verify<View>(mockView).showCategories(argThat<List<Category>> { argument -> argument == categories })
     }
 
     @Test
-    fun displayCategoriesShouldShowCategoriesWhenThereAreCategories() {
+    fun onViewCreatedShouldShowCategoriesWhenThereAreCategories() {
         val categories = makeCategories()
         `when`(mockContestBuilder.getCategories()).thenReturn(categories)
 
-        presenter.displayCategories()
+        presenter.onViewCreated()
 
         verify<View>(mockView).showCategories(categories)
     }
@@ -126,7 +117,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     }
 
     @Test
-    fun onNextClickedShouldTriggerViewToShowNextScreen() {
+    fun onNextPageButtonClickedShouldTriggerViewToShowNextScreen() {
         presenter.onNextPageButtonClicked()
         verify<View>(mockView).showNextScreen()
     }
@@ -168,5 +159,10 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
         assertTrue(categories[1].name == "Category 4")
         assertTrue(categories[4].name == "Category 3")
+    }
+
+    @Test
+    fun isNextPageButtonEnabledShouldBeEnabledUponCreation() {
+        assertTrue(presenter.isNextPageButtonEnabled())
     }
 }
