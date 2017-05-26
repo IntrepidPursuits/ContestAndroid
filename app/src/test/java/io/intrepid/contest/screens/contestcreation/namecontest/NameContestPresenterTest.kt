@@ -3,6 +3,8 @@ package io.intrepid.contest.screens.contestcreation.namecontest
 import io.intrepid.contest.models.Contest
 import io.intrepid.contest.screens.contestcreation.namecontest.NameContestContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
+import junit.framework.Assert.assertFalse
+import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,6 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class NameContestPresenterTest : BasePresenterTest<NameContestPresenter>() {
+    private val VALID_TEXT = "ContestName"
+    private val EMPTY_TEXT = ""
+
     @Mock
     private lateinit var mockView: View
     @Mock
@@ -26,27 +31,45 @@ class NameContestPresenterTest : BasePresenterTest<NameContestPresenter>() {
 
     @Test
     fun onContestTitleUpdatedShouldCauseViewToShowNextScreen() {
-        val VALID_TEXT = "ContestName"
         presenter.onContestTitleUpdated(VALID_TEXT)
         verify<View>(mockView).showNextScreen()
     }
 
     @Test
-    fun onViewCreatedShouldTriggerViewToHideNextButton() {
-        presenter.onViewCreated()
+    fun onNextInValidatedShouldCauseViewToDisableNextWhenNotAlreadyDisabled() {
+        presenter.onNextValidated() // Arrange, not Act
+        presenter.onNextInvalidated()
         verify<View>(mockView).onNextPageEnabledChanged(false)
     }
 
     @Test
-    fun onNextValidatedShouldCauseViewToEnableNext() {
+    fun onNextValidatedShouldCauseViewToEnableNextWhenNotAlreadyEnabled() {
         presenter.onNextValidated()
         verify<View>(mockView).onNextPageEnabledChanged(true)
     }
 
     @Test
-    fun onNextInValidatedShouldCauseViewToDisableNext() {
-        presenter.onNextInvalidated()
+    fun onTextChangedShouldCauseViewToDisableNextWhenNotAlreadyDisabledAndTextIsEmpty() {
+        presenter.onNextValidated() // Arrange, not Act
+        presenter.onTextChanged(EMPTY_TEXT)
         verify<View>(mockView).onNextPageEnabledChanged(false)
+    }
+
+    @Test
+    fun onTextChangedShouldCauseViewToEnableNextWhenNotAlreadyEnabledAndTextIsNotEmpty() {
+        presenter.onTextChanged(VALID_TEXT)
+        verify<View>(mockView).onNextPageEnabledChanged(true)
+    }
+
+    @Test
+    fun isNextPageButtonEnabledShouldReturnFalseWhenDisabled() {
+        assertFalse(presenter.isNextPageButtonEnabled)
+    }
+
+    @Test
+    fun isNextPageButtonEnabledShouldReturnTrueWhenEnabled() {
+        presenter.onNextValidated()
+        assertTrue(presenter.isNextPageButtonEnabled)
     }
 }
 

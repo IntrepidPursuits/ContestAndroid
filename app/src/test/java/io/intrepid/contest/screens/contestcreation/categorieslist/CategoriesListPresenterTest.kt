@@ -4,7 +4,6 @@ import io.intrepid.contest.models.Category
 import io.intrepid.contest.models.Contest
 import io.intrepid.contest.screens.contestcreation.categorieslist.CategoriesListContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -12,12 +11,7 @@ import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.argThat
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.never
-import org.mockito.Mockito.times
-import org.mockito.Mockito.verify
-import java.util.*
-import kotlin.collections.ArrayList
+import org.mockito.Mockito.*
 
 class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>() {
     @Mock
@@ -48,22 +42,14 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onAddCategoryClickedShouldEnableNextWhenCategoriesIsNotEmpty() {
+        // Disable next
         val categories = mockContestBuilder.getCategories()
         deleteAllCategories(categories)
 
+        `when`(mockContestBuilder.getCategories()).thenReturn(listOf(categories[0]))
         presenter.onAddCategoryClicked()
 
         verify<View>(mockView).onNextPageEnabledChanged(true)
-    }
-
-    @Test
-    fun onDeleteClickedShouldNeverDisableWhenCategoriesIsNotEmpty() {
-        val categories = mockContestBuilder.getCategories()
-
-        deleteAllCategories(categories)
-
-        verify<View>(mockView, never()).onNextPageEnabledChanged(false)
-        verify<View>(mockView, times(categories.size - 1)).onNextPageEnabledChanged(true)
     }
 
     private fun deleteAllCategories(categories: List<Category>) {

@@ -20,14 +20,21 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
         prepareEditCategoryPresenter()
     }
 
+    //For testing Presenter in Add Category Mode
+    private fun prepareAddCategoryPresenter() {
+        presenter = EditCategoriesPresenter(mockView, testConfiguration)
+    }
+
     //For testing presenter in Edit Existing Category Mode
     private fun prepareEditCategoryPresenter() {
         presenter = EditCategoriesPresenter(mockView, testConfiguration, Category("a", "d"), 0)
     }
 
-    //For testing Presenter in Add Category Mode
-    private fun prepareAddCategoryPresenter() {
-        presenter = EditCategoriesPresenter(mockView, testConfiguration)
+    @Test
+    fun onViewCreatedShouldNeverEditInAddCategoryMode() {
+        prepareAddCategoryPresenter()
+        presenter.onViewCreated()
+        verify<View>(mockView, never()).showEditableCategory(any<String>(), any<String>())
     }
 
     @Test
@@ -45,13 +52,6 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
         presenter.onNextPageButtonClicked(categoryName, categoryDescription)
 
         verify<View>(mockView).editCategory(anyInt(), eq(categoryName), eq(categoryDescription))
-    }
-
-    @Test
-    fun onViewCreatedShouldNeverEditInAddCategoryMode() {
-        prepareAddCategoryPresenter()
-        presenter.onViewCreated()
-        verify<View>(mockView, never()).showEditableCategory(any<String>(), any<String>())
     }
 
     @Test
@@ -75,6 +75,7 @@ class EditCategoriesPresenterTest : BasePresenterTest<EditCategoriesPresenter>()
     @Test
     fun onCategoryNameChangedShouldTriggerViewToSetNextInvisibleWhenNameIsEmpty() {
         prepareEditCategoryPresenter()
+        presenter.onViewCreated()
         val EMPTY_TEXT = ""
 
         presenter.onCategoryNameChanged(EMPTY_TEXT)
