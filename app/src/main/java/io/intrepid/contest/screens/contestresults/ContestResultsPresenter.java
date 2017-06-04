@@ -39,7 +39,7 @@ public class ContestResultsPresenter extends BasePresenter<ContestResultsContrac
             return;
         }
 
-        List<RankedEntryResult> entryResults = contestResultResponse.contestResults.rankedScoredEntries;
+        List<RankedEntryResult> entryResults = contestResultResponse.contestResults.getRankedScoredEntries();
 
         if (!entryResults.isEmpty()) {
             getView().hideNoEntriesMessage();

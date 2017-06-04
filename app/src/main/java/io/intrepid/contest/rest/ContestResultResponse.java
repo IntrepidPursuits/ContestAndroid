@@ -13,6 +13,6 @@ public class ContestResultResponse {
 
     public ContestResultResponse(List<RankedEntryResult> rankedScoredEntries) {
         this.contestResults = new ContestResult();
-        contestResults.rankedScoredEntries = rankedScoredEntries;
+        contestResults.setRankedScoredEntries(rankedScoredEntries);
     }
 }
