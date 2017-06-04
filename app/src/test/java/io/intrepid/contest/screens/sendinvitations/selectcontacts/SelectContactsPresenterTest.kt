@@ -13,7 +13,6 @@ import org.mockito.ArgumentMatchers.anyList
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.ArgumentMatchers.argThat
 import org.mockito.Mock
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.reset
 import org.mockito.Mockito.verify
@@ -178,7 +177,7 @@ class SelectContactsPresenterTest : BasePresenterTest<SelectContactsPresenter>()
         setupPreviewContactsScreen(ParticipationType.CONTESTANT)
         presenter.onContactListUpdated(getMockContactList(false))
 
-        presenter.onContactClick(mock(Contact::class.java))
+        presenter.onContactClick(Contact())
 
         verify<View>(mockView, never()).onContactSelected()
         verify<View>(mockView, never()).showAddContactsButton(anyInt(), anyInt())
