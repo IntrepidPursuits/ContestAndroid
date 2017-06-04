@@ -1,7 +1,6 @@
 package io.intrepid.contest.screens.contestcreation.namecontest;
 
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import io.intrepid.contest.base.BasePresenter;
 import io.intrepid.contest.base.PresenterConfiguration;
@@ -44,7 +43,7 @@ public class NameContestPresenter extends BasePresenter<NameContestContract.View
 
     @Override
     public void onTextChanged(CharSequence newName) {
-        if (TextUtils.isEmpty(newName)) {
+        if (newName.toString().isEmpty()) {
             getView().setNextEnabled(false);
         } else {
             getView().setNextEnabled(true);

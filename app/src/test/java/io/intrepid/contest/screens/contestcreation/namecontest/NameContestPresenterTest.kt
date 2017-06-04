@@ -13,6 +13,9 @@ import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
 class NameContestPresenterTest : BasePresenterTest<NameContestPresenter>() {
+    private val VALID_TEXT = "Valid Contest Name"
+    private val EMPTY_TEXT = ""
+
     @Mock
     private lateinit var mockView: View
     @Mock
@@ -26,7 +29,6 @@ class NameContestPresenterTest : BasePresenterTest<NameContestPresenter>() {
 
     @Test
     fun onContestTitleUpdatedShouldCauseViewToShowNextScreen() {
-        val VALID_TEXT = "ContestName"
         presenter.onContestTitleUpdated(VALID_TEXT)
         verify<View>(mockView).showNextScreen()
     }
@@ -47,6 +49,18 @@ class NameContestPresenterTest : BasePresenterTest<NameContestPresenter>() {
     fun onNextInValidatedShouldCauseViewToDisableNext() {
         presenter.onNextInvalidated()
         verify<View>(mockView).setNextEnabled(false)
+    }
+
+    @Test
+    fun onTextChangedShouldSetNextDisabledWhenTextIsEmpty() {
+        presenter.onTextChanged(EMPTY_TEXT)
+        verify<View>(mockView).setNextEnabled(false)
+    }
+
+    @Test
+    fun onTextChangedShouldSetNextEnabledWhenTextIsNotEmpty() {
+        presenter.onTextChanged(VALID_TEXT)
+        verify<View>(mockView).setNextEnabled(true)
     }
 }
 
