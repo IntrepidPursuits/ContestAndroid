@@ -104,7 +104,7 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
 
     @Test
     fun onEditContestCaegoryShouldTriggerViewToUpdateCategory() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(categories)
+        `when`(mockContestBuilder.categories).thenReturn(categories)
         presenter.onContestEditEntered(0, "New Name", "New Description")
         verify<View>(mockView).showUpdatedCategories()
     }

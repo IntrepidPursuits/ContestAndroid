@@ -27,24 +27,10 @@ import java.util.*
 class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
     @Mock
     private lateinit var mockView: View
-    @Mock
-    private lateinit var mockContest: Contest
 
     @Before
     fun setup() {
         presenter = SplashPresenter(mockView, testConfiguration)
-    }
-
-    private fun setupSuccessfulUserCreation() {
-        val UserCreationResponse = UserCreationResponse().apply {
-            user = User()
-            user.id = UUID.randomUUID()
-        }
-        `when`(mockRestApi.createUser()).thenReturn(Observable.just(UserCreationResponse))
-    }
-
-    private fun setupFailedUserCreation() {
-        `when`(mockRestApi.createUser()).thenReturn(error<UserCreationResponse>(Throwable()))
     }
 
     @Test
@@ -102,20 +88,6 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
         verify<View>(mockView).showOngoingContests(anyList<Contest>())
     }
 
-    private fun doSuccessfulAuthenticationApiCallAndActiveContestsCallInSequence(isActiveContestCallSuccessful: Boolean) {
-        val response = if (isActiveContestCallSuccessful)
-            Observable.just(createActiveContestListResponse())
-        else
-            error<ActiveContestListResponse>(Throwable())
-        `when`(mockRestApi.activeContests).thenReturn(response)
-        setupSuccessfulUserCreation()
-
-        presenter.onViewCreated()
-        //Called twice to trigger second api call.
-        testConfiguration.triggerRxSchedulers()
-        testConfiguration.triggerRxSchedulers()
-    }
-
     @Test
     fun onViewCreatedShouldCauseViewToShowOngoingContestsAfterAuthenticateUserSuccess() {
         doSuccessfulAuthenticationApiCallAndActiveContestsCallInSequence(true)
@@ -130,41 +102,74 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
 
     @Test
     fun onContestClickedShouldCauseViewToResumeContest() {
-        presenter.onContestClicked(mockContest)
-        verify<View>(mockView).resumeContest(mockContest)
+        val contest = Contest()
+        presenter.onContestClicked(contest)
+        verify<View>(mockView).resumeContest(contest)
     }
 
     @Test
     fun onContestClickedShouldSaveParticipationTypeAsCreatorWhenApiParticipationIsNull() {
-        `when`(mockContest.id).thenReturn(UUID.randomUUID())
-        `when`(mockContest.participationType).thenReturn(null)
+        val contest = Contest().apply {
+            id = UUID.randomUUID()
+            participationType = null
+        }
 
-        presenter.onContestClicked(mockContest)
+        presenter.onContestClicked(contest)
 
         verify<PersistentSettings>(mockPersistentSettings).setCurrentParticipationType(ParticipationType.CREATOR)
     }
 
     @Test
     fun onContestClickedShouldSaveParticipationTypeAsContestantWhenApiParticipationIsContestant() {
-        `when`(mockContest.id).thenReturn(UUID.randomUUID())
-        `when`(mockContest.participationType).thenReturn(ParticipationType.CONTESTANT)
+        val contest = Contest().apply {
+            id = UUID.randomUUID()
+            participationType = ParticipationType.CONTESTANT
+        }
 
-        presenter.onContestClicked(mockContest)
+        presenter.onContestClicked(contest)
 
         verify<PersistentSettings>(mockPersistentSettings).setCurrentParticipationType(ParticipationType.CONTESTANT)
     }
 
     @Test
     fun onContestClickedShouldSaveParticipationTypeAsJudgeWhenApiParticipationIsJudge() {
-        `when`(mockContest.id).thenReturn(UUID.randomUUID())
-        `when`(mockContest.participationType).thenReturn(ParticipationType.JUDGE)
+        val contest = Contest().apply {
+            id = UUID.randomUUID()
+            participationType = ParticipationType.JUDGE
+        }
 
-        presenter.onContestClicked(mockContest)
+        presenter.onContestClicked(contest)
 
         verify<PersistentSettings>(mockPersistentSettings).setCurrentParticipationType(ParticipationType.JUDGE)
     }
 
     private fun createActiveContestListResponse(): ActiveContestListResponse {
         return ActiveContestListResponse(emptyList())
+    }
+
+    private fun doSuccessfulAuthenticationApiCallAndActiveContestsCallInSequence(isActiveContestCallSuccessful: Boolean) {
+        val response = if (isActiveContestCallSuccessful)
+            Observable.just(createActiveContestListResponse())
+        else
+            error<ActiveContestListResponse>(Throwable())
+        `when`(mockRestApi.activeContests).thenReturn(response)
+        setupSuccessfulUserCreation()
+
+        presenter.onViewCreated()
+        //Called twice to trigger second api call.
+        testConfiguration.triggerRxSchedulers()
+        testConfiguration.triggerRxSchedulers()
+    }
+
+    private fun setupSuccessfulUserCreation() {
+        val UserCreationResponse = UserCreationResponse().apply {
+            user = User()
+            user.id = UUID.randomUUID()
+        }
+        `when`(mockRestApi.createUser()).thenReturn(Observable.just(UserCreationResponse))
+    }
+
+    private fun setupFailedUserCreation() {
+        `when`(mockRestApi.createUser()).thenReturn(error<UserCreationResponse>(Throwable()))
     }
 }

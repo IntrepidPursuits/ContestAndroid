@@ -25,7 +25,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Before
     fun setup() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(makeCategories())
+        `when`(mockContestBuilder.categories).thenReturn(makeCategories())
         presenter = CategoriesListPresenter(mockView, testConfiguration, mockContestBuilder)
     }
 
@@ -39,7 +39,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun presenterShouldAddDefaultCategoryIfCategoriesIsEmptyOrNull() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
+        `when`(mockContestBuilder.categories).thenReturn(ArrayList<Category>())
         presenter = CategoriesListPresenter(mockView, testConfiguration, mockContestBuilder)
         verify<View>(mockView).getDefaultCategory(anyInt(), anyInt())
     }
@@ -52,14 +52,14 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onViewBoundShouldDisableNextWhenCategoriesIsEmpty() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
+        `when`(mockContestBuilder.categories).thenReturn(ArrayList<Category>())
         presenter.onViewBound()
         verify<View>(mockView).setNextEnabled(false)
     }
 
     @Test
     fun onDeleteClickedShouldNeverDisableWhenCategoriesIsNotEmpty() {
-        val categories = mockContestBuilder.getCategories()
+        val categories = mockContestBuilder.categories
         var i = 0
         while (i < (categories.size - 1)) {
             presenter.onDeleteClicked(categories[i++])
@@ -71,7 +71,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onDeleteClickedShouldDisableNextWhenCategoriesIsEmpty() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
+        `when`(mockContestBuilder.categories).thenReturn(ArrayList<Category>())
         val singleCategory = Category("Single Category", "TEST")
 
         presenter.onDeleteClicked(singleCategory)
@@ -94,7 +94,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onViewBoundShouldTriggerViewToDisableNextWhenCategoriesIsEmpty() {
-        `when`(mockContestBuilder.getCategories()).thenReturn(ArrayList<Category>())
+        `when`(mockContestBuilder.categories).thenReturn(ArrayList<Category>())
         presenter.onViewBound()
         verify<View>(mockView).setNextEnabled(false)
     }
@@ -108,7 +108,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     @Test
     fun displayCategoriesShouldShowDefaultCategoryWhenThereAreNoCategories() {
         val categories = listOf(Category("Default name", "Default description"))
-        `when`(mockContestBuilder.getCategories()).thenReturn(categories)
+        `when`(mockContestBuilder.categories).thenReturn(categories)
 
         presenter.displayCategories()
 
@@ -118,7 +118,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     @Test
     fun displayCategoriesShouldShowCategoriesWhenThereAreCategories() {
         val categories = makeCategories()
-        `when`(mockContestBuilder.getCategories()).thenReturn(categories)
+        `when`(mockContestBuilder.categories).thenReturn(categories)
 
         presenter.displayCategories()
 
@@ -140,7 +140,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     @Test
     fun onCategoryClickedShouldTriggerViewToShowEditPage() {
         val categories = listOf(Category("Test", "Tester"))
-        `when`(mockContestBuilder.getCategories()).thenReturn(categories)
+        `when`(mockContestBuilder.categories).thenReturn(categories)
 
         presenter.onCategoryClicked(categories[0])
 
@@ -149,15 +149,15 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
 
     @Test
     fun onDeleteClickedShouldTriggerViewToLoseCategory() {
-        val initialSize = mockContestBuilder.getCategories().size
-        presenter.onDeleteClicked(mockContestBuilder.getCategories()[0])
+        val initialSize = mockContestBuilder.categories.size
+        presenter.onDeleteClicked(mockContestBuilder.categories[0])
         verify<View>(mockView).showCategories(argThat<List<Category>> { argument -> argument.size == initialSize - 1 })
     }
 
     @Test
     fun onCategoryMovedShouldUpdateCategoriesListWhenItemMovedUp() {
         val categories = makeCategories()
-        `when`(mockContestBuilder.getCategories()).thenReturn(categories)
+        `when`(mockContestBuilder.categories).thenReturn(categories)
 
         presenter.onCategoryMoved(1, 4)
 
@@ -168,7 +168,7 @@ class CategoriesListPresenterTest : BasePresenterTest<CategoriesListPresenter>()
     @Test
     fun onCategoryMovedShouldUpdateCategoriesListWhenItemMovedDown() {
         val categories = makeCategories()
-        `when`(mockContestBuilder.getCategories()).thenReturn(categories)
+        `when`(mockContestBuilder.categories).thenReturn(categories)
 
         presenter.onCategoryMoved(4, 1)
 
