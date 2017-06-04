@@ -28,8 +28,6 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
     @Mock
     private lateinit var mockView: View
     @Mock
-    private lateinit var mockActiveContestListResponse: ActiveContestListResponse
-    @Mock
     private lateinit var mockContest: Contest
 
     @Before
@@ -51,7 +49,7 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
 
     @Test
     fun onViewCreatedShouldShowUserButtonsWhenUserCreationIsSuccessful() {
-        `when`(mockRestApi.activeContests).thenReturn(Observable.just(mockActiveContestListResponse))
+        `when`(mockRestApi.activeContests).thenReturn(Observable.just(createActiveContestListResponse()))
         setupSuccessfulUserCreation()
 
         presenter.onViewCreated()
@@ -62,7 +60,7 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
 
     @Test
     fun onViewCreatedShouldShowUserButtonsWhenUserIsRetrievedFromPersistentSettings() {
-        `when`(mockRestApi.activeContests).thenReturn(Observable.just(mockActiveContestListResponse))
+        `when`(mockRestApi.activeContests).thenReturn(Observable.just(createActiveContestListResponse()))
         `when`(mockPersistentSettings.isAuthenticated).thenReturn(true)
 
         presenter.onViewCreated()
@@ -96,7 +94,7 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
     @Test
     fun onViewCreatedShouldCauseViewToShowOngoingContestsWhenUserIsAuthenticated() {
         `when`(mockPersistentSettings.isAuthenticated).thenReturn(true)
-        `when`(mockRestApi.activeContests).thenReturn(Observable.just(mockActiveContestListResponse))
+        `when`(mockRestApi.activeContests).thenReturn(Observable.just(createActiveContestListResponse()))
 
         presenter.onViewCreated()
         testConfiguration.triggerRxSchedulers()
@@ -106,7 +104,7 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
 
     private fun doSuccessfulAuthenticationApiCallAndActiveContestsCallInSequence(isActiveContestCallSuccessful: Boolean) {
         val response = if (isActiveContestCallSuccessful)
-            Observable.just(mockActiveContestListResponse)
+            Observable.just(createActiveContestListResponse())
         else
             error<ActiveContestListResponse>(Throwable())
         `when`(mockRestApi.activeContests).thenReturn(response)
@@ -164,5 +162,9 @@ class SplashPresenterTest : BasePresenterTest<SplashPresenter>() {
         presenter.onContestClicked(mockContest)
 
         verify<PersistentSettings>(mockPersistentSettings).setCurrentParticipationType(ParticipationType.JUDGE)
+    }
+
+    private fun createActiveContestListResponse(): ActiveContestListResponse {
+        return ActiveContestListResponse(emptyList())
     }
 }
