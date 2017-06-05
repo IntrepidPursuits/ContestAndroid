@@ -55,8 +55,8 @@ public class ReviewContestFragment extends BaseFragment<ReviewContestPresenter, 
 
     @Override
     public void displayReviewPageContent(Contest.Builder contestBuilder) {
-        titleButton.setText(contestBuilder.title);
-        descriptionButton.setText(contestBuilder.description);
+        titleButton.setText(contestBuilder.getTitle());
+        descriptionButton.setText(contestBuilder.getDescription());
         categoryAdapter.setCategories(contestBuilder.getCategories());
     }
 

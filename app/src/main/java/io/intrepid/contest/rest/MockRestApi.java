@@ -222,8 +222,8 @@ class MockRestApi implements RestApi {
         List<Entry> entries = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Entry entry = new Entry();
-            entry.title = "Test Entry " + i;
-            entry.photoUrl = TEST_ENTRY_IMAGE;
+            entry.setTitle("Test Entry " + i);
+            entry.setPhotoUrl(TEST_ENTRY_IMAGE);
             entries.add(entry);
         }
         return entries;

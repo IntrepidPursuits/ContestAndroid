@@ -10,6 +10,6 @@ public class AdjudicateRequest {
 
     public AdjudicateRequest(List<EntryBallot> entryBallots) {
         adjudication = new Adjudication();
-        adjudication.entryBallots = entryBallots;
+        adjudication.setEntryBallots(entryBallots);
     }
 }
