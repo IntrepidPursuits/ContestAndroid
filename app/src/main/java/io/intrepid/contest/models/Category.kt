@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
 
-class Category : Parcelable {
+open class Category : Parcelable {
     val id: UUID? = null
     var name: String? = null
     var description: String? = null

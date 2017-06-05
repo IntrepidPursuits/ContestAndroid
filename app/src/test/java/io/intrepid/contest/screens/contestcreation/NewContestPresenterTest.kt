@@ -19,15 +19,12 @@ import org.mockito.Mockito.verify
 import java.util.*
 
 class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
-
     @Mock
     private lateinit var mockView: View
     @Mock
     private lateinit var mockChildFragment: ContestCreationFragment
     @Mock
     private lateinit var mockReviewContestFragment: ReviewContestFragment
-    @Mock
-    private lateinit var mockContestBuilder: Contest.Builder
 
     private lateinit var categories: MutableList<Category>
 
@@ -38,7 +35,7 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
             categories.add(Category("TEST TITLE " + i, "TEST DESCRIPTION " + i))
         }
         presenter = NewContestPresenter(mockView, testConfiguration)
-        presenter.contest = mockContestBuilder
+        presenter.contest = Contest.Builder()
         presenter.onViewCreated()
     }
 
@@ -104,7 +101,7 @@ class NewContestPresenterTest : BasePresenterTest<NewContestPresenter>() {
 
     @Test
     fun onEditContestCaegoryShouldTriggerViewToUpdateCategory() {
-        `when`(mockContestBuilder.categories).thenReturn(categories)
+        presenter.contest.categories = categories
         presenter.onContestEditEntered(0, "New Name", "New Description")
         verify<View>(mockView).showUpdatedCategories()
     }

@@ -15,9 +15,6 @@ open class Contest {
     var lastUpdatedDate: Date? = null
     @SerializedName("ended_at")
     var endedDate: Date? = null
-    set(value) {
-        this.endedDate = endedDate
-    }
     var title: String? = null
     var description: String? = null
     @SerializedName("scoring_categories")
@@ -42,7 +39,7 @@ open class Contest {
                 " /n Ended Data " + endedDate
     }
 
-    class Builder {
+    open class Builder {
         var categories: List<Category> = ArrayList()
         var title: String? = null
         var description: String? = null
