@@ -1,14 +1,6 @@
 package io.intrepid.contest.screens.sendinvitations
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException
-
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-
-import java.util.ArrayList
-import java.util.UUID
-
 import io.intrepid.contest.R
 import io.intrepid.contest.models.Contact
 import io.intrepid.contest.models.ParticipationType
@@ -18,17 +10,14 @@ import io.intrepid.contest.rest.InvitationResponse
 import io.intrepid.contest.screens.sendinvitations.SendInvitationsContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
 import io.reactivex.Observable
-
 import io.reactivex.Observable.error
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import junit.framework.Assert.*
+import org.junit.Before
+import org.junit.Test
 import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.atLeastOnce
-import org.mockito.Mockito.never
-import org.mockito.Mockito.reset
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
+import org.mockito.Mock
+import org.mockito.Mockito.*
+import java.util.*
 
 class SendInvitationsPresenterTest : BasePresenterTest<SendInvitationsPresenter>() {
     @Mock
@@ -199,10 +188,17 @@ class SendInvitationsPresenterTest : BasePresenterTest<SendInvitationsPresenter>
     }
 
     @Test
-    fun onBackButtonClickedShouldShowPreviewInvitationWhenShowingSelectContactsContent() {
+    fun onBackButtonClickedShouldShowPreviewInvitationWhenContactSelectionIsEnabled() {
         showSelectContactsContent()
         presenter.onBackButtonClicked()
         verify<View>(mockView).showInvitationIntroFragment()
+    }
+
+    @Test
+    fun onBackButtonClickedShouldCancelSelectionWhenContactSelectionIsNotEnabled() {
+        showPreviewContactsContent(emptyList())
+        presenter.onBackButtonClicked()
+        verify<View>(mockView).cancelSelection()
     }
 
     @Test
@@ -318,6 +314,27 @@ class SendInvitationsPresenterTest : BasePresenterTest<SendInvitationsPresenter>
         setParticipationType(ParticipationType.JUDGE)
         presenter.onOptionsItemSelected(R.id.send_invitations_skip_menu_action)
         verify<View>(mockView).showContestStatusScreen()
+    }
+
+    @Test
+    fun onOptionsItemSelectedShouldShowInvitationIntroFragmentWhenItemIsHomeAndShowingSelectContacts() {
+        showSelectContactsContent()
+        presenter.onOptionsItemSelected(android.R.id.home)
+        verify<View>(mockView).showInvitationIntroFragment()
+    }
+
+    @Test
+    fun onOptionsItemSelectedShouldShowSelectContactsFragmentWhenItemIsHomeAndShowingSelectContacts() {
+        showSelectContactsContent()
+        presenter.onOptionsItemSelected(android.R.id.home)
+        verify<View>(mockView).showSelectContactsFragment()
+    }
+
+    @Test
+    fun onOptionsItemSelectedShouldCancelSelectionWhenItemIsHomeAndShowingPreviewContacts() {
+        showPreviewContactsContent(getMockContactList(false))
+        presenter.onOptionsItemSelected(android.R.id.home)
+        verify<View>(mockView).cancelSelection()
     }
 
     @Test
