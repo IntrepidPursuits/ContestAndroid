@@ -61,16 +61,6 @@ open class Contest {
             description = `in`.readString()
         }
 
-        fun setTitle(title: String): Builder {
-            this.title = title
-            return this
-        }
-
-        fun setDescription(description: String): Builder {
-            this.description = description
-            return this
-        }
-
         fun build(): Contest {
             if (creationDate == null) {
                 creationDate = Date()
