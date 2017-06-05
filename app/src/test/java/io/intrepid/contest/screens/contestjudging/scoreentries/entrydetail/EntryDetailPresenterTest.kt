@@ -18,16 +18,18 @@ class EntryDetailPresenterTest : BasePresenterTest<EntryDetailPresenter>() {
     @Mock
     private lateinit var mockView: View
     @Mock
-    private lateinit var mockEntry: Entry
-    @Mock
     private lateinit var mockBallot: EntryBallot
     @Mock
     private lateinit var mockCategory: Category
 
+    private lateinit var entry: Entry
+
     @Before
     fun setup() {
-        mockEntry.id = UUID.randomUUID()
-        `when`(mockView.entryToRate).thenReturn(mockEntry)
+        entry = Entry().apply {
+            id = UUID.randomUUID()
+        }
+        `when`(mockView.entryToRate).thenReturn(entry)
         presenter = EntryDetailPresenter(mockView, testConfiguration)
     }
 
@@ -35,26 +37,6 @@ class EntryDetailPresenterTest : BasePresenterTest<EntryDetailPresenter>() {
     fun onViewCreatedShouldTriggerViewToShowEntries() {
         presenter.onViewCreated()
         verify<View>(mockView).showEntries(anyList<Entry>())
-    }
-
-    private fun makeCompletedBallot() {
-        val completeBallot = EntryBallot(UUID.randomUUID())
-        `when`(mockView.entryBallot).thenReturn(completeBallot)
-        completeBallot.addScore(Score(mockCategory, 1))
-
-        val completedBallots = ArrayList<EntryBallot>()
-        completedBallots.add(completeBallot)
-        `when`(mockView.allBallots).thenReturn(completedBallots)
-    }
-
-    private fun makeIncompleteBallots() {
-        val incompleteBallot = EntryBallot(UUID.randomUUID()).apply {
-            addScore(Score(Category("TEST", "TEST"), 0))
-            addScore(Score(Category("TESTER", "TEST"), 0))
-        }
-
-        `when`(mockView.entryBallot).thenReturn(incompleteBallot)
-        `when`(mockView.allBallots).thenReturn(listOf(incompleteBallot))
     }
 
     @Test
@@ -95,16 +77,35 @@ class EntryDetailPresenterTest : BasePresenterTest<EntryDetailPresenter>() {
     }
 
     @Test
-    fun onPageScrolledShouldCauseViewToSetNextInvisible() {
-        `when`(mockEntry.isCompletelyScored).thenReturn(false)
+    fun onPageScrolledShouldCauseViewToSetNextInvisibleWhenEntriesAreNotCompletelyScored() {
+        entry.setCategoriesSize(1)
         presenter.onPageScrolled()
         verify<View>(mockView).setNextEnabled(false)
     }
 
     @Test
-    fun onPageScrolledShouldCauseViewToSetNextVisibleWhenBallotIsScored() {
-        `when`(mockEntry.isCompletelyScored).thenReturn(true)
+    fun onPageScrolledShouldCauseViewToSetNextVisibleWhenEntriesAreCompletelyScored() {
         presenter.onPageScrolled()
         verify<View>(mockView).setNextEnabled(true)
+    }
+
+    private fun makeCompletedBallot() {
+        val completeBallot = EntryBallot(UUID.randomUUID())
+        `when`(mockView.entryBallot).thenReturn(completeBallot)
+        completeBallot.addScore(Score(mockCategory, 1))
+
+        val completedBallots = ArrayList<EntryBallot>()
+        completedBallots.add(completeBallot)
+        `when`(mockView.allBallots).thenReturn(completedBallots)
+    }
+
+    private fun makeIncompleteBallots() {
+        val incompleteBallot = EntryBallot(UUID.randomUUID()).apply {
+            addScore(Score(Category("TEST", "TEST"), 0))
+            addScore(Score(Category("TESTER", "TEST"), 0))
+        }
+
+        `when`(mockView.entryBallot).thenReturn(incompleteBallot)
+        `when`(mockView.allBallots).thenReturn(listOf(incompleteBallot))
     }
 }

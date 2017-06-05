@@ -45,13 +45,13 @@ class EntryViewHolder extends RecyclerView.ViewHolder {
 
     void bindEntry(Entry entry) {
         this.entry = entry;
-        submissionTitleField.setText(entry.title);
+        submissionTitleField.setText(entry.getTitle());
         if (entry.isCompletelyScored()) {
             checkMarkIcon.setVisibility(View.VISIBLE);
         }
         scoreField.setText(String.valueOf(entry.getRatingAverage()));
         Picasso.with(itemView.getContext())
-                .load(entry.photoUrl)
+                .load(entry.getPhotoUrl())
                 .placeholder(R.drawable.default_entry_icon)
                 .into(entryThumbnail);
     }

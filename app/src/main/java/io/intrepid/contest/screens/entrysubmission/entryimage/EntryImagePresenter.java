@@ -82,7 +82,7 @@ public class EntryImagePresenter extends BasePresenter<EntryImageContract.View> 
     }
 
     private void showResult(EntryResponse response) {
-        if ((response.getEntry() == null) || (response.getEntry().id == null)) {
+        if ((response.getEntry() == null) || (response.getEntry().getId() == null)) {
             Timber.d("Entry was not created.");
             getView().showInvalidEntryErrorMessage();
             return;

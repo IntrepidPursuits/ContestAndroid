@@ -32,8 +32,8 @@ class EntryReviewViewHolder extends RecyclerView.ViewHolder{
 
     public void bind(Entry entry) {
         Picasso.with(itemView.getContext())
-                .load(entry.photoUrl).resizeDimen(R.dimen.entry_review_row_size, R.dimen.entry_review_row_size)
+                .load(entry.getPhotoUrl()).resizeDimen(R.dimen.entry_review_row_size, R.dimen.entry_review_row_size)
                 .into(entryThumbnail);
-        entryTitleTextView.setText(entry.title);
+        entryTitleTextView.setText(entry.getTitle());
     }
 }

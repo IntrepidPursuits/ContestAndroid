@@ -49,7 +49,7 @@ public class ScoreEntriesPresenter extends BasePresenter<ScoresEntriesContract.V
                     entryBallots.clear();
                     for (Entry entry : entries) {
                         entry.setCategoriesSize(categories.size());
-                        EntryBallot ballot = new EntryBallot(entry.id);
+                        EntryBallot ballot = new EntryBallot(entry.getId());
                         for(Category category : categories){
                             ballot.addScore(new Score(category, 0));
                         }

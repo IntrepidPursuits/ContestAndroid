@@ -48,7 +48,7 @@ class EntryPageViewHolder extends RecyclerView.ViewHolder {
 
     void bindEntry(Entry entry) {
         setupCategoriesList(entry);
-        String photoUrl = entry.photoUrl;
+        String photoUrl = entry.getPhotoUrl();
         int imageWidth = (int) itemView.getResources().getDimension(R.dimen.rating_image_card_width);
         int imageHeight = (int) itemView.getResources().getDimension(R.dimen.rating_image_card_height);
         Picasso.with(itemView.getContext()).load(photoUrl).resize(imageWidth, imageHeight).into(topImageCard);

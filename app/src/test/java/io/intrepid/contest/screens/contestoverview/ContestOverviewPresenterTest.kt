@@ -1,49 +1,33 @@
 package io.intrepid.contest.screens.contestoverview
 
-import org.junit.Before
-import org.junit.Test
-import org.mockito.Mock
-
-import java.util.ArrayList
-import java.util.UUID
-
 import io.intrepid.contest.R
 import io.intrepid.contest.models.Category
 import io.intrepid.contest.models.Contest
-import io.intrepid.contest.models.Entry
 import io.intrepid.contest.models.ScoreWeight
 import io.intrepid.contest.rest.ContestWrapper
 import io.intrepid.contest.screens.contestoverview.ContestOverviewContract.View
 import io.intrepid.contest.testutils.BasePresenterTest
 import io.reactivex.Observable
-
 import io.reactivex.Observable.error
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyList
-import org.mockito.Mockito.verify
+import org.junit.Before
+import org.junit.Test
+import org.mockito.ArgumentMatchers.*
+import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
+import java.util.*
 
 class ContestOverviewPresenterTest : BasePresenterTest<ContestOverviewPresenter>() {
     @Mock
     private lateinit var mockView: View
-    @Mock
-    private lateinit var mockContest: Contest
+
+    private var contest: Contest = Contest()
 
     @Before
     fun setup() {
         presenter = ContestOverviewPresenter(mockView, testConfiguration)
 
         `when`(mockPersistentSettings.currentContestId).thenReturn(UUID.randomUUID())
-    }
-
-    private fun setupSuccessfulContestDetailsCall() {
-        val response = ContestWrapper(mockContest)
-        `when`(mockRestApi.getContestDetails(any<String>())).thenReturn(Observable.just(response))
-    }
-
-    private fun setupFailedContestDetailsCall() {
-        `when`(mockRestApi.getContestDetails(any<String>())).thenReturn(error<ContestWrapper>(Throwable()))
     }
 
     @Test
@@ -91,7 +75,6 @@ class ContestOverviewPresenterTest : BasePresenterTest<ContestOverviewPresenter>
 
     @Test
     fun onViewCreatedShouldCauseVIewToShowContestTitle() {
-        `when`<List<Entry>>(mockContest.entries).thenReturn(ArrayList<Entry>())
         setupSuccessfulContestDetailsCall()
 
         presenter.onViewCreated()
@@ -132,5 +115,15 @@ class ContestOverviewPresenterTest : BasePresenterTest<ContestOverviewPresenter>
     fun onBackPressedShouldCauseViewToReturnToSplashScreen() {
         presenter.onBackPressed()
         verify<View>(mockView).returnToSplashScreen()
+    }
+
+    private fun setupSuccessfulContestDetailsCall() {
+        contest.entries = mutableListOf()
+        val response = ContestWrapper(contest)
+        `when`(mockRestApi.getContestDetails(any<String>())).thenReturn(Observable.just(response))
+    }
+
+    private fun setupFailedContestDetailsCall() {
+        `when`(mockRestApi.getContestDetails(any<String>())).thenReturn(error<ContestWrapper>(Throwable()))
     }
 }

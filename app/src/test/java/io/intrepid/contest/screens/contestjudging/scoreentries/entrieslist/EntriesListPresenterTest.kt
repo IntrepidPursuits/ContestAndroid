@@ -21,39 +21,33 @@ import java.util.*
 class EntriesListPresenterTest : BasePresenterTest<EntriesListPresenter>() {
     @Mock
     private lateinit var mockView: View
-    @Mock
-    private lateinit var mockEntries: List<Entry>
-    @Mock
-    private lateinit var mockEntry: Entry
-    @Mock
-    private lateinit var mockEntryIterator: Iterator<Entry>
+
+    private lateinit var entries: List<Entry>
 
     @Before
     fun setup() {
+        entries = mutableListOf(Entry(), Entry())
         `when`(mockPersistentSettings.currentContestId).thenReturn(UUID.randomUUID())
-        `when`(mockView.entries).thenReturn(mockEntries)
-        `when`(mockEntryIterator.hasNext()).thenReturn(true, true, false)
-        `when`(mockEntryIterator.next()).thenReturn(mockEntry).thenReturn(mockEntry)
-        `when`(mockEntries.iterator()).thenReturn(mockEntryIterator)
+        `when`(mockView.entries).thenReturn(entries)
         presenter = EntriesListPresenter(mockView, testConfiguration)
     }
 
     @Test
-    fun onViewCreatedShouldTriggerViewToShowEntriesList() {
+    fun onViewCreatedShouldTriggerViewToShowEntriesListWhenEntriesAreNotCompletelyRated() {
+        entries[0].setCategoriesSize(1)
         presenter.onViewCreated()
         verify<View>(mockView).showEntriesList(false)
     }
 
     @Test
     fun onViewCreatedShouldShowSubmitButtonWhenEntriesAreCompletelyRated() {
-        `when`(mockEntry.isCompletelyScored).thenReturn(true)
         presenter.onViewCreated()
         verify<View>(mockView).showSubmitButton(true)
     }
 
     @Test
     fun onViewCreatedShouldHideSubmitButtonWhenEntriesAreNotCompletelyRated() {
-        `when`(mockEntry.isCompletelyScored).thenReturn(false)
+        entries[0].setCategoriesSize(1)
         presenter.onViewCreated()
         verify<View>(mockView).showSubmitButton(false)
     }
